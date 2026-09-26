@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "lex-machina-legal-skills",
+  "owner": {
+    "name": "Adrian Miłosz Kalinowski",
+    "email": "adrian@lexagento.pl"
+  },
+  "description": "Wersja rozwojowa repozytorium Lex Machina — system skilli prawa polskiego (router, DR-01..DR-16, audyt, pisma, analiza dowodów i orzecznictwa).",
+  "metadata": {
+    "description": "Marketplace wskazujący na katalogi tego samego repozytorium (wersja rozwojowa rozpakowana) — każdy skill instalowany jako osobny plugin z jego bieżącego katalogu."
+  },
+  "plugins": [
+    { "name": "shared", "source": "./shared", "description": "Kanoniczna biblioteka Lex Machina: hardgate, walidacja, definicje, terminy i moduły wspólne. Nie odpowiada użytkownikowi samodzielnie; zasoby wczytują inne skille." },
+    { "name": "audyt-systemu-v4", "source": "./audyt-systemu-v4", "description": "Audyt jakości, spójności i bezpieczeństwa systemu prawnych skilli: zależności, wersje, mapy Dz.U., treść merytoryczna, propagacja zmian, deduplikacja i bramki jakości." },
+    { "name": "prawny-router-v3", "source": "./prawny-router-v3", "description": "UŻYWAJ ZAWSZE i AUTOMATYCZNIE przy każdej sprawie prawnej, w każdej jurysdykcji. Wczytaj przed analizą, oceną cudzego materiału lub pismem; uruchamia HARD GATE i routing." },
+    { "name": "prawo-polskie-v2", "source": "./prawo-polskie-v2", "description": "Fasada routingu prawa polskiego: wybiera jeden z DR-01–DR-16 i przekazuje sprawę do właściwego skilla dziedzinowego; nie zawiera treści prawa materialnego." },
+    { "name": "przewodnik-prawny-v2", "source": "./przewodnik-prawny-v2", "description": "Przewodnik prawny i fallback routera: pomaga zidentyfikować problem, właściwą ścieżkę postępowania, potrzebne dokumenty i kolejny specjalistyczny skill." },
+    { "name": "orzeczenia-sadowe-v2", "source": "./orzeczenia-sadowe-v2", "description": "Research orzecznictwa: wyszukiwanie, weryfikacja sygnatur i tez, hierarchia źródeł, porównanie orzeczeń oraz dobór judykatury do argumentacji prawnej." },
+    { "name": "analizator-przepisow-v2", "source": "./analizator-przepisow-v2", "description": "Analiza przepisów prawa polskiego: brzmienie aktualne i historyczne, przesłanki, wykładnia, orzecznictwo, zbieg norm, nowelizacje i vacatio legis." },
+    { "name": "analizator-umow-v1", "source": "./analizator-umow-v1", "description": "Analiza, redakcja, negocjacje i generowanie umów oraz dokumentów korporacyjnych, HR i RODO: ryzyka klauzul, B2B/B2C, praca, najem, IT/SaaS, IP, founders, finansowanie i PZP." },
+    { "name": "analizator-dowodow-v3", "source": "./analizator-dowodow-v3", "description": "Ocena dowodów, dokumentów, zeznań i akt: siła dowodowa, hierarchia A-D, pokrycie przesłanek, sprzeczności, terminy procesowe i analiza śledcza." },
+    { "name": "analiza-sadowa-v6", "source": "./analiza-sadowa-v6", "description": "Czteroprzebiegowa analiza akt, pism, wyroków i dowodów: mapa faktów, kwalifikacja prawna, analiza adversarialna, dwukrotna weryfikacja, ocena szans i raport końcowy." },
+    { "name": "pisma-proste-v2", "source": "./pisma-proste-v2", "description": "Proste pisma prawne i urzędowe: wezwania, wnioski, odpowiedzi i krótsze dokumenty; kompletność danych, aktualna weryfikacja prawa i walidacja przed wygenerowaniem pliku." },
+    { "name": "pisma-procesowe-v3", "source": "./pisma-procesowe-v3", "description": "Zaawansowane pisma procesowe: pozwy, odpowiedzi, apelacje, zażalenia i inne pisma wymagające strategii, faktów, dowodów, weryfikacji prawa i finalnej walidacji dokumentu." },
+    { "name": "przesluchanie-swiadkow-v2-min90", "source": "./przesluchanie-swiadkow-v2-min90", "description": "Przygotowanie przesłuchania świadków: analiza akt i dowodów, cele dowodowe, sprzeczności, pytania główne i kontrolne oraz rozbudowane zestawy pytań do świadków." },
+    { "name": "chronologia-sprawy-v1", "source": "./chronologia-sprawy-v1", "description": "Chronologia sprawy z dokumentów i dowodów: oś czasu per wątek, klasy pewności, proweniencja, sprzeczności dat/opisów, korelacja finansowa i opcjonalny interaktywny timeline." },
+    { "name": "raport-sytuacyjny-v2", "source": "./raport-sytuacyjny-v2", "description": "Raport sytuacyjny sprawy: syntetyzuje fakty, ryzyka, dowody, terminy, warianty i priorytety; może generować interaktywny widok sytuacji i eksport danych." },
+    { "name": "raport-klienta-v1", "source": "./raport-klienta-v1", "description": "Raport dla klienta: przekłada analizę prawną na zrozumiały stan sprawy, ryzyka, warianty działania, priorytety i następne kroki bez utraty podstaw źródłowych." },
+    { "name": "dr-01-ustroj-konstytucyjny-i-zrodla-prawa", "source": "./dr-01-ustroj-konstytucyjny-i-zrodla-prawa", "description": "Prawo konstytucyjne i ustrojowe: Konstytucja, organy państwa, TK, źródła prawa, legislacja i skarga konstytucyjna; analiza z aktualną weryfikacją źródeł." },
+    { "name": "dr-02-prawo-cywilne-rodzinne-gospodarcze", "source": "./dr-02-prawo-cywilne-rodzinne-gospodarcze", "description": "Prawo cywilne, rodzinne i gospodarcze: KC, KPC, spadki, rodzina, spółki, upadłość, restrukturyzacja, windykacja i odpowiedzialność kontraktowa/deliktowa." },
+    { "name": "dr-03-prawo-karne-wykroczenia-egzekucja", "source": "./dr-03-prawo-karne-wykroczenia-egzekucja", "description": "Prawo karne, wykroczenia i egzekucja: KK, KPK, KKW, KW, KPW, KKS, kwalifikacja karnomaterialna, tryby ścigania i wykonanie orzeczeń." },
+    { "name": "dr-04-prawo-pracy-zus-swiadczenia", "source": "./dr-04-prawo-pracy-zus-swiadczenia", "description": "Prawo pracy, ZUS i świadczenia: KP, zatrudnienie, rozwiązanie stosunku pracy, ubezpieczenia społeczne, emerytury, renty, KRUS, PFRON i pomoc społeczna." },
+    { "name": "dr-05-prawo-administracyjne-sadowoadministracyjne", "source": "./dr-05-prawo-administracyjne-sadowoadministracyjne", "description": "Prawo administracyjne i sądowoadministracyjne: KPA, PPSA, decyzje, bezczynność, WSA/NSA, egzekucja administracyjna, cudzoziemcy i postępowania urzędowe." },
+    { "name": "dr-06-podatki-finanse-publiczne-aml", "source": "./dr-06-podatki-finanse-publiczne-aml", "description": "Podatki, finanse publiczne i AML: Ordynacja podatkowa, PIT, CIT, VAT, akcyza, cło, KAS, finanse publiczne i obowiązki przeciwdziałania praniu pieniędzy." },
+    { "name": "dr-07-zamowienia-publiczne-fundusze-ue", "source": "./dr-07-zamowienia-publiczne-fundusze-ue", "description": "Zamówienia publiczne i fundusze UE: PZP, postępowania zakupowe, KIO, środki ochrony prawnej, finansowanie UE i powiązane zagadnienia realizacyjne." },
+    { "name": "dr-08-samorzad-terytorialny-prawo-lokalne", "source": "./dr-08-samorzad-terytorialny-prawo-lokalne", "description": "Samorząd terytorialny i prawo lokalne: gmina, powiat, województwo, uchwały, akty prawa miejscowego, nadzór, kompetencje JST i lokalne planowanie." },
+    { "name": "dr-09-budownictwo-srodowisko-energia-transport", "source": "./dr-09-budownictwo-srodowisko-energia-transport", "description": "Budownictwo, środowisko, energia i transport: prawo budowlane, planowanie, odpady, ochrona środowiska, energetyka, drogi i regulacje transportowe." },
+    { "name": "dr-10-zdrowie-farmacja-zywnosc-rolnictwo", "source": "./dr-10-zdrowie-farmacja-zywnosc-rolnictwo", "description": "Zdrowie, farmacja, żywność i rolnictwo: działalność lecznicza, prawa pacjenta, produkty lecznicze, żywność, weterynaria i regulacje sektora rolnego." },
+    { "name": "dr-11-cyfrowe-cyber-ai-dane-ip", "source": "./dr-11-cyfrowe-cyber-ai-dane-ip", "description": "Prawo cyfrowe, cyber, AI, dane i IP: RODO, KSC/NIS2, AI Act, usługi cyfrowe, prywatność, cyberbezpieczeństwo, prawo autorskie i własność intelektualna." },
+    { "name": "dr-12-sadownictwo-prokuratura-zawody-prawnicze", "source": "./dr-12-sadownictwo-prokuratura-zawody-prawnicze", "description": "Sądownictwo, prokuratura i zawody prawnicze: ustrój sądów, prokuratura, adwokaci, radcowie, notariusze, komornicy, koszty i odpowiedzialność zawodowa." },
+    { "name": "dr-13-sluzby-bezpieczenstwo-informacje-niejawne", "source": "./dr-13-sluzby-bezpieczenstwo-informacje-niejawne", "description": "Służby, bezpieczeństwo i informacje niejawne: Policja, ABW/AW i inne służby, obrona, ochrona informacji niejawnych oraz publicznoprawne ramy bezpieczeństwa." },
+    { "name": "dr-14-prawo-ue-miedzynarodowe-prawa-czlowieka", "source": "./dr-14-prawo-ue-miedzynarodowe-prawa-czlowieka", "description": "Prawo UE, międzynarodowe i prawa człowieka: prawo pierwotne i wtórne UE, TSUE, EKPC/ETPC, traktaty, kolizje jurysdykcji i standardy praw człowieka." },
+    { "name": "dr-15-compliance-iso-governance-audyt", "source": "./dr-15-compliance-iso-governance-audyt", "description": "Compliance, governance i audyt: systemy zgodności, sygnaliści, AML instytucjonalny, zarządzanie ryzykiem, kontrole, ISO i audyt organizacyjno-prawny." },
+    { "name": "dr-16-pisma-strategia-dowody-orzecznictwo", "source": "./dr-16-pisma-strategia-dowody-orzecznictwo", "description": "Pisma, strategia, dowody i orzecznictwo: routing narzędzi procesowych, analiza dowodowa, research orzeczeń, kalkulatory i wsparcie budowy strategii sprawy." }
+  ]
+}
