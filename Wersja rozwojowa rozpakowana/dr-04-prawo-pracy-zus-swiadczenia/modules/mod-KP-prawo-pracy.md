@@ -276,7 +276,7 @@ Wykonaj przed opuszczeniem stanowiska pracy:
 | Utrata terminu 21 dni | Termin zawity — brak przywrócenia | Priorytet absolutny — złóż odwołanie niezwłocznie |
 | Podpisanie porozumienia | Brak odwołania, karencja zasiłku | Nie podpisuj bez analizy prawnej |
 | Brak dowodów | Niemożność wykazania roszczeń | Zabezpieczaj dowody natychmiast |
-| Kwalifikacja prawna stosunku pracy | B2B zakwalifikowany jako pracowniczy | Analiza cech stosunku pracy (art. 22 KP) |
+| Kwalifikacja prawna stosunku pracy | B2B zakwalifikowany jako pracowniczy | Analiza cech stosunku pracy (art. 22 KP); dla umowy ramowej zlecenia z systemem oferta–przyjęcie poszczególnych zleceń → `analizator-umow-v1/references/b2b-podwykonawcze.md` sekcja G.1D (dodane 2026-09-27, F-205) |
 
 ---
 

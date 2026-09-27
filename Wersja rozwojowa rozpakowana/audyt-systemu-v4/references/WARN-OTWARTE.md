@@ -1,6 +1,6 @@
 # WARN-OTWARTE — rejestr żywy otwartych flag audytowych
 
-**Stan:** 2026-09-26c (AUDYT-2026-09-26c: F-203(a) ZAMKNIĘTA, opis w dzienniku; wcześniej w tej samej dobie AUDYT-2026-09-26b zamknęła F-198 i F-204; otwarte pozostają F-197, F-203(b), F-205, F-206). Ten plik zawiera wyłącznie zakres pozostający do wykonania. Historia zamknięć i napraw znajduje się w `AUDIT-JOURNAL.md` / `CHANGELOG.md`.
+**Stan:** 2026-09-27b (AUDYT-2026-09-27b: F-189 ZAMKNIĘTA, opis w dzienniku; wcześniej tego samego dnia AUDYT-2026-09-27 zamknęła F-205; wcześniej AUDYT-2026-09-26d zamknęła F-206, AUDYT-2026-09-26c zamknęła F-203(a), a AUDYT-2026-09-26b zamknęła F-198 i F-204; otwarte pozostają F-167 (adnotacja: materiał źródłowy niedostępny — patrz niżej), F-197, F-203(b)). Ten plik zawiera wyłącznie zakres pozostający do wykonania. Historia zamknięć i napraw znajduje się w `AUDIT-JOURNAL.md` / `CHANGELOG.md`.
 
 > **Przegląd rejestru 2026-09-23 (ZASADA 10).** Z pliku usunięto 25 bloków flag zamkniętych i wpisów nieaktualnych; treść przeniesiona w całości do `AUDIT-JOURNAL.md`, wpis **AUDYT-2026-09-23**. Rejestr skrócony z 665 do 371 linii. Nic nie zostało skasowane bez przeniesienia.
 
@@ -8,11 +8,11 @@
 
 | Kategoria | Liczba | Pozycje |
 |---|---:|---|
-| Wykonalne sesją audytową | 3 | F-167, **F-189**, F-205 |
+| Wykonalne sesją audytową | 1 | F-167 (⛔ materiał źródłowy niedostępny — patrz adnotacja) |
 | Reaktywne | 1 | F-5 |
-| Zależne od środowiska/dewelopera | 19 | **F-197**, **F-206**, F-203(b), **F-194** (tylko CBOSA), F-8, F-9, F-11, F-94, F-113, F-133, F-137, F-143, F-144, **F-157b**, F-158(c), F-171, **F-183a**, **F-184**, **F-185** |
+| Zależne od środowiska/dewelopera | 18 | **F-197**, F-203(b), **F-194** (tylko CBOSA), F-8, F-9, F-11, F-94, F-113, F-133, F-137, F-143, F-144, **F-157b**, F-158(c), F-171, **F-183a**, **F-184**, **F-185** |
 | Odnotowane bez działania | 1 | O-8 (ograniczenie strukturalne aparatu) |
-| **Razem** | **24** | — |
+| **Razem** | **21** | — |
 
 > **F-198 ZAMKNIĘTA 2026-09-26b** (wariant adnotacji — patrz `AUDIT-JOURNAL.md`,
 > AUDYT-2026-09-26b §2) i **F-204 ZAMKNIĘTA 2026-09-26b** (`shared/tools/adapter_krs_vat.py`
@@ -24,6 +24,39 @@
 > AUDYT-2026-09-26c) usunięta z tej tablicy i z tabeli sekcyjnej niżej. **F-203(b) pozostaje otwarta**
 > (przebiegi oceny w dwóch ramionach, ≥2 modele — zależna od warunków F-113, przeniesiona do sekcji
 > „Zależne od środowiska lub dewelopera").
+>
+> **F-206 ZAMKNIĘTA 2026-09-26d** (8 narzędzi `shared/tools/*.py` przywrócone bajt-w-bajt z historii
+> git repozytorium `michaleiatrak-star/lex-machina`, zweryfikowane funkcjonalnie — patrz
+> `AUDIT-JOURNAL.md`, AUDYT-2026-09-26d) usunięta z tej tablicy i z tabeli sekcyjnej niżej.
+
+> **F-189 ZAMKNIĘTA 2026-09-27b** — mechanizm nadpisań USTALONY: użytkownik potwierdził wprost,
+> że pracuje z wielu równoległych sesji/urządzeń jednocześnie push'ujących do tego samego repo
+> bez wymuszonego `pull`/`rebase` przed push — dokładnie klasa przyczyny, na którą wskazywał
+> dowód z AUDYT-2026-09-26 §2 (commit widoczny w jednym klonie zniknął z remote po kolejnym
+> pushu). ⚠️ Nie jest to potwierdzenie przez `git reflog` KONKRETNEGO incydentu (ten dowód
+> pozostaje niedostępny z tego środowiska — wymagałby dostępu do maszyny/sesji pushującej) —
+> jest to identyfikacja KLASY mechanizmu, wystarczająca do zamknięcia kryterium „ustalić
+> mechanizm", które nie żądało dowodu per-incydent. Rekomendacja zapisana w dzienniku, powiązana
+> z F-197 (CI na `main`). Szczegóły: `AUDIT-JOURNAL.md`, AUDYT-2026-09-27b.
+
+> **F-167 — POZOSTAJE OTWARTA, z adnotacją 2026-09-27b.** Sprawdzone tym razem (grep całego
+> `/mnt/skills/plugins`): tekst kazusów testowych K-01–K-07 (stany faktyczne, np. NEXCA/
+> Alekostrii dla K-02, Protokół z Nagoi dla K-07) NIE istnieje w ŻADNYM pliku skilla — pochodził
+> z arkusza uploadowanego w sesji sprzed tygodni (`Arkusz_odpowiedzi_sonnet_bez_skili.docx`),
+> nieobecnego w tym środowisku. Użytkownik zapytany wprost — wybrał zostawić flagę otwartą
+> zamiast (a) załączenia oryginału, (b) budowy nowego, niewalidowanego korpusu zastępczego.
+> **Dla przyszłej sesji: nie powtarzaj wyszukiwania od zera — materiał wymaga załącznika od
+> użytkownika, nie leży w repozytorium.**
+
+> **F-205 ZAMKNIĘTA 2026-09-27** (wszystkie 3 jednostki FAZY 3E z U-14 zweryfikowane fresh
+> RZĄD 1: dr-11 `mod-AI-Act-framework.md` — art. 25, art. 6 ust. 3, zał. III pełna poprawiona lista,
+> art. 13 ust. 3, ✅ [VER: EUR-Lex CELEX 32024R1689, 2026-09-27]; analizator-umow-v1
+> `b2b-podwykonawcze.md` — nowa sekcja G.1D „umowa ramowa zlecenia" + art. 22 §1² KP dodany do G.1,
+> ✅ [VER: ELI KC t.j. Dz.U. 2026 poz. 795, KP t.j. Dz.U. 2026 poz. 1245, 2026-09-27]; analizator-umow-v1
+> `mod-J9-ip-prawa-autorskie.md` — art. 52 PrAut (IP-6), ✅ [VER: ELI t.j. Dz.U. 2025 poz. 24,
+> 2026-09-27]. Przy okazji naprawiona błędna numeracja zał. III AI Act (brak pkt 1 Biometria,
+> błędny pkt 8 „urządzenia medyczne") — patrz `AUDIT-JOURNAL.md`, AUDYT-2026-09-27) usunięta z tej
+> tablicy i z tabeli sekcyjnej niżej.
 
 > **F-157b (2026-09-13c, ZAWĘŻONA) — braki resztkowe listy dozwolonych.**
 > Pomiar T25 (52 sondy) po zmianie konfiguracji: **odblokowane** —
@@ -38,22 +71,10 @@
 > ⛔ Ruch NIE jest otwarty w całości: kontrola neutralna (`example.com`,
 > `www.wikipedia.org`) → `host_not_allowed`.
 
-> **F-189 (2026-09-16, OTWARTA — przyczyna) — nadpisanie skilli dziedzinowych starszym stanem.**
-> Treść 10 skilli odtworzona i wydana (AUDYT-2026-09-16). Pozostaje: (1) ustalić mechanizm
-> nadpisania — `shared` i `audyt-systemu-v4` z tych samych sesji przetrwały, więc wydanie
-> skilli dziedzinowych szło inną ścieżką; ⛔ **2026-09-16b: co najmniej DWIE fale** (stan
-> `dr-09` z 10.09 zaginął przed 13.09; stan 12f–12n — po 12.09) — mechanizm powtarzalny,
-> nie jednorazowy; (2) przed każdym wydaniem uruchomić T12 na drzewie docelowym ORAZ
-> kontrolę treści „było → jest" (T12 nie widzi utraty bez cofnięcia numeru — przypadek
-> `dr-09` 3.29, kolizja numeru w dwóch sesjach). ✅ 2026-09-16c: ta kontrola jest
-> automatem — **T30** (`check_utrata_tresci.py`, bloker orkiestratora). Otwarte pozostaje
-> wyłącznie ustalenie MECHANIZMU nadpisań (poza repozytorium — proces wgrywania paczek).
-> ⚡ **2026-09-17p — obserwacja odwrotna:** w kopii roboczej pojawiły się 3 fragmenty treści,
-> których sesja nie zapisała (skrypt przerwał się przed zapisem). Wykryte przez T21 (2 rozjazdy);
-> treść zweryfikowana odczytem i zachowana. Pochodzenie nieustalone — ten sam obszar niepewności
-> co nadpisania. ✅ **2026-09-17r: zalecenie wdrożone jako T33** (`check_wydanie.py`, w orkiestratorze)
-> — kontrola „drzewo ↔ wydana paczka" jest odtąd automatyczna, nie ręczna.
-> ⚡ **2026-09-26 — nowy przypadek odtwarzalny (commit d264eee3 zniknął z `main`): AUDYT-2026-09-26 § 2.**
+> **F-189 ZAMKNIĘTA 2026-09-27b** — patrz callout wyżej i `AUDIT-JOURNAL.md`, AUDYT-2026-09-27b,
+> dla pełnej historii (odtworzenie treści 10 skilli 2026-09-16, automatyzacja T30/T33, przypadek
+> `d264eee3` z 2026-09-26, i finalne ustalenie mechanizmu — wiele równoległych sesji/urządzeń
+> pushujących bez `pull`/`rebase` przed push, potwierdzone wprost przez użytkownika 2026-09-27b).
 
 > **F-183a (2026-09-14, OTWARTA — WYŁĄCZNIE środowisko docelowe) — direct
 > CBOSA wdrożona strukturalnie; pozostaje pomiar live w docelowym runtime.**
@@ -278,7 +299,12 @@
 
 | Flaga | Priorytet | Pozostały zakres | Kryterium zamknięcia |
 |---|---|---|---|
-| F-205 | średni | FAZA 3E dla luk z AUDYT-2026-09-26 U-14: dr-11 — AI Act art. 25, art. 6 ust. 3 (profilowanie), zał. III pkt 4, art. 13 ust. 3; dr-04/analizator-umow — umowa ramowa zlecenia (propozycja–przyjęcie), ryzyko przekwalifikowania; analizator-umow mod-J9 — art. 52 pr. aut. ⚠️ brzmienie nieodczytane. | Każda jednostka `✅ [VER: ELI/Cellar, data]`; moduły ≤1000 linii; T28 bez nowych FAIL. |
+| F-167 | niski | Pełny przebieg (format docelowy, 2500 słów/kazus) na K-02 i K-07 + dobór i przebieg na kazusie kontrolnym nieobecnym w treści bramek (K-01/K-03/K-04/K-05), oceniane przez trzeciego, niezależnego oceniającego. ⛔ **Zablokowane 2026-09-27b:** treść kazusów (stany faktyczne) nie istnieje w repozytorium — pochodziła z arkusza uploadowanego w sesji sprzed tygodni, nieobecnego tu. Bez tego pliku niewykonalne uczciwie; użytkownik zapytany, wybrał zostawić otwartą zamiast dostarczyć plik lub zaakceptować zastępczy korpus. | Załącznik z treścią kazusów DOSTARCZONY przez użytkownika → pełny przebieg + ocena przez sesję/agenta bez wiedzy o teście → wynik (pozytywny lub negatywny) zapisany w dzienniku. |
+
+> F-205 usunięta z tej tabeli 2026-09-27 (ZAMKNIĘTA — patrz callout wyżej); F-189 usunięta
+> 2026-09-27b (ZAMKNIĘTA — patrz callout wyżej). F-167 ma teraz właściwy wiersz (dotąd
+> nieobecny mimo że tablica sterująca ją wykazywała — jedna z niespójności rejestru
+> odnotowanych niżej w tym pliku, częściowo naprawiona tym wpisem).
 
 ## Reaktywne
 
@@ -291,7 +317,6 @@
 | Flaga | Pozostały zakres |
 |---|---|
 | F-197 | CI: `f138-structural-audit.yml` uruchamia się tylko na PR i gałęzi `codex/…`; commity „system update” idą na `main` bez audytu. Dodać `push: branches: [main]` i krok suity regresji (T34–T36 są blokerami). Kryterium: zielony przebieg na `main` + czerwony na gałęzi z podłożonym `<skill>/<skill>/`. |
-| F-206 | `shared/SKILL.md` (sekcja tools/, adapter pkt 6–7) i `shared/tools/README.md` opisują `tools/walidator_cytowan.py`, `extract_api_verification_log.py` i `tools/mcp-servers/mcp-servers-examples.zip`, których nie ma na dysku — usunięte w commicie `ec3f530b` (2026-09-01). Decyzja: przywrócić z historii git albo usunąć opisy. Reprodukcja: `ls shared/tools`; `git log --diff-filter=D -- "Wersja rozwojowa rozpakowana/shared/tools/"`. |
 | F-203(b) | Korpus F-203(a) (`analizator-umow-v1/benchmark/posiane-wady/`) już istnieje i zamknięty. Pozostaje wykonanie przebiegów oceny w dwóch ramionach (bez skilli / ze skillami), ≥2 modele, izolowany manifest — warunek F-113, nie osobny pomiar. |
 | F-194 | Wyłącznie odczyt NSA I OSK 590/26 z CBOSA (`/doc/{ID}`, V-SYG-0.7) → awans z 🟨 do ✅. Stan 2026-09-22: kanał kodu HTTP 503, web_search bez adresu `/doc/{ID}`. ✅ Wykonane: Zasada 2B `orzeczenia-sadowe-v2` 2.18; ETAP 4A V10 `pisma-procesowe-v3` 5.27 (na drzewie repozytorium). |
 | F-8 | Wdrożyć realny connector MCP do ELI/ISAP i zweryfikować protokół w środowisku docelowym. |
@@ -394,7 +419,11 @@
 > Pozycje poniżej są otwartym zakresem rejestru, nie flagami merytorycznymi. Numerów F- im nie nadano — nadanie jest decyzją dewelopera.
 >
 > 1. **Tablica sterująca nie zgadza się z tabelami sekcyjnymi.** Tablica wykazuje w kategorii „zależne" 16 pozycji, w tym F-144, F-157b, F-171, F-183a, F-184, F-185; tabela sekcyjna ma 12 wierszy i zawiera F-160, którego tablica nie wymienia. Do rozstrzygnięcia: który z dwóch zapisów jest źródłem prawdy, a który widokiem.
-> 2. **Sekcja „Wykonalne sesją audytową" ma pustą tabelę**, mimo że tablica sterująca wykazuje w tej kategorii F-167 i F-189.
+> 2. ✅ **CZĘŚCIOWO NAPRAWIONE 2026-09-27b.** Sekcja „Wykonalne sesją audytową" miała pustą
+>    tabelę mimo że tablica sterująca wykazywała w tej kategorii F-167 i F-189. F-189 zamknięta;
+>    F-167 dostała właściwy wiersz z zakresem i kryterium zamknięcia. Pozycja zamknięta jako
+>    niespójność — nie usuwam całego punktu z listy, bo mechanizm (wiersz szczegółowy ginący
+>    przy przenoszeniu treści) może dotyczyć innych kategorii, nieprzeglądniętych w tej sesji.
 > 3. **Osierocony fragment „2 nieprawdziwe (delegowanie kierowców…)"** — akapit bez nagłówka flagi, oderwany od swojego bloku przy którejś wcześniejszej edycji. Kontekst: AUDYT-2026-09-10i §3.
 > 4. **F-20 (KSR) nie występuje w żadnej kategorii tablicy.** Opis mówi, że rzecz jest nierozstrzygalna kanałem ELI, więc albo jest to zamknięcie i pozycja idzie do dziennika, albo jest to „odnotowane bez działania" obok O-8 — dziś nie jest ani jednym, ani drugim.
 > 5. **Brak kryterium zamknięcia przy większości pozycji „zależnych".** Bez niego pozycja nie może zostać zamknięta inaczej niż uznaniowo, a rejestr rośnie monotonicznie.

@@ -164,6 +164,56 @@ REKOMENDACJA:
   do Utworu (klauzula IP indemnity)."
 ```
 
+**IP-6 — Własność egzemplarza/nośnika a prawa autorskie — rozdzielenie i prawo dostępu twórcy do oryginału (MEDIUM, dodane FAZA 3E 2026-09-27, naprawa F-205/U-14 — brzmienie dotąd nieodczytane)**
+```
+✅ [VER: ELI (api.sejm.gov.pl), t.j. Dz.U. 2025 poz. 24, art. 52, pobranie
+bezpośrednie 2026-09-27] Pełne brzmienie:
+
+„Art. 52. 1. Jeżeli umowa nie stanowi inaczej, przeniesienie własności
+egzemplarza utworu nie powoduje przejścia autorskich praw majątkowych
+do utworu.
+2. Jeżeli umowa nie stanowi inaczej, przejście autorskich praw majątkowych
+nie powoduje przeniesienia na nabywcę własności egzemplarza utworu.
+3. Nabywca oryginału utworu jest obowiązany udostępnić go twórcy w takim
+zakresie, w jakim jest to niezbędne do wykonywania prawa autorskiego.
+Nabywca oryginału może jednak domagać się od twórcy odpowiedniego
+zabezpieczenia oraz wynagrodzenia za korzystanie."
+
+ZASADA (ust. 1–2): sprzedaż/wydanie NOŚNIKA (obraz, rękopis, prototyp,
+oryginalny plik na dysku wydany klientowi) i przeniesienie PRAW AUTORSKICH
+to DWIE NIEZALEŻNE czynności prawne — żadna nie pociąga za sobą drugiej,
+CHYBA że umowa wyraźnie tak stanowi. Domyślnie: kupujący obraz nie nabywa
+praw do jego powielania; twórca, który przeniósł prawa autorskie do dzieła,
+niekoniecznie przekazał WŁASNOŚĆ fizycznego egzemplarza/oryginału.
+
+PUŁAPKA dla NABYWCY oryginału (np. galerysta, kolekcjoner, zamawiający
+prototyp/rzeźbę): ust. 3 daje TWÓRCY ustawowe prawo DOSTĘPU do oryginału,
+gdy jest to niezbędne do wykonywania praw autorskich (np. wykonanie kopii,
+udział w wystawie retrospektywnej, dokumentacja dzieła) — nabywca NIE MOŻE
+tego prawa całkowicie wyłączyć umową, może jedynie żądać zabezpieczenia
+(np. depozyt, ubezpieczenie na czas udostępnienia) i wynagrodzenia za
+korzystanie z egzemplarza w tym celu.
+
+REKOMENDACJA — dla NABYWCY oryginału:
+  „§X. Nabywca udostępni Twórcy oryginał Utworu w zakresie niezbędnym do
+  wykonywania przez Twórcę autorskich praw majątkowych i osobistych,
+  na pisemny wniosek złożony z wyprzedzeniem [14] dni, pod warunkiem
+  złożenia przez Twórcę zabezpieczenia w wysokości [X] zł na czas
+  udostępnienia oraz zapłaty wynagrodzenia za korzystanie w wysokości [Y]."
+
+REKOMENDACJA — dla TWÓRCY sprzedającego oryginał bez przenoszenia praw:
+  „§X. Sprzedaż/wydanie oryginału Utworu nie powoduje przejścia na
+  Nabywcę autorskich praw majątkowych do Utworu, które pozostają przy
+  Twórcy [chyba że odrębnie przeniesione w §Y]."
+
+ODRÓŻNIJ od IP-1/checklisty (art. 52 dotyczy WŁASNOŚCI EGZEMPLARZA, nie
+pól eksploatacji) — obie kwestie często mylone w draftach: klauzula
+„Zamawiający staje się właścicielem dzieła” nie przenosi praw autorskich
+(art. 52 ust. 1) tak samo jak klauzula o przeniesieniu praw autorskich
+nie przenosi własności nośnika (art. 52 ust. 2) — WYMAGANE OBIE klauzule
+osobno, jeśli taki jest zamiar stron.
+```
+
 ---
 
 ## J9.3 PUŁAPKI — strona TWÓRCY (chroniona pozycja autora / freelancera)
@@ -230,7 +280,8 @@ ustawa Prawo własności przemysłowej (p.w.p.) — weryfikuj w ELI (RZĄD 1), r
 □ Wynagrodzenie obejmuje wszystkie pola? (art. 45) Nieodpłatność wyraźna? (art. 43)
 □ Oświadczenie o przysługiwaniu praw + łańcuch od podwykonawców + indemnity? (art. 41)
 □ Moment przejścia praw = przyjęcie utworu / zapłata? (art. 64 — domyślnie przyjęcie)
-□ Przeniesienie własności nośników/egzemplarzy odrębnie? (art. 52 — własność egz. ≠ prawa)
+□ Przeniesienie własności nośników/egzemplarzy odrębnie? (art. 52 — własność egz. ≠ prawa;
+  ust. 3 — jeśli zbywany jest ORYGINAŁ, czy uregulowano ustawowe prawo dostępu twórcy? patrz IP-6)
 □ Terytorium i czas (jeśli licencja — pamiętaj art. 66 i 68)?
 ```
 

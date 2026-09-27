@@ -8,8 +8,9 @@
 ---
 
 > ⛔ HARD GATE — przed podaniem art. KP, KC, uSUS weryfikuj w ELI (RZĄD 1):
-> isap.sejm.gov.pl → Kodeks pracy (t.j. aktualny) → art. 22 §1, §1¹ (test stosunku pracy)
-> isap.sejm.gov.pl → Kodeks cywilny → art. 353¹, 734–751 (zlecenie), 627–646 (dzieło)
+> isap.sejm.gov.pl → Kodeks pracy (t.j. aktualny) → art. 22 §1, §1¹, §1² (test stosunku pracy
+>   + wprost wyrażony zakaz zastępowania umowy o pracę umową cywilnoprawną — patrz niżej)
+> isap.sejm.gov.pl → Kodeks cywilny → art. 66–70 (oferta i przyjęcie), 353¹, 734–751 (zlecenie), 627–646 (dzieło)
 > isap.sejm.gov.pl → ustawa o systemie ubezpieczeń społecznych → art. 8 ust. 2a (zbieg tytułów)
 > Orzecznictwo SN dot. kwalifikacji: sn.pl / orzeczenia.ms.gov.pl — nie cytuj z pamięci.
 
@@ -39,7 +40,15 @@ WYNIK TESTU:
   5–8 cech  → pseudosamozatrudnienie; ALERT KRYTYCZNY:
               → ryzyko: PIP/ZUS może zakwalifikować jako UoP
               → skutki: zaległe składki ZUS za okres nieprzedawniony + odsetki + sankcje; termin przedawnienia weryfikuj w ustawie o SUS
-              → podstawa: art. 22 §1¹ KP + art. 8 ust. 2a ustawy o SUS
+              → podstawa: art. 22 §1¹ KP (nazwa umowy nie decyduje o jej
+                charakterze) + art. 22 §1² KP (⭐ dodane 2026-09-27, FAZA
+                3E/F-205 — dotąd niecytowany w tym module mimo że to
+                WPROST wyrażony ustawowy zakaz, silniejszy argument niż
+                samo orzecznictwo: „Nie jest dopuszczalne zastąpienie
+                umowy o pracę umową cywilnoprawną przy zachowaniu
+                warunków wykonywania pracy, określonych w § 1” — ✅ [VER:
+                ELI (api.sejm.gov.pl), t.j. Dz.U. 2026 poz. 1245, art. 22
+                §1², 2026-09-27]) + art. 8 ust. 2a ustawy o SUS
 
 ⭐⭐ AKTUALIZACJA STAWKI TESTU (od 08.07.2026, Dz.U. 2026 poz. 473) —
 dodane 2026-07-20: wynik ALERT KRYTYCZNY (5-8 cech) NIE OZNACZA już
@@ -220,6 +229,169 @@ do 30 000 zł (⚠️ zweryfikuj czy kwoty te zostały już zaktualizowane
 zgodnie z podwyższonymi widełkami z reformy 2026, patrz odesłanie
 wyżej do sekcji 6.3 mod-ustawa-PIP-inspekcja-pracy.md — MOŻLIWA
 NIESPÓJNOŚĆ między źródłami co do aktualnych kwot, zweryfikuj na ISAP).
+```
+
+---
+
+## G.1D ⭐ UMOWA RAMOWA ZLECENIA Z KONSTRUKCJĄ OFERTA–PRZYJĘCIE — RYZYKO PRZEKWALIFIKOWANIA (dodane 2026-09-27, FAZA 3E — naprawa F-205/U-14)
+
+> Uzupełnienie G.1/G.1B/G.1C o konstrukcję częstą w praktyce (agencje pracy
+> czasowej, platformy zleceń, stałi podwykonawcy usługowi): umowa RAMOWA
+> zlecenia ustala warunki ogólne (stawki, IP, poufność, SLA), a POSZCZEGÓLNE
+> zadania są przekazywane jako odrębne, każdorazowo akceptowane „zlecenia" —
+> skonstruowane formalnie jako oferta i jej przyjęcie. Dotąd BRAK w systemie
+> odrębnego opracowania tej konstrukcji (sprawdzone `grep` po całym
+> `analizator-umow-v1` i `dr-04-prawo-pracy-zus-swiadczenia` — 0 trafień
+> poza ogólnym testem G.1/G.1B).
+
+### Podstawa cywilnoprawna (weryfikuj każdorazowo w ELI — RZĄD 1)
+
+```
+✅ [VER: ELI (api.sejm.gov.pl), t.j. KC Dz.U. 2026 poz. 795, 2026-09-27]
+
+Konstrukcja oferta–przyjęcie (art. 66–70 KC):
+„Art. 66 § 1. Oświadczenie drugiej stronie woli zawarcia umowy stanowi
+ofertę, jeżeli określa istotne postanowienia tej umowy."
+„Art. 68. Przyjęcie oferty dokonane z zastrzeżeniem zmiany lub uzupełnienia
+jej treści poczytuje się za nową ofertę."
+„Art. 69. Jeżeli według ustalonego w danych stosunkach zwyczaju lub według
+treści oferty dojście do składającego ofertę oświadczenia drugiej strony
+o jej przyjęciu nie jest wymagane [...] umowa dochodzi do skutku, skoro
+druga strona w czasie właściwym przystąpi do jej wykonania" — ⚠️ TO
+OZNACZA, że przy stałej współpracy samo PRZYSTĄPIENIE do wykonania
+zleconego zadania (bez odrębnego pisemnego „przyjmuję") może już
+prawnie stanowić zawarcie umowy jednostkowej — praktyczna konsekwencja:
+brak formalnej akceptacji NIE dowodzi braku związania.
+
+Zlecenie jako podstawa poszczególnych zadań (art. 734 §1, art. 750, 736 KC):
+„Art. 734 § 1. Przez umowę zlecenia przyjmujący zlecenie zobowiązuje się
+do dokonania określonej czynności prawnej dla dającego zlecenie." —
+dla czynności FAKTYCZNYCH (nie prawnych) stosuje się ODPOWIEDNIO przez
+art. 750 KC.
+„Art. 736. Kto zawodowo trudni się załatwianiem czynności dla drugich,
+powinien, jeżeli nie chce zlecenia przyjąć, zawiadomić o tym niezwłocznie
+dającego zlecenie." — ⭐ KLUCZOWE: profesjonalista MA prawo odmówić
+przyjęcia zlecenia; ustawa nakłada jedynie OBOWIĄZEK NIEZWŁOCZNEGO
+ZAWIADOMIENIA o odmowie, NIE obowiązek przyjęcia. Milczenie nie jest
+tu automatycznie zgodą — w przeciwieństwie do art. 68² KC (przedsiębiorcy
+w stałych stosunkach gospodarczych), który przewiduje domniemanie
+przyjęcia oferty przy braku niezwłocznej odpowiedzi — SPRAWDŹ, czy
+umowa ramowa nie wprowadza WŁASNEGO zastrzeżenia „brak odpowiedzi w
+terminie X = przyjęcie" (typowa klauzula w umowach ramowych) — TAKIE
+zastrzeżenie odwraca ciężar bierności i jest kluczowe dla testu niżej.
+```
+
+### Test: czy konstrukcja oferta–przyjęcie jest REALNA czy POZORNA
+
+```
+Sam fakt nazwania poszczególnych zadań „ofertami” podlegającymi
+„przyjęciu” NIE JEST środkiem prawnym eliminującym ryzyko przekwalifikowania
+— to ten sam mechanizm co G.1B (deklaracja/nazwa nie decyduje o
+charakterze stosunku, art. 22 §1¹ i §1² KP), zastosowany na poziomie
+KONSTRUKCJI UMOWY RAMOWEJ zamiast pojedynczej klauzuli.
+
+CZYNNIKI PRZEMAWIAJĄCE ZA TYM, ŻE KONSTRUKCJA JEST REALNA (niższe ryzyko):
+□ Udokumentowane przypadki FAKTYCZNEJ odmowy przyjęcia zlecenia przez
+  zleceniobiorcę bez negatywnych konsekwencji (brak kary, brak wypowiedzenia
+  umowy ramowej, brak pomniejszenia przyszłych ofert)
+□ Zmienna, nieregularna częstotliwość zleceń — nie zbliżona do 100% czasu
+  pracy analogicznego etatu
+□ Zleceniobiorca świadczy faktycznie (nie tylko formalnie) na rzecz
+  więcej niż jednego podmiotu w porównywalnym okresie
+  (patrz też cecha [F] testu G.1 — wyłączność)
+□ Wynagrodzenie zależne wyłącznie od FAKTYCZNIE przyjętych i wykonanych
+  zleceń (art. 744 KC — przy zleceniu odpłatnym wynagrodzenie należy się
+  po wykonaniu), nie stała kwota „gotowości" niezależna od wolumenu
+□ Umowa ramowa NIE nakłada na dającego zlecenie obowiązku zapewnienia
+  minimalnego wolumenu ani na zleceniobiorcę obowiązku przyjęcia
+  minimalnego wolumenu
+□ Dopuszczona i realnie stosowana możliwość substytucji przy realizacji
+  przyjętego zlecenia (art. 738 KC) — patrz cecha [A] testu G.1
+□ Forma/tryb każdorazowej „oferty” pozostawia zleceniobiorcy realny czas
+  i sposób na odmowę (nie: żądanie natychmiastowego przystąpienia w
+  trybie art. 69 KC jako STAŁA praktyka, co eliminuje realną możliwość
+  odmowy w praktyce)
+
+CZYNNIKI WSKAZUJĄCE NA POZORNOŚĆ KONSTRUKCJI (ALERT — ryzyko przekwalifikowania
+mimo formy „oferta–przyjęcie”):
+□ Zleceniobiorca NIGDY (w praktyce, na przestrzeni całej współpracy) nie
+  odmówił przyjęcia zlecenia — 100% akceptacji jest silną poszlaką braku
+  RZECZYWISTEJ swobody odmowy, zwłaszcza łącznie z ciągłością (cecha [C]
+  testu G.1)
+□ Umowa ramowa zawiera klauzulę penalizującą odmowę (kara umowna, obniżenie
+  stawki na przyszłość, wypowiedzenie umowy ramowej w razie odmowy) —
+  TAKA klauzula sama w sobie znosi swobodę oferta–przyjęcie i jest
+  jednym z NAJSILNIEJSZYCH dowodów pozorności konstrukcji
+□ Klauzula „brak odpowiedzi w terminie X = przyjęcie” (domniemanie
+  milczącej zgody) połączona z regularnym, cyklicznym przydzielaniem
+  zadań — odwraca ciężar bierności tak, że faktyczna „akceptacja”
+  wymaga aktywnego działania (odmowy), a nie odwrotnie — to zbliża
+  konstrukcję do jednostronnego polecenia służbowego (cecha [H] testu G.1)
+□ Zlecenia mają STAŁY, powtarzalny charakter (te same czynności, ten sam
+  harmonogram, ta sama lokalizacja) — a nie zróżnicowane zadania
+  projektowe — sugeruje to jedną CIĄGŁĄ relację sztucznie podzieloną
+  na formalnie odrębne „zlecenia” dla celów dowodowych
+□ Ekonomiczna zależność wyłącznie/w przeważającej mierze od jednego
+  dającego zlecenie w całym okresie umowy ramowej (brak realnej
+  możliwości/czasu na inną działalność zarobkową)
+□ Brak faktycznej negocjacji warunków poszczególnych „ofert” — treść
+  identyczna, jednostronnie narzucona, zleceniobiorca nie ma wpływu
+  na zakres/termin/sposób wykonania poszczególnego zadania
+
+WYNIK: jeśli przeważają czynniki z drugiej grupy — sąd/ZUS/PIP może
+uznać, że seria formalnie odrębnych „zleceń przyjmowanych ofertą” to
+w rzeczywistości JEDNA ciągła relacja o cechach stosunku pracy (test
+G.1 stosuje się do CAŁOŚCI relacji z całego okresu, nie do pojedynczego
+„zlecenia" z osobna) — przekwalifikowanie obejmuje wówczas CAŁY okres
+współpracy w ramach umowy ramowej, ze skutkami jak w G.1 (zaległe składki,
+ew. roszczenia pracownicze) oraz możliwością decyzji administracyjnej
+inspektora pracy (patrz G.1 wyżej, aktualizacja od 08.07.2026).
+```
+
+### Rekomendacje redakcyjne — jak skonstruować RZECZYWISTĄ (nie pozorną) umowę ramową zlecenia
+
+```
+DLA DAJĄCEGO ZLECENIE (zamawiającego):
+□ NIE wprowadzaj kar/sankcji za odmowę przyjęcia pojedynczego zlecenia
+□ NIE zobowiązuj się do zapewnienia minimalnego wolumenu zleceń ANI
+  nie żądaj od zleceniobiorcy gotowości przyjęcia minimalnego wolumenu —
+  jeśli którakolwiek ze stron potrzebuje przewidywalności wolumenu,
+  rozważ czy to w ogóle powinna być umowa zlecenia, czy raczej umowa
+  o świadczenie usług z określonym z góry zakresem (inna kwalifikacja)
+□ Dokumentuj (np. w systemie zleceń) każdą odmowę — jej istnienie jest
+  dowodem ochronnym w razie kontroli
+□ Unikaj klauzuli „brak odpowiedzi = przyjęcie” przy zleceniach o
+  charakterze regularnym/powtarzalnym — jeśli potrzebna dla szybkości
+  obrotu, ogranicz ją do zleceń o zmiennej treści, nie identycznych zadań
+
+DLA PRZYJMUJĄCEGO ZLECENIE (wykonawcy):
+□ Rzeczywiście korzystaj z prawa odmowy (art. 736 KC) choćby sporadycznie,
+  jeśli odmowa jest uzasadniona — bierność przez cały okres współpracy
+  osłabia argument o swobodzie
+□ Zachowuj dokumentację świadczenia na rzecz innych podmiotów, jeśli to
+  możliwe — przeciwdowód wyłączności faktycznej
+□ Nie akceptuj klauzuli penalizującej odmowę — jeśli jest to warunkiem
+  współpracy, to sama ta klauzula jest silnym argumentem ZA istnieniem
+  stosunku pracy, nie przeciwko niemu
+
+WSPÓLNE DLA OBU STRON — PO ZAPROPONOWANIU POPRAWEK:
+□ Uruchom ponownie test G.1 na CAŁOŚCI faktycznego wzorca współpracy
+  (nie tylko na treści umowy ramowej) — zgodnie z zasadą z G.1B, że
+  o kwalifikacji decyduje SPOSÓB WYKONYWANIA, nie forma dokumentu
+```
+
+### Powiązanie z prawem pracy (dr-04)
+
+```
+Jeśli analiza dotyczy strony pracowniczej relacji (np. spór o ustalenie
+istnienia stosunku pracy, odwołanie od decyzji inspektora pracy) —
+wczytaj dodatkowo `dr-04-prawo-pracy-zus-swiadczenia/modules/mod-KP-prawo-pracy.md`
+(sekcja kwalifikacji prawnej stosunku, tabela kontrargumentów/ryzyk) oraz
+`dr-04-prawo-pracy-zus-swiadczenia/modules/mod-ustawa-PIP-inspekcja-pracy.md`
+sekcja 6.2 (decyzja administracyjna inspektora pracy — mechanizm i tryb
+odwoławczy). Ten moduł (G.1D) pozostaje właściwy dla analizy TREŚCI SAMEJ
+UMOWY ramowej/zleceń; dr-04 — dla postępowania i skutków po stronie prawa
+pracy/ZUS.
 ```
 
 ---
@@ -540,6 +712,9 @@ IDENTYFIKACJA:
 □ Test pseudosamozatrudnienia (G.1) — ile cech stosunku pracy?
 □ Jeśli tryb redakcji/draftu i wynik ≥3 cechy → obowiązkowo G.1B
   (zakaz oświadczenia deklaratoryjnego jako "naprawy")
+□ Jeśli umowa to UMOWA RAMOWA ZLECENIA z systemem poszczególnych ofert/
+  zleceń przyjmowanych odrębnie → obowiązkowo G.1D (test realności
+  konstrukcji oferta–przyjęcie, ryzyko przekwalifikowania całości relacji)
 □ Prawo właściwe — polskie? Inna jurysdykcja?
 
 KLUCZOWE KLAUZULE DO WERYFIKACJI:

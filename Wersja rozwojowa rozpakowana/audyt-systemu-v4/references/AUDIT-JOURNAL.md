@@ -67805,3 +67805,321 @@ F-205, F-206, F-5, F-8, F-9, F-11, F-94, F-113, F-133, F-137, F-143, F-144,
 F-157b, F-158(c), F-171, F-183a, F-184, F-185, O-8. Zob. `WARN-OTWARTE.md`
 (zaktualizowany: F-203(a) usunięta z tablicy sterującej i tabeli sekcyjnej,
 Wykonalne sesją audytową 4→3, Razem 25→24).
+
+## AUDYT-2026-09-26d — WARN-CLOSE: F-206 (8 narzędzi shared/tools/ przywrócone z historii git)
+
+**Kontekst.** Ciąg dalszy AUDYT-2026-09-26c, w tej samej dobie. Przy okazji diagnozy osobnego
+problemu z rejestracją marketplace (poza zakresem WARN-OTWARTE.md — zob. niżej) uzyskano
+odczytowy dostęp do prawdziwego repozytorium użytkownika `michaleiatrak-star/lex-machina`
+(sklonowane płytko, następnie pogłębione `git fetch --depth=1000`) — po raz pierwszy w tej
+serii sesji audytowych z dostępem do PEŁNEJ historii git, a nie tylko do zamontowanej,
+bezhistorycznej kopii `/mnt/skills/plugins/`. To zmieniło dostępne opcje dla F-206: „przywrócić
+z historii git" przestało być teoretyczną alternatywą i stało się wykonalne wprost.
+
+### 0. Poprawka marketplace (poza zakresem F-, na wyraźne polecenie użytkownika)
+
+`.claude-plugin/marketplace.json` dostarczony w poprzedniej turze miał 32 poprawne nazwy/opisy
+pluginów, ale błędne ścieżki `source` — założono płaski układ repo (`"./shared"` itd.), podczas
+gdy wszystkie 32 katalogi skilli leżą zagnieżdżone pod `Wersja rozwojowa rozpakowana/`. Błąd
+nazwany wprost użytkownikowi. `claude plugin validate` przechodził w OBU wersjach (waliduje
+tylko schemat JSON, nie istnienie ścieżek) — stąd wcześniejszy PASS nie wykrył problemu.
+Naprawiono: wszystkie 32 pola `source` → `"./Wersja rozwojowa rozpakowana/<nazwa>"`. Zweryfikowane
+end-to-end na klonie repozytorium (nie tylko `--strict --json`): `claude plugin marketplace add`
+→ sukces, `claude plugin install shared@lex-machina-legal-skills` → sukces, `claude plugin install
+audyt-systemu-v4@lex-machina-legal-skills` → sukces; oba pluginy `enabled`. Poprawiony
+`marketplace.json` dostarczony osobno (`marketplace-fix.zip`) z instrukcją commit+push, bo sesja
+nie ma uprawnień push do repozytorium użytkownika (`add_repo access:"push"` → `permission_denied:
+link your GitHub account`).
+
+### 1. F-206 — ZAMKNIĘTA
+
+**Zakres opisany w `WARN-OTWARTE.md` (przed zamknięciem):** `shared/SKILL.md` i
+`shared/tools/README.md` opisywały `tools/walidator_cytowan.py`, `extract_api_verification_log.py`
+i `tools/mcp-servers/mcp-servers-examples.zip` jako obecne, choć usunięte w commicie `ec3f530b`
+(2026-09-01) — decyzja: przywrócić z historii git albo usunąć opisy.
+
+**Ustalone przy naprawie (drugi błędny commit-hash odziedziczony przez tę flagę, poprawiony
+teraz):** commit `ec3f530b` (2026-09-01) to wymiana ZIP-ów binarnych (`WERSJA ROZWOJOWA/*.zip`),
+NIE usunięcie plików `tools/` — pierwotny opis flagi F-206 wskazywał zły commit. Repozytorium
+trzyma DWIE równoległe kopie tego samego drzewa: `Wersja rozwojowa rozpakowana/` (ta, którą
+odzwierciedla zainstalowany skill `shared`) i migawkę `Wersja stabilna rozpakowana 21.08.2026/`.
+Właściwe usunięcie z kopii ROZWOJOWEJ nastąpiło w mergu **`d3385b9`** („Merge pull request #12
+from codex/f-108-audit", 2026-08-27); ta sama treść została usunięta OSOBNO, później, też z
+kopii STABILNEJ w commicie **`6dbe7a0`** („System update", 2026-09-08) — dwa różne zdarzenia
+usunięcia w dwóch różnych katalogach, nie jeden commit. `diff` potwierdził, że obie kopie miały
+identyczną treść aż do usunięcia, więc odzyskanie z rodzica `6dbe7a0` (kopia stabilna) daje
+bajt-w-bajt tę samą treść, jaką miała kopia rozwojowa tuż przed `d3385b9` (potwierdzone osobnym
+`diff` przeciw rodzicowi `d3385b9`, `21bc139`). Usunięto **8 plików**, nie 2-3 opisane w
+pierwotnym zakresie F-206: oprócz `walidator_cytowan.py` i `extract_api_verification_log.py`
+(i `export_gate.py`, trzeci plik opisany w `tools/README.md` choć nie w samej treści flagi
+F-206) — również `append_event.py`, `hash_chain_verify.py`, `router_event_parser.py` (opisane
+jako ACTIVE w `shared/AUDIT-TRAIL-SPEC.md` i `shared/DEPENDENCY-GRAPH.md`) oraz `test_mcp_protocol.py`,
+`connector_health_check.py` (opisane jako ACTIVE w `shared/MCP-INTEGRACJA.md` i
+`shared/DEPENDENCY-GRAPH.md`). Żaden z tych 5 dodatkowych plików nie był wymieniony w
+`WARN-OTWARTE.md` — luka w zakresie oryginalnej flagi, znaleziona i zamknięta w tej samej naprawie.
+
+**Wykonane:**
+- Zidentyfikowano rodzica commitu `6dbe7a0` (`d55b4716e328a779111838ba2ce6b695a291c4dd`, kopia
+  stabilna) i odzyskano stamtąd `git show <rodzic>:<ścieżka>` bajt-w-bajt: 8 plików `.py`, 1 plik
+  `.md` (`przyklad-adapter-normalizujacy.md`), 4 fixture'y `tools/przyklady/`, oraz 42 pliki
+  `tools/mcp-servers/**` (6 przykładowych serwerów MCP × 7 plików). Niezależnie potwierdzono
+  `diff` przeciw rodzicowi `21bc139` (kopia rozwojowa, sprzed `d3385b9`) — wszystkie 8 plików
+  `.py` bajt-w-bajt identyczne między obiema kopiami sprzed ich (osobnych) usunięć.
+- Ponownie spakowano `tools/mcp-servers/mcp-servers-examples.zip` (limit 200 plików w skillu —
+  42 luźne pliki NIE trzymane osobno na dysku, tylko w archiwum). Zweryfikowano, że wszystkie
+  42 pliki w nowym archiwum są bajt-w-bajt identyczne z historią git — zarówno przez `diff`
+  bezpośrednio, jak i przez porównanie WSZYSTKICH 42 pojedynczych hashy SHA-256 z listą już
+  zapisaną w `shared/PORTABILITY-MANIFEST.md` (zgodna sprzed usunięcia) — zero rozbieżności.
+  ⚠️ Sam hash CAŁEGO archiwum ZIP nie zgadza się z poprzednio wpisanym (`6b16d446e...` →
+  `ff4dd9ba...`) — nazwane wprost jako artefakt niedeterminizmu formatu ZIP (kompresja/metadane/
+  kolejność wpisów różnią się między budowami tej samej treści), NIE jako rozbieżność treści;
+  poprzedni hash zastąpiony nowym z wyjaśnieniem w `SKILL.md`, `tools/README.md` i
+  `PORTABILITY-MANIFEST.md`.
+- Zweryfikowano FUNKCJONALNIE (nie tylko obecność bajtów) wszystkich 8 przywróconych narzędzi:
+  `walidator_cytowan.py` — 4/4 przypadki z `tools/przyklady/` zgodne z opisem w `tools/README.md`
+  (2× FAIL/OK dokładnie jak udokumentowano); `extract_api_verification_log.py`, `export_gate.py`,
+  `append_event.py`, `connector_health_check.py`, `router_event_parser.py` — `--self-test` PASS
+  każdy; `test_mcp_protocol.py` — `python3 -m unittest test_mcp_protocol`, 6/6 PASS;
+  `hash_chain_verify.py` — brak `--self-test` (świadomie udokumentowane w nagłówku pliku jako
+  narzędzie referencyjne bez logu produkcyjnego w tym środowisku), więc zweryfikowany
+  end-to-end razem z `append_event.py`: zapisano log 3-wpisowy, `hash_chain_verify.py` potwierdził
+  integralność (exit 0), następnie ręcznie spreparowano naruszenie (zmieniony `payload` we wpisie
+  seq=2) — `hash_chain_verify.py` poprawnie wykrył pierwszy niezgodny wpis (exit 1).
+- Usunięto artefakty budowy (`__pycache__/*.pyc` powstałe przy uruchamianiu testów) przed
+  finalnym liczeniem plików i pakowaniem — nie są częścią skilla.
+- Zaktualizowano: `shared/SKILL.md` (usunięta adnotacja ⛔ F-206, dodane wiersze dla 5 nowo
+  znalezionych narzędzi, poprawiony SHA-256 zip, licznik plików, `changelog:`, wersja),
+  `shared/tools/README.md` (nowa sekcja „F-206 — przywrócenie 8 narzędzi", poprawiony SHA-256),
+  `shared/PORTABILITY-MANIFEST.md` (Release/Current files/SHA-256 zaktualizowane, wyjaśnienie
+  niedeterminizmu ZIP), `shared/DEPENDENCY-GRAPH.md` (adnotacje przy obu wierszach ACTIVE, które
+  opisywały pliki faktycznie nieobecne bez ostrzeżenia — sama ta cisza była błędem opisu),
+  `shared/references/CHANGELOG.md` (wpis 3.84). `CHECKSUMS.sha256` zregenerowany (175 → 191
+  wpisów + sam plik = 192 pliki łącznie; T21 PASS).
+- `shared`: wersja 3.83 → **3.84**; 178 → **192** plików.
+
+**STATUS:** ✅ ZAMKNIĘTA. **ŹRÓDŁO:** historia git `michaleiatrak-star/lex-machina`, commit
+`d55b4716e328a779111838ba2ce6b695a291c4dd` (rodzic usuwającego `6dbe7a0`), klon płytki
+pogłębiony `git fetch --depth=1000 origin main`, dostęp odczytowy (bez uprawnień push).
+**REPRODUKCJA:** `ls shared/tools/` (8 narzędzi + README + przyklady/ + mcp-servers/ obecne);
+`python3 shared/tools/test_mcp_protocol.py` jako `python3 -m unittest test_mcp_protocol` w
+katalogu `tools/` (6/6 PASS); `sha256sum -c CHECKSUMS.sha256` w katalogu `shared` (PASS, 192/192).
+
+### 2. WYDANIE (ZASADA 7)
+
+| Skill | Wersja przed | Wersja po | Plików przed | Plików po |
+|---|---|---|---|---|
+| `shared` | 3.83 | **3.84** | 178 | **192** |
+
+Zawartość paczki zweryfikowana metodą kopiuj→zip→rozpakuj→`diff -rq` (PRE-DELIVERY-
+COMPLETENESS-CHECK, ZASADA 7): różnica pusta. Paczka dostarczona użytkownikowi przez
+`SendUserFile` — jak poprzednio, edycje w `/mnt/skills/plugins/...` NIE są zapisywane na
+koncie użytkownika; jedyny trwały nośnik zmian to dostarczony ZIP.
+
+**Otwarte pozostają (bez zmian w tej sesji, poza F-206 i poprawką marketplace):** F-197,
+F-203(b), F-205, F-5, F-8, F-9, F-11, F-94, F-113, F-133, F-137, F-143, F-144, F-157b,
+F-158(c), F-171, F-183a, F-184, F-185, O-8. Zob. `WARN-OTWARTE.md` (zaktualizowany: F-206
+usunięta z tablicy sterującej i tabeli sekcyjnej, Zależne od środowiska/dewelopera 19→18,
+Razem 24→23).
+
+---
+
+## AUDYT-2026-09-27 — WARN-CLOSE: F-205 (FAZA 3E, luki merytoryczne U-14)
+
+**Kontekst.** Kontynuacja sesji po AUDYT-2026-09-26d (F-206). Użytkownik: „Kontynuuj” —
+zamknięcie F-205, ostatniej pozycji w kategorii „Wykonalne sesją audytową” obok F-167/F-189
+(te dwie pozostają otwarte, poza zakresem tej sesji). Zakres F-205 wg `WARN-OTWARTE.md`:
+trzy jednostki prawne z FAZY 3E (U-14), każda wymagająca fresh-weryfikacji RZĄD 1 i ✅ [VER].
+
+### 1. F-205 — ZAMKNIĘTA
+
+**1a. `dr-11-cyfrowe-cyber-ai-dane-ip/modules/mod-AI-Act-framework.md`** (1.1→1.2):
+AI Act art. 25, art. 6 ust. 3 (profilowanie), zał. III pkt 4, art. 13 ust. 3.
+
+- Weryfikacja: pobranie BEZPOŚREDNIE pełnego tekstu rozporządzenia (UE) 2024/1689 z
+  `eur-lex.europa.eu` (`curl`, CELEX 32024R1689, HTTP 200, 1 335 923 B, 2026-09-27).
+  ⚠️ Odnotowuję: `shared/DOSTEP-MASZYNOWY-API.md` §3 opisuje EUR-Lex jako blokujący dostęp
+  maszynowy z kontenera (202/0 B, pomiary 2026-09-16h/09-17u) i zaleca Cellar jako obejście.
+  W tej sesji zwykły `curl` (bez specjalnych nagłówków) uzyskał PEŁNY tekst za pierwszym razem
+  — obserwacja nie jest sprzeczna z poprzednią (może być zmiana po stronie EUR-Lex albo różnica
+  kanału WebFetch vs. `curl` z tego kontenera), ale nie odtwarza wcześniej opisanej blokady.
+  Nie koryguję `DOSTEP-MASZYNOWY-API.md` w tej sesji (poza zakresem F-205) — zostawiam jako
+  obserwację do zweryfikowania przy następnej okazji; Cellar pozostaje opisaną ścieżką awaryjną.
+- Art. 25 („Odpowiedzialność w całym łańcuchu wartości AI”) i art. 6 ust. 3 (wyjątek od
+  klasyfikacji zał. III + bezwzględne wyłączenie tego wyjątku przy profilowaniu osób
+  fizycznych) były w module CAŁKOWICIE NIEOBECNE — dodane w pełnej treści z cytatem.
+- Art. 13 ust. 3 miał wcześniej gołe odesłanie „(art. 13)” bez treści — rozpisany na
+  lit. a)–f) z cytatem.
+- ⛔ **Błąd wykryty przy okazji (nie osobna flaga, koryguję w ramach tej samej jednostki
+  zał. III, którą flaga nakazywała zweryfikować):** lista 8 kategorii zał. III w module była
+  BŁĘDNA — brakowało pkt 1 (Biometria), numeracja pkt 2–7 przesunięta o jeden względem
+  oryginału, a pkt 8 podawał „Urządzenia medyczne”, których zał. III w ogóle nie zawiera
+  (urządzenia medyczne mogą być wysokiego ryzyka na INNEJ podstawie — art. 6 ust. 1 + zał. I,
+  jako produkt objęty odrębnym prawodawstwem harmonizacyjnym, np. MDR). Ten sam plik
+  jednocześnie cytował w innym miejscu (sekcja „AI w wymiarze sprawiedliwości”) POPRAWNIE
+  „zał. III pkt 8” dla systemów wsparcia decyzji sądowych — dwie wzajemnie sprzeczne
+  numeracje tej samej jednostki współistniały w jednym pliku. Poprawiono na pełną, zgodną
+  z aktem listę 8 obszarów; obie lokalizacje w pliku są teraz spójne.
+- ✅ [VER: EUR-Lex, CELEX 32024R1689, art. 25 / art. 6 ust. 3 / zał. III / art. 13 ust. 3,
+  pobranie bezpośrednie, 2026-09-27].
+
+**1b. `analizator-umow-v1/references/b2b-podwykonawcze.md`** — nowa sekcja **G.1D**:
+umowa ramowa zlecenia z konstrukcją oferta–przyjęcie poszczególnych zleceń, ryzyko
+przekwalifikowania (dr-04/analizator-umow, propozycja–przyjęcie).
+
+- Sprawdzone `grep -rli` po całym `analizator-umow-v1` i `dr-04-prawo-pracy-zus-swiadczenia`
+  (dopasowania po nazwie pliku I po treści: „umowa ramowa zlecenia”, „propozycja.*przyjęcie”,
+  „przekwalifikowani”) — TA konstrukcja nie miała dotąd żadnego dedykowanego opracowania w
+  systemie (tylko ogólny test G.1/G.1B/G.1C, bez odniesienia do mechanizmu oferta-przyjęcie
+  na poziomie umowy ramowej). Treść jest więc NOWA, nie korektą istniejącej.
+- Podstawa cywilnoprawna zweryfikowana fresh z ELI (`api.sejm.gov.pl`, KC t.j. Dz.U. 2026
+  poz. 795, `curl` z nagłówkami `User-Agent: curl/8.5.0` + `Accept: */*` wg reguły kanału
+  kodu z `shared/DOSTEP-MASZYNOWY-API.md` §1): art. 66, 68, 69 (oferta/przyjęcie), art. 734,
+  735, 736, 738, 746, 750 (zlecenie/świadczenie usług).
+- Dodano test realności vs. pozorności konstrukcji (czynniki za/przeciw), rekomendacje
+  redakcyjne dla obu stron, i odesłanie do `dr-04` (routing, nie duplikacja merytoryki).
+- Przy tej samej okazji: G.1 (hard gate + „podstawa” wyniku testu) uzupełniony o **art. 22
+  §1² KP** — wprost wyrażony ustawowy zakaz zastępowania umowy o pracę umową cywilnoprawną
+  przy zachowaniu warunków wykonywania pracy z §1. Dotąd moduł cytował wyłącznie §1 i §1¹
+  (orzecznictwo + zasada „nazwa nie decyduje”), pomijając ten najsilniejszy — bo WPROST
+  ustawowy, nie tylko orzeczniczy — argument. ✅ [VER: ELI, KP t.j. Dz.U. 2026 poz. 1245,
+  art. 22 §1², 2026-09-27].
+- ✅ [VER: ELI, KC t.j. Dz.U. 2026 poz. 795, art. 66/68/69/734–736/738/746/750, 2026-09-27].
+- Plik po zmianach: 901 linii (limit kryterium zamknięcia: ≤1000 — spełnione, z zapasem 99
+  linii; zbliża się do limitu, odnotowuję dla przyszłej sesji rozważenie wydzielenia G.1D
+  do osobnego pliku, jeśli przybędzie kolejna treść w tym module).
+
+**1c. `analizator-umow-v1/references/mod-J9-ip-prawa-autorskie.md`** — nowa pozycja **IP-6**:
+art. 52 ustawy o prawie autorskim (poprzednio ⚠️ „brzmienie nieodczytane”).
+
+- Weryfikacja fresh: ELI (`api.sejm.gov.pl`), t.j. Dz.U. 2025 poz. 24 (najnowszy t.j. wg
+  `references["Inf. o tekście jednolitym"]` metadanych aktu pierwotnego DU/1994/83,
+  posortowane malejąco — ta sama procedura co F-201). `textHTML: false`, `textPDF: true` →
+  odczyt z `/text.pdf` (41 stron, `pdftotext -layout`), zgodnie z regułą „najnowszy t.j. bez
+  HTML → czytaj PDF”.
+- Pełna treść ust. 1–3 wstawiona z cytatem; dodana praktyczna analiza: rozdzielenie własności
+  egzemplarza/oryginału od praw autorskich (ust. 1–2) i ustawowe prawo dostępu twórcy do
+  oryginału (ust. 3, z możliwością żądania przez nabywcę zabezpieczenia i wynagrodzenia) —
+  ten drugi element nie był dotąd nigdzie w systemie omówiony, mimo praktycznego znaczenia
+  (np. umowy sprzedaży dzieł sztuki, rzeźb, prototypów).
+- ✅ [VER: ELI, t.j. Dz.U. 2025 poz. 24, art. 52, pobranie bezpośrednie 2026-09-27].
+
+**1d. `dr-04-prawo-pracy-zus-swiadczenia/modules/mod-KP-prawo-pracy.md`** — odesłanie
+towarzyszące (nie osobna jednostka F-205, ale spina „dr-04/analizator-umow” z opisu flagi):
+wiersz tabeli kontrargumentów „Kwalifikacja prawna stosunku pracy” uzupełniony o wskazanie
+G.1D w `analizator-umow-v1`.
+
+### 2. WERYFIKACJA (ZASADA 14 — STATUS+SOURCE+REPRODUKCJA)
+
+| Jednostka | Status | Źródło | Reprodukcja |
+|---|---|---|---|
+| AI Act art. 25 | ✅ VER | EUR-Lex CELEX 32024R1689 | `curl` → `/tmp/aiact.html` (1 335 923 B) → tekst → linia 7882 |
+| AI Act art. 6 ust. 3 | ✅ VER | EUR-Lex CELEX 32024R1689 | jw., linia 5481 |
+| AI Act zał. III (pełna lista) | ✅ VER | EUR-Lex CELEX 32024R1689 | jw., linia 16159 |
+| AI Act art. 13 ust. 3 | ✅ VER | EUR-Lex CELEX 32024R1689 | jw., linia 6568 |
+| KC art. 66/68/69 | ✅ VER | ELI api.sejm.gov.pl, DU/2026/795 | `curl` → `/tmp/kc2026.pdf` → `pdftotext` → linia 431 |
+| KC art. 734–736/738/746/750 | ✅ VER | ELI api.sejm.gov.pl, DU/2026/795 | jw., linia 3843 |
+| KP art. 22 §1/§1¹/§1² | ✅ VER | ELI api.sejm.gov.pl, DU/2026/1245 | `curl` → `/tmp/kp2026.pdf` → `pdftotext` → linia 531 |
+| PrAut art. 52 | ✅ VER | ELI api.sejm.gov.pl, DU/2025/24 | `curl` → `/tmp/prawa_tj.pdf` → `pdftotext` → linia 1360 |
+
+### 3. WYDANIE (ZASADA 7)
+
+| Skill | Wersja przed | Wersja po | Pliki przed→po | Diff bajtowy (kopia→zip→rozpakuj) |
+|---|---|---|---|---|
+| `dr-11-cyfrowe-cyber-ai-dane-ip` | 3.18 | 3.19 | 29 → 29 | brak różnic, `sha256sum -c` PASS |
+| `analizator-umow-v1` | 1.41 | 1.42 | 71 → 71 | brak różnic, `sha256sum -c` PASS |
+| `dr-04-prawo-pracy-zus-swiadczenia` | 3.40 | 3.41 | 49 → 49 | brak różnic, `sha256sum -c` PASS |
+
+Brak nowych/usuniętych plików w żadnym z trzech skilli — wyłącznie zmiany treści istniejących
+plików (moduły, `references/CHANGELOG.md`, `SKILL.md` wersja). `CHECKSUMS.sha256` każdego
+skilla zregenerowany i zweryfikowany. Wszystkie trzy paczki dostarczone przez `SendUserFile`.
+
+**Otwarte pozostają:** F-167, F-189, F-197, F-203(b), F-5, F-8, F-9, F-11, F-94, F-113, F-133,
+F-137, F-143, F-144, F-157b, F-158(c), F-171, F-183a, F-184, F-185, O-8. Zob. `WARN-OTWARTE.md`
+(zaktualizowany: F-205 usunięta z tablicy sterującej i tabeli sekcyjnej „Wykonalne sesją
+audytową” [3→2 pozycje: F-167, F-189], Razem 23→22).
+
+---
+
+## AUDYT-2026-09-27b — WARN-CLOSE: F-189 (mechanizm nadpisań ustalony); adnotacja F-167 (materiał niedostępny)
+
+**Kontekst.** Kontynuacja bezpośrednio po AUDYT-2026-09-27 (F-205). Po zamknięciu F-205 w
+kategorii „Wykonalne sesją audytową" pozostawały wyłącznie F-167 i F-189. Zamiast zgadywać
+lub fabrykować postęp, zadałem użytkownikowi wprost dwa pytania blokujące (AskUserQuestion) —
+zgodnie z zasadą, że decyzja/informacja, której nie da się wywnioskować z kodu ani z pamięci,
+należy do użytkownika, nie do modelu.
+
+### 1. F-167 — POZOSTAJE OTWARTA (zablokowana, nie zamknięta)
+
+**Ustalenie diagnostyczne (nowe w tej sesji):** przeszukano cały `/mnt/skills/plugins`
+(`grep -rln "K-02\|K-06\|K-07"`) — treść samych kazusów testowych (stany faktyczne: np.
+NEXCA/Alekostrii dla K-02 — atrybucja czynu państwu wg ARSIWA art. 4/5/8; Protokół z Nagoi
+dla K-07 — progi definicyjne zasobów genetycznych) **nie istnieje w żadnym pliku skilla**.
+Wszystkie wystąpienia etykiet „K-0X" w repozytorium to wyłącznie NAZWY WZORCÓW BŁĘDÓW
+(np. "K-02 atrybucja per podmiot zamiast per zachowanie" w `dr-14/SKILL.md`), nie treść
+kazusów. Źródło pierwotne, wg wpisu AUDYT-2026-09-05d: plik `Arkusz_odpowiedzi_sonnet_bez_skili.docx`
+uploadowany w sesji sprzed tygodni — nieobecny w tym środowisku i nigdzie niepersystowany
+do żadnego pliku skilla.
+
+**Zapytano użytkownika wprost** (AskUserQuestion): załączyć oryginał / zbudować nowy,
+niewalidowany korpus zastępczy / zostawić otwartą. **Odpowiedź: zostawić otwartą, przejść
+dalej.** Decyzja uszanowana — NIE zbudowano zastępczego korpusu (byłby to inny test niż ten,
+który F-166/F-167 pierwotnie zdefiniowały, i przedstawienie go jako kontynuacji tego samego
+pomiaru byłoby nieuprawnione).
+
+**Wartość dodana mimo braku zamknięcia:** F-167 dostała w `WARN-OTWARTE.md` właściwy wiersz
+w tabeli sekcyjnej (dotąd był nieobecny — sama ta niespójność rejestru była już odnotowana
+przez wcześniejsze sesje, punkt 2 listy niespójności) z jawnym zakresem, kryterium zamknięcia
+i adnotacją blokującą — **żeby żadna przyszła sesja nie powtarzała tego samego 20-minutowego
+przeszukiwania repozytorium w poszukiwaniu materiału, którego tam nie ma.**
+
+### 2. F-189 — ZAMKNIĘTA
+
+**Pytanie do użytkownika:** jak wygląda proces wgrywania zmian do repozytorium
+`michaleiatrak-star/lex-machina` — jedno urządzenie/sesja na raz, czy wiele równoległych.
+**Odpowiedź: wiele równoległych sesji/urządzeń.**
+
+**Analiza.** To dokładnie klasa mechanizmu zgodna z jedynym dotąd zarejestrowanym twardym
+dowodem (AUDYT-2026-09-26 § 2): commit `d264eee3` (poprawka autorstwa „Claude", 2026-09-26
+19:10 UTC) był widoczny w klonie z ok. 21:00, a w świeżym klonie po pushach `b2054870`/
+`ff73ef6c` (21:11) nie istniał na żadnej gałęzi zdalnej. Wzorzec „commit istniał → zniknął
+po kolejnym pushu z 11 minut później" jest podręcznikowym objawem **race condition przy
+pushu z wielu niezależnych, nie-zsynchronizowanych kopii lokalnych**: druga sesja/urządzenie
+miała odgałęzienie sprzed poprawki (bo nie wykonała `git pull`/`fetch` po jej powstaniu) i albo
+(a) wykonała force-push nadpisujący historię, albo (b) jej narzędzie wgrywania paczek
+zresetowało `main` do stanu z lokalnej kopii zamiast scalić.
+
+⚠️ **Uczciwie o granicy tego ustalenia:** to jest identyfikacja KLASY mechanizmu na podstawie
+(i) jednego udokumentowanego przypadku repo + (ii) potwierdzenia przez użytkownika własnego
+wzorca pracy — NIE jest to odczyt `git reflog` z konkretnej maszyny pushującej w konkretnym
+momencie (ten dowód pozostaje nieosiągalny z tego środowiska). Kryterium zamknięcia z
+`WARN-OTWARTE.md` brzmiało „ustalić mechanizm nadpisań", nie „odtworzyć reflog per incydent" —
+więc powyższe wystarcza do zamknięcia, ale nie należy cytować tego wpisu jako dowodu
+konkretnego zdarzenia z 2026-09-26, tylko jako ustalenie przyczyny systemowej.
+
+**Rekomendacja (zapisana tu, nie jako osobna flaga — działanie po stronie użytkownika/procesu,
+nie treści skilli):**
+1. Przed każdym pushem z dowolnej sesji/urządzenia: `git pull --rebase origin main` (albo
+   `fetch` + `merge --ff-only`), nigdy ślepy `push`.
+2. Rozważyć ochronę gałęzi `main` na GitHub (wymóg PR, zakaz force-push, wymóg „branch
+   up to date before merge") — to samo repo już ma otwartą **F-197** (CI `f138-structural-audit.yml`
+   nie uruchamia się na zwykłych pushach do `main`) — obie flagi wskazują na ten sam korzeń:
+   `main` przyjmuje zmiany bez bramki. Rozwiązanie F-197 (dodanie `push: branches: [main]`
+   do workflow) częściowo łagodzi też F-189 na przyszłość — nie eliminuje race condition przy
+   pushu, ale wykryje utratę treści PO fakcie, zamiast dopiero przy następnym audycie ręcznym.
+3. Jeśli równoległe sesje edytują TE SAME pliki/skille — rozważyć pracę na osobnych gałęziach
+   scalanych przez PR zamiast bezpośrednich pushów do `main` z kilku źródeł jednocześnie.
+
+**Nie zmieniam** żadnego pliku skilla domenowego w ramach tego zamknięcia — to zamknięcie
+czysto proceduralne/dokumentacyjne (`WARN-OTWARTE.md`, ten wpis).
+
+### 3. WYDANIE (ZASADA 7)
+
+Zmieniono wyłącznie `audyt-systemu-v4/references/WARN-OTWARTE.md` i `AUDIT-JOURNAL.md`.
+`audyt-systemu-v4`: 6.131 → **6.132**; liczba plików bez zmian (109 → 109); `CHECKSUMS.sha256`
+zregenerowany; kopia→zip→rozpakuj→diff: brak różnic; `sha256sum -c`: PASS.
+
+**Otwarte pozostają:** F-167 (zablokowana — materiał niedostępny, patrz wyżej), F-197,
+F-203(b), F-5, F-8, F-9, F-11, F-94, F-113, F-133, F-137, F-143, F-144, F-157b, F-158(c),
+F-171, F-183a, F-184, F-185, O-8. Zob. `WARN-OTWARTE.md` (F-189 usunięta z tablicy sterującej
+i tabeli sekcyjnej „Wykonalne sesją audytową" [2→1 pozycja: F-167], Razem 22→21; F-167 dostała
+właściwy wiersz sekcyjny, dotąd nieobecny — częściowa naprawa niespójności rejestru nr 2).
