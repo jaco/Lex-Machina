@@ -1303,3 +1303,22 @@ Apache 2.0 z `commercial-legal-pl/examples/benchmark/` (atrybucja: `analizator-u
 (`.gitignore` repozytorium źródłowego) i nie zostały skopiowane. (3) T37 nie jest blokerem CI (nie
 ma progu pass/fail zdefiniowanego jak T25/T26/T28) — jest miernikiem jakości do ręcznego przeglądu
 przy każdej istotnej zmianie `analizator-umow-v1` lub modułów `shared` przez nią konsumowanych.
+
+---
+
+## T38 — manifest pluginu ↔ SKILL.md ↔ marketplace (dodany 2026-09-27e, AUDYT-2026-09-27e)
+
+| Test | Co mierzy | Waga | Zależność |
+|---|---|---|---|
+| T38 | (A) `<skill>/.claude-plugin/plugin.json` istnieje, `name` = katalog, `version` i `description` = SKILL.md; (B) frontmatter każdego skilla poza `shared` ma `dependencies` wskazujące `shared`; (C) `.claude-plugin/marketplace.json` w korzeniu repo: wpisy ↔ katalogi 1:1, `source` wskazuje katalog wpisu, zależności wpisów istnieją | KRYTYCZNY (BLOKER) | offline; C pomijana, gdy marketplace nie leży obok linii |
+
+**Wykonanie:** `python3 audyt-systemu-v4/scripts/check_plugin_manifest.py --repo-root "Wersja rozwojowa rozpakowana"`;
+`--selftest` — 5 przypadków (poprawny, brak plugin.json, rozjazd wersji, brak dependencies, zły source).
+
+**Pomiar walidacyjny (2026-09-27e):** selftest 5/5; drzewo wydania 27e + marketplace z `1552683f`: PASS.
+
+⚠️ **Ograniczenia jawne.** (1) T38 nie wie, jak konkretny host importuje marketplace — sprawdza
+kontrakt, który sami przyjęliśmy (manifest = SKILL.md, jawna zależność od `shared`). (2) Reguła B
+jest odpowiedzią na pomiar z claude.ai 2026-09-27 (4 z 32 pluginów, jedyna cecha wspólna —
+`dependencies` we frontmatterze); mechanizm po stronie hosta nie jest udokumentowany.
+

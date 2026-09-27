@@ -165,6 +165,8 @@ def main():
         ("T35", "T35 KRYTYCZNY — wywołanie MOD-WEJSCIE-DOKUMENTU u konsumentów", "check_wejscie_dokumentu.py", ["--repo-root", str(root)]),
         # 2026-09-26 (F-201): ekstrakcja jednostki z t.j. — treść obwieszczenia nie jest przepisem.
         ("T36", "T36 KRYTYCZNY — ekstraktor jednostek ELI (offline)", "check_eli_extract.py", ["--repo-root", str(root)]),
+        # 2026-09-27e: manifest pluginu = SKILL.md; import z marketplace (claude.ai) i aktualizacje.
+        ("T38", "T38 KRYTYCZNY — plugin.json ↔ SKILL.md ↔ marketplace.json", "check_plugin_manifest.py", ["--repo-root", str(root)]),
         ("MOCK", "MOCK — self-test sync_dzu_eli wobec lokalnego mock-ELI", "mock_eli_server_test.py", []),
     ]:
         sekcja(label)
@@ -184,7 +186,8 @@ def main():
     # T28 i T29 dołączyły 2026-09-16 (F-189): W1 to nawrót błędu JUŻ naprawionego
     # po odczycie treści — dokładnie ta klasa, którą regresja ma blokować.
     # T34–T36 dołączyły 2026-09-26 (F-196, F-200, F-201).
-    BLOCKERY = ("T1", "T6_T7", "T18", "T19", "T19b", "T22", "T28", "T29", "T30", "T34", "T35", "T36")
+    # T38 dołączył 2026-09-27e (AUDYT-2026-09-27e).
+    BLOCKERY = ("T1", "T6_T7", "T18", "T19", "T19b", "T22", "T28", "T29", "T30", "T34", "T35", "T36", "T38")
     critical_fail = False
     for key, code in results.items():
         if code == "MANUAL":

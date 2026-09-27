@@ -68123,3 +68123,202 @@ F-203(b), F-5, F-8, F-9, F-11, F-94, F-113, F-133, F-137, F-143, F-144, F-157b, 
 F-171, F-183a, F-184, F-185, O-8. Zob. `WARN-OTWARTE.md` (F-189 usunięta z tablicy sterującej
 i tabeli sekcyjnej „Wykonalne sesją audytową" [2→1 pozycja: F-167], Razem 22→21; F-167 dostała
 właściwy wiersz sekcyjny, dotąd nieobecny — częściowa naprawa niespójności rejestru nr 2).
+
+---
+
+## AUDYT-2026-09-27c — RESOLVER-SKILLI (instalacja z marketplace); F-207 otwarta
+
+**Tryb:** TARGETED. **Drzewo:** repozytorium `origin/main` **56a7eefc** (2026-09-27 11:38),
+„Wersja rozwojowa rozpakowana” (32 skille). **Wyzwalacz:** polecenie użytkownika po instalacji
+pluginów z marketplace `lex-machina-legal-skills` w claude.ai.
+
+### 1. OBJAW (zmierzony)
+- claude.ai po instalacji 4 pluginów z marketplace: katalogi `/mnt/skills/plugins/<plugin>:<skill>/`
+  (`shared:shared` 3.84, `prawny-router-v3:prawny-router-v3` 3.55, `analizator-dowodow-v3:…`,
+  `przesluchanie-swiadkow-v2-min90:…` 3.26) **obok** wcześniejszej instalacji
+  `/mnt/skills/plugins/<skill>/` (32 skille, m.in. `shared` 3.81, audyt 6.126). Adres `shared/…`
+  czytany dosłownie trafia w kopię 3.81 — router z pluginu działa na starej bibliotece.
+- 142 ścieżki `/mnt/skills/user/…` w 47 plikach nie wskazują żadnej z tych kopii.
+- Claude Code (2.1.283, instalacja z GitHuba): plugin w
+  `~/.claude/plugins/cache/lex-machina-legal-skills/<skill>/<hash>/` — `shared` nie jest
+  rodzeństwem routera.
+
+### 2. NAPRAWA
+- `shared/UNIVERSAL-RUNTIME-ADAPTER.md` 1.0 → 1.1, §1A RESOLVER-SKILLI: tabela lokalizacji per
+  host, funkcja `lm_resolve` (POSIX sh), R-2 wybór (najwyższa `version:`, remis → plugin, jedna
+  kopia na sesję, zakaz łączenia kopii), R-3 `⚠️ DUPLIKAT SKILLA`, R-4 mapa sesji, R-5 skill
+  bez routera. Ścieżki w plikach — adresy logiczne; masowej podmiany 142 wystąpień nie
+  wykonano (świadomie: jedna reguła zamiast 47 plików w 20+ skillach).
+- `prawny-router-v3`: PATH-SELFTEST → RESOLVER (bootstrap `shared` + §1A), pole `RESOLVER`
+  w KROKU 3A, `dependencies.requires` 19 → 31 (= `dependencies` wpisu routera w
+  `.claude-plugin/marketplace.json`, commit `1552683f`).
+- **Test `lm_resolve`** na trzech układach: (a) claude.ai z duplikatem → `shared:shared` 3.84
+  przed `shared` 3.81; (b) cache Claude Code → kopia z cache; przy remisie wersji plugin przed
+  wgraną; (c) marketplace lokalny → rodzeństwo z drugiego argumentu; brak skilla → kod 1 i
+  komunikat `BRAK`. Blok kodu wycięty z pliku i wykonany — działa bez modyfikacji.
+
+### 3. OSTRZEŻENIA (WARN)
+**F-207 — OTWARTA (nowa, priorytet wysoki).** T12 na `56a7eefc`: 8 × ⛔ REGRESJA DYSKOWA —
+dziennik (AUDYT-2026-09-26 §7) odnotowuje wydania, których na dysku nie ma. `git log --all -S`
+w pełnej historii repozytorium: router 3.56 nie występuje na żadnej gałęzi (na `main` 3.55 od
+`9c4088f2`). Wydanie AUDYT-2026-09-26 nie dotarło do repozytorium poza `shared`,
+`analizator-umow-v1` i `audyt-systemu-v4` (klasa F-189). Zgodnie z § 3 i § 7 tamtego wpisu
+jedyną zmianą w 8 skillach było wywołanie `shared/MOD-WEJSCIE-DOKUMENTU.md` (F-200); T35 na
+`56a7eefc`: 8 × C. **Router odtworzony w tym wydaniu (3.57; numer 3.56 nie jest używany
+ponownie).** Pozostaje 7 skilli — zakres i kryterium w `WARN-OTWARTE.md`.
+
+### 4. WERYFIKACJA Dz.U.
+Nie dotyczy (zmiana wyłącznie runtime).
+
+### 5. STRUKTURA SYSTEMU — SNAPSHOT
+Suita regresyjna: wynik zbiorczy identyczny z bazą `56a7eefc` (T12 i T35 WARN/FAIL wyłącznie
+z powodu F-207; router usunięty z obu list). T21 PASS. `claude plugin validate --strict`: PASS.
+
+### 6. WNIOSKI
+1. Przed wgraniem pluginów z marketplace w claude.ai usunąć poprzednią instalację 32 skilli —
+   §1A obsługuje duplikat, ale nie usuwa go.
+2. F-207 zamknąć przed promocją linii rozwojowej do stabilnej.
+
+### 7. WYDANIE (ZASADA 7)
+
+| Skill | Wersja | Pliki przed → po | Uzasadnienie różnicy liczby | diff ZIP↔WORK |
+|---|---|---|---|---|
+| `shared` | 3.84 → 3.85 | 192 → 192 | — | pusty |
+| `prawny-router-v3` | 3.55 → 3.57 | 43 → 43 | — | pusty |
+| `audyt-systemu-v4` | 6.132 → 6.133 | 110 → 110 (z CHECKSUMS) | — | pusty |
+
+**Wersje:** `shared` 3.84 → 3.85, `prawny-router-v3` 3.55 → 3.57, `audyt-systemu-v4` 6.132 → 6.133.
+
+---
+
+## AUDYT-2026-09-27d — WARN-CLOSE: F-207 (odtworzenie utraconego wydania AUDYT-2026-09-26)
+
+**Tryb:** WARN-CLOSE. **Drzewo:** `origin/main` **56a7eefc** + wydanie AUDYT-2026-09-27c (shared 3.85,
+router 3.57, audyt 6.133 — jeszcze niewypchnięte; niniejsze wydanie audytu 6.134 je zastępuje).
+**Wyzwalacz:** polecenie użytkownika „zajmij się ich odtwarzaniem”.
+
+### 1. ZAKRES ODTWORZENIA
+Źródło zakresu: AUDYT-2026-09-26 § 3 (F-200) i § 7 (tabela wydania — w 7 skillach bez zmiany
+liczby plików, bez innych flag). Jedyna zmiana w tych skillach: wywołanie
+`shared/MOD-WEJSCIE-DOKUMENTU.md`. Odtworzone wzorcem, który przetrwał w `analizator-umow-v1`
+(blok `[WEJŚCIE-DOKUMENTU]`, bez kopii treści reguł — F-115), wstawionym bezpośrednio po bloku
+HARD GATE (PRAWO-HARDGATE) każdego skilla; w `pisma-procesowe-v3` — po HARD GATE ZERO,
+przed HARD GATE MRG.
+
+⚠️ Odtworzono ZAKRES, nie bajty: paczki z 2026-09-26 nie są dostępne, więc sformułowanie
+i miejsce wstawienia mogą się różnić od utraconych. Dlatego nowe numery wersji, a numery z
+dziennika oznaczone w changelogach jako „WYDANIE NIEDOSTARCZONE” i nie używane ponownie.
+
+### 2. WYNIK
+- T35: **PASS** (9/9 konsumentów), selftest PASS — na `56a7eefc` było 8 × C.
+- T12: **brak rozbieżności** — na `56a7eefc` było 8 × ⛔ REGRESJA DYSKOWA + 1 ⚠️.
+- Suita regresyjna: **PASS** (T4/T5 ręczne) — pierwszy pełny PASS od wydania AUDYT-2026-09-26.
+- T21 PASS.
+
+**F-207 — ZAMKNIĘTA.** WARN-OTWARTE 22 → 21.
+
+### 3. WYDANIE (ZASADA 7)
+
+| Skill | Wersja | Pliki przed → po | Uzasadnienie różnicy liczby | diff ZIP↔WORK |
+|---|---|---|---|---|
+| `analizator-dowodow-v3` | 5.16.13 → 5.16.15 | 40 → 40 | — | pusty |
+| `analiza-sadowa-v6` | 6.10 → 6.12 | 24 → 24 | — | pusty |
+| `chronologia-sprawy-v1` | 1.9 → 1.11 | 13 → 13 | — | pusty |
+| `pisma-procesowe-v3` | 5.28 → 5.30 | 45 → 45 | — | pusty |
+| `pisma-proste-v2` | 2.21 → 2.23 | 27 → 27 | — | pusty |
+| `przesluchanie-swiadkow-v2-min90` | 3.26 → 3.28 | 34 → 34 | — | pusty |
+| `raport-sytuacyjny-v2` | 2.8 → 2.10 | 6 → 6 | — | pusty |
+| `audyt-systemu-v4` | 6.133 → 6.134 | 110 → 110 (z CHECKSUMS) | — | pusty |
+
+**Wersje:** jak w tabeli; `shared` 3.85 i `prawny-router-v3` 3.57 z AUDYT-2026-09-27c bez zmian.
+
+**Zalecenie (F-189):** wgrać wydania 27c i 27d jednym commitem, po `git pull`, i sprawdzić po
+pushu `git log -1` na świeżym klonie.
+
+
+---
+
+## AUDYT-2026-09-27e — import z marketplace w claude.ai (4 z 32); manifesty pluginów; T38
+
+**Tryb:** TARGETED. **Drzewo:** `origin/main` **56a7eefc** + wydania 27c i 27d (niewypchnięte; to
+wydanie obejmuje wszystkie 32 skille i je zastępuje). **Wyzwalacz:** polecenie użytkownika po
+ponownym imporcie marketplace w claude.ai.
+
+### 1. OBJAW (zmierzony u użytkownika, dwukrotnie)
+Po dodaniu marketplace `lex-machina-legal-skills` i po usunięciu poprzedniej instalacji claude.ai
+pokazuje z tego marketplace wyłącznie 4 pluginy: `shared`, `prawny-router-v3`,
+`analizator-dowodow-v3`, `przesluchanie-swiadkow-v2-min90`. Ten sam zestaw za obu razem.
+Claude Code 2.1.283 z tego samego repo instaluje wszystkie 32 — manifest marketplace jest poprawny.
+
+### 2. DIAGNOZA
+Porównanie 32 skilli: klucze frontmattera, rozmiar, liczba plików, typy plików, znaki w nazwach
+plików, długość opisu (znaki i bajty), limity Cowork (500 pluginów, 5000 plików, 200 MB) —
+jedyna cecha wspólna 4 pluginów i nieobecna w każdym z 28 pozostałych: klucz `dependencies`
+we frontmatterze SKILL.md. ⚠️ [NIEWERYFIKOWANE — HIPOTEZA] mechanizm po stronie claude.ai;
+dokumentacja Cowork nie opisuje filtrowania pluginów. Zbieżność 4/4 przy 0/28 zapisana jako
+dowód korelacji, nie przyczynowości.
+
+### 3. NAPRAWA
+- 28 skilli: `dependencies: requires: [shared]` we frontmatterze (zgodne ze stanem faktycznym —
+  każdy korzysta z `shared`).
+- 32 skille: `.claude-plugin/plugin.json` — `name`, `version` (= SKILL.md), `description`
+  (= SKILL.md = marketplace), `author`, `repository`, `license` (GPL-3.0-only, zgodnie z LICENSE
+  repozytorium). `claude plugin validate --strict` każdego pluginu: PASS (bez `version` —
+  ostrzeżenie „No version specified”).
+- **T38** `scripts/check_plugin_manifest.py` (BLOKER, selftest 5/5): plugin.json ↔ SKILL.md ↔
+  marketplace.json. Każde przyszłe podbicie wersji wymaga zmiany w plugin.json.
+- Treść merytoryczna żadnego skilla bez zmian.
+
+### 4. OBSERWACJA (bez flagi)
+W trakcie wydania dopisek w `limitations` `shared` („stan 2026-09-27e: …”) złamał YAML
+(dwukropek ze spacją w skalarze) — suita regresyjna dała PASS, bo **T26
+(`check_frontmatter_yaml.py`) nie jest w orkiestratorze**; błąd wykrył dopiero odczyt w T38.
+Poprawione przed wydaniem; T26 ręcznie: 32/32. Frontmatter nieparsowalny = skill nieładujący
+się na hoście — kandydat do BLOKERÓW przy najbliższym audycie.
+
+### 5. STRUKTURA SYSTEMU — SNAPSHOT
+Suita regresyjna na repozytorium z drzewem i paczkami tego wydania: PASS STRUKTURALNY
+(T4/T5 ręczne; T34 PASS dopiero po podmianie paczek — przed podmianą FAIL zgodnie z założeniem).
+T26 32/32 (ręcznie). T38 PASS z `marketplace.json` z `1552683f`. `claude plugin validate --strict`:
+32/32 pluginów i marketplace PASS.
+
+### 6. WYDANIE (ZASADA 7)
+
+| Skill | Wersja | Pliki przed → po | Uzasadnienie różnicy liczby | diff ZIP↔WORK |
+|---|---|---|---|---|
+| `analiza-sadowa-v6` | 6.12 → 6.13 | 24 → 25 | +`.claude-plugin/plugin.json` | pusty |
+| `analizator-dowodow-v3` | 5.16.15 → 5.16.16 | 40 → 41 | +`.claude-plugin/plugin.json` | pusty |
+| `analizator-przepisow-v2` | 2.8 → 2.9 | 8 → 9 | +`.claude-plugin/plugin.json` | pusty |
+| `analizator-umow-v1` | 1.42 → 1.43 | 72 → 73 | +`.claude-plugin/plugin.json` | pusty |
+| `audyt-systemu-v4` | 6.134 → 6.135 | 110 → 112 | +`.claude-plugin/plugin.json`, +`scripts/check_plugin_manifest.py` | pusty |
+| `chronologia-sprawy-v1` | 1.11 → 1.12 | 13 → 14 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-01-ustroj-konstytucyjny-i-zrodla-prawa` | 3.12 → 3.13 | 23 → 24 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-02-prawo-cywilne-rodzinne-gospodarcze` | 3.58 → 3.59 | 93 → 94 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-03-prawo-karne-wykroczenia-egzekucja` | 3.46 → 3.47 | 86 → 87 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-04-prawo-pracy-zus-swiadczenia` | 3.41 → 3.42 | 50 → 51 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-05-prawo-administracyjne-sadowoadministracyjne` | 3.30 → 3.31 | 39 → 40 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-06-podatki-finanse-publiczne-aml` | 3.92 → 3.93 | 78 → 79 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-07-zamowienia-publiczne-fundusze-ue` | 3.11 → 3.12 | 28 → 29 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-08-samorzad-terytorialny-prawo-lokalne` | 3.13 → 3.14 | 28 → 29 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-09-budownictwo-srodowisko-energia-transport` | 3.37 → 3.38 | 50 → 51 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-10-zdrowie-farmacja-zywnosc-rolnictwo` | 3.47 → 3.48 | 39 → 40 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-11-cyfrowe-cyber-ai-dane-ip` | 3.19 → 3.20 | 30 → 31 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-12-sadownictwo-prokuratura-zawody-prawnicze` | 4.18 → 4.19 | 21 → 22 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-13-sluzby-bezpieczenstwo-informacje-niejawne` | 3.12 → 3.13 | 20 → 21 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-14-prawo-ue-miedzynarodowe-prawa-czlowieka` | 3.8 → 3.9 | 20 → 21 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-15-compliance-iso-governance-audyt` | 3.15 → 3.16 | 18 → 19 | +`.claude-plugin/plugin.json` | pusty |
+| `dr-16-pisma-strategia-dowody-orzecznictwo` | 3.9 → 3.10 | 19 → 20 | +`.claude-plugin/plugin.json` | pusty |
+| `orzeczenia-sadowe-v2` | 2.19 → 2.20 | 11 → 12 | +`.claude-plugin/plugin.json` | pusty |
+| `pisma-procesowe-v3` | 5.30 → 5.31 | 45 → 46 | +`.claude-plugin/plugin.json` | pusty |
+| `pisma-proste-v2` | 2.23 → 2.24 | 27 → 28 | +`.claude-plugin/plugin.json` | pusty |
+| `prawny-router-v3` | 3.57 → 3.58 | 43 → 44 | +`.claude-plugin/plugin.json` | pusty |
+| `prawo-polskie-v2` | 6.30 → 6.31 | 7 → 8 | +`.claude-plugin/plugin.json` | pusty |
+| `przesluchanie-swiadkow-v2-min90` | 3.28 → 3.29 | 34 → 35 | +`.claude-plugin/plugin.json` | pusty |
+| `przewodnik-prawny-v2` | 2.9 → 2.10 | 9 → 10 | +`.claude-plugin/plugin.json` | pusty |
+| `raport-klienta-v1` | 1.5 → 1.6 | 9 → 10 | +`.claude-plugin/plugin.json` | pusty |
+| `raport-sytuacyjny-v2` | 2.10 → 2.11 | 6 → 7 | +`.claude-plugin/plugin.json` | pusty |
+| `shared` | 3.85 → 3.86 | 192 → 193 | +`.claude-plugin/plugin.json` | pusty |
+
+**Po wgraniu w claude.ai:** usunąć marketplace i dodać ponownie (albo „Check for updates”), potem
+sprawdzić liczbę pluginów Lex-Machina w Discover. Wynik ≠ 32 → hipoteza z § 2 obalona; zapisać
+liczbę i nazwy jako materiał do kolejnej diagnozy.

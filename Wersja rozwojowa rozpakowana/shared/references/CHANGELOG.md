@@ -1,5 +1,28 @@
 # CHANGELOG — Biblioteka shared
 
+## 3.86 — 2026-09-27e — AUDYT-2026-09-27e: manifest pluginu i jawna zależność od shared
+
+claude.ai po dodaniu marketplace instalował wyłącznie 4 z 32 pluginów (shared, prawny-router-v3, analizator-dowodow-v3, przesluchanie-swiadkow-v2-min90); jedyna cecha wspólna tych 4, nieobecna w żadnym z 28 pozostałych, to klucz `dependencies` we frontmatterze SKILL.md. Ten skill już go miał; oraz jawny manifest pluginu (name, description = description z SKILL.md, author, repository, license) — host nie musi niczego wnioskować z SKILL.md. `version` w manifeście = `version:` z SKILL.md (pilnuje T38 w audyt-systemu-v4) — host rozpoznaje aktualizację po podbiciu wersji. Treść skilla bez zmian.
+
+## 3.85 — 2026-09-27c — AUDYT-2026-09-27c: RESOLVER-SKILLI (instalacja z marketplace)
+
+`UNIVERSAL-RUNTIME-ADAPTER.md` 1.0 → 1.1, nowy §1A. Przyczyna zmierzona w claude.ai
+2026-09-27: po instalacji z marketplace pluginy leżą w `/mnt/skills/plugins/<plugin>:<skill>/`
+(np. `shared:shared`), a obok nich pozostała wcześniejsza instalacja pod
+`/mnt/skills/plugins/<skill>/` — `shared` 3.84 i 3.81 jednocześnie. Adres `shared/…` czytany
+dosłownie trafiał w starą kopię 3.81; 142 ścieżki `/mnt/skills/user/…` w 47 plikach nie trafiały
+w nic. W Claude Code plugin ląduje w `~/.claude/plugins/cache/<marketplace>/<skill>/<hash>/`,
+więc `shared` nie jest rodzeństwem routera.
+
+§1A: tabela lokalizacji per host, funkcja `lm_resolve` (POSIX sh; przetestowana na trzech
+układach: claude.ai z duplikatem, cache Claude Code, marketplace lokalny), R-2 wybór (najwyższa
+`version:`, remis → plugin, jedna kopia na sesję, zakaz łączenia kopii), R-3 ostrzeżenie
+`⚠️ DUPLIKAT SKILLA`, R-4 mapa sesji, R-5 skill wołany bez routera. Ścieżki w plikach systemu
+pozostają bez zmian — §1A definiuje je jako adresy logiczne (bez masowej podmiany 142 wystąpień).
+
+Przy okazji: pole YAML `changelog:` skrócone do bieżącej wersji (T12: 18 → 5 linii).
+Liczba plików bez zmian (192).
+
 ## 3.84 — 2026-09-26d — F-206: przywrócenie 8 narzędzi tools/ z historii git
 
 Przywrócone bajt-w-bajt z historii repozytorium `michaleiatrak-star/lex-machina`. Usunięte z

@@ -1,6 +1,6 @@
 ---
 name: shared
-version: "3.84"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
+version: "3.86"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
                   # jako float 3.17, a 3.17 < 3.9 — porządek wersji odwraca się
                   # dla każdego narzędzia porównującego liczbowo. Wykryte
                   # testem T12 (check_wersje_changelog.py), 2026-08-20z.
@@ -44,28 +44,13 @@ limitations:
     opisane tu jawnie, żeby FAZA 2E w trybie deklarowanym go NIE zgubiła.
     Decyzja architektoniczna (uznać jako świadomy wzorzec 'plik-most' czy
     wydzielić poza shared/) pozostaje OTWARTA — do następnego audytu."
-  - rozmiar (192 pliki, ~2,8 MB — stan 2026-09-26d, F-206) — każda zmiana pliku kanonicznego ma
+  - rozmiar (193 pliki, ~2,8 MB — stan 2026-09-27e, z .claude-plugin/plugin.json) — każda zmiana pliku kanonicznego ma
     potencjalnie systemowy promień rażenia; edytować tylko przez
     audyt-systemu-v4 z pełną weryfikacją CHECKLIST-DEDUP.md
 required_modules: []
   # nie ma zastosowania — shared jest wczytywany, nie wczytuje sam siebie
 changelog: |
-  Wersja bieżąca: 3.84 (2026-09-26d, F-206): przywrócone z historii git repozytorium
-  (michaleiatrak-star/lex-machina; usunięte mergem d3385b9 z drzewa rozwojowego 2026-08-27,
-  odzyskane z równoległej migawki stabilnej sprzed jej osobnego usunięcia w 6dbe7a0 2026-09-08 —
-  poprzedni opis F-206 mylnie wskazywał ec3f530b) 8 narzędzi tools/ uznanych za nieobecne —
-  walidator_cytowan.py, extract_api_verification_log.py, export_gate.py (opisane w F-206),
-  plus append_event.py, hash_chain_verify.py, router_event_parser.py, test_mcp_protocol.py,
-  connector_health_check.py (nieobecne poza pierwotnym zakresem F-206, znalezione przy tej
-  naprawie — te same osiem plików usunięte tym samym commitem). Przywrócone też 4 fixture'y
-  tools/przyklady/ i tools/mcp-servers-examples.zip (przebudowany, nowy SHA-256 — stary
-  nieodtwarzalny, ZIP nie jest deterministyczny). Wszystkie 8 narzędzi zweryfikowane
-  funkcjonalnie (self-testy PASS + end-to-end test hash-chain z symulowanym naruszeniem).
-  Wersja 3.83 (2026-09-26, F-204): tools/adapter_krs_vat.py — własny adapter KRS
-  (api-krs.ms.gov.pl) + Biała lista VAT (wl-api.mf.gov.pl), bez serwerów zewnętrznych, bez
-  klucza. Schemat KRS zmierzony LIVE (KRS 0000010681); schemat WL przejęty z DOSTEP-MASZYNOWY-API
-  §4 (WL zablokowana WAF-em z tego środowiska — objaw zapisany, nie ukryty). 22 testy — patrz
-  references/CHANGELOG.md.
+  Wersja bieżąca: 3.86 (2026-09-27e, AUDYT-2026-09-27e): jawny manifest `.claude-plugin/plugin.json` — import z marketplace w claude.ai. Treść skilla bez zmian.
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 
@@ -95,7 +80,7 @@ Nie jest samodzielnym skillem — pełni rolę biblioteki referencji.
 
 | Plik | Rola |
 |------|------|
-| `UNIVERSAL-RUNTIME-ADAPTER.md` | Wspólny kontrakt runtime ChatGPT/Claude/Codex: zasoby, narzędzia, prywatność, fallbacki |
+| `UNIVERSAL-RUNTIME-ADAPTER.md` | Wspólny kontrakt runtime ChatGPT/Claude/Codex: zasoby, narzędzia, prywatność, fallbacki; §1A RESOLVER-SKILLI — rozwiązywanie adresów przy instalacji z marketplace i przy duplikatach |
 | `TABELE-OPLAT.md` | ⛔ **RDZEŃ NAWIGACYJNY od 2.0 (2026-09-12q) — nie zawiera tabel.** Trzyma REGUŁĘ KOLEJNOŚCI (tabela ustanawiająca → baza katalogująca → RZĄD 2A/2B), **MAPĘ WŁASNOŚCI SEKCJI** i rejestry (sekcja 7 — tabele satelickie w innych skillach; sekcja 8 — zakres nieobjęty). Materia w 7 satelitach `oplaty/`. **Wczytać JAKO PIERWSZY**, przed jakąkolwiek kwotą — mapa wskaże właściwy satelita. Integralności podziału pilnuje T29 (`check_oplaty_mapa.py`). |
 | `oplaty/01-KSCU-cywilne-rodzinne-pracownicze.md` | Sekcje 1, 1a, 1b, 1c. Progi WPS (art. 13), opłaty ogólne KSCU (art. 14–25b, 68–78), **rozwód 600 zł** (art. 26) i sprawy rodzinne (art. 27, 37, 38), prawo pracy i ubezpieczenia (art. 35, 36). ⛔ Pułapka dwóch brzmień art. 13 ust. 2: cap **100 000 zł** od 23.09.2025, nie 200 000 zł. |
 | `oplaty/02-zwolnienia-zwrot-alimenty.md` | Sekcje 2, 2a, 2b, 2c, 2d, 2e. ⛔ **KROK 0 — czy strona w ogóle płaci**: art. 95, 96, 100–107. Alimenty. **Zwrot opłaty — art. 79** (m.in. połowa przy rozwodzie bez orzekania o winie). ⛔⛔ **art. 104a: w EPU i S24 NIE MA zwolnienia na wniosek.** Ryzyko kosztowe z KPC (art. 98–103, 520) — art. 102 KPC ≠ art. 102 KSCU. |

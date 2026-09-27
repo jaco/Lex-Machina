@@ -1,12 +1,16 @@
 ---
 name: przewodnik-prawny-v2
-version: "2.9"
+version: "2.10"
 type: ux-guide
 status: production
 description: "Przewodnik prawny i fallback routera: pomaga zidentyfikować problem, właściwą ścieżkę postępowania, potrzebne dokumenty i kolejny specjalistyczny skill."
+dependencies:
+  requires:
+    - shared
+  # 2026-09-27e: jawna zależność (każdy skill systemu korzysta z `shared`); pole czytane przy imporcie z marketplace
 compatibility: "live_web_lookup, file_read, cross_skill_file_read, optional_document_and_interactive_ui"
 changelog: |
-  Wersja bieżąca: 2.9 (2026-09-23, AUDYT-2026-09-23c): Zasada 3 i procedura Q&A: E-3/E-4 przy BRAKU-AKTU w RZĘDZIE 1 (awaria, timeout, blokada).
+  Wersja bieżąca: 2.10 (2026-09-27e, AUDYT-2026-09-27e): jawny manifest `.claude-plugin/plugin.json` oraz `dependencies.requires: [shared]` we frontmatterze — import z marketplace w claude.ai. Treść skilla bez zmian.
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 

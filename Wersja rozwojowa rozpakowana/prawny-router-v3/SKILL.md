@@ -1,6 +1,6 @@
 ---
 name: prawny-router-v3
-version: "3.55"
+version: "3.58"
 type: orchestration
 status: production
 entrypoint: SKILL.md
@@ -10,23 +10,36 @@ dependencies:
   requires:
     - shared
     - prawo-polskie-v2
-    - analiza-sadowa-v6
-    - analizator-dowodow-v3
+    - przewodnik-prawny-v2
+    - audyt-systemu-v4
+    - orzeczenia-sadowe-v2
     - analizator-przepisow-v2
     - analizator-umow-v1
+    - analizator-dowodow-v3
+    - analiza-sadowa-v6
+    - pisma-proste-v2
+    - pisma-procesowe-v3
+    - przesluchanie-swiadkow-v2-min90
     - chronologia-sprawy-v1
+    - raport-sytuacyjny-v2
+    - raport-klienta-v1
+    - dr-01-ustroj-konstytucyjny-i-zrodla-prawa
+    - dr-02-prawo-cywilne-rodzinne-gospodarcze
     - dr-03-prawo-karne-wykroczenia-egzekucja
+    - dr-04-prawo-pracy-zus-swiadczenia
+    - dr-05-prawo-administracyjne-sadowoadministracyjne
+    - dr-06-podatki-finanse-publiczne-aml
+    - dr-07-zamowienia-publiczne-fundusze-ue
     - dr-08-samorzad-terytorialny-prawo-lokalne
     - dr-09-budownictwo-srodowisko-energia-transport
     - dr-10-zdrowie-farmacja-zywnosc-rolnictwo
     - dr-11-cyfrowe-cyber-ai-dane-ip
     - dr-12-sadownictwo-prokuratura-zawody-prawnicze
+    - dr-13-sluzby-bezpieczenstwo-informacje-niejawne
+    - dr-14-prawo-ue-miedzynarodowe-prawa-czlowieka
+    - dr-15-compliance-iso-governance-audyt
     - dr-16-pisma-strategia-dowody-orzecznictwo
-    - orzeczenia-sadowe-v2
-    - pisma-procesowe-v3
-    - pisma-proste-v2
-    - przesluchanie-swiadkow-v2-min90
-    - przewodnik-prawny-v2
+  # 3.57: pełny zestaw 31 skilli = `dependencies` wpisu routera w .claude-plugin/marketplace.json
   called_by:
     - użytkownik (punkt wejścia — brak nadrzędnego skilla)
 inputs:
@@ -107,7 +120,7 @@ required_modules:
   - shared/MOD-REM-GATE.md
   - dr-03-prawo-karne-wykroczenia-egzekucja/modules/mod-KK-kwalifikator-karnomaterialny.md
 changelog: |
-  Wersja bieżąca: 3.55 (2026-09-23, AUDYT-2026-09-23c): E-3/E-4 obowiązkowe przy BRAKU-AKTU w RZĘDZIE 1; ZASADA INNEJ DROGI zamiast zakazu obchodzenia blokad; SELF-CHECK OC-1 skala 0–10 — patrz references/CHANGELOG.md.
+  Wersja bieżąca: 3.58 (2026-09-27e, AUDYT-2026-09-27e): jawny manifest `.claude-plugin/plugin.json` — import z marketplace w claude.ai. Treść skilla bez zmian.
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 
@@ -118,6 +131,9 @@ W każdej sprawie prawnej, przed analizą:
 1. `view shared/PRAWO-HARDGATE.md` — świeża weryfikacja każdego powołania w tej turze.
 2. `view references/KROK0A-anonimizer.md` — zamknij bramkę anonimizera.
 3. `view references/KROK1-detekcja.md` — ustal tryb i jurysdykcję.
+   Gdy w tej turze użytkownik dostarczył dokument, akta, korespondencję lub wklejony
+   tekst: `view shared/MOD-WEJSCIE-DOKUMENTU.md` — WD-1 przed analizą, WD-2 przy każdym
+   cytacie z materiału, WD-3 przed wynikiem (F-200; treści reguł nie kopiuje się — T35).
 4. Wykonaj routing [1]–[11], wczytaj PRIMARY i wypisz ślad KROKU 3A.
 5. Przy pierwszym URL: `view shared/HIERARCHIA-ZRODEL.md`; każdy URL musi mieć RZĄD 1/2A/2B/3.
    Dla aktów polskich wykonaj też `view references/ZRODLA-AKTOW-FALLBACK.md`.
@@ -141,16 +157,32 @@ Zastosuj `shared/UNIVERSAL-RUNTIME-ADAPTER.md`. Nazwy `view`, `web_search`,
 operacje hosta. Odczyty `shared/...`, `references/...` i `<skill>/...` dotyczą
 odpowiednich zainstalowanych skilli; nie kopiuj zależności do routera.
 
-### PATH-SELFTEST
+### PATH-SELFTEST — RESOLVER (od 3.57)
 
-Pierwszy odczyt zasobu w sesji testuje rozwiązywanie ścieżek:
+Skille mogą być zainstalowane jako pluginy z marketplace (claude.ai/Cowork:
+`/mnt/skills/plugins/<plugin>:<skill>/`; Claude Code: `~/.claude/plugins/cache/…`),
+jako skille wgrane (`/mnt/skills/user/<skill>/`) albo w obu formach naraz. Ścieżki
+w plikach systemu są **adresami logicznymi** — nie odczytuj ich dosłownie.
 
-1. Użyj ścieżki semantycznej zapisanej w tym pliku.
-2. Przy błędzie ustal prefiks hosta i ponów odczyt.
-3. Ponowny błąd → `⛔ TRYB ZDEGRADOWANY — zasoby skilla niedostępne`; podaj
-   zasób i błąd, a każdą treść prawną oznacz `⚠️ [NIEWERYFIKOWANE]`.
+1. **Bootstrap `shared`** — przed pierwszym `view shared/...`, gdy host ma powłokę:
+   ```bash
+   for d in /mnt/skills/*/shared /mnt/skills/*/*:shared "$HOME"/.claude/plugins/cache/*/shared/*; do
+     [ -f "$d/SKILL.md" ] && printf '%s\t%s\n' "$(sed -n 's/^version: *"\{0,1\}\([0-9.]*\).*/\1/p' "$d/SKILL.md" | head -n 1)" "$d"
+   done | sort -t "$(printf '\t')" -k1,1Vr
+   ```
+   Pierwsza pozycja = `shared` na tę sesję. Bez powłoki — wylistuj te katalogi
+   narzędziem odczytu i porównaj `version:`.
+2. Z wybranej kopii `view shared/UNIVERSAL-RUNTIME-ADAPTER.md` i stosuj **§1A
+   RESOLVER-SKILLI** (R-1…R-5) do każdego kolejnego skilla: najwyższa wersja, przy
+   remisie kopia z pluginu, jedna kopia na skill przez całą sesję, zakaz łączenia plików
+   z dwóch kopii.
+3. Dwie kopie o różnych wersjach → `⚠️ DUPLIKAT SKILLA` w KROKU 3A i jedno zdanie dla
+   użytkownika na sesję: starą instalację należy usunąć.
+4. Brak kopii albo ponowny błąd odczytu → `⛔ TRYB ZDEGRADOWANY — zasoby skilla
+   niedostępne`; podaj zasób, sprawdzone lokalizacje i błąd, a każdą treść prawną
+   oznacz `⚠️ [NIEWERYFIKOWANE]`.
 
-Zapamiętaj działającą formę na sesję. Nazwa skilla w odwołaniu musi występować
+Zapamiętaj mapę `skill → katalog` na sesję. Nazwa skilla w odwołaniu musi występować
 w `dependencies.requires`; w przeciwnym razie zgłoś błąd ścieżki.
 
 ---
@@ -239,6 +271,7 @@ KROK 3A → [ŚLAD ROUTINGU — OBOWIĄZKOWY]
           PROFIL: [PEŁNY / LEKKI] — rdzeń R-1…R-5: [TAK]
           ODROCZONE: [zasób — wyzwalacz, który jeszcze nie padł / BRAK]
           WERSJA ROUTERA: [numer z YAML frontmatter tego pliku]
+          RESOLVER: shared → [katalog] (v[wersja]); DUPLIKATY: [BRAK / skill v1 i v2]
           ```
           ⛔ Gdy `ROUTER-WCZYTANY: NIE` dla PRIMARY (np. z powodu braku
           dostępu do narzędzi plikowych w danym środowisku) — poprzedź

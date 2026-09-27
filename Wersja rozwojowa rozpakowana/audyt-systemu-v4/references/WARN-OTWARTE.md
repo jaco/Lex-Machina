@@ -29,6 +29,12 @@
 > git repozytorium `michaleiatrak-star/lex-machina`, zweryfikowane funkcjonalnie — patrz
 > `AUDIT-JOURNAL.md`, AUDYT-2026-09-26d) usunięta z tej tablicy i z tabeli sekcyjnej niżej.
 
+> **F-207 ZAMKNIĘTA 2026-09-27d** — wydanie AUDYT-2026-09-26 utracone w 8 skillach (żadna gałąź
+> repozytorium nie zawierała tych wersji). Jedyna zmiana w tych skillach — wywołanie
+> `shared/MOD-WEJSCIE-DOKUMENTU.md` (F-200) — odtworzona: router w 3.57 (AUDYT-2026-09-27c),
+> pozostałe 7 w AUDYT-2026-09-27d, na nowych numerach (numery z dziennika nie użyte ponownie).
+> T35 PASS, T12 bez rozbieżności. Szczegóły: `AUDIT-JOURNAL.md`, AUDYT-2026-09-27d.
+
 > **F-189 ZAMKNIĘTA 2026-09-27b** — mechanizm nadpisań USTALONY: użytkownik potwierdził wprost,
 > że pracuje z wielu równoległych sesji/urządzeń jednocześnie push'ujących do tego samego repo
 > bez wymuszonego `pull`/`rebase` przed push — dokładnie klasa przyczyny, na którą wskazywał

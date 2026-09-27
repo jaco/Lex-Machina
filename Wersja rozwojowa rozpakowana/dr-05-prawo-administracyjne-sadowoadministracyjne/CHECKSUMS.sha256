@@ -1,7 +1,8 @@
+337c4eba0e6f54939566190d728ead50944a2343708f06643aceae3971ced687  ./.claude-plugin/plugin.json
 d44ae03b5818f12408a185f6189e5b044a83d0186353093b2119cd377a0339c2  ./MAPA-AKTOW.md
 346b51beaec59e5775c6a634a8390cfb0d55d01ee64027be16d54f2f4598d82e  ./MAPA-POKRYCIA.md
 a808237feda76fe62f698fa05077021474124d22b033504d5c34a649534077fd  ./PORTABILITY-MANIFEST.md
-81cb9282bdfa9186547b928ce8218eb6a8bbc0fa55ff45a49e2351c6e8224b2c  ./SKILL.md
+2857bd1bca09b5040cb8824b754a93e6a8a9482fc884ba99da73fab00b6e7a9f  ./SKILL.md
 baecf8aed4d2ca051e8212f1e45ad5dc19ad072d16f130d24009bd3e8404214b  ./agents/openai.yaml
 d80a4c3e0fd2efa7af88433a53b25a92c78a644175c6669dd78fee50fb53acf6  ./assets/icon.svg
 a4440cd21b5b3b68d8b64601f5c5434a4f9e1b4751dd49412e1e124f086a2120  ./modules/kpa-tryby-nadzwyczajne/czesc-01-tryby-nadzwyczajne.md
@@ -35,4 +36,4 @@ ec38358ff5b4a97da77e8626b92f63f9d79acab1854ab55973b9329902a3b861  ./modules/mod-
 0a4f7d990649346529a549a9532ca5ab40c1576c4d4c8ac936ba67af1a40f52e  ./modules/mod-ustawa-sygnalisci.md
 b06340e18a2ab4ee4dc8d92b5baa2f634ba53799f9e115ac31cd5e8636bf8ce3  ./modules/mod-ustawa-wojewoda-administracja-rzadowa.md
 603bd4d238a8b56d93b2c7651fcb7cc1548c6020d3fab44cc01c62ad66592deb  ./modules/mod-ustawa-zaskarzanie-decyzji-wlasnosci.md
-1fb95c59ff6365c2ac8bd03054a69dda1234fca4155930c213e4f0a60c2851c0  ./references/CHANGELOG.md
+16c06790ab68edb340ac3841dba98e02a2009cf27fa1c8ae211ff47f5b62cbdb  ./references/CHANGELOG.md

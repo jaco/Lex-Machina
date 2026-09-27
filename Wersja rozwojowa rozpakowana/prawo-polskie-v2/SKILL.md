@@ -1,12 +1,16 @@
 ---
 name: prawo-polskie-v2
-version: "6.30"
+version: "6.31"
 type: domain-router
 status: production
 compatibility: "live_web_lookup, cross_skill_file_read"
 description: "Fasada routingu prawa polskiego: wybiera jeden z DR-01–DR-16 i przekazuje sprawę do właściwego skilla dziedzinowego; nie zawiera treści prawa materialnego."
+dependencies:
+  requires:
+    - shared
+  # 2026-09-27e: jawna zależność (każdy skill systemu korzysta z `shared`); pole czytane przy imporcie z marketplace
 changelog: |
-  Wersja bieżąca: 6.30 (2026-09-23, AUDYT-2026-09-23b): kanon E-1…E-5 — ISAP → ELI w zasadach workflow i sekcji Weryfikacja; ROUTING-MAP: instrukcje „weryfikuj w ISAP” → ELI.
+  Wersja bieżąca: 6.31 (2026-09-27e, AUDYT-2026-09-27e): jawny manifest `.claude-plugin/plugin.json` oraz `dependencies.requires: [shared]` we frontmatterze — import z marketplace w claude.ai. Treść skilla bez zmian.
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 

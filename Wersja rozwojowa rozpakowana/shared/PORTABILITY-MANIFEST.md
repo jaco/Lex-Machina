@@ -1,7 +1,7 @@
 # Portability manifest — shared
 
 - Source baseline: `e35599cf505b47d061e0ddca608c009feb4035bc`
-- Release: **3.84 (2026-09-26d, F-206)** — pola „Release” i „Current files” zaktualizowane w tym wydaniu
+- Release: **3.86 (2026-09-27e, AUDYT-2026-09-27e)** — dodany `.claude-plugin/plugin.json` (193 pliki z CHECKSUMS; limit wydania 200)
 - Current files in complete shared package: **192** (+16 vs 3.82's 176: 8 narzędzi `tools/*.py` +
   `tools/przyklad-adapter-normalizujacy.md` + 4 fixture'y `tools/przyklady/` +
   `tools/mcp-servers/mcp-servers-examples.zip` — wszystkie przywrócone bajt-w-bajt z historii git
