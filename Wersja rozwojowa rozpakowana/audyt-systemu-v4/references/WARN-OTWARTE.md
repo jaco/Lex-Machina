@@ -1,6 +1,6 @@
 # WARN-OTWARTE — rejestr żywy otwartych flag audytowych
 
-**Stan:** 2026-09-27b (AUDYT-2026-09-27b: F-189 ZAMKNIĘTA, opis w dzienniku; wcześniej tego samego dnia AUDYT-2026-09-27 zamknęła F-205; wcześniej AUDYT-2026-09-26d zamknęła F-206, AUDYT-2026-09-26c zamknęła F-203(a), a AUDYT-2026-09-26b zamknęła F-198 i F-204; otwarte pozostają F-167 (adnotacja: materiał źródłowy niedostępny — patrz niżej), F-197, F-203(b)). Ten plik zawiera wyłącznie zakres pozostający do wykonania. Historia zamknięć i napraw znajduje się w `AUDIT-JOURNAL.md` / `CHANGELOG.md`.
+**Stan:** 2026-09-27g (AUDYT-2026-09-27g: ⛔ korekta własnego błędu w F-208 — pozycje Dz.U. okazały się prawdziwe, flaga przeformułowana na niekompletność list; F-8 zmierzona realnym protokołem MCP; naprawione wykrywanie MCP w shared 3.87, które nie mogło działać. Wcześniej 2026-09-27f (AUDYT-2026-09-27f: F-167 — bariera materiałowa ustała, mechanizm uniwersalny zbudowany, pilot zmierzony [Δ=+2,0 pkt na korzyść ramienia z bramkami, ocena O-2, n=2/ramię]; flaga NIE zamknięta — brak oceny O-1 i konieczna decyzja o zmianie kryterium. Nowe: **F-208** (konfabulacja pozycji Dz.U.), **F-209** (luki pokrycia: art. 483 KSH, tajemnica obrończa KPK). Wcześniej: AUDYT-2026-09-27e manifest pluginu, -27d F-207, -27c RESOLVER, -27b F-189, -27 F-205). Ten plik zawiera wyłącznie zakres pozostający do wykonania. Historia zamknięć i napraw znajduje się w `AUDIT-JOURNAL.md` / `CHANGELOG.md`.
 
 > **Przegląd rejestru 2026-09-23 (ZASADA 10).** Z pliku usunięto 25 bloków flag zamkniętych i wpisów nieaktualnych; treść przeniesiona w całości do `AUDIT-JOURNAL.md`, wpis **AUDYT-2026-09-23**. Rejestr skrócony z 665 do 371 linii. Nic nie zostało skasowane bez przeniesienia.
 
@@ -8,11 +8,11 @@
 
 | Kategoria | Liczba | Pozycje |
 |---|---:|---|
-| Wykonalne sesją audytową | 1 | F-167 (⛔ materiał źródłowy niedostępny — patrz adnotacja) |
+| Wykonalne sesją audytową | 3 | F-167 (aparatura gotowa, pilot wykonany — brak oceny O-1), **F-208**, **F-209** |
 | Reaktywne | 1 | F-5 |
 | Zależne od środowiska/dewelopera | 18 | **F-197**, F-203(b), **F-194** (tylko CBOSA), F-8, F-9, F-11, F-94, F-113, F-133, F-137, F-143, F-144, **F-157b**, F-158(c), F-171, **F-183a**, **F-184**, **F-185** |
 | Odnotowane bez działania | 1 | O-8 (ograniczenie strukturalne aparatu) |
-| **Razem** | **21** | — |
+| **Razem** | **23** | — |
 
 > **F-198 ZAMKNIĘTA 2026-09-26b** (wariant adnotacji — patrz `AUDIT-JOURNAL.md`,
 > AUDYT-2026-09-26b §2) i **F-204 ZAMKNIĘTA 2026-09-26b** (`shared/tools/adapter_krs_vat.py`
@@ -45,14 +45,58 @@
 > mechanizm", które nie żądało dowodu per-incydent. Rekomendacja zapisana w dzienniku, powiązana
 > z F-197 (CI na `main`). Szczegóły: `AUDIT-JOURNAL.md`, AUDYT-2026-09-27b.
 
-> **F-167 — POZOSTAJE OTWARTA, z adnotacją 2026-09-27b.** Sprawdzone tym razem (grep całego
-> `/mnt/skills/plugins`): tekst kazusów testowych K-01–K-07 (stany faktyczne, np. NEXCA/
-> Alekostrii dla K-02, Protokół z Nagoi dla K-07) NIE istnieje w ŻADNYM pliku skilla — pochodził
-> z arkusza uploadowanego w sesji sprzed tygodni (`Arkusz_odpowiedzi_sonnet_bez_skili.docx`),
-> nieobecnego w tym środowisku. Użytkownik zapytany wprost — wybrał zostawić flagę otwartą
-> zamiast (a) załączenia oryginału, (b) budowy nowego, niewalidowanego korpusu zastępczego.
-> **Dla przyszłej sesji: nie powtarzaj wyszukiwania od zera — materiał wymaga załącznika od
-> użytkownika, nie leży w repozytorium.**
+> **F-167 — OTWARTA, STATUS ZMIENIONY 2026-09-27f: z „zablokowana" na „aparatura gotowa,
+> ocena O-1 do wykonania".** Materiał dostarczony przez użytkownika (14 kazusów). Zbudowano
+> mechanizm uniwersalny: `REJESTR-BRAMEK-POMIAR.json` (bramki jako dane, B1–B5 + CN + REM),
+> `scripts/build_ramie_kontrolne.py` (jedna implementacja, kontrola resztkowa nazw krótkich),
+> `PLAN-POMIARU-BRAMEK-UNIWERSALNY.md`, `REJESTR-KORPUSU-POMIAROWEGO.md`. Pilot T1 na PL-04
+> i PL-06: **Δ = +3 i +1 pkt** na korzyść ramienia z bramkami (średnio +2,0/16), ocena **O-2**.
+>
+> ⛔ **Do zamknięcia brakuje wyłącznie oceny O-1** — człowiek ślepy na ramię, ≥5 przebiegów
+> na ramię, kazusy ze zbioru odłożonego (PL-01, PL-02, PL-03, PL-05, PL-07). Budżet po stronie
+> użytkownika: ok. 2–3 h oceny.
+>
+> ⛔ **KRYTERIUM WYMAGA ZMIANY — DECYZJA UŻYTKOWNIKA.** Literalne kryterium („pełny przebieg
+> na K-02 i K-07") jest niewykonalne czysto: K-02 jest skażony przez `MOD-CN-GATE.md` §CN-2
+> (a K-01/K-02/K-06 dodatkowo przez `MIEDZYNARODOWE-GATES.md` §(a)(b)(c)), a K-07 nie ma
+> przeglądu skażenia. Część międzynarodowa korpusu ma też nierozstrzygnięty status praw
+> autorskich (adaptacje problemów konkursowych). **Propozycja nowego kryterium:** ≥5 przebiegów
+> na ramię w komórce T1 lub T2, na kazusach PL ze zbioru odłożonego, ocena O-1, wynik (także
+> negatywny) w dzienniku. Zmiana kryterium przez sesję, która ma je spełnić, byłaby uznaniowym
+> zamknięciem (punkt 5 listy niespójności) — dlatego czeka na zgodę, a nie jest wpisana jako fakt.
+
+> **F-208 (2026-09-27f, ZAWĘŻONA I PRZEFORMUŁOWANA 2026-09-27g) — niekompletne listy
+> nowelizacji podawane z treści modułu bez pobrania.**
+>
+> ⛔ **KOREKTA WŁASNEGO BŁĘDU.** Pierwotne brzmienie tej flagi (wydanie 6.136) głosiło
+> „konfabulacja numeryczna pozycji Dz.U." i opierało się na wniosku oceniającego
+> („co najmniej jedna lista jest zmyślona"), którego **nie zmierzyłem przed zapisaniem**.
+> Pomiar wykonany 2026-09-27g przez ELI: **wszystkie** kwestionowane pozycje istnieją
+> i są prawdziwe — DU/2025/633 (t.j. KKS), DU/2025/644, DU/2025/775, DU/2025/383,
+> DU/2026/347, DU/2026/846, DU/2026/901. Co więcej, lista „Akty zmieniające" dla KKS
+> potwierdza, że 347, 846 i 901 **faktycznie nowelizują KKS**, a data 1.10.2026 podana
+> w przebiegu jest zgodna z ELI. Zapisanie niezmierzonego wniosku jako ustalenia to
+> klasa błędu F-151/F-162/F-164 („orzeczenie bez pomiaru") — popełniona w rejestrze,
+> który ma ją wykrywać.
+>
+> **Co pozostaje prawdziwym ustaleniem:** listy są **NIEKOMPLETNE**. ELI podaje dla KKS
+> cztery nowelizacje ogłoszone w 2026 r. (DU/2026/347, /421, /846, /901); jeden przebieg
+> podał trzy, drugi jedną — **oba pominęły DU/2026/421**. Obie listy pochodziły z treści
+> modułu, nie z pobrania. Rozbieżność między przebiegami tej samej biblioteki dowodzi,
+> że taka lista nie jest źródłem prawdy, nawet gdy każda pozycja z osobna jest prawdziwa.
+>
+> **Zakres:** przegląd, które moduły podają listy nowelizacji/pozycje Dz.U. inline;
+> rozstrzygnięcie, czy mają je podawać, czy odsyłać do pobrania (kandydat: reguła
+> „lista nowelizacji wyłącznie z ELI w tej turze, nigdy z treści modułu").
+> **Kryterium zamknięcia:** reguła zapisana w `shared` + kontrola automatyczna
+> (kandydat na T39) + dwa przebiegi na tym samym akcie bez rozbieżności listy.
+
+> **F-209 (2026-09-27f, OTWARTA) — luki pokrycia ujawnione przebiegiem na PL-06.**
+> (a) `dr-02` pokrywa odpowiedzialność zarządu wyłącznie dla sp. z o.o. (art. 299 KSH) —
+> brak modułu dla członka zarządu S.A. (art. 483 KSH); (b) brak pokrycia jednostek KPK
+> o zabezpieczeniu materiałów objętych tajemnicą obrończą/adwokacką. System sam oznaczył oba
+> obszary jako CIENKA w REM-4. Kryterium zamknięcia: jednostki ✅ [VER: ELI, data], moduły
+> ≤1000 linii, T28 bez nowych FAIL.
 
 > **F-205 ZAMKNIĘTA 2026-09-27** (wszystkie 3 jednostki FAZY 3E z U-14 zweryfikowane fresh
 > RZĄD 1: dr-11 `mod-AI-Act-framework.md` — art. 25, art. 6 ust. 3, zał. III pełna poprawiona lista,
@@ -305,8 +349,9 @@
 
 | Flaga | Priorytet | Pozostały zakres | Kryterium zamknięcia |
 |---|---|---|---|
-| F-167 | niski | Pełny przebieg (format docelowy, 2500 słów/kazus) na K-02 i K-07 + dobór i przebieg na kazusie kontrolnym nieobecnym w treści bramek (K-01/K-03/K-04/K-05), oceniane przez trzeciego, niezależnego oceniającego. ⛔ **Zablokowane 2026-09-27b:** treść kazusów (stany faktyczne) nie istnieje w repozytorium — pochodziła z arkusza uploadowanego w sesji sprzed tygodni, nieobecnego tu. Bez tego pliku niewykonalne uczciwie; użytkownik zapytany, wybrał zostawić otwartą zamiast dostarczyć plik lub zaakceptować zastępczy korpus. | Załącznik z treścią kazusów DOSTARCZONY przez użytkownika → pełny przebieg + ocena przez sesję/agenta bez wiedzy o teście → wynik (pozytywny lub negatywny) zapisany w dzienniku. |
-
+| F-167 | średni | Ocena O-1 (człowiek ślepy na ramię), ≥5 przebiegów na ramię, kazusy ze zbioru odłożonego (PL-01/02/03/05/07). Aparatura i pilot — gotowe (AUDYT-2026-09-27f). | Wynik O-1 (także negatywny) w dzienniku + zgoda użytkownika na zmienione kryterium. |
+| F-208 | średni | Przegląd modułów podających listy nowelizacji / pozycje Dz.U. inline; reguła „lista nowelizacji wyłącznie z ELI w tej turze"; kontrola automatyczna. ⚠️ Przeformułowana 2026-09-27g po pomiarze — NIE konfabulacja (pozycje są prawdziwe), tylko niekompletność. | Reguła + test + dwa przebiegi na tym samym akcie bez rozbieżności listy. |
+| F-209 | średni | `dr-02`: odpowiedzialność członka zarządu S.A. (art. 483 KSH); KPK: zabezpieczenie materiałów objętych tajemnicą obrończą. | Każda jednostka ✅ [VER: ELI, data]; moduły ≤1000 linii; T28 bez nowych FAIL. |
 > F-205 usunięta z tej tabeli 2026-09-27 (ZAMKNIĘTA — patrz callout wyżej); F-189 usunięta
 > 2026-09-27b (ZAMKNIĘTA — patrz callout wyżej). F-167 ma teraz właściwy wiersz (dotąd
 > nieobecny mimo że tablica sterująca ją wykazywała — jedna z niespójności rejestru

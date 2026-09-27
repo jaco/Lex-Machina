@@ -68322,3 +68322,490 @@ T26 32/32 (ręcznie). T38 PASS z `marketplace.json` z `1552683f`. `claude plugin
 **Po wgraniu w claude.ai:** usunąć marketplace i dodać ponownie (albo „Check for updates”), potem
 sprawdzić liczbę pluginów Lex-Machina w Discover. Wynik ≠ 32 → hipoteza z § 2 obalona; zapisać
 liczbę i nazwy jako materiał do kolejnej diagnozy.
+
+---
+
+## AUDYT-2026-09-27f — F-167: mechanizm uniwersalny + pilot zmierzony; skażenie K-01/K-02/K-06; kontrola repo marketplace
+
+**Kontekst.** Użytkownik dostarczył brakujący materiał (`Baza_kazusow_wieloaspektowych.docx`,
+14 kazusów) — blokada odnotowana w AUDYT-2026-09-27b ustała. Polecenie: zbudować
+**mechanizm uniwersalny**, nie rozwiązanie pod jeden kazus, po uprzedniej analizie
+korzyści i ryzyk. Analiza przedstawiona i zaakceptowana (wariant „mechanizm + pomiar
+na nieskażonych kazusach PL").
+
+### 1. ⛔ SKAŻENIE — ustalenie, które unieważnia literalne kryterium F-167
+
+Kryterium żądało pełnego przebiegu na **K-02 i K-07**. K-02 jest dziś spalony:
+
+| K-02, stan faktyczny | `shared/MOD-CN-GATE.md` 2.0, §CN-2 wzorzec 3 |
+|---|---|
+| spółka „w całości należąca", „zarząd obsadzany przez organy państwowe", „projekty wymagają zgody politycznej" | „powiązany … własnością, obsadą organów, wymogiem zgody na decyzje … samo to powiązanie nie przesądza … czy faktycznie kierowała **tym konkretnym zachowaniem**, a nie tylko zatwierdziła decyzję" |
+
+Trzy z czterech elementów stanu faktycznego wyliczone jako triada, wniosek
+rozstrzygający podany wprost. To ten sam test, którym AUDYT-2026-09-05d unieważnił K-06.
+
+⚠️ **Chronologia, żeby nie zarzucać nieprawdy poprzedniej sesji:** przebieg na K-02 był
+2026-09-05**d**, a ten fragment powstał 2026-09-05**e** — przy *naprawie* skażenia (F-168).
+Tamten wynik mógł być czysty; **powtórzenie**, którego żąda F-167, czyste już nie będzie.
+
+⛔ **Skażenie jest szersze niż CN-GATE.** `shared/MIEDZYNARODOWE-GATES.md` §(a)(b)(c)
+to lista kontrolna MG, której trzy punkty odpowiadają jeden-do-jednego ustaleniom
+K-01 (zlanie warstw jurysdykcja/prawo właściwe/wykonalność), K-02 (atrybucja per
+podmiot) i K-06 (założony reżim odpowiedzialności) — ten sam zestaw wymienia
+`dr-14/SKILL.md`. F-168 usunęła stamtąd nazwy traktatów i zostawiła mapowanie
+„wzorzec błędu → właściwe podejście", które dla tych trzech spraw JEST
+rozstrzygnięciem. **Cała część międzynarodowa korpusu jest spalona dla CN/REM.**
+
+**Reguła ogólna (do stosowania przy każdej przyszłej bramce):** bramka dość
+konkretna, by zmienić zachowanie modelu, jest dość konkretna, by skazić każdy kazus,
+którego sedno opisuje. Nie naprawia się tego lepszym przepisaniem bramki — tylko
+zbiorem odłożonym. Zapisane w `PLAN-POMIARU-BRAMEK-UNIWERSALNY.md` §4.
+
+### 2. MECHANIZM — co powstało
+
+| Artefakt | Rola |
+|---|---|
+| `references/REJESTR-BRAMEK-POMIAR.json` 1.0 | mapa wycięć jako **dane**: B1–B5 (przeniesione z kodu) + **CN** i **REM** (nowe). Dodanie bramki = wpis, nie edycja kodu |
+| `scripts/build_ramie_kontrolne.py` | jedna implementacja; 4 typy operacji (`usun_pliki`, `kotwice`, `zakresy`, ⭐`zamiany`), sprzątanie odwołań, ⭐kontrola resztkowa, `ci_check_shared` |
+| `scripts/build_ramie_kontrolne_f113.py` | **cienka nakładka** (bez własnej logiki), żeby PROTOKOL-WYKONAWCZY-F113 §1 i §5 pozostały dosłownie wykonalne. Druga kopia logiki byłaby klasą błędu F-115 |
+| `references/PLAN-POMIARU-BRAMEK-UNIWERSALNY.md` | projekt badania dla dowolnej bramki: co mierzy, granica „logika bramki vs zdolność", reguła zewnętrzności korpusu, stopnie oceniającego O-1/O-2/O-3, rubryka M1–M8, karta przebiegu, progi |
+| `references/REJESTR-KORPUSU-POMIAROWEGO.md` | 14 kazusów: kod, dziedzina, linie, SHA-256, status skażenia, status IP — **bez treści** |
+
+### 3. ⛔ WADA APARATURY WYKRYTA PRZY PIERWSZEJ BUDOWIE (dotyczy też B1–B5)
+
+Sprzątanie odwołań usuwa linie z **nazwą pliku** bramki. Po pełnym, poprawnym
+sprzątaniu CN/REM w ramieniu A **zostało 11 plików** z nazwami krótkimi
+(„CN-GATE", „REM-3"), w tym dwa bloki odtwarzające pełną treść CN-2 i CN-3.
+`ci_check_shared` tego nie widzi — zgłasza zerwane ścieżki, nie zachowaną logikę.
+
+Ramię A z takim ogonem **zachowuje bramkę**; pomiar wykazałby różnicę mniejszą niż
+rzeczywista i nikt by się nie dowiedział. Naprawa: pole `nazwy_krotkie` + kontrola
+resztkowa przerywająca budowę (nie usuwa sama — nie odróżni wzmianki od treści).
+Doprowadzenie do zera wymagało **13 zamian dla REM i 10 dla CN**, każda zapisana
+w rejestrze.
+
+⚠️ **Skutek dla F-113:** każde ramię A dla B1–B5 zbudowane starym skryptem mogło
+mieć tę wadę. `nazwy_krotkie` dla B1–B5 są dziś **puste** — do uzupełnienia przed
+wykonaniem pomiaru F-113.
+
+### 4. POMIAR PILOTAŻOWY — wykonany, wynik kierunkowy
+
+**Projekt:** komórka T1 (pliki, bez sieci), 2 kazusy × 2 ramiona = 4 przebiegi.
+Prompt identyczny co do słowa; jedyna różnica — korzeń drzewa skilli.
+Kazusy **PL-04** i **PL-06** (nieskażone, autorskie, bez obciążeń IP).
+Drzewo: stan 2026-09-27b (shared 3.84 / router 3.56 / audyt 6.132).
+Ramię A: `--bramki CN,REM`, kontrola resztkowa czysta, `ci_check_shared` OK.
+Ocena: **stopień O-2** — agent bez wiedzy o bramkach, ramionach i celu badania;
+rubryka M1–M8; etykiety wariantów losowane **osobno dla każdej sprawy**;
+mapowanie odsłonięte dopiero po zamknięciu oceny.
+
+| Sprawa | Ramię A (bez bramek) | Ramię B (z bramkami) | Δ |
+|---|---:|---:|---:|
+| PL-04 | 13/16 | 16/16 | **+3** |
+| PL-06 | 15/16 | 16/16 | **+1** |
+| **średnia** | **14,0** | **16,0** | **+2,0** |
+
+⭐ **Najmocniejszy element wyniku — ślepota zadziałała.** Oceniający samodzielnie
+wskazał zjawisko („rozbudowany aparat kontroli zakresu: tabela zakresowa +
+deklaracja pokrycia + rejestr oddaleń") w **obu** przebiegach ramienia B i uznał
+różnicę za **przypadkową**, bo wystąpiła „krzyżowo względem oznaczeń X/Y".
+Po odsłonięciu: 2/2 przypisane do ramienia z bramkami. Oceniający nie mógł tego
+wiedzieć — i właśnie dlatego jego obserwacja coś znaczy.
+
+Różnice merytoryczne wskazane przez oceniającego (cytaty z jego raportu):
+- ramię A w PL-04 „powołuje art. 430 KC w tezie wstępnej bez sprawdzenia
+  podwładności" — ramię B wpisuje „⬛ forma zatrudnienia lekarza nieznana";
+- ramię A zostawia reżim produktowy jako „nierozstrzygnięty", ramię B odrzuca go
+  i rozwija zamiennik na tę samą głębokość (to jest wzorzec REM-1);
+- ramię A kończy na „nierozstrzygalne", ramię B daje rozstrzygnięcie warunkowe
+  związane z jednym konkretnym faktem i wskazuje dowód, który go przesądza.
+
+⛔ **Czego ten wynik NIE dowodzi.** n=2 na ramię — poniżej progu, na którym
+PROTOKOL F-113 §2 w ogóle dopuszcza mówienie o istotności. Ocena stopnia O-2, nie
+O-1, więc **kryterium zamknięcia F-167 nie jest spełnione**. Jeden operator, jeden
+model, jedna komórka. Zdanie „udowodniono, że bramki działają" byłoby
+nadinterpretacją klasy, która unieważniła TEST1–3.
+
+### 5. ⚠️ WYNIK UBOCZNY — bramki nie chronią przed konfabulacją numeryczną
+
+Oceniający zaraportował zmyślenia i pozycje ryzykowne w **obu** ramionach, przy
+czym w ramieniu B **więcej** pozycji numerycznych: cztery pozycje t.j. podane
+„jako dane modułu" (KKS 2025/633, AML 2025/644, VAT 2025/775, KK 2025/383) oraz
+rozbieżna lista nowelizacji KKS między dwoma przebiegami tej samej biblioteki
+(jeden podaje poz. 846, drugi 347/846/901) — **co najmniej jedna z tych list jest
+nieprawdziwa**. Oba przebiegi biegły w T1, więc HARD GATE był z definicji
+niewykonalny i wszystko nosiło ⚠️ NIEWERYFIKOWANE — mimo to numery się pojawiły.
+
+To jest osobny problem od mierzonego i **nie wynika z bramek** — wynika z tego, że
+moduły zawierają pozycje Dz.U., które model powtarza bez pobrania. → nowa flaga **F-208**.
+
+### 6. ⚠️ LUKI POKRYCIA ujawnione przy okazji przebiegów → nowa flaga F-209
+
+Przebieg na PL-06 wykazał: `dr-02` pokrywa odpowiedzialność zarządu **wyłącznie**
+dla sp. z o.o. (art. 299 KSH), brak modułu dla członka zarządu S.A. (art. 483 KSH);
+brak pokrycia jednostek KPK o zabezpieczeniu materiałów objętych tajemnicą
+obrończą/adwokacką. Oba obszary system sam oznaczył jako CIENKA.
+
+### 7. KONTROLA REPOZYTORIUM I MARKETPLACE (na żądanie użytkownika)
+
+Stan `origin/main` `5d38122`. Kontrola automatyczna:
+
+| Kontrola | Wynik |
+|---|---|
+| `plugins[].source` → istniejący katalog | ✅ 32/32 |
+| `.claude-plugin/plugin.json` w każdym katalogu | ✅ 32/32 |
+| `plugin.json.name` = nazwa w marketplace | ✅ 32/32 |
+| `plugin.json.version` = `version:` z SKILL.md | ✅ 32/32 |
+| katalogi-sieroty poza marketplace | ✅ brak |
+| zagnieżdżone duplikaty `<skill>/<skill>/` | ✅ brak |
+| `claude plugin validate` (marketplace i plugin) | ✅ PASS |
+| `dependencies.requires` we frontmatterze | ✅ 31/32 (bez `shared` — poprawnie) |
+
+Ustalenia do decyzji użytkownika (nie flagi):
+1. ⚠️ **Drzewo stabilne nie ma ani jednego `plugin.json`** (0/32) i jest 5–9 wydań
+   za rozwojowym (shared 3.81 vs 3.86, audyt 6.126 vs 6.135, analizator 1.39 vs 1.43).
+   Promocja albo przestawienie marketplace na tę gałąź = instalacja bez manifestów
+   i cofnięcie treści.
+2. ⚠️ `repository` w 32 manifestach: `…/Lex-Machina`, rzeczywisty remote
+   `…/lex-machina`. GitHub przekierowuje, więc działa — niespójność kosmetyczna.
+3. ⚠️ `dependencies` w **wpisach marketplace.json** nie należy do udokumentowanego
+   schematu wpisu (walidator przechodzi — ignoruje nadmiarowe pola). Mechanizmem,
+   który faktycznie działa, jest `dependencies` we frontmatterze SKILL.md i manifest
+   pluginu. Nie zweryfikowałem zachowania hosta — nie twierdzę, że pole szkodzi.
+4. ⛔ **F-197 nadal otwarta i potwierdzona:** `f138-structural-audit.yml` ma
+   `pull_request` + `push` wyłącznie na gałąź `codex/f138-…`; **`main` bez bramki**.
+
+### 8. F-167 — STATUS ZMIENIONY, NIE ZAMKNIĘTA
+
+Bariera materiałowa ustała, aparatura istnieje, pilot wykonany. Do zamknięcia
+brakuje **wyłącznie** oceny stopnia O-1 (człowiek ślepy na ramię) na próbie
+≥5 na ramię, na kazusach ze zbioru odłożonego. To jest ta sama zmiana statusu,
+którą PROTOKOL-WYKONAWCZY dał F-113: z „brak narzędzia" na „narzędzie gotowe,
+pomiar do wykonania".
+
+⛔ **Kryterium zamknięcia wymaga zmiany** (K-02 spalony, K-07 niesprawdzony) —
+zmiana kryterium przez sesję, która ma je spełnić, to ryzyko uznaniowego
+zamknięcia (punkt 5 listy niespójności rejestru). **Decyzja należy do użytkownika**;
+propozycja zapisana w `WARN-OTWARTE.md`.
+
+### 9. WYDANIE (ZASADA 7)
+
+Baza: `audyt-systemu-v4` **6.135** z marketplace (nie wersja robocza tej sesji —
+sprawdzone, że wydania 6.133–6.135 nie zgubiły żadnej linii z AUDYT-2026-09-27
+i -27b: diff „tylko u mnie" = 0 dla wszystkich plików treściowych).
+6.135 → **6.136**; +4 pliki (rejestr bramek, uniwersalny builder, plan pomiaru,
+rejestr korpusu) — nakładka F-113 nadpisana. `CHECKSUMS.sha256` zregenerowany.
+
+**Otwarte po tej sesji:** F-167 (status zmieniony), **F-208** (konfabulacja
+numeryczna pozycji Dz.U.), **F-209** (luki pokrycia: art. 483 KSH, tajemnica
+obrończa w KPK), F-197, F-203(b) oraz pozycje środowiskowe. Kolejny wolny numer: **F-210**.
+
+---
+
+## AUDYT-2026-09-27g — korekta własnego błędu (F-208); F-8 zmierzona; wykrywanie MCP naprawione
+
+**Wyzwalacz:** pytanie użytkownika, czy wystarczy zainstalować serwer MCP i wskazać
+jego nazwę w skillach. Pytanie dotyka wprost dwóch otwartych flag — F-8 (realny
+konektor ELI/ISAP, weryfikacja protokołu) i F-94 (status rejestracji konektorów).
+
+### 1. ⛔ KOREKTA WŁASNEGO BŁĘDU Z WYDANIA 6.136 (F-208)
+
+W AUDYT-2026-09-27f zapisałem jako ustalenie zdanie oceniającego, że „co najmniej
+jedna lista nowelizacji jest zmyślona", i na tej podstawie otworzyłem F-208 pod
+nazwą „konfabulacja numeryczna pozycji Dz.U.". **Nie zmierzyłem tego przed
+zapisaniem.** Pomiar wykonany teraz:
+
+| Pozycja | Istnieje w ELI | Co to jest |
+|---|---|---|
+| DU/2025/633 | ✅ | obwieszczenie — t.j. KKS (potwierdzone też jako najnowszy t.j. w metadanych DU/1999/930) |
+| DU/2025/644, /775, /383 | ✅ | obwieszczenia (t.j.) |
+| DU/2026/347, /846, /901 | ✅ | ustawy nowelizujące; **wszystkie trzy figurują na liście „Akty zmieniające" KKS** |
+
+Data „zasadniczo od 1.10.2026" dla DU/2026/846 również zgadza się z ELI.
+**Żadna pozycja nie była zmyślona.** Zapisanie niezmierzonego wniosku jako
+ustalenia to klasa błędu F-151/F-162/F-164 — popełniona w rejestrze, którego
+zadaniem jest ją wykrywać. Flaga przeformułowana, nie skasowana, bo pod spodem
+leży prawdziwe ustalenie:
+
+**ELI podaje dla KKS CZTERY nowelizacje ogłoszone w 2026 r. — DU/2026/347, /421,
+/846, /901. Jeden przebieg podał trzy, drugi jedną; oba pominęły /421.** Obie listy
+pochodziły z treści modułu, nie z pobrania. Rozbieżność między dwoma przebiegami
+tej samej biblioteki dowodzi, że taka lista nie jest źródłem prawdy, choćby każda
+pozycja z osobna była prawdziwa. To jest zakres F-208 po zawężeniu.
+
+⚠️ **Wniosek metodyczny wykraczający poza tę flagę:** raport oceniającego w pomiarze
+jest **materiałem dowodowym, nie ustaleniem**. Jego twierdzenia o faktach
+zewnętrznych (istnienie aktu, poprawność numeru) podlegają temu samemu HARD GATE,
+co każde inne powołanie. Do dopisania w `PLAN-POMIARU-BRAMEK-UNIWERSALNY.md` przy
+najbliższej edycji: pole „ZMYŚLENIA" z rubryki M1–M8 raportuje **podejrzenia**,
+które audytor ma zweryfikować, zanim wejdą do rejestru.
+
+### 2. F-8 — konektor ELI/ISAP ZMIERZONY REALNYM PROTOKOŁEM
+
+`@matematicsolutions/mcp-isap` 1.3.0 (MIT, npm, `matematicsolutions/mcp-isap`).
+Uruchomiony przez `npx`, rozmowa po stdio, protokół MCP **2024-11-05**:
+
+```
+initialize  → serverInfo {name: mcp-isap, version: 1.3.0}, capabilities.tools
+tools/list  → search_acts (bez wymaganych), get_act (eli), get_act_text (eli)
+tools/call  → search_acts(title="Kodeks karny skarbowy", limit=5)
+              → 33 akty znalezione, 5 zwróconych, z ELI, pozycją Dz.U., typem,
+                statusem i datami — dane zgodne z niezależnym odczytem api.sejm.gov.pl
+```
+
+Źródło danych serwera to **api.sejm.gov.pl/eli** — ten sam publikator, który
+`HIERARCHIA-ZRODEL.md` traktuje jako RZĄD 1. Wynik konektora nie obniża więc rzędu
+źródła; nadal obowiązuje zasada „MCP identyfikuje akt, HARD GATE czyta treść".
+
+⛔ **Czego to NIE zamyka w F-8.** Zakres flagi to „wdrożyć realny konektor
+i zweryfikować protokół **w środowisku docelowym**". Zmierzyłem protokół w tym
+kontenerze, nie w portalu użytkownika. Pozostaje: osadzenie konektora tam, gdzie
+host go czyta, i przebieg kontrolny w tamtym środowisku.
+
+### 3. ⛔ WYKRYWANIE MCP NIE MOGŁO ZADZIAŁAĆ — naprawione w `shared` 3.87
+
+`shared/MCP-INTEGRACJA.md` KROK 1 kazał szukać narzędzi „jawnie nazwanych wg wzorca
+z `KONEKTORY-REKOMENDOWANE.md` (np. `isap_lookup`, `saos_search`, `cbosa_search`,
+`krs_lookup`, `eurlex_lookup`)". Zmierzone:
+
+1. `grep` po `KONEKTORY-REKOMENDOWANE.md`: **żadnej z tych nazw tam nie ma** —
+   odesłanie prowadziło do konwencji, której ten plik nigdy nie zawierał. Tabela
+   w tamtym pliku operuje kategoriami funkcjonalnymi, nie nazwami narzędzi.
+2. Narzędzia MCP nie nazywają się w ten sposób. Realna postać to
+   `mcp__<serwer>__<narzędzie>` — bezpośrednio obserwowalna w tej sesji
+   (`mcp__memory__memory_list`) i potwierdzona pomiarem serwera ISAP
+   (`search_acts`, nie `isap_lookup`).
+
+**Skutek, gdyby tego nie wykryto:** użytkownik instaluje konektor, a tryb MCP-FIRST
+nigdy się nie włącza; system pracuje trwale w FALLBACK-HARDGATE i nie sygnalizuje
+tego, bo z jego punktu widzenia „nie znaleziono pasującego konektora" jest
+poprawnym stanem. Bramka samoraportująca — rodzina F-119.
+
+**Naprawa (`shared` 3.86 → 3.87):** wykrywanie po KSZTAŁCIE nazwy i po ZDOLNOŚCI
+narzędzia, z jawnym zakazem zgadywania nazw własnych; tabela zmierzonego serwera
+ELI/ISAP jako przykład rozpoznawczy, nie kontrakt.
+
+### 4. GDZIE MUSI LEŻEĆ KONFIGURACJA — ustalenie dla F-94
+
+| Miejsce | Zasięg | Wędruje z instalacją pluginu |
+|---|---|---|
+| konektory w aplikacji (claude.ai / desktop) | konto | ❌ |
+| `.mcp.json` w katalogu projektu / `claude mcp add` | projekt | ❌ |
+| `.mcp.json` w katalogu pluginu albo `mcpServers` w `plugin.json` | każdy instalujący | ✅ |
+
+⚠️ **Stan repozytorium:** `.mcp.json` z `mcp-isap` leży w **korzeniu repozytorium**.
+Sprawdzone: żaden z 32 pluginów nie ma własnego `.mcp.json` ani klucza `mcpServers`.
+Konektor działa więc dla sesji otwieranych w sklonowanym repo, ale **nie instaluje
+się razem z pluginami z marketplace**. To nie jest wada — to konsekwencja miejsca,
+w którym plik leży; przeniesienie do pluginu `shared` jest decyzją dewelopera.
+Zapisane w `KONEKTORY-REKOMENDOWANE.md` (nowa sekcja).
+
+### 5. WYDANIE (ZASADA 7)
+
+`shared` 3.86 → **3.87** (192 pliki bez zmian; `MCP-INTEGRACJA.md`,
+`KONEKTORY-REKOMENDOWANE.md`, changelog, SKILL.md).
+`audyt-systemu-v4` 6.136 → **6.137** (korekta F-208, ten wpis, changelog, SKILL.md).
+`CHECKSUMS.sha256` zregenerowane w obu, `sha256sum -c` PASS.
+
+**Otwarte:** F-167 (czeka na ocenę O-1 użytkownika), F-208 (zawężona), F-209,
+F-8 (zawężona do środowiska docelowego), F-94, F-197, F-203(b) + pozycje
+środowiskowe. Kolejny wolny numer: **F-210**.
+
+---
+
+## AUDYT-2026-09-27h — cztery własne konektory MCP zbudowane i zmierzone; porównanie z `matematicsolutions`; F-8/F-94 domknięte pomiarowo
+
+**Wyzwalacz:** polecenie użytkownika — zbadać serwery MCP organizacji
+`matematicsolutions`, porównać z własnym stanem i przygotować konektory dla systemu,
+każdy w osobnej paczce gotowej do instalacji.
+
+### 1. PRZEGLĄD ORGANIZACJI
+
+59 repozytoriów, w tym ~50 serwerów MCP w Pythonie. ⚠️ Lista przez stronę HTML
+organizacji — API GitHuba jest w tym środowisku zawężone do skonfigurowanych
+repozytoriów (`sessions are bound to their configured repositories`).
+
+Istotne dla praktyki polskiej: `prawo-pl-mcp` (agregat: sądy, legislacja, KRS,
+interpretacje), `kio-orzeczenia-mcp`, `@matematicsolutions/mcp-isap` (npm, MIT,
+zweryfikowany protokołem w AUDYT-2026-09-27g), `legalize-mcp` (32 jurysdykcje),
+`awesome-matematic-skills-pl` (41 skilli — do osobnego porównania merytorycznego,
+nie MCP), `patron`. Pozostałe ~25 to `<kraj>-eli-mcp` dla obcych jurysdykcji.
+
+**Decyzja:** budowa własnych konektorów, nie fork. Podstawa: doktryna
+AUDYT-2026-09-26 („wyłącznie własnymi rozwiązaniami, co najwyżej inżynieria wsteczna
+API źródeł”); dodatkowo ich serwery są w Pythonie, więc w pluginie nie skorzystają
+z automatycznego `npm ci`, a MIT wymagałby noty i atrybucji w `NOTICE` (F-199).
+
+### 2. POMIAR KANAŁÓW przed budową (nie zgadywanie, co warto zrobić)
+
+| Kanał | Wynik | Wniosek |
+|---|---|---|
+| `api.sejm.gov.pl/eli` | 200 | ✅ konektor |
+| `www.saos.org.pl/api` (search + by-id) | 200 | ✅ konektor |
+| `api-krs.ms.gov.pl` OdpisAktualny | 200, 46 kB | ✅ konektor |
+| **`wl-api.mf.gov.pl`** (biała lista VAT) | **200** | ✅ konektor — patrz § 5 |
+| `api.nbp.pl` | 200 | pominięty (niska wartość prawna) |
+| `orzeczenia.uzp.gov.pl` (KIO) | 200, ale portal HTML | ⛔ brak API — wymaga parsera |
+| `dane.biznes.gov.pl/api/ceidg/v2` | **404** | ⛔ wymaga klucza albo innej ścieżki |
+| Cellar (EUR-Lex) | 400 przy `Accept: application/json` | kanał żyje, wymaga `application/xhtml+xml` |
+
+### 3. CO ZBUDOWANO — cztery pluginy, każdy w osobnej paczce
+
+| Plugin | Narzędzia | Rząd |
+|---|---|---|
+| `mcp-isap-eli` | `isap_lookup`, `isap_get_act`, `isap_get_text` | RZĄD 1 |
+| `mcp-saos` | `saos_search`, `saos_get_judgment` | RZĄD 2A |
+| `mcp-krs` | `krs_lookup` | RZĄD 1 |
+| `mcp-wl-vat` | `wl_check_nip`, `wl_check_rachunek` | RZĄD 1 |
+
+Każdy: własny kod na oficjalnym SDK, transport stdio, odpowiedź w kanonicznym
+schemacie `SCHEMAT-ODPOWIEDZI-MCP.md`, `.claude-plugin/plugin.json` + `.mcp.json`
+z `${CLAUDE_PLUGIN_ROOT}`, `package-lock.json` (żeby host wykonał `npm ci`),
+README z pomiarami, self-test protokołu.
+
+**Weryfikacja wydania:** każdy ZIP rozpakowany na czysto → `npm ci` → self-test
+na ŻYWYM API → `connect → listTools → callTool → close` + kontrola, że status należy
+do zamkniętego zbioru schematu. 4/4 PASS.
+
+⭐ Trzy rzeczy, których nie ma w konektorach z półki:
+1. `mcp-isap-eli` normalizuje status ELI na cztery wartości schematu, a
+   „akt posiada tekst jednolity" mapuje na **`tekst_jednolity_nieaktualny`** —
+   konektor sam sygnalizuje powoływanie pozycji pierwotnej przy istniejącym t.j.
+   (tryb awarii z F-155/O-12). Zmierzone brzmienia statusów ELI: „obowiązujący",
+   „akt posiada tekst jednolity", „wygaśnięcie aktu".
+2. `mcp-saos` ma wbudowaną regułę **V-SYG-0 (trzy próby)** i timeout 45 s, bo F-171
+   zmierzyła 5 z 8 wywołań bez odpowiedzi. Pierwszy przebieg self-testu padł na
+   timeouncie 15 s — wada wykryta pomiarem, nie przewidziana.
+3. `mcp-krs` zwraca `stan_z_dnia` z ostrzeżeniem: odpis pobrany 27.09.2026 miał stan
+   z **24.04.2026**. Odpis aktualny nie jest stanem na dziś.
+
+### 4. ⛔ DWA BŁĘDY WE WŁASNYM KODZIE, wykryte przed wydaniem
+
+1. `mcp-krs` zwracał `"[object Object] CZŁONEK ZARZĄDU"` — mapowanie zakładało
+   `nazwisko.nazwisko`, a zmierzony kształt to `nazwisko.nazwiskoICzlon` / `imiona.imie`.
+   Przy okazji ustalone: **publiczne API KRS maskuje dane osobowe** („K*******") —
+   dopisane do README, żeby nikt nie uznał tego za usterkę konektora.
+2. `mcp-isap-eli` przepuszczał surowy status ELI do pola schematu, czyli wypuszczał
+   `"akt posiada tekst jednolity"` tam, gdzie schemat dopuszcza cztery wartości.
+   Naprawione funkcją normalizującą; surowe brzmienie trafia do `status_zrodlowy`.
+
+Oba wykryte przez wypisanie FAKTYCZNEJ treści odpowiedzi, nie przez sam status
+`SELF-TEST OK` — self-test przechodził w obu przypadkach.
+
+### 5. ⭐ ZMIANA STANU KANAŁU — dotyczy F-157b i F-204
+
+`wl-api.mf.gov.pl` (biała lista VAT) **odpowiada HTTP 200** i zwraca status VAT,
+rachunki oraz `requestId`. Dotychczasowy zapis: F-157b — „nieosiągalna w ogóle,
+jedyna maszynowa weryfikacja rachunku kontrahenta"; F-204 — „zablokowana WAF-em
+Incapsula z tego środowiska, objaw zapisany”. Oba zapisy pozostają prawdziwe dla
+swoich sesji; **dziś kanał działa**. ⚠️ To pomiar z jednego dnia i jednego
+środowiska — fresh-probe obowiązkowy, zapis w F-157b NIE jest jeszcze zdejmowany.
+
+### 6. F-8 i F-94 — stan po tej sesji
+
+**F-8** („wdrożyć realny konektor MCP do ELI/ISAP i zweryfikować protokół”):
+konektor **zbudowany własny** i zweryfikowany protokołem end-to-end. Pozostaje
+wyłącznie osadzenie w środowisku docelowym — ⚠️ z ustaleniem z dokumentacji, że
+**serwery stdio nie działają na claude.ai**; do portalu konieczny transport HTTPS.
+To zawęża F-8 do decyzji o hostingu, nie do kodu.
+
+**F-94** („rozstrzygnąć rejestrację `KONEKTORY-REKOMENDOWANE.md`, status
+`shared/tools/mcp-servers/`”): rozstrzygnięte w części faktycznej — katalog
+`mcp-servers/` zawierał 7 przykładów, z których ISAP miał **błędny endpoint**
+(`/eli/acts/DU/search` → 404; naprawiony w `shared` 3.88). Cztery nowe konektory są
+produkcyjne, nie przykładowe. Pozostaje decyzja użytkownika, czy `mcp-servers/`
+w `shared` ma dalej istnieć jako zbiór przykładów obok pluginów produkcyjnych.
+
+### 7. WYDANIE
+
+Poza pakietami skilli dostarczono **cztery osobne paczki konektorów**:
+`mcp-isap-eli.zip`, `mcp-saos.zip`, `mcp-krs.zip`, `mcp-wl-vat.zip` — każda 7 plików,
+gotowa do rozpakowania w drzewie rozwojowym i dopisania do `marketplace.json`.
+`shared` 3.87 → **3.88**, `audyt-systemu-v4` 6.137 → **6.138**.
+
+**Otwarte:** F-167 (ocena O-1), F-208 (zawężona), F-209, F-8 (hosting HTTPS),
+F-94 (decyzja o `mcp-servers/`), F-197, F-203(b). Kolejny wolny numer: **F-210**.
+
+---
+
+## AUDYT-2026-09-27i — trzy dalsze konektory; przegląd wszystkich przykładów; KIO rozstrzygnięte; F-158(b) potwierdzona jako otwarta
+
+**Wyzwalacz:** polecenie użytkownika — dokończyć konektory, „szczególnie te krajowe
+z konkurencji, które jeszcze nie są wdrożone i moje odpowiedniki”, oraz pytanie,
+czy do `shared` trafiły poprawione wersje.
+
+### 1. ODPOWIEDŹ NA PYTANIE O `shared` — było niepełne
+
+Do `shared` 3.88 trafił poprawiony **wyłącznie ISAP**. Pozostałych sześciu
+przykładowych serwerów nie sprawdziłem — a skoro jeden miał błędny endpoint, brak
+podstaw, by zakładać poprawność pozostałych. Przegląd wykonany teraz, wszystkie
+siedem wobec żywych API:
+
+| Przykład | Pomiar | Działanie |
+|---|---|---|
+| `isap-eli-example` | ✅ 200 (po poprawce z 3.88) | — |
+| `krs-example` | ✅ 200 | — |
+| `saos-example` | ✅ 200 | ⭐ dopisane ustalenie o KIO |
+| `nbp-example` | ✅ 200 | dopisana pułapka dni wolnych |
+| `ceidg-example` | ⛔ v2 → **404**; v3 → **401** | poprawione na v3 + nota, że wymaga tokenu |
+| `eurlex-example` | ⛔ SPARQL → **406** | nota o właściwej drodze (Cellar REST) |
+| `sudop-example` | ⚠️ **303**, po przekierowaniu „Przygotowywanie odpowiedzi, 60 sekund” | nota: API **asynchroniczne** |
+
+⛔ Trzy z siedmiu przykładów odpowiadały błędem. Dwa z nich (`eurlex`, `sudop`) nie
+są „zepsute” — mają złą metodę dostępu opisaną jako właściwą.
+
+### 2. ⭐ KIO ROZSTRZYGNIĘTE — osobny konektor jest zbędny
+
+Konkurencja utrzymuje `kio-orzeczenia-mcp`. Zmierzone: SAOS zawiera orzeczenia KIO —
+`courtType=NATIONAL_APPEAL_CHAMBER` → **22 168 orzeczeń**, sygnatury typu `KIO/UZP 2/07`.
+Pokrywa je `mcp-saos` parametrem `sad`. Nie budowano osobnego serwera, a `orzeczenia.uzp.gov.pl`
+(portal HTML bez API) nie jest potrzebny jako kanał.
+
+### 3. TRZY NOWE KONEKTORY
+
+| Plugin | Narzędzia | Rząd | Co wnosi ponad półkę |
+|---|---|---|---|
+| `mcp-uodo` | `uodo_szukaj`, `uodo_pobierz` | 2A | ⭐ jawne `ostateczna` z `publication.status` — decyzja NIEOSTATECZNA jest w toku odwołania; konektor ostrzega w odpowiedzi |
+| `mcp-eurlex` | `eurlex_pobierz_akt` | 1 | ⭐ Cellar, nie strona EUR-Lex (ta ucina długie akty — F-135). AI Act: **653 721 znaków, 109 stron**; RODO: 385 666. Szukanie frazy tolerancyjne na białe znaki |
+| `mcp-nbp` | `nbp_kurs_na_dzien`, `nbp_tabela` | 1 | ⭐ obsługa dni wolnych: cofa do ostatniej tabeli i **mówi o tym** (`dni_cofniecia`, ostrzeżenie) — przy art. 358 § 2 KC ciche podstawienie kursu zmienia kwotę żądania |
+
+Weryfikacja wydania: każdy ZIP rozpakowany na czysto → `npm ci` → self-test na żywym
+API. 3/3 PASS. Łącznie w tej sesji wydano **siedem** konektorów.
+
+### 4. ⛔ DWIE WADY WYKRYTE POMIAREM, NIE PRZEGLĄDEM KODU
+
+1. `mcp-uodo` przy `limit: 1` zwrócił `ERROR: fetch failed`, choć przy `limit: 2`
+   działał — API UODO jest przelotnie niedostępne. Naprawa: reguła **V-SYG-0 (trzy
+   próby)**, ta sama co w SAOS, plus timeout 30 s.
+2. `mcp-eurlex` nie znajdował frazy „Odpowiedzialność w całym łańcuchu wartości AI”,
+   mimo że nagłówek istnieje (potwierdzone niezależnie `curl`-em przy F-205). Przyczyna:
+   teksty Dziennika Urzędowego mają twarde spacje i łamanie wiersza w środku nagłówków.
+   Naprawa: szukanie po tekście znormalizowanym. Po poprawce fraza trafiona na
+   **stronie 25 z 109**, a „Artykuł 25” na stronie 57.
+
+⚠️ Obie wady przechodziły `SELF-TEST OK` — wyszły tylko z wypisania faktycznej treści
+odpowiedzi. To druga sesja z rzędu, w której self-test okazał się niewystarczający
+(pierwsza: AUDYT-2026-09-27h, `[object Object]` w KRS). **Wniosek do rubryki pomiaru:
+„status poprawny” i „treść poprawna” to dwa różne pomiary.**
+
+### 5. F-158(b) — POTWIERDZONA JAKO OTWARTA, nie zamknięta
+
+EUREKA (interpretacje podatkowe MF): baza `/api/public/v1` potwierdzona w bundlu
+`main.535d199cee3ec94fe527.js`, ale ścieżki (`/api/public/v1/informacje`,
+`/informacje/api/public/v1/informacje`, `…/slowniki`, `…/podglad/{id}`) zwracają
+**powłokę SPA albo 404**. Zgodnie z zapisem F-158(b) dalszego zgadywania zaniechano.
+To jedyna krajowa pozycja z listy konkurencji (`prawo-pl-mcp`: „tax rulings”),
+której nie udało się pokryć.
+
+### 6. WYDANIE
+
+`shared` 3.88 → **3.89** (siedem przykładów z zmierzonym stanem w nagłówkach; nowa
+tabela stanu **13 kanałów** w `KONEKTORY-REKOMENDOWANE.md`; archiwum przebudowane,
+hash archiwum i pięciu plików zaktualizowane w manifeście i `tools/README.md`).
+`audyt-systemu-v4` 6.138 → **6.139**.
+
+Dostarczone osobno: `mcp-uodo.zip`, `mcp-eurlex.zip`, `mcp-nbp.zip` (wcześniej tego
+dnia: `mcp-isap-eli`, `mcp-saos`, `mcp-krs`, `mcp-wl-vat`).
+
+**Otwarte:** F-167 (ocena O-1), F-208, F-209, F-8 (hosting HTTPS), F-94 (decyzja
+o losie `tools/mcp-servers/`), F-158(b) (EUREKA), F-197, F-203(b). Wolny numer: **F-210**.
