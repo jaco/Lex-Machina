@@ -443,6 +443,7 @@ Skille do wgrania znajdziesz w katalogu wersji (rozpakowanej lub jako pojedyncze
 
 Claude AI → **Customize** → **wtyczki** - **Dodaj rynek** - **dodaj z repozytorium** - https://github.com/michaleiatrak-star/Lex-Machina/ (automatyczne aktualizacje) - dodaj każdy ze skili, będą aktualizować się automatycznie
 
+Metoda alternatywna (bez automatycznej aktualizacji)
 Claude AI → **Customize** → **Nowy skill** → **Wgraj skill z komputera** → wskaż **cały folder** skilla (nie pojedynczy plik `SKILL.md`).
 
 Kolejność wgrywania:
