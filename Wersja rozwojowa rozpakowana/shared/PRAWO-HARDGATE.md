@@ -211,6 +211,26 @@ treść, nie kod.** Instrukcja operacyjna: `shared/DOSTEP-MASZYNOWY-API.md`
 dowodowy poza ścieżką produkcyjną (F-160), przywoływany jako dowód, nie jako
 instrukcja. Test odtwarzający pomiar: T25 (`check_domeny_allowlist.py`).
 
+⛔⛔ **EKSTRAKCJA JEDNOSTKI Z TEKSTU JEDNOLITEGO — dwie pułapki (dodane 2026-09-26, F-201).**
+Poprawny adres i HTTP 200 nie gwarantują, że odczytany fragment jest szukanym przepisem.
+
+1. **Obwieszczenie zawiera cudze artykuły.** Tekst jednolity w ELI to obwieszczenie:
+   część 1 przytacza przepisy ustaw zmieniających z ICH numeracją, część 2 (załącznik)
+   to tekst aktu. W t.j. KP Dz.U. 2023 poz. 1465 jednostka „Art. 22.” występuje 3 razy,
+   z czego 2 razy w części 1 (rodziny zastępcze). Reguła: jednostkę bierz **wyłącznie
+   z części „Tekst jednolity”**, po identyfikatorze struktury (`data-id="arti_22"`),
+   nie po pierwszym wystąpieniu napisu „Art. 22.”. Trafienie tylko w części 1 =
+   **NOT_FOUND**, nigdy FOUND. Przypisy (`gloss`) nie są treścią przepisu.
+2. **Najnowszy t.j. często nie ma HTML.** KP (stan 2026-09-26): najnowszy t.j.
+   Dz.U. 2026 poz. 1245 i 2025 poz. 277 — tylko PDF; HTML dopiero 2023 poz. 1465.
+   Odczyt HTML starszego t.j. **nie podpiera ✅** — przed ✅ odczytaj `/text.pdf`
+   najnowszego t.j., a po nim wykonaj KROK 2C (nowelizacje po t.j.).
+
+**Narzędzie kanału kodu:** `shared/tools/eli_art_extract.py` realizuje obie reguły
+deterministycznie (statusy FOUND / NOT_FOUND / AMBIGUOUS / OUT_OF_SCOPE, pole
+`aktualnosc`). Instrukcja: `shared/DOSTEP-MASZYNOWY-API.md` §2. Przy odczycie przez
+`web_fetch` (bez kodu) stosuj te same dwie reguły ręcznie.
+
 ⛔ **Narzędzie `web_fetch` odmawia pobrania URL-a, który nie pojawił się wcześniej
 w wyniku `web_search` lub `web_fetch` w tej rozmowie.** URL zbudowany ze wzorca
 `.../DU/{rok}/{poz}` — nawet poprawny — jest odrzucany PRZED próbą połączenia.

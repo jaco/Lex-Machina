@@ -58,6 +58,7 @@
 |------|--------|-------------------|
 | `DOWODY-METODOLOGIA.md` | ACTIVE | analizator-dowodow-v3, pisma-procesowe-v3 |
 | `MOD-DOKUMENT-GATES.md` | ACTIVE | przesluchanie-swiadkow-v2-min90 (PRE-W1a.5), analizator-dowodow-v3 (KROK 0d) — utworzony 2026-08-20z, F-100 A |
+| `MOD-WEJSCIE-DOKUMENTU.md` | ACTIVE | prawny-router-v3, analizator-umow-v1, analizator-dowodow-v3, analiza-sadowa-v6, chronologia-sprawy-v1, pisma-procesowe-v3, pisma-proste-v2, przesluchanie-swiadkow-v2-min90, raport-sytuacyjny-v2 — utworzony 2026-09-26, F-200; kontrola obecności wywołania: T35 |
 | `ORZECZENIA-HIERARCHIA.md` | INTERNAL→ACTIVE | orzeczenia-sadowe-v2, pisma-procesowe-v3 |
 | `ROSZCZENIA.md` | INTERNAL→ACTIVE | pisma-procesowe-v3 |
 | `STRATEGIA-PROCESOWA.md` | ACTIVE | pisma-procesowe-v3, analiza-sadowa-v6 |

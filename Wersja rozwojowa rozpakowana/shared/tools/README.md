@@ -110,6 +110,42 @@ przed podłączeniem do produkcji.
   rzutu, nie ostateczny wyrok — stąd rekomendacja "pokaż prawnikowi", nie
   "automatycznie odrzuć".
 
+## adapter_krs_vat.py — odczyt KRS i Białej listy VAT (F-204)
+
+Własny adapter (bez serwerów zewnętrznych, bez klucza API) dwóch rejestrów
+publicznych, wpięty w `shared/MOD-IDENTYFIKACJA-STRONY-UMOWY.md` przy
+weryfikacji elementów E01 (NIP), E02 (nazwa rejestrowa), E03 (KRS), E05
+(adres siedziby) i przy ustalaniu sposobu reprezentacji podmiotu.
+
+```
+python3 adapter_krs_vat.py krs 10681
+python3 adapter_krs_vat.py wl 5260250995 --data 2026-09-26
+```
+
+Zwraca JSON ze statusem `FOUND` / `NOT_FOUND` / `INVALID_INPUT` / `ERROR`.
+Nigdy nie orzeka o skutku prawnym (np. prawie do odliczenia VAT) — to
+zostaje po stronie modułu merytorycznego, zgodnie z PRAWO-HARDGATE.
+
+**Stan weryfikacji (2026-09-26):**
+
+| Rejestr | Schemat JSON | Kanał sieciowy z tego środowiska |
+|---|---|---|
+| KRS (`api-krs.ms.gov.pl`) | ✅ zmierzony live (KRS 0000010681, ORANGE POLSKA S.A.) | ✅ działa (curl, UA neutralny) |
+| WL (`wl-api.mf.gov.pl`) | ⚠️ przejęty z opisu w `DOSTEP-MASZYNOWY-API.md` §4 (tam zmierzony wcześniej, inny podmiot ten sam co w KRS — potwierdzenie krzyżowe) | ⛔ zablokowany WAF-em Incapsula (nagłówek `x-iinfo`, ciasteczko `visid_incap_*`) — 4 warianty nagłówków wypróbowane, wszystkie zablokowane identycznie |
+
+⛔ **Blokada WL to zmierzony OBJAW z TEGO środowiska sieciowego (proxy tej
+sesji), nie dowód na niedostępność hosta w ogóle** — ten sam host był
+wcześniej zmierzony jako osiągalny z innego środowiska (przykład w
+`DOSTEP-MASZYNOWY-API.md` §4). `adapter_krs_vat.py` odróżnia to poprawnie:
+odpowiedź HTML z Incapsuli daje `ERROR` z czytelną podpowiedzią, nigdy
+fałszywy `NOT_FOUND`. Reprodukcja: `curl -sI "https://wl-api.mf.gov.pl/api/search/nip/5260250995?date=RRRR-MM-DD"`
+→ nagłówek `x-iinfo` obecny = blokada.
+
+Testy: `test_adapter_krs_vat.py` — 20 offline (fixture zbudowany z realnej,
+live-zmierzonej odpowiedzi KRS) + 2 live (`LEX_LIVE=1`), oba PASS 2026-09-26
+(KRS: FOUND; WL: ERROR z poprawną podpowiedzią WAF — test przechodzi, bo
+sprawdza POPRAWNE ROZPOZNANIE blokady, nie sukces połączenia).
+
 ## Nie mylić z audyt-systemu-v4/scripts/ci_check_shared.py
 
 Ten katalog i `audyt-systemu-v4/scripts/` rozwiązują różne problemy:

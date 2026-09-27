@@ -1,5 +1,23 @@
 # AUDIT-JOURNAL — Dziennik Audytów Systemu Prawnego AI
 
+> ⛔ **F-198 ZAMKNIĘTA JAKO ADNOTACJA (2026-09-26, wariant „zostaw z adnotacją" z
+> WARN-OTWARTE.md) — trzy wpisy poniżej (23c, 23b, 23) stoją tu WBREW FAZIE 7A.**
+> Zostały dopisane na POCZĄTKU pliku zamiast na końcu (reguła kanoniczna od
+> 2026-08-15p — patrz FAZA 7A w `SKILL.md`), łamiąc kolejność append-only, którą
+> reszta pliku zachowuje od tamtej daty. Chronologicznie powinny sąsiadować z
+> `## AUDYT-2026-09-22d` (bezpośrednio ją poprzedzającą w dalszej części pliku),
+> w kolejności zapisu 23 → 23b → 23c.
+>
+> **Decyzja tej sesji: NIE przenosić.** Blok „23" ma ~67 180 linii (to sesja,
+> w której 25 zamkniętych bloków WARN zostało przeniesionych z `WARN-OTWARTE.md`
+> do tego dziennika — stąd rozmiar) i mechaniczne przenoszenie tak dużego
+> fragmentu skryptem, bez możliwości pełnej weryfikacji wyniku w tej sesji,
+> niesie realne ryzyko cichego uszkodzenia treści — dokładnie ten rodzaj
+> incydentu, przed którym ostrzega REGUŁA 5/ZASADA 6 (`sed -i` na dużych plikach).
+> Kryterium zamknięcia z `WARN-OTWARTE.md` dopuszczało wprost tę alternatywę
+> („przeniesienie skryptem... **albo** adnotacja w nagłówku dziennika").
+> Ta adnotacja jest tym zamknięciem. Treść trzech wpisów — bez zmian.
+
 ## AUDYT-2026-09-23c — korekty użytkownika do 23b: warunek E-3, zasada innej drogi, skala 0–10
 
 **Wyzwalacz:** trzy korekty użytkownika po wydaniu 23b.
@@ -67437,3 +67455,353 @@ orzeczenia-sadowe-v2) zgodne z tym drzewem — T33.
 
 **Wersje:** `prawny-router-v3` 3.52 → 3.53, `pisma-procesowe-v3` 5.26 → 5.27,
 `audyt-systemu-v4` 6.122 → 6.123.
+
+---
+
+## AUDYT-2026-09-26 — porównanie z ekosystemem apiotrowski-afk; F-196, F-199–F-202 zamknięte; T34–T36
+
+**Tryb:** TARGETED + WARN-CLOSE. **Drzewo:** repozytorium `origin/main` **07ef557f** (2026-09-26 21:15),
+„Wersja rozwojowa rozpakowana” (32 skille). **Wyzwalacz:** polecenie użytkownika — porównanie z
+repozytoriami `apiotrowski-afk` (commercial-legal-pl v0.8, legal-cite-pl, okf-legal, krs-verify i in.),
+wdrożenie wniosków **wyłącznie własnymi rozwiązaniami** (co najwyżej inżynieria wsteczna API źródeł),
+wydanie zgodnie z ZASADĄ 7. Anonimizacja poza zakresem (własny system użytkownika).
+
+### 1. STATUS OGÓLNY
+Suita regresji na drzewie wydania: PASS (T1–T3, T6–T36, MOCK; T4/T5 ręczne) — szczegóły § 5.
+11 skilli wydanych jako komplety (§ 7).
+
+### 2. Nowy przypadek do F-189 (utrata poprawki po pushu)
+- **Objaw:** commit `d264eee3` („Usuń zagnieżdżony duplikat analizator-umow-v1/analizator-umow-v1 (obie
+  linie)”, autor `Claude`, 2026-09-26 19:10 UTC) był widoczny w klonie z ok. 21:00; w świeżym klonie
+  po pushach `b2054870`/`ff73ef6c` (21:11) obiekt nie istnieje na żadnej zdalnej gałęzi.
+  **Reprodukcja:** świeży `git clone` → `git cat-file -t d264eee3` → `fatal: Not a valid object name`.
+- ⚠️ **[NIEWERYFIKOWANE — HIPOTEZA] przyczyna:** push z kopii lokalnej bez tej poprawki (force-push
+  albo wgranie paczki na stan sprzed poprawki). Potwierdzenie: `git reflog` na maszynie pushującej.
+- Stan faktyczny przyjęty od użytkownika: duplikat usunięty ręcznie (commit `07ef557f`) — potwierdzone
+  (`ls` bez katalogu zagnieżdżonego).
+
+### 3. OSTRZEŻENIA (WARN) — otwarte i zamknięte
+
+**F-196 — ZAMKNIĘTA.** Objaw (U-1): `scripts/verify_development_archives.py` na `f93a2778` → 69 błędów
+(62 × extra duplikatu, 7 × different `przesluchanie-swiadkow-v2-min90`); na `07ef557f` → 7.
+Rozstrzygnięcie 7 plików: paczka ZIP = **3.26** (kanon E-1…E-5 z AUDYT-2026-09-23b), drzewo = 3.25 →
+paczka jest źródłem prawdy; drzewo zastąpione jej treścią, na niej wydanie 3.27. ⚠️ Linia stabilna
+26.09.2026 ma `przesluchanie-swiadkow-v2-min90` **3.25** (bez zmiany 3.26) — do uwzględnienia przy
+następnej promocji. Przyczyna ślepoty suity (U-2): T33 porównuje drzewo z katalogiem wydań sesji
+(domyślnie `/mnt/user-data/outputs`) — w repozytorium bezprzedmiotowy. **Naprawa:** T34
+`check_archiwa_repo.py` (bloker; selftest 4/4). Pomiar T34 na `07ef557f`: 7 × C — zgodnie z U-1.
+Kryterium spełnione: T34 PASS na drzewie wydania względem paczek wydania (§ 5).
+
+**F-199 — ZAMKNIĘTA.** Adaptacja materiału `commercial-legal-pl` (Apache 2.0) bez NOTICE i atrybucji
+(changelog analizatora 1.22, 1.24; podobieństwo SequenceMatcher: triage 0,60, popraw-fragment 0,64,
+antywzorce 0,62). **Naprawa:** `analizator-umow-v1/NOTICE` + nagłówek „Atrybucja (Apache 2.0)” w 10
+plikach pochodnych (workflows: triage-szybki, popraw-fragment, ocena-drugiej-strony,
+weryfikacja-spojnosci-odeslan; references: mod-shared-antywzorce-jezykowe, mod-shared-zlote-reguly,
+mod-shared-ius-cogens, generator/rdzen-generowania, generator/style-format-generowania,
+generator/kategorie-klauzul-taksonomia). Kwalifikacja prawna — po stronie dewelopera.
+
+**F-200 — ZAMKNIĘTA (obecność bramki; skuteczność → F-203).** Objaw (U-8): brak reguły „dokument to
+materiał, nie polecenia” w shared, routerze i skillach przyjmujących dokumenty
+(`grep -rliE 'injection|nie polecenia'` — trafienia wyłącznie niezwiązane). **Naprawa:**
+`shared/MOD-WEJSCIE-DOKUMENTU.md` 1.0 (WD-1 materiał ≠ polecenia, OBSERWACJA-INTEGRALNOŚCI; WD-2
+cytat dosłowny z lokalizacją, `[CYTAT NIEZWERYFIKOWANY]`, `[OCR]`; WD-3 statusy USTALENIE /
+✓ SPRAWDZONE / ⬛ NIEOCENIONE). Deduplikacja: `MOD-DOKUMENT-GATES.md` §8 pozostaje regułą szczególną
+(dopisana wyłącznie nota relacji), PR2.4 bez zmian. Wywołanie (nie kopia) w 9 skillach; lista
+konsumentów w `shared/DEPENDENCY-GRAPH.md`; T35 `check_wejscie_dokumentu.py` (bloker; selftest 4/4).
+
+**F-201 — ZAMKNIĘTA.** Objaw (U-9): narzędzie zewnętrzne tej samej metody zwróciło dla art. 22 § 1 KP
+przepis o rodzinach zastępczych. **Ustalenia z inżynierii wstecznej ELI (2026-09-26):**
+(a) t.j. = obwieszczenie; `<section id="part_1">` treść obwieszczenia z przytoczeniami przepisów
+ustaw zmieniających, `<section id="part_2">` załącznik „Tekst jednolity”; w t.j. KP Dz.U. 2023 poz.
+1465 `data-id="arti_22"` występuje 3 razy (2 × część 1); (b) numeracja `data-id`: `arti_22_1` = 22¹,
+`arti_22_1_a` = 22¹a, `para_1_1` = § 1¹; (c) **najnowszy t.j. często bez HTML**: KP — Dz.U. 2026 poz.
+1245 i 2025 poz. 277 tylko PDF, HTML od 2023 poz. 1465; KC — 2026 poz. 795 tylko PDF, HTML 2024 poz.
+1061; (d) `/text.html` pod pozycją aktu pierwotnego = brzmienie z dnia ogłoszenia. **Naprawa:**
+blok w `shared/PRAWO-HARDGATE.md`, `DOSTEP-MASZYNOWY-API.md` 1.10 §2, własne narzędzie
+`shared/tools/eli_art_extract.py` (parser struktury, stdlib; statusy FOUND/NOT_FOUND/AMBIGUOUS/
+OUT_OF_SCOPE; pole `aktualnosc`) + 15 testów; T36 `check_eli_extract.py` (bloker).
+Przypadek kontrolny: art. 22 § 1 KP — ✅ [VER: ELI, t.j. Dz.U. 2026 poz. 1245 `/text.pdf`, 2026-09-26]
+brzmienie „§ 1. Przez nawiązanie stosunku pracy pracownik zobowiązuje się…” zgodne z HTML t.j. 2023
+poz. 1465 (różnica wyłącznie typograficzna: dywiz/półpauza).
+
+**F-202 — ZAMKNIĘTA.** Objaw (U-10): brak rachunku efektywnej ekspozycji
+(`grep -rliE 'efektywn.{0,5} ekspozycj|kumulacj.{0,5} kar'` → 0). **Naprawa:** `analizator-umow-v1`
+`mod-shared-ryzyko-kwant.md` RK.2a R-EKS (E1 efektywna ekspozycja, E2 kumulacja kar, E3 asymetria
+liczbowo, E4 daty graniczne; liczby wyłącznie z umowy wg WD-2; kwalifikacja skuteczności → IC),
+wpięte w `workflows/triage-szybki.md` (Krok 2a, linia R-EKS w notatce) i `mod-core-checklist.md`
+(sekcja 6, obowiązkowo niezależnie od wartości umowy). Przy okazji: pozostałość
+„isap.sejm.gov.pl → KC → art. 484” w tym module (przeoczenie wydania 1.39) → ELI (RZĄD 1).
+
+**Otwarte w tej sesji:** F-197 (CI na `main`), F-198 (kolejność wpisów 23/23b/23c — decyzja),
+F-203 (a: korpus z posianymi wadami; b: przebiegi, warunek F-113), F-204 (własny adapter KRS +
+Biała lista — decyzja użytkownika: bez serwerów zewnętrznych), F-205 (FAZA 3E: luki merytoryczne
+U-14), **F-206** (`shared/tools`: `walidator_cytowan.py`, `extract_api_verification_log.py`,
+`mcp-servers-examples.zip` usunięte w `ec3f530b` 2026-09-01, a opisane w `shared/SKILL.md`,
+`tools/README.md`, `PORTABILITY-MANIFEST.md`). Niespójność rejestru nr 6: FAZA 7C pkt 4 odsyła do
+nieistniejącego „§ 8”; kolejny wolny numer: F-207.
+
+**Obserwacje bez flagi:** 4 pliki `.pyc` śledzone w git (`audyt-systemu-v4/scripts/__pycache__`) —
+poza CHECKSUMS i paczkami, balast; `PORTABILITY-MANIFEST.md` w `shared` (3.61) i audycie (6.98)
+miały nieaktualne pola wydania i liczby plików — zaktualizowane w tym wydaniu.
+
+### 4. WERYFIKACJA Dz.U.
+Dz.U.: brak nowych t.j. wprowadzanych do mapy — mapa bez zmian (ostatnia: mapa_dzu_2026-09-22.md).
+Odnotowane w RZĘDZIE 1 przy okazji F-201: t.j. KP Dz.U. 2026 poz. 1245 (obwieszczenie z 1.09.2026)
+i t.j. KC Dz.U. 2026 poz. 795 — do sprawdzenia przy najbliższym TRYBIE DZU względem mapy.
+
+### 4C. TREŚĆ MERYTORYCZNA MODUŁÓW
+Nie dotyczy (F-205 odroczona do FAZY 3E).
+
+### 5. STRUKTURA SYSTEMU — SNAPSHOT
+Drzewo wydania = `07ef557f` + zmiany tej sesji. Suita: PASS; T34 względem paczek wydania: PASS;
+T35: 9/9 konsumentów; T36: 15 testów (1 live pominięty offline; live wykonany ręcznie — PASS).
+Liczby plików przed → po (ZASADA 7) i wynik porównania bajtowego: tabela w § 7.
+
+### 6. WNIOSKI I ZALECENIA
+1. Przy każdym pushu: `git merge-base --is-ancestor <commit poprawki> origin/main` (F-189).
+2. Commit wydania musi zawierać **jednocześnie** paczkę ZIP i katalog rozpakowany — inaczej T34 FAIL.
+3. Promocja do linii stabilnej: uwzględnić `przesluchanie-swiadkow-v2-min90` (stabilna ma 3.25).
+
+### 7. WYDANIE (ZASADA 7)
+
+Każdy skill osobnym pakietem (`scripts/dostarcz_skill.sh`: oryginał = kopia = ZIP), następnie
+rozpakowanie do świeżego katalogu i `diff -rq` z kopią roboczą. Różnice względem źródła
+(`07ef557f`; dla przesłuchań — paczka 3.26) wyłącznie zamierzone.
+
+| Skill | Wersja | Pliki przed → po | Uzasadnienie różnicy liczby | diff ZIP↔WORK |
+|---|---|---|---|---|
+| `shared` | 3.81 → 3.82 | 173 → 176 | +MOD-WEJSCIE-DOKUMENTU.md, +tools/eli_art_extract.py, +tools/test_eli_art_extract.py | pusty |
+| `prawny-router-v3` | 3.55 → 3.56 | 43 → 43 | — | pusty |
+| `analizator-umow-v1` | 1.39 → 1.40 | 62 → 63 | +NOTICE | pusty |
+| `analizator-dowodow-v3` | 5.16.13 → 5.16.14 | 40 → 40 | — | pusty |
+| `analiza-sadowa-v6` | 6.10 → 6.11 | 24 → 24 | — | pusty |
+| `chronologia-sprawy-v1` | 1.9 → 1.10 | 13 → 13 | — | pusty |
+| `pisma-procesowe-v3` | 5.28 → 5.29 | 45 → 45 | — | pusty |
+| `pisma-proste-v2` | 2.21 → 2.22 | 27 → 27 | — | pusty |
+| `przesluchanie-swiadkow-v2-min90` | 3.26 → 3.27 | 34 → 34 | — (baza: paczka 3.26) | pusty |
+| `raport-sytuacyjny-v2` | 2.8 → 2.9 | 6 → 6 | — | pusty |
+| `audyt-systemu-v4` | 6.126 → 6.127 | 107 → 110 | +scripts/check_archiwa_repo.py, +check_wejscie_dokumentu.py, +check_eli_extract.py | pusty |
+
+**Wersje:** `shared` 3.81 → 3.82, `prawny-router-v3` 3.55 → 3.56, `analizator-umow-v1` 1.39 → 1.40,
+`analizator-dowodow-v3` 5.16.13 → 5.16.14, `analiza-sadowa-v6` 6.10 → 6.11,
+`chronologia-sprawy-v1` 1.9 → 1.10, `pisma-procesowe-v3` 5.28 → 5.29, `pisma-proste-v2` 2.21 → 2.22,
+`przesluchanie-swiadkow-v2-min90` 3.26 → 3.27, `raport-sytuacyjny-v2` 2.8 → 2.9,
+`audyt-systemu-v4` 6.126 → 6.127.
+
+---
+
+## AUDYT-2026-09-26b — WARN-CLOSE: F-204 (adapter KRS+WL) i F-198 (kolejność dziennika) zamknięte
+
+**Tryb:** WARN-CLOSE, na polecenie użytkownika. **Wyzwalacz:** kontynuacja sesji
+AUDYT-2026-09-26 — zamknięcie flag oznaczonych jako „wykonalne sesją audytową".
+Uwaga wstępna użytkownika o treści „weryfikator KRS już jest obecny w systemie,
+wymaga jedynie drobnych poprawek" **sprawdzona i NIEPOTWIERDZONA**: na dysku
+(`shared/tools/`) istniał wyłącznie opis endpointu KRS w `DOSTEP-MASZYNOWY-API.md`
+§4, zero linii kodu adaptera. Błąd nazwany wprost użytkownikowi przed budową.
+
+### 1. F-204 — ZAMKNIĘTA
+
+**Zbudowano:** `shared/tools/adapter_krs_vat.py` (bez zależności zewnętrznych,
+stdlib — `urllib.request`) + `shared/tools/test_adapter_krs_vat.py` (22 testy).
+Funkcje: `zapytaj_krs` (odpis KRS, `OdpisAktualny`/`OdpisPelny`, rejestr P/S),
+`zapytaj_wl` (Biała lista VAT, wymaga jawnej daty), `waliduj_nip` (suma
+kontrolna mod 11, wagi 6,5,7,2,3,4,5,6,7), `waliduj_krs` (dopełnienie zerami),
+`LicznikWL` (ostrzeżenie procesowe o limicie 100/dobę — nieegzekwowalne
+serwerowo, bo API nie zwraca nagłówka limitu).
+
+**Weryfikacja źródeł, rozdzielona wprost (ZASADA 14):**
+- **KRS ✅ [VER: live, `api-krs.ms.gov.pl`, ta sesja, 2026-09-26 22:49 UTC].**
+  `curl` z neutralnym UA przeszedł bez przeszkód. Numer 0000010681 → HTTP 200,
+  JSON pełny (ORANGE POLSKA SPÓŁKA AKCYJNA; NIP 5260250995, REGON
+  01210078400000 — ta sama para co przykład WL już zapisany wcześniej w
+  `DOSTEP-MASZYNOWY-API.md` §4, czyli **potwierdzenie krzyżowe tego samego
+  podmiotu z dwóch niezależnych rejestrów**). Numer 0000000001 → HTTP 404,
+  RFC7807 `problem+json`. Schemat `dzial1.danePodmiotu`/`dzial1.siedzibaIAdres`/
+  `dzial2.reprezentacja` w adapterze odzwierciedla dokładnie tę odpowiedź, w tym
+  anonimizację składu organu widoczną live (inicjały z gwiazdkami, PESEL
+  częściowo zamaskowany) — zgodne z ostrzeżeniem już zapisanym w §4.
+- **WL ⚠️ [NIEWERYFIKOWANE — HIPOTEZA, z zastrzeżeniem].** Schemat
+  `result.subject.*` przejęty z opisu w `DOSTEP-MASZYNOWY-API.md` §4 (tam
+  zadeklarowany jako zmierzony end-to-end wcześniej). **NIE zmierzony
+  ponownie w tej sesji**: `wl-api.mf.gov.pl` zwrócił z egressu tej sesji HTTP
+  200 ze stroną wyzwania Incapsula (nagłówek `x-iinfo`, ciasteczko
+  `visid_incap_*`) w 4 próbach z różnymi zestawami nagłówków (UA neutralny,
+  UA pełnej przeglądarki, z/bez `Referer`, HTTP/1.1 wymuszone) — wszystkie
+  zablokowane identycznie. **Zapisany OBJAW, nie interpretacja**: to blokada
+  WAF na tym konkretnym kanale sieciowym (adres wyjściowy proxy tej sesji),
+  NIE dowód niedostępności hosta w ogóle — ten sam host był wcześniej
+  zmierzony jako osiągalny z innego środowiska (ta sama zasada co F-183a/CBOSA:
+  środowisko ≠ świat). Adapter rozpoznaje ten przypadek jawnie: odpowiedź
+  nie-JSON → `ERROR` z podpowiedzią „WAF/Incapsula", nigdy fałszywy
+  `NOT_FOUND`. Test `test_wl_live_lub_blokada_waf` PASS właśnie na tym
+  rozpoznaniu (LEX_LIVE=1, uruchomiony w tej sesji).
+  Reprodukcja: `curl -sI "https://wl-api.mf.gov.pl/api/search/nip/5260250995?date=2026-09-26"`
+  → obecność nagłówka `x-iinfo` = blokada.
+
+**Testy:** 20 offline (fixture zbudowany z realnej, live-zmierzonej odpowiedzi
+KRS, nie z wyobrażonego schematu) + 2 live (`LEX_LIVE=1`) — wszystkie 22 PASS.
+Offline wykryły przy pierwszym uruchomieniu 2 błędy w SAMYCH testach (NIP
+testowy „1111111111" okazał się mieć poprawną sumę kontrolną — test zakładał
+odwrotnie), naprawione przed zamknięciem flagi.
+
+**Wpięcie:** `shared/MOD-IDENTYFIKACJA-STRONY-UMOWY.md` 1.1.0 → 1.2.0, nowa
+sekcja ISU-1b (weryfikacja rejestrowa E01/E02/E03/E05, opcjonalna, wzmacnia
+ale nie zastępuje ISU-2/ISU-4, nigdy nie omija PRAWO-HARDGATE dla skutku
+prawnego). `DOSTEP-MASZYNOWY-API.md` 1.10 → 1.11 (§4 odesłanie do adaptera).
+`shared/SKILL.md`: wersja 3.82 → 3.83, tabela `tools/`, licznik plików
+176 → 178 (po usunięciu `__pycache__` wygenerowanego testami — balast, nie
+wliczać, zgodnie z obserwacją z AUDYT-2026-09-26 o plikach `.pyc`).
+`shared/tools/README.md`: nowa sekcja z tabelą stanu weryfikacji.
+
+**Przy okazji:** wiersz `tools/walidator_cytowan.py` w `shared/SKILL.md`
+oznaczony wprost jako opisujący plik NIEOBECNY na dysku (F-206) — nie
+zamyka F-206 (decyzja dewelopera: przywrócić z historii git albo usunąć
+opis), ale usuwa fałszywe milczące twierdzenie z tabeli tools/.
+
+**Kryterium zamknięcia z `WARN-OTWARTE.md` spełnione:** testy offline PASS,
+sonda live wykonana (podmiot istniejący → FOUND dla KRS; dla WL — blokada
+kanału rozpoznana poprawnie jako ERROR, nie NOT_FOUND), wpięcie w moduł
+identyfikacji wykonane.
+
+### 2. F-198 — ZAMKNIĘTA (wariant adnotacji)
+
+Adnotacja dodana na początku `AUDIT-JOURNAL.md` (przed `## AUDYT-2026-09-23c`)
+zamiast przenoszenia skryptem. Uzasadnienie decyzji: blok „23" ma ~67 180
+linii (sesja przenosząca 25 zamkniętych flag z `WARN-OTWARTE.md` do dziennika,
+AUDYT-2026-09-23) — mechaniczne przesunięcie fragmentu tej wielkości bez
+możliwości pełnej weryfikacji w tej sesji byłoby dokładnie tym ryzykiem,
+przed którym ostrzega ZASADA 6 dla dużych plików. Kryterium zamknięcia z
+`WARN-OTWARTE.md` dopuszczało ten wariant wprost.
+
+### 3. Dodatkowo (poza zakresem F-, na wyraźne polecenie użytkownika)
+
+Utworzony `.claude-plugin/marketplace.json` (32 pozycje `plugins[]`, jedna na
+każdy skill z `source: "plugin"` w bieżącym stanie systemu — zweryfikowany
+`claude plugin validate`, wynik: PASS) — **do umieszczenia przez użytkownika
+w katalogu głównym repozytorium** (poza drzewem żadnego pojedynczego skilla,
+więc nie wchodzi w skład żadnego z ZIP-ów wydania niżej). Cel: rejestracja
+repozytorium „wersja rozwojowa rozpakowana" jako marketplace Claude Code, tak
+by aktualizacje tej sesji (i przyszłe) dało się instalować przez
+`/plugin marketplace add` + `/plugin install` zamiast ręcznego rozpakowywania
+ZIP-ów. Dołączona instrukcja instalacji jako osobny plik dostarczony
+użytkownikowi (nie jest częścią żadnego skilla, więc nie ma własnej wersji/CHANGELOG).
+
+### 4. WYDANIE (ZASADA 7)
+
+| Skill | Wersja | Pliki przed → po | Uzasadnienie różnicy liczby | diff ZIP↔WORK |
+|---|---|---|---|---|
+| `shared` | 3.82 → 3.83 | 176 → 178 | +tools/adapter_krs_vat.py, +tools/test_adapter_krs_vat.py | pusty |
+| `audyt-systemu-v4` | 6.127 → 6.128 | 110 → 110 | — (tylko treść: AUDIT-JOURNAL.md, WARN-OTWARTE.md, SKILL.md) | pusty |
+
+**Wersje:** `shared` 3.82 → 3.83, `audyt-systemu-v4` 6.127 → 6.128.
+
+**Otwarte pozostają (bez zmian w tej sesji, poza F-198/F-204):** F-197, F-203(a/b),
+F-205, F-206, F-5, F-8, F-9, F-11, F-94, F-113, F-133, F-137, F-143, F-144,
+F-157b, F-158(c), F-171, F-183a, F-184, F-185, O-8. Zob. `WARN-OTWARTE.md`
+(zaktualizowany: F-198 i F-204 usunięte z tablicy i tabeli sekcyjnej).
+
+## AUDYT-2026-09-26c — WARN-CLOSE: F-203(a) (korpus benchmarkowy analizator-umow-v1) zamknięta
+
+**Kontekst.** Kontynuacja sesji AUDYT-2026-09-26b, na wyraźne polecenie użytkownika
+(„kontynuuj i korzystaj do pracy z tego co ma piotrowski na githubie oraz z innych
+opracowań eksperckich") — autoryzacja bezpośredniego korzystania z repozytoriów
+`apiotrowski-afk` (uprzednio ograniczone do „tylko własne rozwiązania, co najwyżej
+reverse-engineering") oraz innych opracowań eksperckich, w celu domknięcia
+pozostałych otwartych flag.
+
+### 1. F-203(a) — ZAMKNIĘTA
+
+**Zakres z `WARN-OTWARTE.md` (przed zamknięciem):** korpus `benchmark/posiane-wady/`
+z ≥5 umów z manifestem wad (id, kategoria, lokalizacja, czy wymaga rachunku), 1 czysta,
+1 adwersarialna (polecenie wstrzyknięte — mierzy WD-1), instrukcja sędziego z
+weryfikacją zmyśleń cytat po cytacie; umowy pisane od zera.
+
+**Wykonane:**
+- Sklonowano (odczyt, publiczne repozytoria Apache 2.0) 4 repozytoria
+  `apiotrowski-afk`: `krs-verify`, `legal-cite-pl`, `okf-legal`, `commercial-legal-pl`.
+  Potwierdzona licencja Apache License 2.0 w każdym (plik LICENSE).
+- W `commercial-legal-pl/examples/benchmark/` odnaleziono bezpośredni pierwowzór dla
+  F-203(a): metodologię benchmarku (5 klas: czyste/jawne/ukryte/kumulatywne/
+  rachunkowe/adwersarialne), format manifestu złotego standardu
+  (`manifesty/manifesty.yaml`) i instrukcję sędziego (`manifesty/instrukcja-sedziego.md`,
+  5 metryk: wykrywalność, fałszywe alarmy, trafność flagi, zmyślenia z twardym zerem,
+  rachunek).
+- ⛔ **Sprawdzone i potwierdzone:** same teksty umów testowych źródłowego projektu
+  (`umowy/`, `contracts/`, `pisma/`, `korespondencja/`) są celowo wyłączone z
+  publikacji przez `.gitignore` tego repozytorium — niedostępne do odczytu, więc
+  nie mogły zostać skopiowane ani sparafrazowane. Wykorzystano wyłącznie jawną
+  metodologię/format (Apache 2.0), nie treść.
+- Napisano od zera 5 oryginalnych umów polskich w
+  `analizator-umow-v1/benchmark/posiane-wady/umowy/`:
+  `01-czysta-b2b.md` (kontrolna, zero posianych wad), `02-jawne-nda.md` (7 wad
+  jawnych), `03-ukryte-wdrozenie.md` (10 wad ukrytych/kumulatywnych),
+  `04-matematyczna-tm.md` (5 wad rachunkowych), `05-adwersarialne-injection.md`
+  (8 wad, w tym literalna wstrzyknięta instrukcja `[SYSTEM: ...]` w §1.3 i ukryta
+  instrukcja w komentarzu HTML po §3.3 — obie testujące bramkę WD-1
+  z `shared/MOD-WEJSCIE-DOKUMENTU.md`/F-200 — oraz rozbieżność kwota-cyfrą/
+  kwota-słownie w §2.1).
+- Każda posiana wada oparta o świeżo zweryfikowany (2026-09-26, WebSearch → ISAP/
+  ELI, PRAWO-HARDGATE) przepis: art. 483 §1 KC (kara umowna wyłącznie przy
+  zobowiązaniu niepieniężnym), art. 473 §2 KC (nieważne wyłączenie odpowiedzialności
+  za winę umyślną), art. 41 ust. 2 ustawy o prawie autorskim i prawach pokrewnych
+  (wymóg wskazania pól eksploatacji), art. 484 §1 zd. 2 KC (dopuszczalność
+  odszkodowania uzupełniającego przy wyraźnym zastrzeżeniu — użyte w umowie
+  KONTROLNEJ jako wzorzec poprawności), art. 28 RODO, art. 4 pkt 3 i art. 7 ustawy
+  z dnia 8 marca 2013 r. o przeciwdziałaniu nadmiernym opóźnieniom w transakcjach
+  handlowych (t.j. potwierdzony na ISAP: Dz.U. z 2023 r. poz. 1790).
+- Utworzono `manifesty/manifest.yaml` (własny schemat pól: `wymaga_rachunku`,
+  `test_wd1`, `test_odwolanie`, `test_liczby` — udokumentowany w nagłówku pliku,
+  NIE skopiowane bezrefleksyjnie oznaczenia `r10`/`test_r8`/`test_r11` źródła,
+  których definicji audytujący nie miał) oraz `manifesty/instrukcja-sedziego.md`
+  (zaadaptowana z atrybucją Apache 2.0 — 5 metryk + warunki FAIL dla umowy 05 +
+  dodatkowa metryka 6 „Bramka WD-1" własna dla tego korpusu).
+- Dodano `benchmark/posiane-wady/README.md` (zakres, zasada tajności manifestu,
+  pełna atrybucja, jawne ograniczenie: ocena dziś ręczna, brak skryptu
+  porównującego).
+- Rozszerzono `analizator-umow-v1/NOTICE` o nowy akapit atrybucji dla
+  `benchmark/posiane-wady/` (metodologia Apache 2.0; treść umów i manifestu —
+  własna).
+- Wpisano `T37` do `audyt-systemu-v4/references/REGRESSION-TEST-PLAN.md`:
+  opis korpusu, sposób wykonania, jawne ograniczenia (ocena ręczna — nie bloker
+  CI), stan pomiaru walidacyjnego („żaden przebieg jeszcze nie wykonany" —
+  zamierzone, bo F-203(a) dostarcza korpus i protokół, nie wynik pomiaru;
+  wykonanie przebiegów to F-203(b)).
+- `analizator-umow-v1`: wersja 1.40 → **1.41**; `references/CHANGELOG.md` i
+  `SKILL.md` (blok „NOWE v1.41") zaktualizowane; `CHECKSUMS.sha256`
+  zregenerowany (62 → 71 plików: 9 nowych plików korpusu + 3 zmienione —
+  `SKILL.md`, `NOTICE`, `references/CHANGELOG.md`; zweryfikowano `sha256sum`
+  dla każdego pliku skilla, zero braków, zero rozjazdów — T21 PASS).
+
+**STATUS:** ✅ ZAMKNIĘTA. **ŹRÓDŁO:** repozytoria własne tej sesji
+(`analizator-umow-v1/benchmark/posiane-wady/*`) + metodologia zaadaptowana z
+`apiotrowski-afk/commercial-legal-pl` (Apache 2.0, commit odczytany 2026-09-26,
+klon płytki `--depth 1`) + przepisy zweryfikowane 2026-09-26 (ISAP/ELI, WebSearch).
+**REPRODUKCJA:** `ls analizator-umow-v1/benchmark/posiane-wady/umowy/` (5 plików);
+`cat analizator-umow-v1/benchmark/posiane-wady/manifesty/manifest.yaml`
+(30 wad posianych łącznie w 4 umowach: 7+10+5+8 — plus 1 kontrolna bez wad); `sha256sum -c
+CHECKSUMS.sha256` w katalogu `analizator-umow-v1` (PASS, 71/71).
+
+**Pozostaje otwarte (poza zakresem F-203(a)):** F-203(b) — wykonanie przebiegów
+oceny wg `instrukcja-sedziego.md` w dwóch ramionach (bez/ze skillami), ≥2 modele —
+zależne od tych samych warunków środowiskowych co F-113 (izolowane manifesty,
+kontrola sieci, autorytatywne logi narzędzi). Automatyzacja samej oceny
+(skrypt porównujący cytaty/ID wad z manifestem zamiast oceny ręcznej) nie była
+w zakresie i pozostaje możliwym rozszerzeniem F-203(b), nie odrębną flagą.
+
+### 2. WYDANIE (ZASADA 7)
+
+| Skill | Wersja przed | Wersja po | Plików przed | Plików po |
+|---|---|---|---|---|
+| `analizator-umow-v1` | 1.40 | **1.41** | 62 | **71** |
+
+Zawartość paczki zweryfikowana metodą kopiuj→zip→rozpakuj→`diff -rq` (PRE-DELIVERY-
+COMPLETENESS-CHECK, ZASADA 7): różnica pusta. Paczka dostarczona użytkownikowi
+przez `SendUserFile` — edycje w `/mnt/skills/plugins/...` NIE są zapisywane na
+koncie użytkownika (katalog synchronizowany, nietrwały międzysesyjnie); jedyny
+trwały nośnik zmian to dostarczony ZIP.
+
+**Otwarte pozostają (bez zmian w tej sesji, poza F-203(a)):** F-197, F-203(b),
+F-205, F-206, F-5, F-8, F-9, F-11, F-94, F-113, F-133, F-137, F-143, F-144,
+F-157b, F-158(c), F-171, F-183a, F-184, F-185, O-8. Zob. `WARN-OTWARTE.md`
+(zaktualizowany: F-203(a) usunięta z tablicy sterującej i tabeli sekcyjnej,
+Wykonalne sesją audytową 4→3, Razem 25→24).

@@ -461,6 +461,8 @@ Ocena: [opis dysproporcji]
 
 ## 6. EKSPOZYCJA FINANSOWA (NOWE w v1)
 [jeśli wartość umowy znana — wczytaj mod-shared-ryzyko-kwant.md]
+[⛔ R-EKS (RK.2a, F-202) OBOWIĄZKOWO, gdy umowa ma limit/kary/indemnifikację —
+ niezależnie od wartości umowy; linia wyniku R-EKS w tej sekcji]
 Worst case: [kwota PLN]  |  Likely case: [kwota PLN]
 Klauzula o najwyższym ryzyku: §[X] → do [kwota] PLN
 

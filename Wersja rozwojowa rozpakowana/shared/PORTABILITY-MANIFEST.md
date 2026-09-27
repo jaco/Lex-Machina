@@ -1,8 +1,9 @@
 # Portability manifest — shared
 
 - Source baseline: `e35599cf505b47d061e0ddca608c009feb4035bc`
-- Release: **3.61 (2026-09-14)**
-- Current files in complete shared package: **173**
+- Release: **3.82 (2026-09-26)** — pola „Release” i „Current files” zaktualizowane w tym wydaniu (stały na 3.61)
+- Current files in complete shared package: **176** (+3: MOD-WEJSCIE-DOKUMENTU.md, tools/eli_art_extract.py, tools/test_eli_art_extract.py)
+- ⚠️ Archiwum `tools/mcp-servers/mcp-servers-examples.zip` opisane niżej NIE występuje w pakiecie od 2026-09-01 (F-206)
 - Original files: **205**
 - Expanded files after lossless MCP-example compaction, before manifest/checksums: **164**
 - Frontmatter description: **163/200**

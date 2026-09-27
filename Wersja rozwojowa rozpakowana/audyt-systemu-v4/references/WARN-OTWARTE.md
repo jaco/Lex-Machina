@@ -1,6 +1,6 @@
 # WARN-OTWARTE — rejestr żywy otwartych flag audytowych
 
-**Stan:** 2026-09-23. Ten plik zawiera wyłącznie zakres pozostający do wykonania. Historia zamknięć i napraw znajduje się w `AUDIT-JOURNAL.md` / `CHANGELOG.md`.
+**Stan:** 2026-09-26c (AUDYT-2026-09-26c: F-203(a) ZAMKNIĘTA, opis w dzienniku; wcześniej w tej samej dobie AUDYT-2026-09-26b zamknęła F-198 i F-204; otwarte pozostają F-197, F-203(b), F-205, F-206). Ten plik zawiera wyłącznie zakres pozostający do wykonania. Historia zamknięć i napraw znajduje się w `AUDIT-JOURNAL.md` / `CHANGELOG.md`.
 
 > **Przegląd rejestru 2026-09-23 (ZASADA 10).** Z pliku usunięto 25 bloków flag zamkniętych i wpisów nieaktualnych; treść przeniesiona w całości do `AUDIT-JOURNAL.md`, wpis **AUDYT-2026-09-23**. Rejestr skrócony z 665 do 371 linii. Nic nie zostało skasowane bez przeniesienia.
 
@@ -8,11 +8,22 @@
 
 | Kategoria | Liczba | Pozycje |
 |---|---:|---|
-| Wykonalne sesją audytową | 2 | F-167, **F-189** |
+| Wykonalne sesją audytową | 3 | F-167, **F-189**, F-205 |
 | Reaktywne | 1 | F-5 |
-| Zależne od środowiska/dewelopera | 16 | **F-194** (tylko CBOSA), F-8, F-9, F-11, F-94, F-113, F-133, F-137, F-143, F-144, **F-157b**, F-158(c), F-171, **F-183a**, **F-184**, **F-185** |
+| Zależne od środowiska/dewelopera | 19 | **F-197**, **F-206**, F-203(b), **F-194** (tylko CBOSA), F-8, F-9, F-11, F-94, F-113, F-133, F-137, F-143, F-144, **F-157b**, F-158(c), F-171, **F-183a**, **F-184**, **F-185** |
 | Odnotowane bez działania | 1 | O-8 (ograniczenie strukturalne aparatu) |
-| **Razem** | **20** | — |
+| **Razem** | **24** | — |
+
+> **F-198 ZAMKNIĘTA 2026-09-26b** (wariant adnotacji — patrz `AUDIT-JOURNAL.md`,
+> AUDYT-2026-09-26b §2) i **F-204 ZAMKNIĘTA 2026-09-26b** (`shared/tools/adapter_krs_vat.py`
+> zbudowany, 22 testy PASS, wpięty w ISU-1b — patrz AUDYT-2026-09-26b §1) usunięte z
+> tej tablicy i z tabeli sekcyjnej niżej.
+>
+> **F-203(a) ZAMKNIĘTA 2026-09-26c** (korpus regresyjny `analizator-umow-v1/benchmark/posiane-wady/`:
+> 5 umów pisane od zera, manifest złotego standardu, instrukcja sędziego — patrz `AUDIT-JOURNAL.md`,
+> AUDYT-2026-09-26c) usunięta z tej tablicy i z tabeli sekcyjnej niżej. **F-203(b) pozostaje otwarta**
+> (przebiegi oceny w dwóch ramionach, ≥2 modele — zależna od warunków F-113, przeniesiona do sekcji
+> „Zależne od środowiska lub dewelopera").
 
 > **F-157b (2026-09-13c, ZAWĘŻONA) — braki resztkowe listy dozwolonych.**
 > Pomiar T25 (52 sondy) po zmianie konfiguracji: **odblokowane** —
@@ -42,6 +53,7 @@
 > treść zweryfikowana odczytem i zachowana. Pochodzenie nieustalone — ten sam obszar niepewności
 > co nadpisania. ✅ **2026-09-17r: zalecenie wdrożone jako T33** (`check_wydanie.py`, w orkiestratorze)
 > — kontrola „drzewo ↔ wydana paczka" jest odtąd automatyczna, nie ręczna.
+> ⚡ **2026-09-26 — nowy przypadek odtwarzalny (commit d264eee3 zniknął z `main`): AUDYT-2026-09-26 § 2.**
 
 > **F-183a (2026-09-14, OTWARTA — WYŁĄCZNIE środowisko docelowe) — direct
 > CBOSA wdrożona strukturalnie; pozostaje pomiar live w docelowym runtime.**
@@ -266,6 +278,7 @@
 
 | Flaga | Priorytet | Pozostały zakres | Kryterium zamknięcia |
 |---|---|---|---|
+| F-205 | średni | FAZA 3E dla luk z AUDYT-2026-09-26 U-14: dr-11 — AI Act art. 25, art. 6 ust. 3 (profilowanie), zał. III pkt 4, art. 13 ust. 3; dr-04/analizator-umow — umowa ramowa zlecenia (propozycja–przyjęcie), ryzyko przekwalifikowania; analizator-umow mod-J9 — art. 52 pr. aut. ⚠️ brzmienie nieodczytane. | Każda jednostka `✅ [VER: ELI/Cellar, data]`; moduły ≤1000 linii; T28 bez nowych FAIL. |
 
 ## Reaktywne
 
@@ -277,6 +290,9 @@
 
 | Flaga | Pozostały zakres |
 |---|---|
+| F-197 | CI: `f138-structural-audit.yml` uruchamia się tylko na PR i gałęzi `codex/…`; commity „system update” idą na `main` bez audytu. Dodać `push: branches: [main]` i krok suity regresji (T34–T36 są blokerami). Kryterium: zielony przebieg na `main` + czerwony na gałęzi z podłożonym `<skill>/<skill>/`. |
+| F-206 | `shared/SKILL.md` (sekcja tools/, adapter pkt 6–7) i `shared/tools/README.md` opisują `tools/walidator_cytowan.py`, `extract_api_verification_log.py` i `tools/mcp-servers/mcp-servers-examples.zip`, których nie ma na dysku — usunięte w commicie `ec3f530b` (2026-09-01). Decyzja: przywrócić z historii git albo usunąć opisy. Reprodukcja: `ls shared/tools`; `git log --diff-filter=D -- "Wersja rozwojowa rozpakowana/shared/tools/"`. |
+| F-203(b) | Korpus F-203(a) (`analizator-umow-v1/benchmark/posiane-wady/`) już istnieje i zamknięty. Pozostaje wykonanie przebiegów oceny w dwóch ramionach (bez skilli / ze skillami), ≥2 modele, izolowany manifest — warunek F-113, nie osobny pomiar. |
 | F-194 | Wyłącznie odczyt NSA I OSK 590/26 z CBOSA (`/doc/{ID}`, V-SYG-0.7) → awans z 🟨 do ✅. Stan 2026-09-22: kanał kodu HTTP 503, web_search bez adresu `/doc/{ID}`. ✅ Wykonane: Zasada 2B `orzeczenia-sadowe-v2` 2.18; ETAP 4A V10 `pisma-procesowe-v3` 5.27 (na drzewie repozytorium). |
 | F-8 | Wdrożyć realny connector MCP do ELI/ISAP i zweryfikować protokół w środowisku docelowym. |
 | F-9 | Wdrożyć znacznik `AUDIT_EVENT`, parser i politykę retencji w portalu. |
@@ -382,3 +398,4 @@
 > 3. **Osierocony fragment „2 nieprawdziwe (delegowanie kierowców…)"** — akapit bez nagłówka flagi, oderwany od swojego bloku przy którejś wcześniejszej edycji. Kontekst: AUDYT-2026-09-10i §3.
 > 4. **F-20 (KSR) nie występuje w żadnej kategorii tablicy.** Opis mówi, że rzecz jest nierozstrzygalna kanałem ELI, więc albo jest to zamknięcie i pozycja idzie do dziennika, albo jest to „odnotowane bez działania" obok O-8 — dziś nie jest ani jednym, ani drugim.
 > 5. **Brak kryterium zamknięcia przy większości pozycji „zależnych".** Bez niego pozycja nie może zostać zamknięta inaczej niż uznaniowo, a rejestr rośnie monotonicznie.
+> 6. **FAZA 7C pkt 4 odsyła do „§ 8 — kolejny wolny numer”, którego w rejestrze nie ma** (wykryte 2026-09-26: `grep -n -i 'wolny numer' references/WARN-OTWARTE.md` → brak). Kolejny wolny numer flagi na 2026-09-26: **F-207**.

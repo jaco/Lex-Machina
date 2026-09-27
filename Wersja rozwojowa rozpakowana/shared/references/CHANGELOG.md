@@ -1,5 +1,33 @@
 # CHANGELOG — Biblioteka shared
 
+## 3.83 — 2026-09-26 — F-204: adapter KRS + Biała lista VAT
+
+Nowy `tools/adapter_krs_vat.py` (+ `tools/test_adapter_krs_vat.py`, 22 testy) — własny
+odczyt `api-krs.ms.gov.pl` (KRS) i `wl-api.mf.gov.pl` (Biała lista VAT), bez serwerów
+zewnętrznych, bez klucza (decyzja użytkownika 2026-09-26). Waliduje NIP (suma kontrolna
+mod 11) i dopełnia numer KRS zerami; statusy FOUND/NOT_FOUND/INVALID_INPUT/ERROR.
+
+**Stan weryfikacji, jawnie rozdzielony (ZASADA 14/AUDIT-CLAIM-GATE):**
+- KRS: ✅ [VER: live, api-krs.ms.gov.pl, ta sesja] — schemat `dzial1`/`dzial2` zmierzony
+  na realnej odpowiedzi (KRS 0000010681, ORANGE POLSKA S.A.; NIP 5260250995, REGON
+  01210078400000 — zgodne z przykładem WL już zapisanym w DOSTEP-MASZYNOWY-API.md §4,
+  co jest potwierdzeniem krzyżowym tego samego podmiotu z dwóch niezależnych rejestrów).
+- WL: ⚠️ schemat przejęty z opisu already-measured w DOSTEP-MASZYNOWY-API.md §4, NIE
+  zmierzony ponownie w tej sesji — `wl-api.mf.gov.pl` zwrócił z tego środowiska HTTP 200
+  ze stroną wyzwania Incapsula (nagłówek `x-iinfo`, ciasteczko `visid_incap_*`) przy 4
+  różnych zestawach nagłówków. Zapisany jako zmierzony OBJAW z tego kanału sieciowego, nie
+  jako dowód niedostępności hosta w ogóle. Adapter rozpoznaje ten przypadek i zwraca
+  `ERROR` z czytelną podpowiedzią „WAF/Incapsula", nigdy fałszywy `NOT_FOUND`.
+
+Wpięty w `shared/MOD-IDENTYFIKACJA-STRONY-UMOWY.md` 1.1.0 → 1.2.0 jako ISU-1b (weryfikacja
+rejestrowa E01-E03/E05, opcjonalna, nigdy nie zastępuje ISU-2 ani PRAWO-HARDGATE).
+DOSTEP-MASZYNOWY-API 1.10 → 1.11 (§4 odesłanie). Rejestracja w `SKILL.md` (tools/, wersja,
+changelog, licznik plików 176 → 178).
+
+## 3.82 — 2026-09-26 — AUDYT-2026-09-26
+
+MOD-WEJSCIE-DOKUMENTU 1.0 (WD-1 dokument = materiał, nie polecenia; WD-2 cytat z dokumentu dosłownie; WD-3 jawne zamknięcie obszarów) — moduł kanoniczny wołany przez 9 skilli (F-200); relacja do MOD-DOKUMENT-GATES §8 (nota, §8 bez zmian) i PR2.4. PRAWO-HARDGATE: blok EKSTRAKCJA JEDNOSTKI Z TEKSTU JEDNOLITEGO — treść obwieszczenia ≠ przepis; najnowszy t.j. bez HTML → PDF przed ✅ (F-201). DOSTEP-MASZYNOWY-API 1.10: struktura HTML ELI (data-id, part_1/part_2). Nowe: tools/eli_art_extract.py + tools/test_eli_art_extract.py (15 testów, live art. 22 § 1 KP ✅ ELI t.j. Dz.U. 2026 poz. 1245). SKILL.md i DEPENDENCY-GRAPH: rejestracja.
+
 ## 3.81 — 2026-09-23 — AUDYT-2026-09-23b
 
 - HIERARCHIA-ZRODEL 1.11 i PRAWO-HARDGATE: E-3 uruchamia BRAK-AKTU (obowiązkowo), przy awarii ELI próba ISAP; ISAP-AUDIT-PROTOCOL analogicznie. DOSTEP-MASZYNOWY-API 1.9: §0 ZASADA INNEJ DROGI zamiast zakazu obchodzenia blokad.
