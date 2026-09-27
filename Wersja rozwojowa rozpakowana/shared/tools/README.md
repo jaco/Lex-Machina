@@ -160,4 +160,35 @@ w `audyt-systemu-v4/references/AUDIT-JOURNAL.md`, wpis AUDYT-2026-07-12g.
 
 Dla nowych integracji preferuj `{"session_id":"...","events":[...]}`. Event zawiera `tool`, źródło, opcjonalny `query_context` i status. Claude/Anthropic legacy pozostaje obsługiwany; obsługiwane są też generyczne tool-call/result i ukończone wpisy Responses-style. Sam call bez wyniku nie jest weryfikacją.
 
-Twardy limit 200 plików wymaga kompaktowania wyłącznie technicznych przykładów MCP: 42 plików z dawnego `tools/mcp-servers/**` znajduje się byte-for-byte w `tools/mcp-servers/mcp-servers-examples.zip` (SHA-256 `6b16d446e08ec5a3c401b371a7bf697e2b898bf2b903e2a1531a2ec818642756`). Rozpakuj archiwum przed uruchamianiem przykładowego serwera.
+Twardy limit 200 plików wymaga kompaktowania wyłącznie technicznych przykładów MCP: 42 plików z dawnego `tools/mcp-servers/**` znajduje się byte-for-byte w `tools/mcp-servers/mcp-servers-examples.zip` (SHA-256 `ff4dd9ba5e8036f096c928c3047a56fad27bf22dae24d52fa1a3530339fe7692` — przebudowany 2026-09-26d po odzyskaniu z historii git, F-206; poprzedni wpisany hash odpowiadał innej kompresji tej samej treści i nie jest odtwarzalny — ZIP nie jest deterministyczny bajt-w-bajt. Weryfikacja tym razem: `diff` każdego z 42 rozpakowanych plików przeciw blobom z historii git — zero rozbieżności, nie tylko porównanie hasha archiwum). Rozpakuj archiwum przed uruchamianiem przykładowego serwera.
+
+## F-206 (2026-09-26d) — przywrócenie 8 narzędzi z historii git
+
+Do 2026-09-26d cały ten katalog istniał tylko jako opis: `walidator_cytowan.py`,
+`extract_api_verification_log.py` i `export_gate.py` (opisane wyżej w tym pliku)
+były usunięte z drzewa rozwojowego repozytorium `michaleiatrak-star/lex-machina`
+mergem `d3385b9` (2026-08-27), a `shared/SKILL.md` je mimo to opisywał — stąd
+flaga F-206 (jej pierwotny opis mylnie wskazywał inny commit, `ec3f530b`, który
+tylko wymienił ZIP-y binarne).
+
+Przy naprawie okazało się, że **ten sam commit usunął też 5 dalszych narzędzi**,
+nigdzie w rejestrze F-206 niewymienionych, choć wciąż opisanych jako „ACTIVE"
+w `shared/DEPENDENCY-GRAPH.md`, `shared/AUDIT-TRAIL-SPEC.md` i
+`shared/MCP-INTEGRACJA.md`: `append_event.py`, `hash_chain_verify.py`,
+`router_event_parser.py` (log audytowy hash-chain), oraz `test_mcp_protocol.py`,
+`connector_health_check.py` (testy/health-check connectorów MCP). Wszystkie 8
+przywrócono bajt-w-bajt z rodzica tego commitu (klon repozytorium, dostęp
+odczytu) i zweryfikowano funkcjonalnie:
+
+| Narzędzie | Weryfikacja | Wynik |
+|---|---|---|
+| `walidator_cytowan.py` | 4 przypadki z `przyklady/` (jak w tabeli wyżej) | ✅ 4/4 zgodne z opisem |
+| `extract_api_verification_log.py` | `--self-test` | ✅ PASS |
+| `export_gate.py` | `--self-test` | ✅ PASS |
+| `append_event.py` + `hash_chain_verify.py` | end-to-end: zapis 3-wpisowego łańcucha, weryfikacja OK, potem ręcznie spreparowane naruszenie (zmieniony `payload` we wpisie seq=2) → poprawnie wykryte jako pierwszy niezgodny wpis | ✅ obie ścieżki poprawne |
+| `router_event_parser.py` | `--self-test` | ✅ PASS |
+| `test_mcp_protocol.py` | `python3 -m unittest test_mcp_protocol` | ✅ 6/6 PASS |
+| `connector_health_check.py` | `--self-test` | ✅ PASS |
+
+Pliki fixture `przyklady/konwersacja_api_przyklad.json`, `przyklady/przyklad_pisma.md`,
+`przyklady/sesja_niepelna.json`, `przyklady/sesja_pelna.json` przywrócone tą samą metodą.

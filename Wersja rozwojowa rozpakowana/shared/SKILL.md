@@ -1,6 +1,6 @@
 ---
 name: shared
-version: "3.83"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
+version: "3.84"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
                   # jako float 3.17, a 3.17 < 3.9 — porządek wersji odwraca się
                   # dla każdego narzędzia porównującego liczbowo. Wykryte
                   # testem T12 (check_wersje_changelog.py), 2026-08-20z.
@@ -44,13 +44,24 @@ limitations:
     opisane tu jawnie, żeby FAZA 2E w trybie deklarowanym go NIE zgubiła.
     Decyzja architektoniczna (uznać jako świadomy wzorzec 'plik-most' czy
     wydzielić poza shared/) pozostaje OTWARTA — do następnego audytu."
-  - rozmiar (178 plików, ~2,0 MB — stan 2026-09-26, F-204) — każda zmiana pliku kanonicznego ma
+  - rozmiar (192 pliki, ~2,8 MB — stan 2026-09-26d, F-206) — każda zmiana pliku kanonicznego ma
     potencjalnie systemowy promień rażenia; edytować tylko przez
     audyt-systemu-v4 z pełną weryfikacją CHECKLIST-DEDUP.md
 required_modules: []
   # nie ma zastosowania — shared jest wczytywany, nie wczytuje sam siebie
 changelog: |
-  Wersja bieżąca: 3.83 (2026-09-26, F-204): tools/adapter_krs_vat.py — własny adapter KRS
+  Wersja bieżąca: 3.84 (2026-09-26d, F-206): przywrócone z historii git repozytorium
+  (michaleiatrak-star/lex-machina; usunięte mergem d3385b9 z drzewa rozwojowego 2026-08-27,
+  odzyskane z równoległej migawki stabilnej sprzed jej osobnego usunięcia w 6dbe7a0 2026-09-08 —
+  poprzedni opis F-206 mylnie wskazywał ec3f530b) 8 narzędzi tools/ uznanych za nieobecne —
+  walidator_cytowan.py, extract_api_verification_log.py, export_gate.py (opisane w F-206),
+  plus append_event.py, hash_chain_verify.py, router_event_parser.py, test_mcp_protocol.py,
+  connector_health_check.py (nieobecne poza pierwotnym zakresem F-206, znalezione przy tej
+  naprawie — te same osiem plików usunięte tym samym commitem). Przywrócone też 4 fixture'y
+  tools/przyklady/ i tools/mcp-servers-examples.zip (przebudowany, nowy SHA-256 — stary
+  nieodtwarzalny, ZIP nie jest deterministyczny). Wszystkie 8 narzędzi zweryfikowane
+  funkcjonalnie (self-testy PASS + end-to-end test hash-chain z symulowanym naruszeniem).
+  Wersja 3.83 (2026-09-26, F-204): tools/adapter_krs_vat.py — własny adapter KRS
   (api-krs.ms.gov.pl) + Biała lista VAT (wl-api.mf.gov.pl), bez serwerów zewnętrznych, bez
   klucza. Schemat KRS zmierzony LIVE (KRS 0000010681); schemat WL przejęty z DOSTEP-MASZYNOWY-API
   §4 (WL zablokowana WAF-em z tego środowiska — objaw zapisany, nie ukryty). 22 testy — patrz
@@ -71,7 +82,7 @@ changelog: |
 4. `/mnt/user-data/...` oznacza rzeczywiste pliki użytkownika dostępne w hoście; wymagany ponowny odczyt jest faktycznym odczytem źródła.
 5. `show_widget`, `present_files`, `create_file`, shell/Python i podobne operacje wykonuj równoważną natywną funkcją hosta, jeśli literalna nazwa nie istnieje. Nie pomijaj bramek jakości.
 6. `tools/` to kod integracyjny portalu. `extract_api_verification_log.py` przyjmuje neutralne `events` i zachowuje zgodność z Claude legacy, generycznymi tool-call oraz Responses-style.
-7. Ze względu na twardy limit 200 plików, 42 technicznych plików przykładowych serwerów MCP jest zachowanych bezstratnie w `tools/mcp-servers/mcp-servers-examples.zip` (SHA-256 `6b16d446e08ec5a3c401b371a7bf697e2b898bf2b903e2a1531a2ec818642756`). Gdy potrzebujesz kodu przykładowego serwera, rozpakuj ten plik; moduły promptowe nie zależą od jego rozwinięcia.
+7. Ze względu na twardy limit 200 plików, 42 technicznych plików przykładowych serwerów MCP jest zachowanych bezstratnie w `tools/mcp-servers/mcp-servers-examples.zip` (SHA-256 `ff4dd9ba5e8036f096c928c3047a56fad27bf22dae24d52fa1a3530339fe7692`, przebudowany 2026-09-26d, F-206 — poprzednio wpisany hash `6b16d446e...` pochodził z innej kompresji tej samej treści i nie jest odtwarzalny przy ponownym pakowaniu identycznych plików, bo ZIP nie jest deterministyczny bajt-w-bajt; zamiast porównywać hash archiwum, zweryfikowano treść wprost: `diff` każdego z 42 rozpakowanych plików przeciw blobom z historii git repozytorium — zero rozbieżności). Gdy potrzebujesz kodu przykładowego serwera, rozpakuj ten plik; moduły promptowe nie zależą od jego rozwinięcia.
 
 **Zasada nadrzędna:** jeśli istniejąca instrukcja jest zrozumiała i wykonalna w bieżącym hoście, wykonaj ją bez konwersji. Adapter działa tylko na granicy runtime.
 
@@ -137,7 +148,11 @@ Wszystkie pliki są kanoniczne — nie istnieją stuby ani kopie w innych lokali
 |------|------|
 | `tools/eli_art_extract.py` | Deterministyczny odczyt jednostki redakcyjnej z ELI po strukturze HTML (`data-id`), z pominięciem treści obwieszczenia i przypisów; pole `aktualnosc` wykrywa najnowszy t.j. dostępny tylko w PDF. Statusy FOUND/NOT_FOUND/AMBIGUOUS/OUT_OF_SCOPE. Testy: `tools/test_eli_art_extract.py` (unittest, tryb live `LEX_LIVE=1`). Dodane 2026-09-26, F-201 |
 | `tools/adapter_krs_vat.py` | Własny adapter KRS (`api-krs.ms.gov.pl`) + Biała lista VAT (`wl-api.mf.gov.pl`), bez serwerów zewnętrznych, bez klucza (F-204). Waliduje NIP (suma kontrolna) i dopełnia numer KRS zerami; zwraca FOUND/NOT_FOUND/INVALID_INPUT/ERROR — nigdy sam nie awansuje do statusu weryfikacji prawnej. ⚠️ Schemat KRS zmierzony LIVE 2026-09-26; schemat WL NIE zmierzony ponownie w tej sesji (blokada WAF Incapsula na kanale kodu z tego środowiska — zob. nagłówek pliku), przejęty z pomiaru zapisanego w `DOSTEP-MASZYNOWY-API.md` §4. Testy: `tools/test_adapter_krs_vat.py` (22 testy, w tym 2 live `LEX_LIVE=1`) |
-| `tools/walidator_cytowan.py` | Deterministyczna bramka: sprawdza, czy każde powołanie w gotowym piśmie ma odpowiadający log web_fetch. Pełny opis: `tools/README.md`. ⛔ **F-206: opisany tu i w `tools/README.md`, ale NIEOBECNY na dysku** — usunięty w commicie `ec3f530b` (2026-09-01); decyzja przywrócenia z historii git albo usunięcia opisu należy do dewelopera |
+| `tools/walidator_cytowan.py` | Deterministyczna bramka: sprawdza, czy każde powołanie w gotowym piśmie ma odpowiadający log web_fetch. Pełny opis: `tools/README.md`. ✅ **F-206 ZAMKNIĘTA 2026-09-26d** — przywrócony bajt-w-bajt z historii git repozytorium (usunięty z drzewa rozwojowego mergem `d3385b9`, 2026-08-27; odzyskany z równoległej migawki stabilnej sprzed jej osobnego usunięcia w `6dbe7a0`, 2026-09-08 — potwierdzona identyczność treści `diff`), usunięty wraz z 7 innymi narzędziami; zweryfikowany na fixture'ach `tools/przyklady/` (4/4 przypadki zgodne z opisem w `tools/README.md`) |
+| `tools/extract_api_verification_log.py` | Buduje `sesja.json` (log zdarzeń weryfikacji) z surowej konwersacji API; wejście dla `walidator_cytowan.py`. ✅ Przywrócony 2026-09-26d (F-206), `--self-test` PASS (2/2 zdarzenia poprawnie wydobyte) |
+| `tools/export_gate.py` | Łączy `extract_api_verification_log.py` + `walidator_cytowan.py` w jedną bramkę eksportu (exit 1 = zablokuj eksport). ✅ Przywrócony 2026-09-26d (F-206), `--self-test` PASS |
+| `tools/append_event.py` + `tools/hash_chain_verify.py` + `tools/router_event_parser.py` | Log audytowy hash-chain: zapis zdarzenia, weryfikacja integralności łańcucha, parsowanie znaczników. Referencyjne dla developera portalu (`shared/AUDIT-TRAIL-SPEC.md`). ✅ Przywrócone 2026-09-26d (F-206) — dodatkowo znalezione jako NIEOBECNE poza zakresem pierwotnego opisu F-206 w `WARN-OTWARTE.md` (ten sam commit usuwający, ta sama data). Zweryfikowane end-to-end: `append_event.py` zapisał 3-wpisowy łańcuch, `hash_chain_verify.py` potwierdził integralność, a po ręcznym spreparowaniu naruszenia (zmiana `payload` we wpisie seq=2) poprawnie wykrył pierwszy niezgodny wpis |
+| `tools/test_mcp_protocol.py` + `tools/connector_health_check.py` | Klasyfikacja odpowiedzi connectora MCP (testy jednostkowe) + health-check dostępności connectorów. Referencyjne, poza LLM (`shared/MCP-INTEGRACJA.md`). ✅ Przywrócone 2026-09-26d (F-206) — jak wyżej, poza pierwotnym zakresem F-206. `test_mcp_protocol.py`: 6/6 testów PASS (`python3 -m unittest test_mcp_protocol`). `connector_health_check.py --self-test`: PASS |
 
 ## Jak korzystać
 

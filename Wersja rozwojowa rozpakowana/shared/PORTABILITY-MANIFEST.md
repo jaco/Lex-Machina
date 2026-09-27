@@ -1,13 +1,24 @@
 # Portability manifest — shared
 
 - Source baseline: `e35599cf505b47d061e0ddca608c009feb4035bc`
-- Release: **3.82 (2026-09-26)** — pola „Release” i „Current files” zaktualizowane w tym wydaniu (stały na 3.61)
-- Current files in complete shared package: **176** (+3: MOD-WEJSCIE-DOKUMENTU.md, tools/eli_art_extract.py, tools/test_eli_art_extract.py)
-- ⚠️ Archiwum `tools/mcp-servers/mcp-servers-examples.zip` opisane niżej NIE występuje w pakiecie od 2026-09-01 (F-206)
+- Release: **3.84 (2026-09-26d, F-206)** — pola „Release” i „Current files” zaktualizowane w tym wydaniu
+- Current files in complete shared package: **192** (+16 vs 3.82's 176: 8 narzędzi `tools/*.py` +
+  `tools/przyklad-adapter-normalizujacy.md` + 4 fixture'y `tools/przyklady/` +
+  `tools/mcp-servers/mcp-servers-examples.zip` — wszystkie przywrócone bajt-w-bajt z historii git
+  repozytorium `michaleiatrak-star/lex-machina`, commit sprzed `6dbe7a0`; 42 luźne pliki
+  `tools/mcp-servers/**/*` NIE trzymane osobno na dysku — tylko w ZIP-ie, żeby zmieścić się w
+  limicie 200 plików)
+- ✅ Archiwum `tools/mcp-servers/mcp-servers-examples.zip` opisane niżej PRZYWRÓCONE 2026-09-26d
+  (F-206) — od 2026-08-27 (merge `d3385b9`) do 2026-09-26d było nieobecne w pakiecie mimo opisu w `SKILL.md`
 - Original files: **205**
 - Expanded files after lossless MCP-example compaction, before manifest/checksums: **164**
 - Frontmatter description: **163/200**
-- Nested MCP archive SHA-256: `6b16d446e08ec5a3c401b371a7bf697e2b898bf2b903e2a1531a2ec818642756`
+- Nested MCP archive SHA-256: `ff4dd9ba5e8036f096c928c3047a56fad27bf22dae24d52fa1a3530339fe7692`
+  (przebudowany 2026-09-26d — poprzedni hash `6b16d446e...` pochodził z innej kompresji tej samej
+  treści i jest nieodtwarzalny przy ponownym pakowaniu identycznych plików: ZIP nie jest
+  deterministyczny bajt-w-bajt. Weryfikacja tożsamości treści poniżej opiera się na **hashach
+  pojedynczych plików** — te 42 wartości `sha256` per-file zostały wszystkie potwierdzone zgodne
+  z odzyskanymi z historii git plikami; to one, nie hash archiwum, są dowodem identyczności treści)
 
 `shared` pozostaje jedynym SSOT. Wszystkie moduły promptowe pozostają rozwinięte. Jedynie przykładowe serwery MCP — kod techniczny, którego `SKILL.md` nie każe wczytywać jako prompt — są zapakowane wewnętrznie z pełną listą oryginalnych ścieżek i SHA-256 poniżej.
 

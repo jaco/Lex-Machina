@@ -1,5 +1,30 @@
 # CHANGELOG — Biblioteka shared
 
+## 3.84 — 2026-09-26d — F-206: przywrócenie 8 narzędzi tools/ z historii git
+
+Przywrócone bajt-w-bajt z historii repozytorium `michaleiatrak-star/lex-machina`. Usunięte z
+drzewa rozwojowego (to, które odzwierciedla ten skill) mergem `d3385b9` (2026-08-27); ta sama
+treść usunięta osobno, później, z równoległej migawki „stabilnej" w commicie `6dbe7a0`
+(2026-09-08) — dwa różne zdarzenia usunięcia, nie jedno; odzyskane z rodzica `6dbe7a0` po
+potwierdzeniu bajt-w-bajt identyczności z ostatnią wersją drzewa rozwojowego. Poprzedni opis
+F-206 wskazywał commit `ec3f530b` (2026-09-01) — to był błąd: ten commit tylko wymienił ZIP-y
+binarne, nie usunął plików `tools/`. Przywrócone: `tools/walidator_cytowan.py`,
+`tools/extract_api_verification_log.py`, `tools/export_gate.py` (pierwotny opisany zakres
+F-206) oraz — znalezione jako dodatkowo nieobecne poza tym opisanym zakresem, tym samym
+commitem usunięte — `tools/append_event.py`, `tools/hash_chain_verify.py`,
+`tools/router_event_parser.py`, `tools/test_mcp_protocol.py`, `tools/connector_health_check.py`.
+Plus 4 fixture'y `tools/przyklady/` i `tools/mcp-servers/mcp-servers-examples.zip` (42 pliki,
+przebudowany — nowy SHA-256 archiwum, ale wszystkie 42 hashe per-file zweryfikowane identyczne
+z manifestem `PORTABILITY-MANIFEST.md` sprzed usunięcia). Wszystkie 8 narzędzi zweryfikowane
+funkcjonalnie: self-testy PASS, `walidator_cytowan.py` 4/4 zgodne z `tools/README.md`,
+`test_mcp_protocol.py` 6/6, `append_event.py`+`hash_chain_verify.py` end-to-end (zapis łańcucha
++ wykrycie ręcznie spreparowanego naruszenia integralności). `shared/SKILL.md` (tabela tools/,
+adapter pkt 7, changelog, licznik plików), `shared/tools/README.md`, `shared/PORTABILITY-MANIFEST.md`,
+`shared/DEPENDENCY-GRAPH.md` zaktualizowane. Plik `mcp-servers-examples.zip` NIE jest
+deterministyczny bajt-w-bajt — poprzedni wpisany hash archiwum (`6b16d446e...`) jest
+nieodtwarzalny nawet z identyczną treścią; udokumentowane wprost jako ograniczenie metody,
+nie jako rozbieżność treści. 178 → 192 plików.
+
 ## 3.83 — 2026-09-26 — F-204: adapter KRS + Biała lista VAT
 
 Nowy `tools/adapter_krs_vat.py` (+ `tools/test_adapter_krs_vat.py`, 22 testy) — własny
