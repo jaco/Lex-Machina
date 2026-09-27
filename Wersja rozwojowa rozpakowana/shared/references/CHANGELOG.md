@@ -1,5 +1,78 @@
 # CHANGELOG — Biblioteka shared
 
+## 3.89 — 2026-09-27i — AUDYT-2026-09-27i: przegląd wszystkich 7 przykładowych serwerów + tabela stanu kanałów
+
+⛔ **Wszystkie siedem przykładów w `tools/mcp-servers/` zmierzone wobec żywych API** (dotąd
+sprawdzony był tylko ISAP, w 3.88 — a skoro jeden miał błędny endpoint, założenie o resztcie
+nie miało podstaw). Wyniki i poprawki w nagłówkach plików:
+
+- `ceidg-example`: v2 → **HTTP 404**; poprawione na v3, ale v3 → **HTTP 401** (wymaga tokenu
+  z rejestracji CEIDG) — zapisane wprost, żeby konektor nie udawał braku podmiotu
+- `eurlex-example`: SPARQL `/webapi/rdf/sparql` → **HTTP 406**; dopisana właściwa droga
+  (Cellar REST + oba wymagane nagłówki), gotowy konektor to plugin `mcp-eurlex`
+- `sudop-example`: **303**, a po przekierowaniu „Przygotowywanie odpowiedzi, 60 sekund" —
+  API **asynchroniczne**, jedno żądanie nie wystarcza
+- `nbp-example`: dopisana pułapka dni wolnych (14–15.03.2026 → 404)
+- `saos-example`: ⭐ ustalenie, że SAOS zawiera **22 168 orzeczeń KIO**
+  (`courtType=NATIONAL_APPEAL_CHAMBER`) — osobny konektor do KIO jest zbędny
+- `krs-example`, `isap-eli-example`: endpointy potwierdzone 200
+
+`KONEKTORY-REKOMENDOWANE.md`: nowa tabela stanu **13 kanałów** z pomiarem i wskazaniem
+konektora produkcyjnego. Archiwum `mcp-servers-examples.zip` przebudowane, hashe archiwum
+i pięciu plików zaktualizowane w `PORTABILITY-MANIFEST.md` i `tools/README.md`.
+
+## 3.88 — 2026-09-27h — AUDYT-2026-09-27h: własny konektor ISAP naprawiony i zmierzony; korekta wydania 3.87
+
+⛔ **Naprawiony błąd w `tools/mcp-servers/isap-eli-example/`:** serwer budował
+`…/eli/acts/DU/search?title=…` → **HTTP 404**. Poprawiony na zmierzony endpoint
+`…/eli/acts/search?publisher=DU&title=…` → HTTP 200. Po poprawce pełny cykl MCP
+(`connect → listTools → callTool → close`) na żywym API: „Kodeks karny skarbowy" →
+`AMBIGUOUS`, 33 kandydatów (`DU 2026 poz. 901`, `DU 2025 poz. 633`), zgodnie
+z niezależnym odczytem ELI. Docstring i komentarz `ELI_BASE_URL` zmienione
+z „nieprzetestowane wobec żywego API" na przetestowane. Archiwum
+`mcp-servers-examples.zip` przebudowane (42 pliki bez zmian), hash archiwum
+i hash per-file zaktualizowane w `PORTABILITY-MANIFEST.md` i `tools/README.md`.
+
+⛔ **Zmierzona pułapka środowiska:** `getDefaultEnvironment()` z oficjalnego SDK
+przekazuje serwerowi wyłącznie `HOME`, `PATH`, `SHELL`, `TERM` — bez `HTTPS_PROXY`
+i `NODE_EXTRA_CA_CERTS`. Za proxy każde `fetch` serwera kończy się `fetch failed`,
+co wygląda jak awaria API. Ten sam serwer, to samo zapytanie: bez `env` → ERROR,
+z `env` → AMBIGUOUS/33. Reguła dopisana do `KONEKTORY-REKOMENDOWANE.md`.
+
+⚠️ **Korekta wydania 3.87.** Tamten wpis twierdził, że „narzędzia MCP nie nazywają
+się w ten sposób" (o `isap_lookup` i pokrewnych). Twierdzenie było **za szerokie
+i niezmierzone wobec własnych serwerów** — `isap_lookup` to faktyczna nazwa
+z `registerTool()` w `isap-eli-example`. Prawdziwa przyczyna awarii wykrywania jest
+inna: w hoście narzędzie widać jako `mcp__<serwer>__isap_lookup`, więc szukanie
+samej nazwy własnej nie trafi. `MCP-INTEGRACJA.md` poprawione na (a) wiszące
+odesłanie, (b) nazwa istnieje, (c) brak prefiksu jako faktyczna przyczyna.
+
+Dopisane do `KONEKTORY-REKOMENDOWANE.md`: mechanika serwera w pluginie
+(`${CLAUDE_PLUGIN_ROOT}`, `${CLAUDE_PLUGIN_DATA}`, `npm ci --ignore-scripts` przy
+`package-lock.json`) oraz ograniczenie transportu — stdio nie działa na claude.ai,
+tam konieczny transport zdalny HTTPS; oba oznaczone ⚠️ [dokumentacja, nie pomiar].
+
+## 3.87 — 2026-09-27g — AUDYT-2026-09-27g: wykrywanie MCP naprawione (nie mogło działać)
+
+⛔ `MCP-INTEGRACJA.md` KROK 1 kazał szukać narzędzi „nazwanych wg wzorca
+z `KONEKTORY-REKOMENDOWANE.md` (np. `isap_lookup`, `saos_search`, `cbosa_search`,
+`krs_lookup`, `eurlex_lookup`)". Zmierzone: (a) tych nazw nigdy nie było
+w `KONEKTORY-REKOMENDOWANE.md` — odesłanie prowadziło do nieistniejącej konwencji;
+(b) narzędzia MCP nie nazywają się w ten sposób. Tryb MCP-FIRST nie włączyłby się
+nawet przy poprawnie zainstalowanym konektorze — system pracowałby trwale
+w FALLBACK-HARDGATE, nie sygnalizując tego.
+
+**Naprawa:** wykrywanie po KSZTAŁCIE nazwy (`mcp__<serwer>__<narzędzie>`) i po
+ZDOLNOŚCI narzędzia, z jawnym zakazem zgadywania nazw własnych. Dodana tabela
+zmierzonego serwera ELI/ISAP (`@matematicsolutions/mcp-isap` 1.3.0: `search_acts`,
+`get_act`, `get_act_text`; protokół 2024-11-05 zweryfikowany `initialize` +
+`tools/list` + `tools/call`).
+
+`KONEKTORY-REKOMENDOWANE.md`: nowa sekcja „gdzie się konfiguruje serwer MCP" —
+trzy miejsca konfiguracji i które z nich wędruje z instalacją pluginu. Odnotowane,
+że `.mcp.json` repozytorium leży w korzeniu, więc **nie** instaluje się razem
+z pluginami z marketplace (F-8/F-94, decyzja dewelopera).
+
 ## 3.86 — 2026-09-27e — AUDYT-2026-09-27e: manifest pluginu i jawna zależność od shared
 
 claude.ai po dodaniu marketplace instalował wyłącznie 4 z 32 pluginów (shared, prawny-router-v3, analizator-dowodow-v3, przesluchanie-swiadkow-v2-min90); jedyna cecha wspólna tych 4, nieobecna w żadnym z 28 pozostałych, to klucz `dependencies` we frontmatterze SKILL.md. Ten skill już go miał; oraz jawny manifest pluginu (name, description = description z SKILL.md, author, repository, license) — host nie musi niczego wnioskować z SKILL.md. `version` w manifeście = `version:` z SKILL.md (pilnuje T38 w audyt-systemu-v4) — host rozpoznaje aktualizację po podbiciu wersji. Treść skilla bez zmian.
