@@ -1,0 +1,376 @@
+# mod-SUS-ZUS-ubezpieczenia-spoleczne
+
+**Status:** moduł klasy kancelaryjnej — poziom DR-03
+**Źródło weryfikacji:** SUS — Dz.U. 2026 poz. 199 t.j. | FUS — Dz.U. 2025 poz. 1749 t.j. | Ustawa orzecznicza — Dz.U. 2026 poz. 26 | KPC art. 477⁸–477¹⁴ — Dz.U. 2026 poz. 468
+**Data weryfikacji online:** 2026-06-05
+**Zasada:** Każde brzmienie przepisu przed powołaniem → isap.sejm.gov.pl
+
+---
+
+## ⚡ ALERTY LEGISLACYJNE — CZYTAJ PRZED ANALIZĄ
+
+| Zmiana | Status | Podstawa |
+|---|---|---|
+| **Reforma orzecznictwa ZUS — Etap I** | **OBOWIĄZUJE od 27.01.2026** — kontrola prawidłowości orzekania o czasowej niezdolności do pracy i o konieczności opieki (art. 56, 59, 60 ustawy zasiłkowej; art. 43 pkt 1 ustawy 2026/26). ⛔ KOREKTA 2026-09-22 (F-193): definicje pracy zarobkowej i aktywności niezgodnej z celem zwolnienia NIE należą do tego etapu — obowiązują od **13.04.2026** (art. 17 ust. 1a–1b, art. 13 pkt 2 ustawy 2026/26; wiersz niżej) | Dz.U. 2026 poz. 26 ✅ [VER: api.sejm.gov.pl/eli DU/2026/26 text.pdf, art. 43, 2026-09-22] |
+| **L4 — utrata zasiłku, definicje** | **OBOWIĄZUJE od 13.04.2026** — art. 17 ust. 1–1c i 4 ustawy zasiłkowej: utrata zasiłku za cały okres zwolnienia przy pracy zarobkowej lub aktywności niezgodnej z celem; definicje w ust. 1a–1b; kilka tytułów → niezdolność dotyczy każdego (ust. 1c). Szczegóły: `mod-ustawa-zasilkowa-choroba-macierzynstwo.md` §4a | Dz.U. 2026 poz. 26, art. 13 pkt 2 ✅ [VER: api.sejm.gov.pl/eli DU/2026/26 + DU/2026/854, 2026-09-22] |
+| **Reforma orzecznictwa ZUS — Etap II** | **OBOWIĄZUJE od 13.04.2026** — pielęgniarki/fizjoterapeuci wydają orzeczenia, badania zdalne, max 30 dni na orzeczenie | Dz.U. 2026 poz. 26 |
+| **Reforma orzecznictwa ZUS — Etap III** | **OGŁOSZONY — wchodzi 01.01.2027** (art. 43 pkt 3 ustawy 2026/26; ⛔ KOREKTA 2026-09-22, F-193: to NIE projekt — dawna etykieta „PLANOWANY / WERYFIKUJ STATUS" była błędna) — art. 85c–85j SUS: sprzeciw 14 dni do ZUS (art. 85f ust. 1), ponowne rozpatrzenie przez INNEGO lekarza orzecznika, w sprawach szczególnie skomplikowanych — trzech lekarzy łącznie (art. 85f ust. 5, 7, 8); od orzeczenia po ponownym rozpatrzeniu sprzeciw nie przysługuje (ust. 9); orzeczenie w postaci elektronicznej (art. 85e ust. 12). Sprzeciw NIE przysługuje od orzeczeń w kontroli z art. 59 ustawy zasiłkowej | Dz.U. 2026 poz. 26 ✅ [VER: api.sejm.gov.pl/eli DU/2026/26 text.pdf, 2026-09-22] |
+| **L4 z jednego tytułu (praca u drugiego płatnika)** | **OGŁOSZONY — wchodzi 01.01.2027** — art. 17 ust. 1d–1e i art. 9 ust. 4 ustawy zasiłkowej. ⛔ Tekst jest JUŻ w t.j. 2026/854 z przypisem „wejdzie w życie z dniem 1 stycznia 2027 r." — NIE stosować do zwolnień przed tą datą | Dz.U. 2026 poz. 26, art. 13 pkt 1 i 2 lit. b, art. 43 pkt 3 ✅ [VER: api.sejm.gov.pl/eli DU/2026/854 text.pdf, przypis 7, 2026-09-22] |
+| **Emerytury czerwcowe 2009–2019** | **PRZELICZONE Z URZĘDU** przez ZUS, zakończone marzec 2026; średnia podwyżka ~163 zł/mies., wyrównanie od 01.01.2026 | Dz.U. 2025 poz. 1169 |
+| **Wyrok TK SK 140/20 z 4.06.2024** | ZUS odmawia przeliczenia (wyrok niepublikowany w Dz.U.) → sądy masowo nakazują przeliczenie | — |
+
+---
+
+## 1. CORE
+
+### Zakres modułu
+Ubezpieczenia społeczne (emerytalne, rentowe, chorobowe, wypadkowe), odwołanie od decyzji ZUS do sądu pracy (nie WSA!), sprzeciw od orzeczenia lekarskiego, kapitał początkowy, emerytura i jej obliczenie, renty (z tytułu niezdolności do pracy, rodzinna, szkoleniowa), zasiłki (chorobowy, macierzyński, opiekuńczy, rehabilitacyjny).
+
+### Akty i źródła kontrolne
+
+| Akt | Dz.U. |
+|---|---|
+| Ustawa SUS (system ubezpieczeń społecznych) | Dz.U. 2026 poz. 199 t.j. |
+| Ustawa FUS (świadczenia z Funduszu Ubezpieczeń Społecznych) | Dz.U. 2025 poz. 1749 t.j. |
+| Ustawa zasiłkowa (świadczenia pieniężne w razie choroby i macierzyństwa) | weryfikuj aktualny t.j. w ELI (RZĄD 1) |
+| Ustawa orzecznicza (reforma orzecznictwa ZUS) | Dz.U. 2026 poz. 26 |
+| KPC (postępowanie w sprawach ZUS) | Dz.U. 2026 poz. 468 — art. 477⁸–477¹⁴ |
+
+---
+
+## 2. INTAKE
+
+```
+□ Jaki rodzaj sprawy: emerytura / renta / zasiłek / składki / kapitał początkowy?
+□ Jaki etap: orzeczenie lekarskie / decyzja ZUS / postępowanie sądowe?
+□ Data doręczenia orzeczenia lekarskiego → OBLICZ TERMIN 14 DNI (sprzeciw)
+□ Data doręczenia decyzji ZUS → OBLICZ TERMIN 1 MIESIĄCA (odwołanie do sądu)
+□ Czy złożono sprzeciw od orzeczenia lekarskiego? → OBOWIĄZKOWE przed sądem!
+□ Czy brak pouczenia w decyzji? → termin na odwołanie nie biegnie
+□ Reforma orzecznicza 2026 — czy orzeczenie wystawiono po 13.04.2026?
+```
+
+---
+
+## 3. PROCEDURA
+
+### ZASADA ABSOLUTNA — NIE MA WSA W SPRAWACH ZUS
+
+```
+⚠️ Decyzje ZUS/KRUS → Sąd Okręgowy (wydział pracy i ubezpieczeń społecznych)
+                    lub Sąd Rejonowy — ⚠️ POPRAWKA 2026-07-27 (FAZA 3E/
+                    ZASADA 14): BŁĘDNIE wcześniej podano próg kwotowy
+                    "składki < 100 000 zł → SR". NIE MA progu
+                    kwotowego — właściwość zależy WYŁĄCZNIE OD RODZAJU
+                    SPRAWY (potwierdzone w 5+ zgodnych źródłach, w tym
+                    hrlex.pl):
+                      • SR — TYLKO enumeratywnie: zasiłek chorobowy,
+                        wyrównawczy, opiekuńczy, macierzyński,
+                        pogrzebowy, świadczenie rehabilitacyjne,
+                        ustalenie niepełnosprawności — BEZ WZGLĘDU
+                        na wartość przedmiotu sporu
+                      • SO — WSZYSTKIE POZOSTAŁE sprawy, w tym:
+                        emerytura, renta, kapitał początkowy,
+                        PODLEGANIE UBEZPIECZENIOM, **SKŁADKI** —
+                        RÓWNIEŻ bez względu na wartość (żaden próg
+                        kwotowy nie ma tu zastosowania)
+Tryb: KPC art. 477⁸–477¹⁴ — NIE tryb PPSA — NIE WSA!
+```
+
+### Schemat postępowania ZUS
+
+```
+Orzeczenie lekarza orzecznika ZUS / pielęgniarki* / fizjoterapeuty*
+  ↓ [14 dni] SPRZECIW DO ZUS (tego samego oddziału) — OBOWIĄZKOWY!
+    * od 13.04.2026 — weryfikuj uprawnienia w aktualnej ustawie
+Ponowne rozpatrzenie przez innego lekarza orzecznika
+  (od 1.01.2027: w sprawach szczególnie skomplikowanych główny lekarz orzecznik może skierować
+   sprawę do 3 lekarzy orzeczników orzekających łącznie — art. 85f ust. 8 SUS; ⛔ nie „od 13.04.2026")
+  ↓
+Decyzja ZUS
+  ↓ [1 miesiąc] ODWOŁANIE DO SĄDU (art. 477⁹ §1 KPC)
+    Składane ZA POŚREDNICTWEM ZUS (autokontrola 30 dni — ZUS może sam zmienić decyzję)
+Emerytura / Renta z FUS → Sąd OKRĘGOWY
+Zasiłki / Świadczenie rehab. / Niepełnosprawność → Sąd REJONOWY
+Składki / Podleganie ubezpieczeniom → Sąd OKRĘGOWY (BEZ WZGLĘDU na
+  kwotę — usunięto błędny próg "100 000 zł", patrz poprawka wyżej)
+  ↓ [2 tygodnie od doręczenia wyroku z uzasadnieniem; 3 tygodnie przy przedłużonym
+     terminie uzasadnienia — art. 369 KPC] APELACJA → Sąd Apelacyjny
+     (opłata PODSTAWOWA 30 zł — nie „wpis" — art. 36 ust. 1 w zw. z art. 14 ust. 3 KSCU;
+     ✅ RZĄD 1 2026-09-17o, KSCU Dz.U. 2025 poz. 1228)
+  ↓ [2 MIESIĄCE od doręczenia orzeczenia z uzasadnieniem — art. 398⁵ § 1 KPC;
+     ⛔ nie „30 dni od wyroku SA"] SKARGA KASACYJNA → SN (przymus adwokacki) <!-- T28-OK: cytat opisowy — dokumentacja korekty -->
+```
+
+> ⚠️ **POMINIĘCIE SPRZECIWU = sąd ODRZUCI odwołanie (art. 477¹⁴a KPC)**
+> Pułapka: Orzeczenie pozornie korzystne (np. błędna data niezdolności) → złóż sprzeciw kwestionując datę!
+
+---
+
+## 4. EMERYTURA — OBLICZENIE I TYPOWE PROBLEMY
+
+### Wzór obliczenia (nowy system — urodzeni od 1949 r.)
+
+```
+Emerytura = Podstawa obliczenia ÷ Średnie dalsze trwanie życia (tablice GUS)
+
+Podstawa obliczenia:
+  + Zwaloryzowane składki na koncie ZUS (od 1999 r.)
+  + Zwaloryzowany kapitał początkowy (za okresy przed 1999 r.)
+  + Środki z OFE (po przekształceniu)
+```
+
+### Typowe przyczyny zaniżonej emerytury
+
+```
+□ Błędny kapitał początkowy — brak zaświadczeń Rp-7, pominięte okresy
+□ Pominięte okresy składkowe / nieskładkowe (urlopy wychowawcze, wojsko, urlop macierzyński)
+□ Praca w szczególnych warunkach / o szczególnym charakterze — nieuwzględniona
+□ Niekorzystna tablica GUS — moment złożenia wniosku ma znaczenie
+□ Błąd czerwcowy 2009–2019 (emerytury czerwcowe — przeliczone z urzędu do marca 2026)
+□ Wyrok TK SK 140/20 z 4.06.2024 — dotyczy konkretnej grupy (patrz niżej)
+```
+
+### Wyrok TK SK 140/20 — przeliczenie emerytur
+
+```
+Orzeczono: art. 25 ust. 1b ustawy FUS niezgodny z Konstytucją
+Kogo dotyczy:
+  → Kobiety ur. 1949–1959 (z wyjątkiem rocznika 1953*)
+  → Mężczyźni ur. 1949–1954 (z wyjątkiem rocznika 1953*)
+  → Warunek: wniosek o wcześniejszą emeryturę PRZED 6.06.2012 r.
+             + przejście na emeryturę powszechną po 01.01.2013
+
+* Rocznik 1953 = odrębna ustawa z 2020 r. (Dz.U. 2020 poz. 1222)
+
+Status: ZUS odmawia (wyrok TK niepublikowany w Dz.U.)
+Tryb: wniosek o wznowienie postępowania (art. 190 ust. 4 Konstytucji)
+      lub odwołanie od decyzji odmownej do SO
+      sądy masowo zasądzają przeliczenie — weryfikuj aktualną linię SN
+```
+
+---
+
+## 5. REFORMA ORZECZNICTWA ZUS — SZCZEGÓŁY (Dz.U. 2026 poz. 26)
+
+```
+ETAP I (27.01.2026) — OBOWIĄZUJE:
+  → Kontrola prawidłowości orzekania o czasowej niezdolności do pracy
+    i o konieczności opieki (art. 56, 59, 60 ustawy zasiłkowej)
+  ⛔ KOREKTA 2026-09-22 (F-193): definicje pracy zarobkowej / aktywności
+    niezgodnej z celem L4 były tu błędnie przypisane — to 13.04.2026
+
+ETAP L4 (13.04.2026) — OBOWIĄZUJE:
+  → art. 17 ust. 1–1c, 4 ustawy zasiłkowej (definicje, kilka tytułów)
+  → postępowania wszczęte przed 13.04.2026 — przepisy dotychczasowe
+    (art. 39 ustawy 2026/26)
+
+ETAP II (13.04.2026) — OBOWIĄZUJE:
+  → Pielęgniarki i fizjoterapeuci uprawnieni do wydawania orzeczeń
+    (sprzeciw od ich orzeczenia → do lekarza orzecznika)
+  → Lekarze bez specjalizacji lub z 5-letnim stażem mogą być orzecznikami
+  → Badania orzecznicze zdalnie (wideorozmowa)
+  → Max 30 dni na wydanie orzeczenia; przekroczenie → prawo ponaglenia strony
+
+ETAP III (01.01.2027) — OGŁOSZONY, data ustawowa (art. 43 pkt 3):
+  → art. 85c–85j SUS: sprzeciw → ponowne rozpatrzenie przez innego
+    lekarza orzecznika; sprawy szczególnie skomplikowane — trzech
+    lekarzy łącznie (art. 85f); orzeczenie elektroniczne (art. 85e ust. 12)
+  → sprawy wszczęte i niezakończone przed 1.01.2027 — już NOWE art.
+    85c–85j (art. 38 ust. 1 ustawy 2026/26 — odwrotnie niż zwykle!)
+  → art. 17 ust. 1d–1e + art. 9 ust. 4 ustawy zasiłkowej: L4 z jednego
+    tytułu na żądanie ubezpieczonego, obowiązek poinformowania płatnika,
+    jeden okres zasiłkowy niezależnie od liczby tytułów
+  ✅ [VER: api.sejm.gov.pl/eli DU/2026/26 text.pdf, 2026-09-22]
+```
+
+---
+
+## 6. DOWODY
+
+| Teza | Dowód | Źródło | Siła | Luka | Działanie |
+|---|---|---|---|---|---|
+| Niezaliczone okresy składkowe | Zaświadczenie Rp-7, umowy, świadectwa pracy | pracodawca / ZUS | wysoka | pracodawca nieistniejący | ZUS może potwierdzić ze swoich akt |
+| Praca w szczególnych warunkach | Zaświadczenie pracodawcy (na formularzu ZUS), świadectwa pracy | pracodawca | wysoka | brak druku ZUS | zeznania świadków, dokumenty BHP |
+| Niezdolność do pracy | Dokumentacja medyczna, opinia biegłego | lekarze | wysoka | nieaktualna dokumentacja | aktualna specjalistyczna |
+| Błędna data niezdolności | Historia choroby, dokumentacja ZLA | lekarze | wysoka | brak dokumentacji z okresu | wnioskuj o biegłego sądowego |
+| Błędny kapitał początkowy | Zaświadczenia o zarobkach (Rp-7) | pracodawca / ZUS | wysoka | brak zaświadczeń | archiwa państwowe / ZUS ROPAN |
+
+---
+
+## 7. STRATEGIA
+
+### Perspektywa ubezpieczonego / wnioskującego
+
+1. Sprzeciw od orzeczenia lekarskiego jest obowiązkowy przed sądem — nigdy nie pomijaj.
+2. Brak pouczenia w decyzji = termin na odwołanie nie biegnie — sprawdź pouczenie.
+3. Zbierz zaświadczenia Rp-7 ze wszystkich miejsc pracy — to podstawa kapitału.
+4. Przy emerytury praca w szcz. warunkach — zaświadczenie na druku ZUS US-7.
+5. Przy wyroku TK SK 140/20 — wniosek o wznowienie lub odwołanie od decyzji odmownej.
+
+### Ryzyka
+
+| Ryzyko | Opis | Działanie zaradcze |
+|---|---|---|
+| Pominięcie sprzeciwu | Sąd odrzuci odwołanie bez merytorycznego rozpoznania | Sprzeciw zawsze, nawet od orzeczenia korzystnego z błędną datą |
+| Termin 1 miesiąca na odwołanie | Decyzja prawomocna | Oblicz termin natychmiast |
+| Brak zaświadczeń Rp-7 | Niższy kapitał / emerytura | Archiwa ZUS, Archiwum Akt Nowych, archiwa pracodawców |
+| Brak pouczenia w decyzji | Termin nie biegnie — ale może upłynąć rok (art. 477⁹ §2 KPC) | Złóż odwołanie niezwłocznie |
+
+---
+
+## 8. ORZECZNICTWO
+
+```
+web_search: "sprzeciw orzeczenie lekarskie ZUS pominięcie konsekwencje SN sn.pl"
+web_search: "wyrok TK SK 140/20 przeliczenie emerytury ZUS odwołanie SO 2025 2026"
+web_search: "emerytura czerwcowa ZUS przeliczenie ustawa 2025 poz. 1169"
+web_search: "renta niezdolność do pracy biegły sądowy orzecznictwo SN sn.pl"
+```
+
+---
+
+## 9. QUALITY GATE
+
+- [ ] Termin na sprzeciw (14 dni) lub odwołanie (1 miesiąc) obliczony?
+- [ ] Sprzeciw złożony (jeśli orzeczenie lekarskie)?
+- [ ] Właściwy sąd (SO / SR) ustalony?
+- [ ] Reforma orzecznicza (etap I/II/III) uwzględniona?
+- [ ] Akty prawne SUS i FUS zweryfikowane w ISAP?
+- [ ] Każda przesłanka ma przypisany dowód?
+
+---
+
+## 10. OUTPUT
+
+1. Stan faktyczny; 2. Stan prawny (Dz.U. z ISAP, w tym reforma orzecznicza); 3. Kwalifikacja świadczenia; 4. Terminy (sprzeciw 14 dni / odwołanie 1 miesiąc); 5. Matryca dowodowa; 6. Analiza ryzyk; 7. Strategia; 8. Rekomendacja; 9. Kontrola ISAP/temporalności.
+
+---
+
+## POWIĄZANIA
+
+| Sytuacja | Skill / Moduł |
+|---|---|
+| KRUS (rolnicy) | `mod-KRUS-rolnicze-ubezpieczenia` |
+| Pismo: odwołanie od decyzji ZUS | `pisma-procesowe-v3` |
+| Orzecznictwo SN — ubezpieczenia | `orzeczenia-sadowe-v2` |
+| Rehabilitacja / PFRON | `mod-ustawa-rehabilitacja-PFRON` |
+
+---
+
+## ŹRÓDŁA ONLINE
+
+- Ustawa SUS: https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20260000199
+- Ustawa FUS: https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20251749
+- ZUS (wnioski): https://www.zus.pl
+- SN (orzeczenia): https://www.sn.pl
+
+---
+
+## ANEKS A — RENTA Z TYTUŁU NIEZDOLNOŚCI DO PRACY — TRZY PRZESŁANKI
+
+> **Podstawa:** art. 57 ustawy FUS — Dz.U. 2025 poz. 1749 t.j. | weryfikuj w ELI (RZĄD 1).
+
+```
+Przesłanka 1: Całkowita lub częściowa niezdolność do pracy
+  (orzeczenie lekarza orzecznika ZUS / pielęgniarki* / fizjoterapeuty*)
+  * od 13.04.2026 — weryfikuj aktualne uprawnienia
+
+Przesłanka 2: Wymagany staż ubezpieczeniowy
+  Wiek w dniu powstania niezdolności:
+  Do 20 lat:      1 rok
+  20–22 lata:     2 lata
+  22–25 lat:      3 lata
+  25–30 lat:      4 lata
+  Powyżej 30 lat: 5 lat w ostatnim 10-leciu przed wnioskiem lub niezdolnością
+
+Przesłanka 3: Niezdolność powstała w OKRESIE SKŁADKOWYM / NIESKŁADKOWYM
+              lub w ciągu 18 miesięcy po ich ustaniu
+  ⚠️ WYJĄTEK: ubezpieczony z ≥ 25 latami stażu → warunek przesłanki 3 odpada
+```
+
+---
+
+## ANEKS B — KALKULATOR TERMINÓW ZUS
+
+| Czynność | Termin |
+|---|---|
+✅ [VER] RZĄD 1 2026-09-17o — FUS t.j. `Dz.U. 2025 poz. 1749` + nowelizacja `Dz.U. 2026 poz. 26`
+(ogłoszona 12.01.2026; wchodzi ETAPAMI — art. 43); KPC `Dz.U. 2026 poz. 468`.
+
+| Czynność | Termin | Podstawa |
+|---|---|---|
+| Sprzeciw od orzeczenia lekarza orzecznika — **do 31.12.2026** | **14 dni** od doręczenia orzeczenia | art. 14 ust. 2a FUS |
+| Sprzeciw od orzeczenia — **od 1.01.2027** | **14 dni** od doręczenia; ZUS nie rozpatruje sprzeciwu po terminie (przywrócenie — przepis szczególny) | art. 85f SUS (dodany ustawą `2026/26`; art. 14 ust. 2a–6 FUS uchylone z tą samą datą) |
+| Ponaglenie w sprawie orzeczenia — **od 1.01.2027** | ZUS rozpatruje w **7 dni**; art. 37 KPA nie stosuje się | art. 85e ust. 7–9 SUS |
+| Sprzeciw od orzeczenia **pielęgniarki / pielęgniarza** (niezdolność do samodzielnej egzystencji) albo **fizjoterapeuty** (rehabilitacja lecznicza w ramach prewencji rentowej) — **od 13.04.2026** | **14 dni** — do 31.12.2026 stosuje się **odpowiednio przepisy o orzekaniu przez lekarzy orzeczników** (w tym sprzeciw z art. 14 ust. 2a FUS); od 1.01.2027 — art. 85f SUS | art. 85a ust. 2 SUS (od 13.04.2026), art. 34 ustawy `2026/26` (✅ RZĄD 1 2026-09-17p; korekta: wpis z 17o oznaczał ten wiersz błędnie jako „bez podstawy") |
+| Odwołanie od decyzji ZUS | **miesiąc** od doręczenia decyzji; wnoszone do organu, który ją wydał | art. 477⁹ § 1 KPC |
+| Przekazanie odwołania do sądu przez ZUS | **30 dni** od otrzymania (ZUS może uwzględnić odwołanie w całości) | art. 477⁹ § 2 KPC |
+| Apelacja od wyroku SO | **2 tygodnie** od doręczenia wyroku z uzasadnieniem; **3 tygodnie**, gdy przedłużono termin uzasadnienia | art. 369 § 1–1¹ KPC |
+| Skarga kasacyjna do SN | **2 miesiące** od doręczenia orzeczenia z uzasadnieniem (⛔ nie „30 dni od wyroku SA") | art. 398⁵ § 1 KPC | <!-- T28-OK: cytat opisowy — dokumentacja korekty -->
+| Wydanie decyzji o prawie do świadczenia po raz pierwszy | **30 dni** od wyjaśnienia ostatniej okoliczności niezbędnej do wydania decyzji | art. 118 ust. 1 FUS |
+| Ponaglenie przy bezczynności ZUS w sprawie decyzji | po upływie terminu z art. 118 ust. 1 (ponaglenie z art. 37 KPA) — ⛔ nie „po 2 miesiącach od wniosku" | art. 118 FUS, art. 37 KPA |
+| Wniosek o przeliczenie emerytury / kapitału | brak terminu zawitego | — |
+
+---
+
+## ANEKS C — PREDYKCJA WYNIKU ZUS — SZABLON
+
+```
+Szanse na wygraną: [0–100%]
+IN PLUS:
+  → Dokumentacja medyczna kompletna i aktualna
+  → Zaświadczenia Rp-7 ze wszystkich miejsc pracy
+  → Biegły sądowy na korzyść ubezpieczonego
+  → Wyrok TK SK 140/20 (dotyczy konkretnej osoby)
+  → Błąd czerwcowy — ustawa z 5.08.2025 (przeliczone z urzędu)
+IN MINUS:
+  → Brak sprzeciwu od orzeczenia lekarskiego → sąd odrzuci odwołanie
+  → Upływ terminu na odwołanie
+  → Brak dokumentacji medycznej z okresu niezdolności
+  → Niezdolność powstała po 18 miesiącach od ustania ubezpieczenia
+  → Niewystarczający staż ubezpieczeniowy
+BENCHMARKING: → wywołaj orzeczenia-sadowe-v2
+  (NIGDY nie cytuj sygnatur z pamięci — ZAWSZE weryfikuj online)
+REKOMENDACJA: □ Odwołanie do sądu  □ Wniosek o przeliczenie  □ Biegły lekarski
+```
+
+---
+
+## ANEKS D — INTERPRETACJA INDYWIDUALNA ZUS (art. 34 Prawa przedsiębiorców) — dodane 2026-07-21
+
+> Odpowiedź na pytanie użytkownika czy system interpretacji ZUS jest
+> "wpięty" do odpowiedniego modułu — dotąd CAŁKOWITA LUKA.
+
+```
+□ PODSTAWA: art. 34 ustawy z 6.03.2018 r. Prawo przedsiębiorców
+  ("Konstytucja dla Biznesu", w życie 30.04.2018)
+□ PRZEDMIOT: wyjaśnienie zakresu/sposobu stosowania przepisów o
+  obowiązku SKŁADEK (społeczne, zdrowotne, FP/FGŚP/FEP) w indywidualnej
+  sprawie przedsiębiorcy
+□ UPRAWNIONY: WYŁĄCZNIE przedsiębiorca, we WŁASNEJ sprawie
+□ OPŁATA: 40 zł za KAŻDY stan faktyczny/zdarzenie przyszłe, płatne w
+  7 dni od złożenia
+□ WŁAŚCIWOŚĆ SZCZEGÓLNA: WYŁĄCZNIE 2 oddziały ZUS w Polsce — GDAŃSK i
+  LUBLIN (wg lokalizacji działalności, sprawdź wyszukiwarkę PRZED
+  złożeniem)
+□ TERMIN: 30 dni od wpływu KOMPLETNEGO i OPŁACONEGO wniosku
+□ ⭐ MILCZĄCA ZGODA: brak wydania w terminie = UZNAJE SIĘ za wydaną
+  interpretację POTWIERDZAJĄCĄ stanowisko WNIOSKODAWCY (analogicznie
+  do milczącego załatwienia sprawy KPA)
+□ FORMA: decyzja administracyjna, z prawem odwołania
+□ WYŁĄCZENIE: ZUS ODMÓWI dla spraw ustalenia właściwego ustawodawstwa
+  (sprawy transgraniczne — koordynacja UE, odrębna procedura)
+
+⭐ ZNACZENIE STRATEGICZNE: narzędzie PREWENCYJNE przy planowaniu modelu
+współpracy (B2B/zlecenie) budzącego wątpliwości co do ryzyka uznania
+za STOSUNEK PRACY — patrz test G.1 w `analizator-umow-v1/references/
+b2b-podwykonawcze.md` oraz reforma PIP 2026 (`mod-ustawa-PIP-
+inspekcja-pracy.md` sekcja 6.2, DR-05) — pozytywna interpretacja
+uzyskana PRZED rozpoczęciem współpracy wzmacnia pozycję przedsiębiorcy
+przy kontroli.
+
+GOTOWY WZÓR WNIOSKU: `pisma-proste-v2/references/SPJ-interpretacja-
+zus.md` (dodany 2026-07-21) — pełne elementy, opłata, właściwość,
+strategia równoległego wniosku do GIP.
+```
