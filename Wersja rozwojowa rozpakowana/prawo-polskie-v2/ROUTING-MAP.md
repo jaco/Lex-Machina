@@ -933,7 +933,7 @@ Ustawa o medycynie laboratoryjnej (15.09.2022) — dawniej „ustawa o diagnosty
 *Wersja: 5.5 | Data: 2026-07-13 (TRYB DZU cotygodniowy)*
 *Łączna liczba wpisów w tabelach DR: 275 (262 ✅ + 9 🔗 + 4 ⏳/⚡; w tym 1 pozycja ❌ NUMER BŁĘDNY do wyjaśnienia — patrz DR-03 KPK 2025.1390)*
 *Korekta 2026-09-22 (F-195): z MONITORING usunięto 2 wiersze, które weszły w życie — KPK 2026/638 (28.05.2026) i PrBud 2025/1847 art. 1 pkt 1 i 3 (20.09.2026); poprawiono daty 2026/516; OP oznaczona ⬛ (uzupełniona w 6.29 — sześć nowelizacji po t.j.). Licznik powyżej NIE był przeliczany. Wiersz DR-03 „KPK 2026.638" uzupełniony o stan RZĄD 1.*
-*Źródła lokalne: dr-01..dr-16/MAPA-AKTOW.md | Źródło centralne: mapa_dzu_2026-07-15.md (⚠️ KOREKTA 2026-07-15: poprzedni wpis wskazywał "mapa_dzu_2026-07-13.md" — plik o tej nazwie NIGDY nie istniał w audyt-systemu-v4/references/; aktualne pliki to 06-14 → 07-02 → 07-04 → 07-15)*
+*Źródła lokalne: dr-01..dr-16/MAPA-AKTOW.md | Źródło centralne: audyt-systemu-v4/references/mapa_dzu_2026-09-22.md (⚠️ KOREKTA 2026-09-27p: wskazywało mapa_dzu_2026-07-15.md — generacja nieaktualna od 2026-08; bieżąca wg frontmattera audytu: 09-22, F-193) (⚠️ KOREKTA 2026-07-15: poprzedni wpis wskazywał "mapa_dzu_2026-07-13.md" — plik o tej nazwie NIGDY nie istniał w audyt-systemu-v4/references/; aktualne pliki to 06-14 → 07-02 → 07-04 → 07-15)*
 *TRYB DZU 2026-06-14: WARN-8 ZAMKNIĘTY — 16/16 pozycji zweryfikowane na ISAP
 i naprawione w dwóch sesjach. Sesja 1 (5 poz.): A1 notariat→2026/614, A2
 PrAut→2025/24, A3 komornicy→2024/1458 potwierdzony (ROUTING był już poprawny; KOREKTA: wcześniejszy wynik '2026/26' był błędem wyszukiwania - to inny akt, Ustawa SUS), B1 mandat posła/senatora→2024/907,

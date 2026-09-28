@@ -69151,3 +69151,48 @@ oczekiwane wywołania `cbosa_sprawdz_sygnature` i `isap_lookup` z `eli`.
 `shared` 3.93 → **3.94**; `audyt-systemu-v4` 6.144 → **6.145**; `pisma-procesowe-v3` 5.31 → **5.32**.
 
 **Otwarte:** bez nowych flag (luki narzędzi — F-212). Wolny numer: **F-214**.
+
+---
+
+## AUDYT-2026-09-27p — porządki w audyt-systemu-v4; trzy drobne poprawki
+
+**Wyzwalacz:** „czy w audyt są jakieś pliki śmieciowe, które można bezboleśnie usunąć?” → „tak usuń”.
+
+**Metoda:** dla 96 plików references/scripts/modules/agents — odwołania po nazwie w całym repozytorium
+(32 skille + `.github`), z pominięciem historii (dziennik, changelogi, sumy); status flag w WARN-OTWARTE.
+
+**Usunięte (6, 116 KB; zero aktywnych odwołań):** `mapa_dzu_2026-06-14.md` (archiwalna, niecytowana nawet
+przez bieżącą mapę — w odróżnieniu od 07-02/07-04), `PRZETERMINOWANE-TJ-2026-09-10.md` (F-181 zamknięta),
+`F-135-cross-check-…` (F-135 zamknięta), `PRZEGLAD-MAP-ELI-2026-09-01i.md` (F-155 zamknięta),
+`F-187-dostep-maszynowy-pomiar-…` (sam oznaczony „pomiar historyczny”), `AUDYT-PRZERWANYCH-ETAPOW-…`
+(funkcję pełni WARN-OTWARTE). Treść w historii Git. 196 → 190 plików.
+
+**Pozostawione mimo pozorów:** `agents/openai.yaml` (metadane Codex, 31/32 skilli), `F-113-PREFLIGHT`
+(F-113 otwarta), `COWORK-HARMONOGRAM-NATYWNY.md` (status „aktywny” — brakowało linku, dodany w FAZIE 0C),
+mapy 07-02…09-10 (cytowane przez bieżącą mapę, inne skille lub `test_f108_consistency.py`).
+
+**Poprawki:** `prawo-polskie-v2` ROUTING-MAP → bieżąca mapa 09-22 (było 07-15); `analizator-dowodow-v3` —
+`agents/openai.yaml` + `assets/icon.svg`.
+
+**Otwarte:** bez zmian. Wolny numer: **F-214**.
+
+### (cd. 27p) Konektory MCP wobec matematicsolutions — pełna organizacja
+
+**Stan systemu:** 9 serwerów, 14 narzędzi (`audyt-systemu-v4/mcp-servers/`): isap, saos, cbosa, eureka,
+eurlex, krs, nbp, sudop, ceidg.
+
+**Konkurencja (60 repozytoriów, strona organizacji; API GitHub przekroczony limit):** 34 serwery
+legislacji obcych jurysdykcji; 10 serwerów związanych z prawem PL: mcp-isap, mcp-saos, mcp-krs, mcp-nsa,
+mcp-eureka, mcp-eu-sparql (zmierzone 27k), kio-orzeczenia-mcp (oficjalna baza UZP, POC 0.1.0, 6 narzędzi,
+scraping — UZP przebudował wyszukiwarkę w lipcu 2026), prawo-pl-mcp (agregator: 5 narzędzi, uruchamia
+konektory przez `npx`/`uvx`; źródła: saos, nsa, isap, krs, eureka, kio, uodo, eu-sparql, eu-compliance,
+legalize), repertorium (korpus komercyjny, osobna licencja — nie konektor otwarty), mcp-eu-compliance
+(offline 14 rozporządzeń UE). Poza MCP: skille (lpm-pl, legal-verify-pl, contract-review-pl,
+pomoc-prawna-pl, praxis, readiness) i `matematic-anonimizacja-pl` (pseudonimizacja dokumentów, CLI).
+
+**Pokrycie odpowiednikami:** ISAP ✓, SAOS ✓, KRS ✓, NSA ✓ (cbosa — niezmierzone na żywo, F-213),
+EUREKA ✓, EUR-Lex ✓ (bez TSUE), KIO ~ (przez SAOS — aktualność niezmierzona), UODO ✗ (F-211),
+eu-compliance — nie wymagany (Cellar na żywo), legalize — nie PL. Tylko u nas: NBP, SUDOP, CEIDG.
+
+**Pomiar 27p:** SAOS w „przerwie technicznej” — HTTP 200 + strona HTML (serwer SAOS nie sprawdzał typu
+odpowiedzi; poprawione — czytelny komunikat ERROR). orzeczenia.uzp.gov.pl → 200; orzeczenia.uodo.gov.pl → 302.

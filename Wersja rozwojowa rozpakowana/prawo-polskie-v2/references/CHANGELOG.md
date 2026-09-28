@@ -1,5 +1,7 @@
 # CHANGELOG — prawo-polskie-v2
 
+- 6.32 (2026-09-27p, AUDYT-2026-09-27p): ROUTING-MAP: „źródło centralne” wskazywało mapę Dz.U. z 2026-07-15 (nieaktualna); teraz bieżąca generacja audyt-systemu-v4/references/mapa_dzu_2026-09-22.md.
+
 - 6.31 (2026-09-27e, AUDYT-2026-09-27e): claude.ai po dodaniu marketplace instalował wyłącznie 4 z 32 pluginów (shared, prawny-router-v3, analizator-dowodow-v3, przesluchanie-swiadkow-v2-min90); jedyna cecha wspólna tych 4, nieobecna w żadnym z 28 pozostałych, to klucz `dependencies` we frontmatterze SKILL.md. Dodano go (`requires: [shared]` — zgodnie ze stanem faktycznym) oraz jawny manifest pluginu (name, description = description z SKILL.md, author, repository, license) — host nie musi niczego wnioskować z SKILL.md. `version` w manifeście = `version:` z SKILL.md (pilnuje T38 w audyt-systemu-v4) — host rozpoznaje aktualizację po podbiciu wersji. Treść skilla bez zmian.
 - 6.30 (2026-09-23, AUDYT-2026-09-23b): Zasady workflow i sekcja Weryfikacja: ISAP → kanon E-1…E-5; ROUTING-MAP: instrukcje „weryfikuj w ISAP” → ELI (RZĄD 1); wpisy historyczne bez zmian.
 - 6.29 (2026-09-22, F-195): ROUTING-MAP — wiersz MONITORING Ordynacji podatkowej: zamiast ⬛ sześć nowelizacji po t.j. 2026/622 z terminami z artykułów końcowych (RZĄD 1 ELI): 825 — 24.09.2026, 846 — 1.10.2026, 1154 — 16.09.2026 (w mocy), 875 i 1098 — 1.01.2027, 1206 — 11.01.2027. ⛔ 875, 1098, 1206 nie występowały wcześniej w żadnym rejestrze systemu.

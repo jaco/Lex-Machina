@@ -1,6 +1,6 @@
 ---
 name: analizator-dowodow-v3
-version: "5.16.16"
+version: "5.16.17"
 type: executive-analiza
 status: production
 description: "Ocena dowodów, dokumentów, zeznań i akt: siła dowodowa, hierarchia A-D, pokrycie przesłanek, sprzeczności, terminy procesowe i analiza śledcza."
@@ -39,7 +39,8 @@ pipeline:
     - AD-KROK3-WYKONANIE
     - AD-KROK4-DASHBOARD
 changelog: |
-  Wersja bieżąca: 5.16.16 (2026-09-27e, AUDYT-2026-09-27e): jawny manifest `.claude-plugin/plugin.json` — import z marketplace w claude.ai. Treść skilla bez zmian.
+  Wersja bieżąca: 5.16.17 (2026-09-27p): dodane agents/openai.yaml i assets/icon.svg (metadane Codex; AUDYT-2026-09-27p).
+  Poprzednia: 5.16.16 (2026-09-27e, AUDYT-2026-09-27e): jawny manifest `.claude-plugin/plugin.json` — import z marketplace w claude.ai. Treść skilla bez zmian.
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 

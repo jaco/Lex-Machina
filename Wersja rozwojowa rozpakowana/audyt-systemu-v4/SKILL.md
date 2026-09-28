@@ -5,7 +5,7 @@ dependencies:
   requires:
     - shared
   # 2026-09-27e: jawna zależność (każdy skill systemu korzysta z `shared`); pole czytane przy imporcie z marketplace
-version: "6.145"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
+version: "6.146"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
                   # parsuje jako float 6.1 — czyli numer NIŻSZY niż 6.9, co cicho
                   # odwraca porządek wersji. Wykryte przy walidacji 2026-08-20z.
                   # Każda kolejna wersja z dwucyfrowym minor — też w cudzysłowie.
@@ -30,9 +30,6 @@ references:
   - references/F-104-lista-robocza-roczniki-starsze.md   # lista robocza F-104 dla roczników 2013-2025
                                           # (70 pozycji z T11) — REJESTROWANE 2026-08-23g (F-124), plik-sierota
   - references/F-136-zakres-DzU-2022-2600.md   # pełny inwentarz 116 dyspozycji nowelizacji KK i wynik T16
-  - references/PRZEGLAD-MAP-ELI-2026-09-01i.md   # wynik kontroli 16 map dziedzinowych w żywym ELI
-                                          # (251 numerów, 0 nieaktualnych t.j., 3 poprawki, 139 pozycji
-                                          # z nowelizacjami po t.j. → F-156); dodane 2026-09-01i, F-155
   - references/F-171-pomiar-domen-2026-09-09.md   # surowy wynik T25 z 2026-09-09 (52 sondy):
                                           # 4 regresje (SAOS /api/search, /api/dump,
                                           # /api/judgments/{id} — 502; decyzje.uokik.gov.pl — 503)
@@ -63,11 +60,6 @@ references:
   - references/mapa_dzu_2026-08-28.md   # POPRZEDNIA generacja; ponowny audyt F-108, korekty tożsamości i statusów t.j.
   - references/mapa_dzu_2026-08-26.md   # POPRZEDNIA generacja — zachowana historycznie
   - references/mapa_dzu_2026-07-15.md   # POPRZEDNIA generacja (sync 2026-08-13) — zachowana jako materiał historyczny
-  - references/PRZETERMINOWANE-TJ-2026-09-10.md # LISTA ROBOCZA F-181: 29 wygasłych tekstów jednolitych
-                                          # deklarowanych w nagłówkach modułów jako aktualne, w 35 miejscach
-                                          # i 11 skillach. ⛔ Żadna pozycja nie naprawiona — to wynik pomiaru,
-                                          # nie naprawa. Kolumna „aktualny t.j." wymaga ponownego odczytu
-                                          # przed wpisaniem
   - references/ALIASY-NAZW-AKTOW.md       # rozstrzygnięcia człowieka: nazwa robocza aktu w rejestrze
                                           # = ten sam akt co tytuł urzędowy w ELI. Kontrakt dla T15;
                                           # NIE jest listą wyciszeń — wpis bez kolumny „Sprawdzone"
@@ -90,14 +82,8 @@ references:
   - references/FORMAT-RAPORTU-ROZNIC.md   # format wyjściowy raportu różnic produkowanego przez sync_dzu_eli.py — REJESTROWANE 2026-08-15, ten sam powód co wyżej
   - references/mapa_dzu_2026-07-04.md   # ARCHIWALNA — poprzednia wersja mapy Dz.U., zachowywana jako materiał historyczny cytowany w AUDIT-JOURNAL.md — REJESTROWANE 2026-08-15 (nigdy formalnie nie wpisana mimo aktywnego cytowania)
   - references/mapa_dzu_2026-07-02.md   # ARCHIWALNA — jw., wcześniejsza wersja — REJESTROWANE 2026-08-15
-  - references/mapa_dzu_2026-06-14.md   # ARCHIWALNA — jw., najwcześniejsza zachowana wersja — REJESTROWANE 2026-08-15
   - references/F-108-lista-MS-egzamin-2026.md   # benchmark 52 aktów MS; stan końcowy F-108: 52/52 routing i 52/52 B+/COV, 0 FULL
   - references/F-108-verification-2026-08-28.md  # dowód ponownej weryfikacji pokrycia i aktualności t.j./Dz.U.
-  - references/F-135-cross-check-wartosci-prawnych-2026-08-28.md   # cross-check wartości prawnych (kwoty, stawki,
-                                          # terminy) — materiał źródłowy flagi F-135; REJESTROWANE 2026-09-01 (F-147),
-                                          # plik-sierota
-  - references/AUDYT-PRZERWANYCH-ETAPOW-2026-08-28.md   # inwentarz etapów przerwanych/niedokończonych —
-                                          # REJESTROWANE 2026-09-01 (F-147), plik-sierota
   - references/COWORK-HARMONOGRAM-NATYWNY.md   # natywny harmonogram Cowork jako wariant POZYCJI 11 obok
                                           # SCHEDULED-TASK-COWORK.md — REJESTROWANE 2026-09-01 (F-147), plik-sierota
   - references/F-104-lista-robocza-mapa-dzu.md   # lista robocza flagi F-104 — 16 aktów rocznika 2026
@@ -105,9 +91,6 @@ references:
                                           # zawiera opis pułapki parsowania (mapa trzyma numer w DWÓCH formatach:
                                           # prozą `poz. N` i w kolumnach tabeli) — dodane 2026-08-21
   - references/raporty-pokrycia-2026-08-13/   # 12 raportów + indeks = 13 plików; licznik potwierdzony ze stanem dysku 2026-08-26
-  - references/F-187-dostep-maszynowy-pomiar-2026-09-13d.md   # pomiar kanałów maszynowych F-187…F-192
-                                          # (sesja 2026-09-13d; adnotacja 2026-09-14: pomiar
-                                          # historyczny) — REJESTROWANE 2026-09-16 (T22, plik-sierota)
   - references/PLAN-POMIARU-BRAMEK-UNIWERSALNY.md   # F-167 (27f): projekt pomiaru DOWOLNEJ bramki;
                                           # uogólnia PLAN-TESTU-BRAMEK-F113 — REJESTROWANE 2026-09-27j (T22, plik-sierota od 27f)
   - references/REJESTR-BRAMEK-POMIAR.json # F-167 (27f): rejestr bramek i wycięć dla build_ramie_kontrolne.py — REJESTROWANE 27j (T22)
@@ -529,6 +512,8 @@ Jeśli oba spełnione → zaproponuj utworzenie zadania i po akceptacji utwórz 
 dołączaj do promptu wyłącznie po **zamknięciu flagi F-83**; dopóki otwarta —
 pomiń i odnotuj. Wynik (utworzono / odmowa / już istniało) zapisz w
 AUDIT-JOURNAL.md jednym zdaniem.
+
+Wariant natywny (harmonogram wbudowany w Cowork, bez infrastruktury developera): `references/COWORK-HARMONOGRAM-NATYWNY.md` (do 6.146 plik bez odwołania z treści).
 
 W trybie graficznym ta sama funkcja jest **pozycją 11** menu
 (`widgets/WIDGET-MENU.md`, id `harmonogram`) i może być wybrana samodzielnie
@@ -1426,7 +1411,7 @@ audyt-systemu-v4/                               ← 89 plików (stan 2026-09-09b
 
 ---
 
-*Wersja: 6.145 | Ostatnia aktualizacja: 2026-09-27o (serwery MCP ↔ skille: isap_lookup po ELI + aktualny t.j.; OUT_OF_SCOPE jako status; walidator schematu w test_na_zywo)*
+*Wersja: 6.146 | Ostatnia aktualizacja: 2026-09-27p (porządki: 6 plików archiwalnych usuniętych; link do COWORK-HARMONOGRAM-NATYWNY)*
 
 *(Stopka podawała „5.0 | 2026-07-04" przy `version: 6.8` w YAML — rozjazd
 9 wersji, naprawiony 2026-08-20y. **Stopkę aktualizuj razem z polem `version`**;

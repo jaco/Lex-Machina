@@ -159,6 +159,12 @@ async function pobierzZSaos(params) {
     try {
       const resp = await fetch(url, { signal: AbortSignal.timeout(TIMEOUT_MS) });
       if (!resp.ok) throw new Error(`SAOS API zwróciło HTTP ${resp.status}`);
+      // 27p: zmierzone — w czasie „Przerwy technicznej” SAOS zwraca HTTP 200 ze stroną HTML.
+      const typ = resp.headers.get("content-type") ?? "";
+      if (!typ.includes("json")) {
+        const t = (await resp.text()).slice(0, 2000);
+        throw new Error(/Przerwa techniczna/i.test(t) ? "SAOS: przerwa techniczna (HTML zamiast JSON)" : `SAOS zwrócił ${typ || "brak typu"} zamiast JSON`);
+      }
       const dane = await resp.json();
       return dane.items ?? [];
     } catch (e) {
