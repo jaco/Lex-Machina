@@ -1,6 +1,6 @@
 ---
 name: shared
-version: "3.89"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
+version: "3.93"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
                   # jako float 3.17, a 3.17 < 3.9 — porządek wersji odwraca się
                   # dla każdego narzędzia porównującego liczbowo. Wykryte
                   # testem T12 (check_wersje_changelog.py), 2026-08-20z.
@@ -50,7 +50,7 @@ limitations:
 required_modules: []
   # nie ma zastosowania — shared jest wczytywany, nie wczytuje sam siebie
 changelog: |
-  Wersja bieżąca: 3.86 (2026-09-27e, AUDYT-2026-09-27e): jawny manifest `.claude-plugin/plugin.json` — import z marketplace w claude.ai. Treść skilla bez zmian.
+  Wersja bieżąca: 3.93 (2026-09-27m, AUDYT-2026-09-27m): serwery MCP przeniesione do audyt-systemu-v4/mcp-servers/ (rozpakowane, start z .mcp.json pluginu); archiwum i instalator usunięte z shared.
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 
@@ -67,7 +67,8 @@ changelog: |
 4. `/mnt/user-data/...` oznacza rzeczywiste pliki użytkownika dostępne w hoście; wymagany ponowny odczyt jest faktycznym odczytem źródła.
 5. `show_widget`, `present_files`, `create_file`, shell/Python i podobne operacje wykonuj równoważną natywną funkcją hosta, jeśli literalna nazwa nie istnieje. Nie pomijaj bramek jakości.
 6. `tools/` to kod integracyjny portalu. `extract_api_verification_log.py` przyjmuje neutralne `events` i zachowuje zgodność z Claude legacy, generycznymi tool-call oraz Responses-style.
-7. Ze względu na twardy limit 200 plików, 42 technicznych plików przykładowych serwerów MCP jest zachowanych bezstratnie w `tools/mcp-servers/mcp-servers-examples.zip` (SHA-256 `ff4dd9ba5e8036f096c928c3047a56fad27bf22dae24d52fa1a3530339fe7692`, przebudowany 2026-09-26d, F-206 — poprzednio wpisany hash `6b16d446e...` pochodził z innej kompresji tej samej treści i nie jest odtwarzalny przy ponownym pakowaniu identycznych plików, bo ZIP nie jest deterministyczny bajt-w-bajt; zamiast porównywać hash archiwum, zweryfikowano treść wprost: `diff` każdego z 42 rozpakowanych plików przeciw blobom z historii git repozytorium — zero rozbieżności). Gdy potrzebujesz kodu przykładowego serwera, rozpakuj ten plik; moduły promptowe nie zależą od jego rozwinięcia.
+7. Serwery MCP (przykładowe, zmierzone na żywym API) leżą od 3.93 ROZPAKOWANE w `audyt-systemu-v4/mcp-servers/`;
+   plugin audytu startuje je z `.mcp.json` (`dist/lex-mcp.mjs`, jeden plik z zależnościami). Shared ich nie zawiera.
 
 **Zasada nadrzędna:** jeśli istniejąca instrukcja jest zrozumiała i wykonalna w bieżącym hoście, wykonaj ją bez konwersji. Adapter działa tylko na granicy runtime.
 

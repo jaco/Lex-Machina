@@ -1,5 +1,68 @@
 # CHANGELOG — Biblioteka shared
 
+## 3.93 — 2026-09-27m — AUDYT-2026-09-27m: serwery MCP przeniesione do audyt-systemu-v4
+
+Decyzja użytkownika: serwer musi być rozpakowany, żeby host go uruchomił — miejsce w pluginie
+`audyt-systemu-v4`. Usunięte `tools/mcp-servers/` (archiwum + instalator z 3.92); 194 → 192
+pliki. Odwołania w 6 plikach przekierowane na `audyt-systemu-v4/mcp-servers/`. `KONEKTORY-REKOMENDOWANE.md`: rozszerzenie Claude Desktop
+`lex-machina.mcpb` jako zalecana instalacja; CBOSA (`cbosa-example`) i korekta wniosku 27k o 503.
+
+## 3.92 — 2026-09-27l — AUDYT-2026-09-27l: instalator serwerów MCP
+
+- `tools/mcp-servers/instaluj_serwery_mcp.py` (nowy, poza archiwum): rozpakowanie, `npm ci`,
+  test protokołu, `mcp-config.json`, polecenia `claude mcp add`, opcjonalne scalenie z
+  `claude_desktop_config.json` (z kopią zapasową), przepisanie zmiennych proxy. Zmierzony: 7/7
+  od zera; każdy serwer uruchomiony wyłącznie z wpisu konfiguracji odpowiada na żywym API.
+- `KONEKTORY-REKOMENDOWANE.md` § GDZIE SIĘ KONFIGURUJE: procedura instalacji.
+
+## 3.91 — 2026-09-27k — AUDYT-2026-09-27k: EUREKA; porównanie z konkurencją na żywo
+
+- `tools/mcp-servers/eureka-example` 1.0.0: `eureka_sprawdz_sygnature` (post-check tożsamości —
+  filtr SYG jest prefiksowy), `eureka_szukaj` (status aktualności każdej pozycji, filtr
+  `tylkoAktualne`), `eureka_pobierz` (treść z `dokument.fields[]`, porcjowana). F-158(b):
+  dostęp był możliwy od początku — wymagany POST z ciałem JSON, sesje próbowały GET.
+- `test_na_zywo.mjs`: 11 → 15 przypadków (15/15).
+- `KONEKTORY-REKOMENDOWANE.md`: porównanie z `@matematicsolutions/*` uruchomione na tych samych
+  przypadkach; luki własne: cytator SAOS, TSUE, treść aktu ISAP, reprezentacja KRS (F-212).
+- `DOSTEP-MASZYNOWY-API.md`: EUREKA — metoda, pułapka prefiksu SYG, słownik statusów.
+
+## 3.90 — 2026-09-27j — AUDYT-2026-09-27j: pomiar TREŚCI wszystkich przykładów MCP; 4 naprawy; manifest pluginu
+
+⛔ **Przyczyna, dla której 3.87–3.89 nie docierały do użytkowników:** `.claude-plugin/plugin.json`
+pozostał na `3.86`, a pole `changelog:` we frontmatterze też podawało 3.86. Host porównuje wersję
+z manifestu — trzy wydania z rzędu były dla niego niewidoczne. Wykrywał to T38 (KRYTYCZNY) i T12,
+ale suita nie jest uruchamiana na `main` (F-197). Oba pola zsynchronizowane.
+
+⛔ **Pomiar 3.89 mierzył kod HTTP, nie treść.** Nowy `tools/mcp-servers/test_na_zywo.mjs`
+(11 asercji na polach odpowiedzi, przez protokół MCP, na żywym API): **3.89 → 3/11, 3.90 → 11/11**.
+
+- `saos-example` 1.1.0: sygnatura czytana z `item.caseNumber` → `null` dla KAŻDEGO trafienia;
+  poprawnie `courtCases[].caseNumber`. Błąd przeniesiony z `orzeczenia-sadowe-v2` § 1-T.1 pkt 2
+  (poprawione w 2.21). Dodany parametr `sygnatura` (kontrola istnienia V-SYG-0 — wcześniej
+  niedostępna przez MCP); `courtType` + `CONSTITUTIONAL_TRIBUNAL`, `NATIONAL_APPEAL_CHAMBER`
+  (twierdzenie 3.89 o KIO „jednym parametrem” nie było prawdziwe dla kodu); NSA/WSA →
+  `zakres: OUT_OF_SCOPE` (SAOS ma 0 orzeczeń administracyjnych); 3 próby × 45 s.
+- `nbp-example` 1.1.0: NOT_FOUND w każdy dzień bez publikacji, także bez podanej daty
+  (`/today` → 404 w niedzielę). Nota 3.89 odsyłała do „pluginu mcp-nbp”, którego nie ma w repo.
+  Teraz zapytanie zakresem i ostatnia tabela ≤ data z jawnym `przesuniecie_dni`.
+- `eurlex-example` 1.1.0: diagnoza 3.89 („406 przy Accept: application/json”) BŁĘDNA —
+  zmierzone 200 przy tym nagłówku. Przyczyna: niezakodowany `+` w `format=`. Pod spodem:
+  literał bez typu → puste wyniki (sama naprawa 406 dałaby „RODO nie istnieje”). Dodatkowo
+  wstrzyknięcie SPARQL przez CELEX. Teraz: status obowiązywania, data końca, tytuł PL.
+- `sudop-example` 1.1.0: crash na parsowaniu JSON; teraz zlecenie + odbiór z kolejki
+  (`PENDING` + `kolejka_id`). Wynik końcowy nieoddany w >30 min — F-210.
+- Wszystkie 7 `test_protokol_mcp.mjs` uznawały `status: ERROR` za „SELF-TEST OK”; teraz
+  sprawdzają wyłącznie protokół i mówią to wprost. Testy jednostkowe SAOS/NBP/EUR-Lex
+  opierały się na WYMYŚLONYCH fixture'ach o tym samym błędnym kształcie co kod (NBP:
+  „weekend → NOT_FOUND” jako asercja pozytywna) — zastąpione prawdziwymi odpowiedziami API.
+  Test mutacyjny: nowy test SAOS pada na kodzie 1.0.0.
+
+`KONEKTORY-REKOMENDOWANE.md`: tabela „stan wszystkich kanałów” (3.89) wskazywała 7 „konektorów
+produkcyjnych” (`mcp-isap-eli` … `mcp-nbp`), których nie ma w repozytorium ani w
+`marketplace.json` (F-211) — zastąpiona pomiarem treści; kolumna „pewność kształtu” zastąpiona
+wynikiem pomiaru. `DOSTEP-MASZYNOWY-API.md` § SAOS: NSA/WSA = 0, kształt pól trafienia.
+Archiwum `mcp-servers-examples.zip`: 42 → 50 plików, hashe w `PORTABILITY-MANIFEST.md`.
+
 ## 3.89 — 2026-09-27i — AUDYT-2026-09-27i: przegląd wszystkich 7 przykładowych serwerów + tabela stanu kanałów
 
 ⛔ **Wszystkie siedem przykładów w `tools/mcp-servers/` zmierzone wobec żywych API** (dotąd

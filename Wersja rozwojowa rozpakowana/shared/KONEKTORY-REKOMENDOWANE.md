@@ -146,22 +146,28 @@ kompletności.
 
 ## Serwery referencyjne (2026-07-13g/i/k) — 7 z 9 zbadanych priorytetowych źródeł
 
-`shared/tools/mcp-servers/` zawiera **realne, przetestowane protokołem MCP**
+`audyt-systemu-v4/mcp-servers/` zawiera **realne, przetestowane protokołem MCP**
 serwery dla 7 źródeł o potwierdzonym publicznym API. Napisane po tym jak: (a)
 żaden gotowy projekt OSS nie dał się zainstalować i przetestować z tego
 środowiska, (b) research 2026-07-13j/k potwierdził, które źródła mają
 publiczne API. To NIE zastępuje rekomendacji "integruj gotowe OSS, nie buduj
 od zera" dla produkcji.
 
-| Serwer | Źródło | Klucz API? | Pewność kształtu odpowiedzi |
+⛔ **Kolumna „pewność kształtu odpowiedzi” (do 3.89) była szacowana z dokumentacji, nie z
+pomiaru — i była odwrotnie skorelowana z rzeczywistością:** SAOS („Wysoka”) zwracał sygnaturę
+`null` dla każdego trafienia, NBP („Najwyższa”) zwracał NOT_FOUND w każdy weekend. Od 3.90
+kolumna podaje WYNIK POMIARU TREŚCI (`audyt-systemu-v4/mcp-servers/test_na_zywo.mjs`, 2026-09-27j).
+
+| Serwer | Źródło | Klucz API? | Pomiar treści 2026-09-27j |
 |---|---|---|---|
-| `isap-eli-example` | Sejm ELI (Dz.U./M.P.) | Nie | Niska — założona |
-| `saos-example` | SAOS (orzecznictwo, wsparcie) | Nie | Wysoka — z dokumentacji `orzeczenia-sadowe-v2` |
-| `krs-example` | KRS (Otwarte API) | Nie | Średnia — z publicznej dokumentacji ustawowej |
-| `nbp-example` | NBP (kursy walut) | Nie | **Najwyższa** — jednoznaczna oficjalna dokumentacja |
-| `sudop-example` | SUDOP/UOKiK (pomoc publiczna) | Nie | Średnia |
-| `ceidg-example` | CEIDG (jednoosobowe działalności) | **Tak** | **Najniższa** — dokumentacja sugeruje API asynchroniczne |
-| `eurlex-example` | EUR-Lex/CELLAR (prawo UE) | Nie | Niska co do zapytania SPARQL (uproszczone) |
+| `isap-eli-example` | Sejm ELI (Dz.U./M.P.) | Nie | ✅ poprawny |
+| `saos-example` | SAOS (SN, SP, TK, KIO — **bez NSA/WSA**) | Nie | ✅ po naprawie 1.1.0 (było: sygnatura `null`) |
+| `krs-example` | KRS (Otwarte API) | Nie | ✅ poprawny |
+| `nbp-example` | NBP (kursy walut) | Nie | ✅ po naprawie 1.1.0 (było: NOT_FOUND w dni wolne) |
+| `sudop-example` | SUDOP/UOKiK (pomoc publiczna) | Nie | ⚠️ 1.1.0 bez crasha, ale kolejka nie oddała wyniku w >30 min (F-210) |
+| `ceidg-example` | CEIDG (jednoosobowe działalności) | **Tak** | ⚠️ bez klucza poprawny ERROR; z kluczem niezmierzony |
+| `eurlex-example` | EUR-Lex/CELLAR (prawo UE) | Nie | ✅ po naprawie 1.1.0 (było: 406, a pod spodem NOT_FOUND dla RODO) |
+| `eureka-example` | EUREKA (interpretacje podatkowe MF) | Nie | ✅ nowy w 3.91 (27k) |
 
 Każdy katalog ma własny README z pełnym statusem testów i ograniczeniami.
 Priorytety wdrożenia wg wpływu: **EUR-Lex** (32 odwołania w dr-*/, największy
@@ -191,6 +197,19 @@ z marketplace** — użytkownik, który zainstaluje skille, nie dostanie tego ko
 Przeniesienie go do pluginu `shared` sprawiłoby, że wędruje z instalacją.
 Decyzja należy do dewelopera (F-8/F-94) — to nie jest wada, tylko konsekwencja
 miejsca, w którym plik dziś leży.
+
+⭐ **INSTALACJA SERWERÓW MCP (od shared 3.93 / audyt 6.143, zmierzona 2026-09-27m).** Serwery leżą
+ROZPAKOWANE w `audyt-systemu-v4/mcp-servers/`; `dist/lex-mcp.mjs` to wszystkie serwery w jednym
+pliku z wbudowanymi zależnościami (629 KB; Claude Code nie instaluje zależności pluginów).
+- **Claude Code + plugin `audyt-systemu-v4`:** nic nie instalujesz — `.mcp.json` pluginu startuje
+  8 serwerów `lex-*` (z CBOSA) z `${CLAUDE_PLUGIN_ROOT}` (CEIDG pominięty — wymaga klucza).
+- **Claude Desktop (zalecane):** rozszerzenie `lex-machina.mcpb` — Ustawienia → Rozszerzenia → zainstaluj z
+  pliku. Node.js jest wbudowany w Desktop (README specyfikacji MCPB) — nie instalujesz Pythona ani Node.
+  Jeden serwer, 13 narzędzi (14 z kluczem CEIDG). Zapasowo: `instaluj_serwery_mcp.py --scal-desktop`.
+- **Sieć z proxy przechwytującym TLS:** `.mcp.json` pluginu nie przekaże `NODE_EXTRA_CA_CERTS`
+  ani `HTTPS_PROXY` (podstawiane są tylko `CLAUDE_PLUGIN_ROOT`/`CLAUDE_PLUGIN_DATA`) — użyj
+  instalatora, który wpisuje je do konfiguracji zakresu user.
+- **claude.ai w przeglądarce:** stdio nie działa — serwer pod HTTPS (F-8).
 
 **Minimalny komplet, żeby MCP realnie działał w tym systemie:**
 
@@ -263,7 +282,7 @@ czy konfiguracja przekazuje `env`. To ta sama klasa błędu co F-151/F-162
 
 ### ✅ Status własnego konektora ISAP (zmierzony 2026-09-27h)
 
-`shared/tools/mcp-servers/isap-eli-example/` — 132 linie na oficjalnym SDK
+`audyt-systemu-v4/mcp-servers/isap-eli-example/` — 132 linie na oficjalnym SDK
 (`McpServer` + `StdioServerTransport`), narzędzie `isap_lookup`.
 
 ⛔ **Wykryty i naprawiony błąd:** budował adres
@@ -290,29 +309,52 @@ narzędzi od razu (`search_acts`, `get_act`, `get_act_text`) — jeśli miałby 
 forkowany, MIT na to pozwala, ale wymaga zachowania noty licencyjnej i dopisania
 atrybucji w `NOTICE` (precedens: F-199 dla materiału Apache-2.0).
 
-### ⭐ STAN WSZYSTKICH KANAŁÓW — pomiar 2026-09-27h
+### ⭐ STAN WSZYSTKICH KANAŁÓW — pomiar TREŚCI 2026-09-27j (zastępuje tabelę z 27h)
 
-| Kanał | Pomiar | Konektor produkcyjny |
+⛔ **Korekta 3.90.** Tabela z 27h (shared 3.89) wskazywała jako „konektory produkcyjne” siedem
+pluginów (`mcp-isap-eli`, `mcp-saos`, `mcp-krs`, `mcp-wl-vat`, `mcp-uodo`, `mcp-eurlex`,
+`mcp-nbp`), których **nie ma w repozytorium ani w `marketplace.json`** (sprawdzone 27j) —
+powstały w sesji 27h/27i i nie zostały wgrane (F-211). Kolumna „Pomiar” mierzyła wyłącznie kod
+HTTP: SAOS z „✅ 200” zwracał same `null`. Obecnie jedynym zmierzonym kodem w repo są przykłady
+z `audyt-systemu-v4/mcp-servers/`.
+
+| Kanał | Pomiar treści 27j | Konektor w repozytorium |
 |---|---|---|
-| `api.sejm.gov.pl/eli` (Dz.U./M.P.) | ✅ 200 | **`mcp-isap-eli`** — 3 narzędzia |
-| `www.saos.org.pl/api` (orzecznictwo) | ✅ 200 | **`mcp-saos`** — 2 narzędzia |
-| `api-krs.ms.gov.pl` (KRS) | ✅ 200 | **`mcp-krs`** |
-| `wl-api.mf.gov.pl` (biała lista VAT) | ✅ 200 | **`mcp-wl-vat`** — 2 narzędzia |
-| `orzeczenia.uodo.gov.pl/api` (decyzje UODO) | ✅ 200 | **`mcp-uodo`** — 2 narzędzia |
-| `publications.europa.eu` (Cellar, prawo UE) | ✅ 200 | **`mcp-eurlex`** |
-| `api.nbp.pl` (kursy) | ✅ 200 | **`mcp-nbp`** — 2 narzędzia |
-| **KIO** (orzecznictwo zamówieniowe) | ✅ w SAOS: `courtType=NATIONAL_APPEAL_CHAMBER` → **22 168 orzeczeń** | pokryte przez `mcp-saos` |
-| `orzeczenia.nsa.gov.pl` (CBOSA) | ⛔ SSL_ERROR_SYSCALL — potwierdza F-183a/F-194 | brak; własny adapter HTML |
-| `dane.biznes.gov.pl/api/ceidg` (CEIDG) | ⚠️ v2 → **404**, v3 → **401** (wymaga tokenu) | brak — wymaga rejestracji |
-| `api-sudop.uokik.gov.pl` (SUDOP) | ⚠️ 303, a po przekierowaniu „Przygotowywanie odpowiedzi, 60 sekund” — **API asynchroniczne** | brak — wymaga pętli odpytującej |
-| `eureka.mf.gov.pl` (interpretacje podatkowe) | ⛔ `/api/public/v1` potwierdzone w bundlu, ale ścieżki zwracają powłokę SPA | brak — **F-158(b) nadal otwarta** |
-| `api.stat.gov.pl` (REGON/BIR) | ⚠️ 200 na stronie, ale API wymaga UserKey | brak |
+| `api.sejm.gov.pl/eli` (Dz.U./M.P.) | ✅ | `isap-eli-example` |
+| `www.saos.org.pl/api` — SN, SP, TK, KIO | ✅ (sygnatura w `courtCases[].caseNumber`) | `saos-example` 1.1.0 |
+| `www.saos.org.pl/api` — **NSA/WSA** | ⛔ **0 orzeczeń** dla każdego zapytania → OUT_OF_SCOPE | brak — właściwe źródło CBOSA |
+| `api-krs.ms.gov.pl` (KRS) | ✅ | `krs-example` |
+| `api.nbp.pl` (kursy) | ✅ (dni wolne → ostatnia tabela, jawnie) | `nbp-example` 1.1.0 |
+| `publications.europa.eu` SPARQL (Cellar) | ✅ (status obowiązywania, tytuł PL) | `eurlex-example` 1.1.0 |
+| `api-sudop.uokik.gov.pl` (SUDOP) | ⚠️ 303 → kolejka; wynik nieoddany w >30 min | `sudop-example` 1.1.0 (PENDING) — F-210 |
+| `dane.biznes.gov.pl/api/ceidg` v3 | ⚠️ 401 bez tokenu | `ceidg-example` (wymaga klucza) |
+| `wl-api.mf.gov.pl` (biała lista VAT) | ✅ 200 wg 27h — treści nie mierzono w 27j | brak w repo (F-211) |
+| `orzeczenia.uodo.gov.pl/api` (UODO) | ✅ 200 wg 27i — treści nie mierzono w 27j | brak w repo (F-211) |
+| `orzeczenia.nsa.gov.pl` (CBOSA) | ⚠️ z sandboxa Claude: 503 bramy egress (27m) — pomiar z sieci użytkownika (F-213) | `cbosa-example` 1.0.0 (parser równoważny z referencyjnym) |
+| `eureka.mf.gov.pl` (interpretacje) | ✅ 27k (POST; post-check sygnatury; status aktualności) | `eureka-example` 1.0.0 |
+| `api.stat.gov.pl` (REGON/BIR) | ⚠️ wymaga UserKey | brak |
 
-⛔ **Osobny konektor do KIO jest zbędny** — orzeczenia KIO są w SAOS (zmierzone: sygnatury
-typu `KIO/UZP 2/07`). Konkurencja utrzymuje na to osobny serwer (`kio-orzeczenia-mcp`);
-u nas wystarcza `mcp-saos` z parametrem `sad: "NATIONAL_APPEAL_CHAMBER"`.
+### ⭐ PORÓWNANIE Z `matematicsolutions` — uruchomione na tych samych przypadkach (2026-09-27k)
 
-⚠️ **Przykłady w `tools/mcp-servers/` nie są konektorami produkcyjnymi.** Po przeglądzie
-2026-09-27h każdy ma w nagłówku zmierzony stan swojego endpointu; trzy z nich (`ceidg`,
-`eurlex`, `sudop`) odpowiadały błędem i mają to zapisane wprost. Konektory produkcyjne
-to osobne pluginy wymienione w tabeli wyżej.
+Paczki npm `@matematicsolutions/*` (MIT) uruchomione przez protokół MCP obok przykładów z
+`audyt-systemu-v4/mcp-servers/`. Oceniane zachowanie, nie README.
+
+| Kanał | Ich przewaga | Nasza przewaga | Przypadek rozstrzygający |
+|---|---|---|---|
+| EUREKA (`mcp-eureka` 0.2.0) | `list_categories`, strona wyników | post-check sygnatury; status aktualności | ucięta `…678.2026` → u nich „Znaleziono: 1” (inna sygnatura), u nas NOT_FOUND; status 29 → u nich bez słowa, u nas ⛔ |
+| SAOS (`mcp-saos` 1.2.0) | ⭐ **`saos_cite_check`** (cytator: późniejsze orzeczenia powołujące sygnaturę); filtry `judgeName`, `referencedRegulation` | — (NSA/WSA: obie strony poprawnie) | brak u nas cytatora — **luka** |
+| EUR-Lex (`mcp-eu-sparql` 1.2.0) | ⭐ **TSUE** (`search_cjeu`, `search_cjeu_by_ecli`), zakres dat, GDPRhub | status obowiązywania, data końca, tytuł PL | 31995L0046 → u nich tylko data i typ, bez „uchylona”; brak TSUE u nas — **luka** |
+| ISAP (`mcp-isap` 1.3.0) | ⭐ `get_act`, `get_act_text` (treść, wyszukiwanie w akcie, odesłanie do PDF), filtr `in_force` | — w przykładzie (mapowanie statusu było w pluginie 27h — F-211) | KC `DU/1964/93` → u nich „Stan: IN_FORCE” przy istniejącym t.j. (tryb F-155/O-12) |
+| KRS (`mcp-krs` 1.1.1) | ⭐ **`get_board`** — sposób reprezentacji, zarząd, prokura | — | brak reprezentacji u nas — **luka** (PODMIOT-GATE) |
+| NSA/CBOSA (`mcp-nsa` 1.3.0; `cbosa-mcp` z ChatGPT) | istnieją | ⭐ `cbosa-example` 1.0.0 (27m): port parsera referencyjnego `orzeczenia-sadowe-v2` — exact-match, near-match odrzucany, paginacja z kontrolą licznika, fail-closed | ⛔ korekta 27m: 503 z 27k to BRAMA sandboxa Claude („upstream connect error”), nie CBOSA — z tego środowiska żadnego konektora CBOSA nie da się zmierzyć (F-213). `mcp-nsa`: `rejectUnauthorized: false`. `cbosa-mcp` (ChatGPT, Python): TLS poprawny, ale parser nie wyciąga Sygnatury/Daty/Sądu nawet z własnej próbki, próbki wymyślone (126/391 B), brak exact-match, błąd paginacji |
+| NBP, SUDOP, UODO, CEIDG | — | kanały, których oni nie mają | — |
+
+Wniosek: przewaga jakościowa (weryfikacja, status) po naszej stronie; przewaga zakresowa
+(cytator SAOS, TSUE, treść aktu, reprezentacja KRS) po ich — F-212.
+
+⭐ **KIO**: w SAOS `courtType=NATIONAL_APPEAL_CHAMBER` (22 168 orzeczeń, sygnatury
+`KIO/UZP 2/07`). Do 3.89 enum `saos-example` NIE zawierał tej wartości, więc twierdzenie
+„pokryte jednym parametrem” nie było prawdziwe dla kodu w repo; od 1.1.0 jest.
+
+⛔ **Reguła od 3.90:** wiersz tej tabeli może zawierać „✅” tylko po pomiarze TREŚCI odpowiedzi
+(asercja na polu, nie na statusie HTTP) — `audyt-systemu-v4/mcp-servers/test_na_zywo.mjs`.

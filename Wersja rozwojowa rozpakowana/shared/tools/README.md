@@ -160,7 +160,7 @@ w `audyt-systemu-v4/references/AUDIT-JOURNAL.md`, wpis AUDYT-2026-07-12g.
 
 Dla nowych integracji preferuj `{"session_id":"...","events":[...]}`. Event zawiera `tool`, źródło, opcjonalny `query_context` i status. Claude/Anthropic legacy pozostaje obsługiwany; obsługiwane są też generyczne tool-call/result i ukończone wpisy Responses-style. Sam call bez wyniku nie jest weryfikacją.
 
-Twardy limit 200 plików wymaga kompaktowania wyłącznie technicznych przykładów MCP: 42 plików z dawnego `tools/mcp-servers/**` znajduje się byte-for-byte w `tools/mcp-servers/mcp-servers-examples.zip` (SHA-256 `6b240d1dc2249daef42b303495831c4809767784677e8d12a7538b53613f2d5d` — przebudowany 2026-09-26d po odzyskaniu z historii git, F-206; poprzedni wpisany hash odpowiadał innej kompresji tej samej treści i nie jest odtwarzalny — ZIP nie jest deterministyczny bajt-w-bajt. Weryfikacja tym razem: `diff` każdego z 42 rozpakowanych plików przeciw blobom z historii git — zero rozbieżności, nie tylko porównanie hasha archiwum). Rozpakuj archiwum przed uruchamianiem przykładowego serwera.
+Serwery MCP: od 3.93 w `audyt-systemu-v4/mcp-servers/` (rozpakowane; przeniesione z tego katalogu).
 
 ## F-206 (2026-09-26d) — przywrócenie 8 narzędzi z historii git
 
@@ -192,3 +192,8 @@ odczytu) i zweryfikowano funkcjonalnie:
 
 Pliki fixture `przyklady/konwersacja_api_przyklad.json`, `przyklady/przyklad_pisma.md`,
 `przyklady/sesja_niepelna.json`, `przyklady/sesja_pelna.json` przywrócone tą samą metodą.
+
+
+## Serwery MCP
+
+Od 3.93: `audyt-systemu-v4/mcp-servers/` — instalacja: `KONEKTORY-REKOMENDOWANE.md` § GDZIE SIĘ KONFIGURUJE SERWER MCP.

@@ -52,7 +52,7 @@ narzędzi „nazwanych wg wzorca z `KONEKTORY-REKOMENDOWANE.md` (np. `isap_looku
   konwencji, której ten plik nigdy nie zawierał (jego tabela operuje kategoriami
   funkcjonalnymi, nie nazwami narzędzi);
 - (b) nazwa `isap_lookup` **istnieje** — to `registerTool("isap_lookup", …)`
-  w `shared/tools/mcp-servers/` (`isap-eli-example`). ⚠️ Korekta wobec wydania 3.87,
+  w `audyt-systemu-v4/mcp-servers/` (`isap-eli-example`). ⚠️ Korekta wobec wydania 3.87,
   które twierdziło, że „narzędzia MCP nie nazywają się w ten sposób" — twierdzenie
   było za szerokie i niezmierzone wobec własnych serwerów tego repozytorium;
 - (c) **czego brakowało i co jest faktyczną przyczyną awarii wykrywania:** w hoście
@@ -84,7 +84,7 @@ realnie, źródło danych: api.sejm.gov.pl/eli — ten sam publikator, co RZĄD 
 | `get_act` | `eli` (np. `DU/2018/1000`) | metryka aktu po identyfikatorze ELI |
 | `get_act_text` | `eli` | tekst aktu stronami po 5000 znaków |
 
-**Serwer własny repozytorium** (`shared/tools/mcp-servers/isap-eli-example/`,
+**Serwer własny repozytorium** (`audyt-systemu-v4/mcp-servers/isap-eli-example/`,
 zmierzony 2026-09-27h): jedno narzędzie `isap_lookup` (arg `query`), zwraca schemat
 FOUND / NOT_FOUND / AMBIGUOUS / ERROR wg `SCHEMAT-ODPOWIEDZI-MCP.md`. W hoście:
 `mcp__<nazwa-serwera-z-konfiguracji>__isap_lookup`.

@@ -1,0 +1,60 @@
+{
+  "mcpServers": {
+    "lex-isap": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/mcp-servers/dist/lex-mcp.mjs",
+        "isap"
+      ]
+    },
+    "lex-saos": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/mcp-servers/dist/lex-mcp.mjs",
+        "saos"
+      ]
+    },
+    "lex-krs": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/mcp-servers/dist/lex-mcp.mjs",
+        "krs"
+      ]
+    },
+    "lex-nbp": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/mcp-servers/dist/lex-mcp.mjs",
+        "nbp"
+      ]
+    },
+    "lex-eurlex": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/mcp-servers/dist/lex-mcp.mjs",
+        "eurlex"
+      ]
+    },
+    "lex-eureka": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/mcp-servers/dist/lex-mcp.mjs",
+        "eureka"
+      ]
+    },
+    "lex-sudop": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/mcp-servers/dist/lex-mcp.mjs",
+        "sudop"
+      ]
+    },
+    "lex-cbosa": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/mcp-servers/dist/lex-mcp.mjs",
+        "cbosa"
+      ]
+    }
+  }
+}

@@ -1,7 +1,9 @@
 # WIDGET-MENU — Interaktywne menu wyboru elementów audytu
 
-> **13 pozycji**. Pozycja 11 tworzy zadanie cykliczne, pozycja 13 sprawdza zgodność
-> preferencji z kontraktem routera; obie są akcjami, nie fazami audytu.
+> **14 pozycji**. Pozycja 11 tworzy zadanie cykliczne, pozycja 13 sprawdza zgodność
+> preferencji z kontraktem routera, pozycja 14 instaluje serwery MCP w **Claude Desktop**
+> (FAZA 0E, od 6.144); wszystkie trzy są akcjami, nie fazami audytu, i nie wchodzą do presetu
+> „Pełny audyt”.
 
 ## Cel
 Widget React renderowany przez `show_widget` — pozwala użytkownikowi wybrać jeden lub więcej elementów audytu przed jego uruchomieniem. Eliminuje potrzebę przepisywania poleceń tekstowych.
@@ -115,13 +117,21 @@ const AUDIT_ITEMS = [
     label: "🧠 Kontrakt routera w preferencjach",
     desc: "Porównaj preferencje z UP routera i zaproponuj tekst do Ustawień (bez zapisu do pamięci)",
     phase: "PAMIEC-TRWALA-ROUTER.md"
+  },
+  {
+    id: "mcp-instalacja",
+    group: "Konektory MCP",
+    label: "🔌 Instalacja serwerów MCP",
+    badge: "Claude Desktop",
+    desc: "Skrypt mcp-servers/instaluj_serwery_mcp.py: na komputerze z Claude Desktop dopisuje 8 serwerów (ISAP, SAOS, CBOSA, EUREKA, EUR-Lex, KRS, NBP, SUDOP) do konfiguracji; w piaskownicy buduje rozszerzenie .mcpb do instalacji w Desktopie",
+    phase: "FAZA 0E"
   }
 ];
 
 const GROUPS = [...new Set(AUDIT_ITEMS.map(i => i.group))];
 
 const PRESETS = [
-  { label: "Pełny audyt", ids: AUDIT_ITEMS.filter(i => !["harmonogram", "pamiec-trwala"].includes(i.id)).map(i => i.id) },
+  { label: "Pełny audyt", ids: AUDIT_ITEMS.filter(i => !["harmonogram", "pamiec-trwala", "mcp-instalacja"].includes(i.id)).map(i => i.id) },
   { label: "Tylko czystość", ids: ["interlinie", "wstawki", "description"] },
   { label: "Tylko zależności", ids: ["inventory", "paths", "versions"] },
   { label: "Tylko prawo", ids: ["dzu", "antihalucynacje"] },
@@ -219,6 +229,10 @@ export default function AuditMenu() {
                     <div style={{fontSize:"0.85rem",fontWeight:600,
                       color: active ? "#4338CA" : "#1F2937"}}>
                       {item.label}
+                      {item.badge && <span style={{marginLeft:"0.5rem",padding:"0.1rem 0.45rem",
+                        borderRadius:999,fontSize:"0.68rem",fontWeight:700,verticalAlign:"middle",
+                        background:"#FEF3C7",color:"#92400E",border:"1px solid #FCD34D"}}>
+                        🖥️ działa w {item.badge}</span>}
                     </div>
                     <div style={{fontSize:"0.75rem",color:"#6B7280",marginTop:2}}>
                       {item.desc}

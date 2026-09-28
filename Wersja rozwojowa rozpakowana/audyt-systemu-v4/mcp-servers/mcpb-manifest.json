@@ -1,0 +1,117 @@
+{
+  "manifest_version": "0.3",
+  "name": "lex-machina",
+  "display_name": "Lex Machina — polskie źródła prawa",
+  "version": "1.0.0",
+  "description": "Weryfikacja źródeł prawa polskiego i UE: ISAP, SAOS, CBOSA, EUREKA, EUR-Lex, KRS, NBP, SUDOP, CEIDG.",
+  "long_description": "Serwery MCP systemu Lex Machina (audyt-systemu-v4 6.143). Każdy wynik w schemacie FOUND / NOT_FOUND / AMBIGUOUS / ERROR, z jawnym statusem obowiązywania lub aktualności. Kontrola sygnatur z post-checkiem tożsamości (prefiks ani prawie-trafienie nie potwierdza sygnatury). NSA/WSA (CBOSA): snapshot, brak trafień = OUT_OF_SCOPE.",
+  "author": {
+    "name": "Lex Machina",
+    "url": "https://github.com/michaleiatrak-star/Lex-Machina"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/michaleiatrak-star/Lex-Machina.git"
+  },
+  "license": "GPL-3.0",
+  "server": {
+    "type": "node",
+    "entry_point": "server/lex-mcp.mjs",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/server/lex-mcp.mjs",
+        "wszystkie"
+      ],
+      "env": {
+        "CEIDG_API_KEY": "${user_config.ceidg_klucz}",
+        "NODE_EXTRA_CA_CERTS": "${user_config.certyfikat_ca}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "isap_lookup",
+      "description": "ISAP/ELI: akty w Dz.U. i M.P. po tytule"
+    },
+    {
+      "name": "saos_search",
+      "description": "SAOS: orzeczenia SN, SP, TK, KIO; kontrola sygnatury"
+    },
+    {
+      "name": "krs_lookup",
+      "description": "KRS: dane podmiotu po numerze KRS"
+    },
+    {
+      "name": "nbp_kurs_waluty",
+      "description": "NBP: kurs średni tabeli A; dni wolne jawnie"
+    },
+    {
+      "name": "eurlex_lookup",
+      "description": "EUR-Lex/Cellar: akt UE po CELEX, status obowiązywania"
+    },
+    {
+      "name": "eureka_sprawdz_sygnature",
+      "description": "EUREKA: istnienie i aktualność interpretacji"
+    },
+    {
+      "name": "eureka_szukaj",
+      "description": "EUREKA: wyszukiwanie interpretacji i objaśnień"
+    },
+    {
+      "name": "eureka_pobierz",
+      "description": "EUREKA: pełna treść interpretacji"
+    },
+    {
+      "name": "sudop_szukaj_pomocy",
+      "description": "SUDOP: pomoc publiczna dla NIP (asynchroniczne)"
+    },
+    {
+      "name": "sudop_odbierz_wynik",
+      "description": "SUDOP: odbiór wyniku zlecenia"
+    },
+    {
+      "name": "cbosa_sprawdz_sygnature",
+      "description": "CBOSA: istnienie sygnatury NSA/WSA (snapshot)"
+    },
+    {
+      "name": "cbosa_szukaj",
+      "description": "CBOSA: wyszukiwanie orzeczeń NSA/WSA"
+    },
+    {
+      "name": "cbosa_pobierz",
+      "description": "CBOSA: pełny dokument orzeczenia"
+    },
+    {
+      "name": "ceidg_szukaj_firmy",
+      "description": "CEIDG: firmy jednoosobowe (wymaga klucza)"
+    }
+  ],
+  "user_config": {
+    "ceidg_klucz": {
+      "type": "string",
+      "title": "Klucz API CEIDG (opcjonalny)",
+      "description": "Token z dane.biznes.gov.pl. Bez niego narzędzie CEIDG jest wyłączone.",
+      "sensitive": true,
+      "required": false,
+      "default": ""
+    },
+    "certyfikat_ca": {
+      "type": "file",
+      "title": "Certyfikat CA proxy (opcjonalny)",
+      "description": "Tylko w sieci firmowej z proxy przechwytującym HTTPS: plik .pem/.crt z certyfikatem głównym proxy.",
+      "required": false,
+      "default": ""
+    }
+  },
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "win32",
+      "linux"
+    ],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  }
+}

@@ -68809,3 +68809,301 @@ dnia: `mcp-isap-eli`, `mcp-saos`, `mcp-krs`, `mcp-wl-vat`).
 
 **Otwarte:** F-167 (ocena O-1), F-208, F-209, F-8 (hosting HTTPS), F-94 (decyzja
 o losie `tools/mcp-servers/`), F-158(b) (EUREKA), F-197, F-203(b). Wolny numer: **F-210**.
+---
+
+## AUDYT-2026-09-27j — przyczyna niewidocznych wydań; pomiar TREŚCI serwerów MCP; F-197 w patchu
+
+**Wyzwalacz:** polecenie użytkownika — zbadać obecność skilli, dokończyć elementy z sesji
+27h/27i, naprawić niedziałające MCP; „na githubie są poprawione shared i audyt systemu”.
+
+### 1. Dlaczego poprawione shared i audyt nie docierały do instalacji
+
+Zainstalowane w sesji claude.ai: shared **3.86**, audyt **6.135**; w repo (`b9e10f8`):
+3.89 i 6.139. Pozostałe 30 skilli zgodne. Przyczyna: `.claude-plugin/plugin.json` obu
+skilli pozostał na **3.86 / 6.135** — co do cyfry wersje zainstalowane. Host porównuje wersję
+z manifestu, więc sesje 27g, 27h, 27i wydawały zmiany niewidoczne dla użytkownika. Pole
+`changelog:` w shared też stało na 3.86 (T12). T38 (KRYTYCZNY) wykrywał oba przypadki, ale
+suita nie była uruchamiana na `main` (F-197).
+
+Linia bazowa suity na `b9e10f8`: **FAIL** — T12 (changelog shared), T22 (4 pliki F-167 z 27f
+bez rejestracji we frontmatterze audytu), T38 (plugin.json). Po 27j: **PASS STRUKTURALNY**.
+
+### 2. Serwery MCP — pomiar treści zamiast statusu HTTP
+
+Nowy `shared/tools/mcp-servers/test_na_zywo.mjs`: 11 asercji na POLACH odpowiedzi, przez
+protokół MCP, na żywym API. **Oryginał 3.89: 3/11. Po naprawie: 11/11.** Każdy FAIL
+oryginału odpowiada opisanemu błędowi — harness nie jest testem „przechodzącym zawsze”.
+
+| Przykład | Błąd w 3.89 (pomiar 27j) | Naprawa 1.1.0 |
+|---|---|---|
+| `saos-example` | sygnatura `null` dla KAŻDEGO trafienia (`item.caseNumber` zamiast `courtCases[].caseNumber`); brak parametru `caseNumber` (V-SYG-0 niedostępna przez MCP); enum bez KIO/TK; NSA/WSA → NOT_FOUND | poprawne pola; parametr `sygnatura`; KIO, TK; `ADMINISTRATIVE` → `zakres: OUT_OF_SCOPE` 🟨; 3 próby × 45 s |
+| `nbp-example` | NOT_FOUND w każdy dzień bez publikacji, także bez daty (`/today` → 404 w niedzielę) | zakres dat, ostatnia tabela ≤ data, `przesuniecie_dni` jawnie |
+| `eurlex-example` | 406 z niezakodowanego `+` w `format=` (NIE z nagłówka Accept — diagnoza 27i błędna, zmierzone 200); pod spodem literał bez typu → puste wyniki (RODO → NOT_FOUND); wstrzyknięcie SPARQL przez CELEX | POST, `^^xsd:string`, walidacja CELEX, status obowiązywania, data końca, tytuł PL |
+| `sudop-example` | crash na parsowaniu JSON (API asynchroniczne; nota 27i bez zmiany kodu) | zlecenie + `sudop_odbierz_wynik`; PENDING z `kolejka_id` |
+
+Ustalenia pomiarowe: SAOS `courtType=ADMINISTRATIVE` → **0** dla każdego zapytania (przy
+74 571 trafieniach „podatek” bez filtra) — NSA/WSA w SAOS nie ma, nie „okno 2021–2023”.
+EUR-Lex kontrola: 32016R0679 obowiązuje; 31995L0046 uchylona, koniec 2018-05-24; fikcyjny
+CELEX → 0. SUDOP: kolejka `d50b411c-…` bez wyniku po >30 min (F-210).
+
+Mechanizm, przez który błędy przechodziły: (a) 7 × `test_protokol_mcp.mjs` uznawało
+`status: ERROR` za „SELF-TEST OK”; (b) testy jednostkowe SAOS/NBP/EUR-Lex na WYMYŚLONYCH
+fixture'ach o tym samym błędnym kształcie co kod — NBP miał „weekend → NOT_FOUND” jako
+asercję pozytywną. Zastąpione prawdziwymi odpowiedziami API; test SAOS pada na kodzie 1.0.0
+(test mutacyjny). Źródło błędu SAOS: `orzeczenia-sadowe-v2` § 1-T.1 pkt 2 (poprawione, 2.21).
+
+### 3. Korekta shared 3.89
+
+`KONEKTORY-REKOMENDOWANE.md`: tabela „stan wszystkich kanałów” wskazywała 7 „konektorów
+produkcyjnych” (`mcp-isap-eli` … `mcp-nbp`), których **nie ma w repo ani w
+`marketplace.json`** → zastąpiona pomiarem treści; F-211. Kolumna „pewność kształtu
+odpowiedzi” (SAOS „Wysoka”, NBP „Najwyższa” — oba zepsute) → wynik pomiaru.
+`DOSTEP-MASZYNOWY-API.md` § SAOS: NSA/WSA = 0; kształt pól trafienia; `pageSize=1` → 200.
+
+### 4. F-197 — naprawa w patchu, projekt wyzwalaczy
+
+Trzy skille rdzeniowe mają ZIP-y przebudowywane przez bota; commit bota (GITHUB_TOKEN) nie
+uruchamia workflow. Prosty `push: main` dawałby fałszywą czerwień T34 przed repackiem, a stan
+po repacku nie byłby nigdy sprawdzony. Zastosowano: `push: main` z `paths-ignore` rdzenia +
+`workflow_run` po „Repack core development ZIPs” (checkout najnowszego `main`) +
+`workflow_dispatch`; kroki: suita T1–T38, testy offline 7 serwerów MCP. Drugi repack
+(`repack-development-zips.yml`) działa tylko na gałęzi `codex/…` — ZIP-y 29 pozostałych
+skilli dołącza autor commita.
+
+Weryfikacja lokalna: suita **zielona** na gałęzi 27j (exit 0); z podłożonym
+`pisma-proste-v2/pisma-proste-v2/` **czerwona** (exit 1). Repack wyjęty z YAML-a uruchomiony
+na `b9e10f8` odtwarza zacommitowane ZIP-y bajt w bajt → ZIP-y w patchu = ZIP-y bota.
+Zostało: przebieg Actions na `main` po merge.
+
+### 5. `.pyc` w repozytorium
+
+Dwa `.pyc` w `audyt-systemu-v4/scripts/__pycache__/` były śledzone i objęte CHECKSUMS wbrew
+specyfikacji T21 (REGRESSION-TEST-PLAN w. 949). Każde uruchomienie suity je nadpisywało i
+psuło T21 — czwarte wystąpienie w tym dzienniku (w. ~59951, 67543, 67652, 67888). Usunięte z
+drzewa rozwojowego (wersja stabilna nietknięta) + `.gitignore`. Bez nowej flagi.
+
+### 6. Wydania
+
+`shared` 3.89 → **3.90**; `orzeczenia-sadowe-v2` 2.20 → **2.21**; `audyt-systemu-v4`
+6.139 → **6.140** — każde z `plugin.json` = SKILL.md (T38), nowymi CHECKSUMS (T21) i ZIP-em
+w `WERSJA ROZWOJOWA/` (T34).
+
+**Nie wykonane w tej sesji:** F-208, F-209 (merytoryka: art. 483 KSH, tajemnica obrończa —
+wymaga ELI w turze), F-167 (ocena O-1). Root `.mcp.json` wskazuje obcy
+`@matematicsolutions/mcp-isap` — sprzeczne z doktryną „własne, nie fork” (AUDYT-2026-09-26);
+pozostawione do decyzji użytkownika.
+
+**Otwarte:** F-210, F-211, F-197 (tylko potwierdzenie na `main`), F-208, F-209, F-167, F-8,
+F-94, F-158(b), F-203(b). Wolny numer: **F-212**.
+---
+
+## AUDYT-2026-09-27k — EUREKA; konkurencja uruchomiona na tych samych przypadkach; F-212
+
+**Wyzwalacz:** polecenie użytkownika — dodać EUREKA i pozostałe serwery z `matematicsolutions`;
+czy trzeba je instalować, skoro są w shared; czy budować własne; porównać; wskazać braki.
+
+### 1. Czy serwery z `shared` trzeba instalować — tak
+
+`shared` jest skillem: tekstem czytanym przez model. Serwer MCP w `tools/mcp-servers/*.zip`
+nie uruchamia się sam — potrzebny jest host, który go wystartuje (Claude Code / Desktop:
+`.mcp.json` albo plugin z `.mcp.json`; claude.ai: zdalny konektor HTTPS). Sprawdzone
+empirycznie: w sesji claude.ai z zainstalowanym shared nie ma żadnego narzędzia z tych serwerów.
+
+### 2. EUREKA — F-158(b) zamknięta pomiarem
+
+POST `/api/public/v1/wyszukiwarka/informacje/` z ciałem JSON → 200 (sesje F-158(b) używały GET).
+Ukośnik przed `?` NIE jest już wymagany (oba 200) — komentarz w kodzie konkurencji nieaktualny.
+Pułapki: filtr `SYG` prefiksowy; `STATUS_INFORMACJI` 29 = 22 328 dokumentów nieaktualnych/
+zmienionych. `eureka-example` 1.0.0: post-check tożsamości, status, pobranie z
+`dokument.fields[]`. Testy: jednostkowe 7/7 (prawdziwe fixture'y), protokół OK, na żywo 15/15.
+
+### 3. Konkurencja uruchomiona (npm `@matematicsolutions/*`, MIT)
+
+| Przypadek | `matematicsolutions` | przykłady shared |
+|---|---|---|
+| EUREKA, sygnatura ucięta `…678.2026` | „Znaleziono: 1” (inna sygnatura) | NOT_FOUND + odrzucone |
+| EUREKA, status 29 | brak jakiejkolwiek informacji | FOUND + ⛔ |
+| EUR-Lex 31995L0046 | data, typ; bez statusu i tytułu PL | uchylona, 2018-05-24, ⛔ |
+| ISAP KC `DU/1964/93` | „Stan: IN_FORCE” przy istniejącym t.j. | brak narzędzia pojedynczego aktu |
+| SAOS cytator II PK 291/09 | 18 orzeczeń cytujących | **brak narzędzia** |
+| KRS reprezentacja PKP S.A. | sposób reprezentacji | **brak narzędzia** |
+| CBOSA I OSK 590/26 | 503 | 503 (to samo środowisko) |
+
+⛔ `mcp-nsa`: `rejectUnauthorized: false` dla orzeczenia.nsa.gov.pl — weryfikacja TLS
+wyłączona. curl weryfikuje certyfikat poprawnie (`ssl_verify_result 0`); Node nie dociąga
+certyfikatu pośredniego. To wyjaśnia F-183a; właściwa naprawa: `NODE_EXTRA_CA_CERTS`.
+
+### 4. Decyzja: budowa własna, nie instalacja obcych
+
+Zgodnie z doktryną AUDYT-2026-09-26 i ustaleniem wyżej: obce serwery mylą się w dokładnie tych
+miejscach, które system uznaje za błędy merytoryczne (prefiks sygnatury, brak statusu, IN_FORCE
+przy t.j., wyłączony TLS). Luki zakresowe po naszej stronie → F-212 (wykonalna sesją).
+
+`shared` 3.90 → **3.91**; `audyt-systemu-v4` 6.140 → **6.141**.
+
+**Otwarte:** F-212, F-210, F-211, F-197 (potwierdzenie na `main`), F-208, F-209, F-167, F-8,
+F-94, F-158(c), F-183a, F-203(b). Wolny numer: **F-213**.
+---
+
+## AUDYT-2026-09-27l — ⛔ naruszenie ZASADY 7 (27j, 27k); instalator serwerów MCP
+
+**Wyzwalacz:** polecenie użytkownika — „daj skile zgodnie z regułą 7 audyt systemu; jak
+zainstalować z shared te serwery mcp?”
+
+### 1. ⛔ ZASADA 7 (OUTPUT-COMPLETENESS) naruszona w dwóch sesjach — równoważne CRIT
+
+- **27j:** dostarczono `AUDYT-2026-09-27j.patch` i `AUDYT-2026-09-27j-pliki.zip` (24 zmienione
+  pliki trzech skilli + workflow + `.gitignore` w jednym archiwum).
+- **27k:** to samo jako `AUDYT-2026-09-27jk.patch` i `AUDYT-2026-09-27jk-pliki.zip`.
+
+Naruszone trzy elementy: (a) zakaz pakietu zbiorczego — jeden ZIP dla kilku skilli; (b) wymóg
+kompletności — archiwum zawierało wyłącznie pliki zmienione, nie pełne skille; (c) patch bez
+**explicite** potwierdzenia dewelopera (wyjątek ZASADY 7 wymaga zgody w sesji — nie padła).
+Ryzyko wskazane w samej zasadzie: wgranie niepełnego katalogu nadpisuje strukturę. Przyczyna:
+reguły nie wczytano przed wydaniem — FAZA 0 (references) i ZASADY KRYTYCZNE nie zostały
+przeczytane w całości, tylko fragmenty potrzebne do zadania.
+
+**Naprawa (27l):** trzy osobne, pełne ZIP-y — `shared.zip`, `orzeczenia-sadowe-v2.zip`,
+`audyt-systemu-v4.zip` — każdy z procedurą PRE-DELIVERY-COMPLETENESS-CHECK: liczba plików
+przed/po, lista zamierzonych różnic względem `b9e10f8`, rozpakowanie do świeżej kopii i
+`diff -rq` pusty. ZIP-y identyczne bajtowo z budowanymi przez workflow repack (deterministyczny
+build). Pliki spoza skilli (workflow F-197, `.gitignore`) dostarczone osobno jako pliki
+repozytorium, nie jako część skilla.
+
+### 2. Instalacja serwerów MCP z shared
+
+Pytanie użytkownika: „jak zainstalować z shared te serwery”. Serwery leżą wyłącznie w ZIP-ie
+(limit 200 plików) → plugin `shared` ich nie uruchamia. Nowy
+`shared/tools/mcp-servers/instaluj_serwery_mcp.py` (shared 3.92). Zmierzone 27l na czystym
+katalogu: 7/7 serwerów (`ceidg` pominięty bez klucza — zamierzone), test protokołu każdego;
+symulacja hosta: każdy serwer uruchomiony WYŁĄCZNIE z `command/args/env` z wygenerowanej
+konfiguracji — `lex-krs`, `lex-nbp` (przesunięcie 1 dzień), `lex-eureka` zwróciły dane z żywego
+API; scalenie z istniejącym `claude_desktop_config.json` zachowało dotychczasowy wpis.
+
+`shared` 3.91 → **3.92**; `audyt-systemu-v4` 6.141 → **6.142**.
+
+**Otwarte:** bez zmian względem 27k. Wolny numer: **F-213**.
+---
+
+## AUDYT-2026-09-27m — serwery MCP przeniesione do audytu; warunek startu naprawiony
+
+**Wyzwalacz:** „serwery muszą być rozpakowane, więc lepiej dać je do audytu systemu i
+instalować z tamtego miejsca”.
+
+### 1. Mechanizm (dokumentacja Claude Code, plugins-reference, odczyt 27m)
+
+`.mcp.json` w katalogu głównym pluginu; w `command`/`args`/`env` serwerów stdio podstawiane są
+WYŁĄCZNIE `CLAUDE_PLUGIN_ROOT` i `CLAUDE_PLUGIN_DATA`. Dokumentacja nie przewiduje instalacji
+zależności pluginu — ⛔ twierdzenie z 27h („host doinstaluje sam przez npm ci”) bez pokrycia.
+Stąd `dist/lex-mcp.mjs`: esbuild, jedna kopia SDK/zod (629 KB; 8 osobnych pakietów = 9 MB).
+Noty licencyjne 8 wbudowanych pakietów (MIT ×6, BSD-3-Clause, ISC) w `dist/NOTICE-THIRD-PARTY.txt`
+— bez nich rozpowszechnianie naruszałoby licencje (precedens F-199).
+
+### 2. ⛔ Błąd startu we wszystkich 8 serwerach (obecny od początku)
+
+`import.meta.url === \`file://${process.argv[1]}\`` fałszywe na Windows (ukośniki, litera dysku)
+i dla KAŻDEJ ścieżki ze spacją (URL koduje `%20`) — nazwa repozytorium zawiera spację. Serwer się
+wczytywał, ale nie otwierał transportu; host nie widział narzędzi. Test: stary kod w
+`/tmp/ścieżka ze spacją/` → „Connection closed”; nowy → narzędzia. Wcześniejsze testy (27j–27l)
+tego nie wykryły, bo biegły w ścieżkach bez spacji na Linuksie — instalator 3.92 nie działałby
+u użytkownika na Windows. Poprawka: `fileURLToPath(import.meta.url) === realpathSync(argv[1])`.
+
+### 3. Weryfikacja
+
+`zbuduj_pakiet.py`: build deterministyczny (dwa przebiegi identyczne); `--sprawdz` wykrywa zmianę
+kodu źródłowego (test mutacyjny na zmianie literału; komentarz słusznie ignorowany — minifikacja).
+Pakiet w katalogu ze spacją, bez `node_modules`: 8/8 serwerów, treść ✅ (SAOS, NBP, EUR-Lex,
+EUREKA). Symulacja pluginu: kopia do katalogu ze spacją, podstawienie `${CLAUDE_PLUGIN_ROOT}`,
+start z `.mcp.json` → 7/7. Instalator (`--scal-desktop`, ścieżka „Program Files x”): 7/7,
+istniejący wpis Desktop zachowany. Uwaga środowiskowa: serwer za proxy przechwytującym TLS
+potrzebuje `NODE_EXTRA_CA_CERTS` — `.mcp.json` pluginu nie może go przekazać → instalator.
+
+⚠️ Niezweryfikowane: czy claude.ai (marketplace) akceptuje plugin z `.mcp.json` bez błędu
+instalacji (27e: claude.ai instalował tylko 4 z 32 pluginów). Sprawdzić po synchronizacji.
+
+### 4. Zmiany
+
+`shared` 3.92 → **3.93** (−`tools/mcp-servers/`, 194 → 192 pliki; 20 odwołań w 6 plikach
+przekierowanych; zapisy historyczne pozostawione; usunięty nieaktualny hash archiwum w SKILL.md
+pkt 7, niezmieniany przez 3.90–3.92). `audyt-systemu-v4` 6.142 → **6.143** (116 → 184 pliki).
+F-197 (workflow): testy MCP z `audyt-systemu-v4/mcp-servers/` + `zbuduj_pakiet.py --sprawdz` +
+handshake pakietu. F-94 zawężona.
+
+### 5. (cd. 27m) CBOSA, rozszerzenie Claude Desktop
+
+**Wyzwalacz:** „przygotuj paczkę do instalacji na claude desktop w postaci zipa, a przy okazji
+sprawdź ten mcp cbosa z chatgpt — tam działa”.
+
+**cbosa-mcp (ChatGPT, Python, 220 linii):** TLS poprawny (httpx, weryfikacja włączona). Wady
+zmierzone: parser nie wyciąga Sygnatury/Daty/Sądu nawet z WŁASNEJ próbki (etykiety w `<b>`,
+kod szuka `th/dt/td`); próbki wymyślone (126 i 391 B; prawdziwa strona CBOSA to dziesiątki kB) —
+testy przechodzą, bo nie sprawdzają pól; brak exact-match sygnatury; paginacja błędna (`page=0`
+nie stronicuje, `page>0` dubluje stronę 1); brak statusów. „Tam działa” = działa połączenie.
+Odrzucony jako baza.
+
+**CBOSA z sandboxa:** 503 z bramy egress, nie z NSA („upstream connect error… remote connection
+failure”; łańcuch TLS kończy się na „Anthropic Egress Gateway”). ⛔ Korekta 27k: „503 obu
+stronom” było prawdą, ale nie mówiło nic o konektorach — żadnego nie da się stąd zmierzyć.
+
+**`cbosa-example` 1.0.0:** port 1:1 `orzeczenia-sadowe-v2/tools/cbosa_parser.py` (24/24 testów
+Pythona PASS; opis mówi 22 — nieaktualny). Równoważność: 15 dokumentów + 8 scenariuszy, wynik
+Pythona jako wzorzec (generowany, nie pisany) → JS 25/25; test mutacyjny (usunięcie
+normalizacji kropek, wyłączenie kontroli zamknięcia HTML) — oba wykryte. Statusy wg preferencji
+użytkownika: snapshot 🟨, bez awansu; 0 trafień → NOT_FOUND + `zakres: OUT_OF_SCOPE`;
+fail-closed → ERROR + OUT_OF_SCOPE + powód. HTTP: sesja z cookies, przekierowania ręcznie z
+przypiętym hostem, kontrola Content-Length, dekodowanie wg charset — niezmierzone (F-213).
+
+**Rozszerzenie Claude Desktop (MCPB 0.3):** tryb `wszystkie` (jeden serwer, 13 narzędzi; 14 z
+kluczem CEIDG; bez duplikatów nazw). `mcpb validate` PASS; `lex-machina.mcpb` 174 KB (manifest,
+pakiet, NOTICE, LICENSE GPL-3.0). Node.js wbudowany w Claude Desktop (README MCPB) — zero
+instalacji. Symulacja Desktop (katalog ze spacją, `${__dirname}`, `user_config`, env wyłącznie z
+manifestu): puste pola → „fetch failed” w sandboxie (proxy TLS); z polem `certyfikat_ca` → NBP
+FOUND (przesunięcie 1), EUREKA status „uchylony”, CBOSA ERROR/OUT_OF_SCOPE (503). Pole certyfikatu
+potrzebne tylko w sieciach z proxy przechwytującym HTTPS.
+
+Błędy własne w tej turze: README `mcp-servers/` utworzony poza katalogiem roboczym i skasowany
+synchronizacją (odtworzony); `.mcpb` zbudowany z katalogu roboczego bez LICENSE (przebudowany
+z repo). `.gitignore`: `mcp-config.json`, `dist/*.mcpb`.
+
+**T33 (`check_wydanie.py` w. 58) — błąd testu naprawiony.** `lstrip("./")` usuwał wszystkie
+początkowe kropki: `.claude-plugin/plugin.json` → `claude-plugin/plugin.json`, `.mcp.json` →
+`mcp.json`. Od 3.86 (27e, `plugin.json` w każdym skillu) T33 zwracał FAIL dla KAŻDEJ poprawnej
+paczki — test kompletności wydań był bezużyteczny. Poprawka `removeprefix("./")`; weryfikacja:
+poprawne paczki PASS, paczka z podmienionym plikiem FAIL.
+
+**Otwarte:** F-213 (nowa). Wolny numer: **F-214**.
+
+---
+
+## AUDYT-2026-09-27n — pozycja 14 menu: instalacja serwerów MCP w Claude Desktop
+
+**Wyzwalacz:** „dodaj do audytu nową pozycję przy uruchomieniu widgetu wizualnego aby
+zainstalować MCP i rób to posiadanym skryptem po wybraniu tej opcji, zaznacz, że działa to na
+claude desktop”.
+
+**Problem projektowy rozstrzygnięty przed implementacją:** `--scal-desktop` zapisuje plik
+konfiguracji Claude Desktop, więc ma sens tylko na komputerze z Desktopem (Claude Code, terminal
+lokalny). Czat Claude Desktop, claude.ai i Cowork wykonują kod w piaskownicy — tam ten sam
+skrypt „zainstalowałby” serwery w konfiguracji piaskownicy (fałszywy raport). Rozwiązanie:
+`--diagnoza` (kod 0 = Desktop na tej maszynie, 3 = brak) wybiera ścieżkę; w piaskownicy nowy tryb
+`--mcpb` buduje rozszerzenie do instalacji w Desktopie.
+
+**Widget (`widgets/WIDGET-MENU.md`):** pozycja 14 `mcp-instalacja`, grupa „Konektory MCP”, pole
+`badge` renderowane jako plakietka „🖥️ działa w Claude Desktop”; poza presetem „Pełny audyt” (akcja
+zmieniająca konfigurację — tylko świadomy wybór, jak poz. 11 i 13). Weryfikacja: JSX kompiluje się
+(esbuild); render SSR (React 18) zawiera plakietkę i grupę; po wyborze `sendPrompt` wysyła
+„Instalacja serwerów MCP”.
+
+**Skrypt:** `--diagnoza` — w sandboxie kod 3 i „ŚCIEŻKA: --mcpb”; z katalogiem Claude Desktop kod 0.
+`--mcpb`: ZIP w czystym Pythonie (stałe znaczniki czasu) — z katalogu tylko do odczytu działa; dwa
+przebiegi identyczne bajtowo; oficjalne `mcpb` 2.1.2: unpack + validate PASS; symulacja Desktop
+(z certyfikatem CA): 13 narzędzi, NBP FOUND, EUREKA „uchylony”, CBOSA ERROR/OUT_OF_SCOPE (503 bramy).
+
+**SKILL.md:** FAZA 0E (procedura: diagnoza → scal-desktop albo mcpb; zakaz raportu „zainstalowano”
+z piaskownicy; bez wykonania kodu — polecenie dla użytkownika; kontrola po instalacji, F-213).
+
+`audyt-systemu-v4` 6.143 → **6.144** (191 → 192 pliki: +`mcp-servers/LICENSE`). Shared bez zmian.
+
+⛔ Błąd własny wyłapany przez suitę przed wydaniem: podbita wersja w SKILL.md (6.144) bez `plugin.json` (6.143) — ta sama klasa błędu, która w 27g–27i ukryła trzy wydania przed hostem (27j). T38 FAIL → poprawione → PASS.
+
+**Otwarte:** bez zmian. Wolny numer: **F-214**.

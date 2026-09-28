@@ -346,6 +346,18 @@ zawiera daty `3013-12-04` i `0208-03-14`):
 
 Zero trafień poza tym oknem to **OUT_OF_SCOPE, nigdy NOT_FOUND** (K-SYG-1).
 
+⛔ **Pomiar 2026-09-27j (AUDYT-2026-09-27j) — dwie korekty tej sekcji:**
+1. **NSA/WSA w SAOS: zero, nie „okno 2021–2023”.** `courtType=ADMINISTRATIVE` zwraca
+   `totalResults: 0` dla KAŻDEGO zapytania — bez frazy, z frazą „podatek”, z frazą „decyzja” —
+   przy 74 571 trafieniach frazy „podatek” bez filtra. Każdy brak trafienia dla NSA/WSA w SAOS
+   = **OUT_OF_SCOPE** (snapshot 🟨), nigdy „brak orzecznictwa”. Źródło: CBOSA.
+2. **Kształt odpowiedzi (pola trafienia):** sygnatura w `courtCases[].caseNumber` (NIE
+   `caseNumber` na poziomie trafienia — ten parametr istnieje tylko w ZAPYTANIU); izba SN w
+   `division.chambers[].name`; sąd powszechny w `division.court.name`; TK i KIO nie mają
+   `division`. `textContent` zawiera znaczniki `<em>` z podświetlenia. Kod, który czytał
+   `item.caseNumber`, zwracał sygnaturę `null` dla każdego trafienia (`saos-example` ≤1.0.0).
+   Zmierzone także: `pageSize=1` → 200 (ostrzeżenie „≥10, inaczej 400” wyżej jest nieaktualne).
+
 ### ⭐ SN — `sn.pl`, proxy AJAX `snproxy` (JSON, nieudokumentowane, zmierzone 2026-09-13)
 
 ⛔ Wymaga **UA przeglądarkowego** — wyjątek od §1, patrz tam.
@@ -630,7 +642,7 @@ weryfikacji razem z datą.
 | **BZP** | `bzp.uzp.gov.pl/Default.aspx` | ⚠️ ~20% żądań → 404, ponawiaj |
 | **EUR-Lex** | `eur-lex.europa.eu/legal-content/PL/TXT/?uri=CELEX:…` | HTML |
 | **Cellar SPARQL** | ✅ `publications.europa.eu/webapi/rdf/sparql` | ⛔ tylko ta ścieżka; root → 301 poza listę |
-| **EUREKA (interpretacje MF)** | ⚠️ `eureka.mf.gov.pl/api/public/v1/informacje/{id}` | pobieranie po ID działa; **wyszukiwanie po treści nie** — POST `wyszukiwarka/informacje` o nieustalonym schemacie |
+| **EUREKA (interpretacje MF)** | ✅ **zmierzone 2026-09-27k** | Wyszukiwarka: **POST** `eureka.mf.gov.pl/api/public/v1/wyszukiwarka/informacje/?size=&page=&sort=DT_WYD%2Cdesc` z ciałem JSON (`filter`, `columns`, `searchQuery`) — sesje F-158(b) próbowały GET i dostawały powłokę SPA. Dokument: GET `/informacje/{ID}` (treść w `dokument.fields[]`). ⛔ Filtr `SYG` jest **prefiksowy** („…678.2026” trafia „…678.2026.1.WK”) — kontrola istnienia wymaga post-checku tożsamości. ⛔ `STATUS_INFORMACJI`: 27 Aktualna, 29 Nieaktualna/Zmieniona/Wygaszona/Archiwalna (**22 328** dok.), 30 Nieaktualna, 33 Usunięta — sprawdzaj przed powołaniem. Konektor: `audyt-systemu-v4/mcp-servers/eureka-example`. |
 | **RCL** | ⛔ `legislacja.rcl.gov.pl` | 503 `connection timeout` (2026-09-13c) — host NA liście, nie odpowiada. **Brak zamiennika** dla przebiegu prac legislacyjnych |
 
 ---

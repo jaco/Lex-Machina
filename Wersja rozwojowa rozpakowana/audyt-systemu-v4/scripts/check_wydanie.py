@@ -55,7 +55,7 @@ def sprawdz_zip(sciezka_zip, skill, drzewo):
             if "  " not in linia:
                 continue
             suma, nazwa = linia.split("  ", 1)
-            nazwa = nazwa.strip().lstrip("./")
+            nazwa = nazwa.strip().removeprefix("./")  # ⛔ 27m: było lstrip("./") — zjadało kropkę z .claude-plugin/.mcp.json; T33 fałszywie FAIL od 3.86
             if nazwa not in wpisy:
                 bledy.append(f"CHECKSUMS wskazuje plik spoza ZIP: {nazwa}")
             elif sha(wpisy[nazwa]) != suma.strip():

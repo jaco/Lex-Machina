@@ -5,7 +5,7 @@ dependencies:
   requires:
     - shared
   # 2026-09-27e: jawna zależność (każdy skill systemu korzysta z `shared`); pole czytane przy imporcie z marketplace
-version: "6.139"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
+version: "6.144"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
                   # parsuje jako float 6.1 — czyli numer NIŻSZY niż 6.9, co cicho
                   # odwraca porządek wersji. Wykryte przy walidacji 2026-08-20z.
                   # Każda kolejna wersja z dwucyfrowym minor — też w cudzysłowie.
@@ -108,6 +108,10 @@ references:
   - references/F-187-dostep-maszynowy-pomiar-2026-09-13d.md   # pomiar kanałów maszynowych F-187…F-192
                                           # (sesja 2026-09-13d; adnotacja 2026-09-14: pomiar
                                           # historyczny) — REJESTROWANE 2026-09-16 (T22, plik-sierota)
+  - references/PLAN-POMIARU-BRAMEK-UNIWERSALNY.md   # F-167 (27f): projekt pomiaru DOWOLNEJ bramki;
+                                          # uogólnia PLAN-TESTU-BRAMEK-F113 — REJESTROWANE 2026-09-27j (T22, plik-sierota od 27f)
+  - references/REJESTR-BRAMEK-POMIAR.json # F-167 (27f): rejestr bramek i wycięć dla build_ramie_kontrolne.py — REJESTROWANE 27j (T22)
+  - references/REJESTR-KORPUSU-POMIAROWEGO.md   # F-167 (27f): metryki korpusu bez treści — REJESTROWANE 27j (T22)
 scripts:
   - scripts/check_wartosci_prawne.py      # T28 — wartości i cytaty (W1 rejestr znanych błędnych cytatów,
                                           # W2 procent przy odsetkach, W3 kwota bez podstawy). Offline.
@@ -177,6 +181,8 @@ scripts:
                                           # plikach, a skill z zerwanym odwołaniem wchodzi w TRYB
                                           # ZDEGRADOWANY, więc przebieg mierzyłby reakcję na awarię
                                           # zasobu zamiast braku bramki
+  - scripts/build_ramie_kontrolne.py      # F-167 (27f): UNIWERSALNY generator RAMIENIA A dla dowolnej bramki
+                                          # (mapa wycięć w REJESTR-BRAMEK-POMIAR.json, nie w kodzie) — REJESTROWANE 27j (T22)
   - scripts/ocena_transkryptow_f113.py    # narzędzie do protokołu F-113: anonimizacja przebiegów
                                           # (ocena Ślepa), karta ocen, liczenie Δ między ramionami.
                                           # ⛔ NIE ocenia transkryptów automatycznie — świadomie, patrz docstring
@@ -545,6 +551,39 @@ Po wyborze pozycji 13 albo poleceniu „zsynchronizuj pamięć routera”:
 produkcyjnej: klasyfikator pamięci odrzuca treść sterującą zachowaniem modelu —
 zapis jest niewykonalny z założenia, a ponowienie lub przeformułowanie
 stanowiłoby obchodzenie zabezpieczenia. Wynik stały: `ZAPIS: NIEOBSŁUGIWANE W HOŚCIE`.
+
+## FAZA 0E — INSTALACJA SERWERÓW MCP W CLAUDE DESKTOP (POZYCJA 14, od 6.144)
+
+Po wyborze pozycji 14 menu („Instalacja serwerów MCP”, plakietka 🖥️ *działa w Claude Desktop*)
+albo poleceniu „zainstaluj serwery MCP”. Narzędzie: `mcp-servers/instaluj_serwery_mcp.py`
+(ten skill). Serwery: ISAP, SAOS, CBOSA, EUREKA, EUR-Lex, KRS, NBP, SUDOP (+CEIDG z kluczem).
+
+⛔ **Działa w Claude Desktop.** claude.ai w przeglądarce nie uruchamia serwerów lokalnych — tam
+wynikiem jest plik rozszerzenia do zainstalowania w Desktopie. Nie obiecuj działania w przeglądarce.
+
+1. **Ustal ścieżkę pomiarem, nie domysłem.** Z wykonaniem kodu uruchom z katalogu tego skilla:
+   ```
+   python mcp-servers/instaluj_serwery_mcp.py --diagnoza
+   ```
+   - **kod 0 — „ŚCIEŻKA: --scal-desktop”**: skrypt działa na komputerze z Claude Desktop
+     (Claude Code, terminal lokalny). Jednym zdaniem uprzedź, że skrypt dopisze serwery `lex-*`
+     do `claude_desktop_config.json` i zrobi kopię `.kopia-przed-lex`; następnie:
+     `python mcp-servers/instaluj_serwery_mcp.py --scal-desktop`. Przekaż wynik dosłownie (wiersze ✅/⛔,
+     ścieżka kopii) i poproś o ponowne uruchomienie Claude Desktop.
+   - **kod 3 — „ŚCIEŻKA: --mcpb”**: piaskownica (czat Claude Desktop, claude.ai, Cowork). Uruchom
+     `python mcp-servers/instaluj_serwery_mcp.py --mcpb <katalog wyjściowy hosta>` (czysty Python, bez
+     sieci; działa z katalogu skilla tylko do odczytu) i udostępnij `lex-machina.mcpb`
+     (`present_files`). Instrukcja: Claude Desktop → Ustawienia → Rozszerzenia → zainstaluj z pliku.
+     Pola opcjonalne: klucz CEIDG; certyfikat CA — wyłącznie w sieci z proxy przechwytującym HTTPS.
+   - ⛔ Przy kodzie 3 NIGDY nie uruchamiaj `--scal-desktop` i nie raportuj „zainstalowano” —
+     konfiguracja w piaskownicy nie jest konfiguracją Claude Desktop użytkownika.
+2. **Bez wykonania kodu:** podaj polecenie do uruchomienia u siebie
+   (`python <katalog skilla>/mcp-servers/instaluj_serwery_mcp.py --scal-desktop`) albo wskaż plik
+   `.mcpb` z wydania — bez fikcyjnego raportu wykonania (adapter hosta, zasada 5).
+3. **Kontrola po instalacji** (nowa rozmowa w Claude Desktop): narzędzia `lex-*` widoczne; wywołanie
+   `nbp_kurs_waluty` dla EUR zwraca FOUND. `cbosa_sprawdz_sygnature` „III OSK 1959/22” → FOUND zamyka
+   **F-213** (z sandboxa Claude CBOSA jest nieosiągalna).
+4. Zapisz w AUDIT-JOURNAL.md jednym zdaniem: ścieżka (scal-desktop / mcpb / polecenie), wynik.
 
 ---
 
@@ -1330,6 +1369,11 @@ z WARN-OTWARTE.md, dodaj pełny wpis do AUDIT-JOURNAL.md.
 > plików aktualizuj OBA miejsca — YAML i to drzewo** (rozjazd jednego z drugim
 > to ten sam wzorzec luki, który wykrywa `check_rejestracja_modulow.py`).
 
+> ⚡ **2026-09-27m:** +`.mcp.json` (serwery MCP pluginu) i +`mcp-servers/` (74 pliki: źródła 9 serwerów z CBOSA,
+> `dist/lex-mcp.mjs`, manifest rozszerzenia MCPB, instalator, skrypt budowy, README) — łącznie **192 pliki** (6.144: +`mcp-servers/LICENSE`). Drzewo niżej nie
+> rozpisuje `mcp-servers/` — opis w `mcp-servers/README.md`. Licznik w pierwszej linii drzewa jest
+> historyczny (stan 2026-09-09b).
+
 ```
 audyt-systemu-v4/                               ← 89 plików (stan 2026-09-09b; licznik sprawdzony
 │                                                  `find . -type f`, bez __pycache__. ⚡ Drzewo podawało
@@ -1347,7 +1391,7 @@ audyt-systemu-v4/                               ← 89 plików (stan 2026-09-09b
 │   ├── MOD-TRESC-MERYTORYCZNA.md               ← FAZA 3E, treść modułów DR po zmianie przepisu
 │   └── MOD-PROPAGACJA-NOWELIZACJI.md           ← propagacja nowelizacji przez CAŁY system
 ├── widgets/
-│   └── WIDGET-MENU.md                          ← menu interaktywne (FAZA 0B)
+│   └── WIDGET-MENU.md                          ← menu interaktywne (FAZA 0B; 14 pozycji, poz. 14 → FAZA 0E)
 ├── scripts/                                    ← 47 plików (stan 2026-09-27e): testy T1-T4, T8, T9, T11-T36, T38,
 │   │                                             orkiestrator, ci_check_shared (T6/T7),
 │   │                                             check_rejestracja_modulow, sync ELI (3 pliki),
@@ -1382,7 +1426,7 @@ audyt-systemu-v4/                               ← 89 plików (stan 2026-09-09b
 
 ---
 
-*Wersja: 6.139 | Ostatnia aktualizacja: 2026-09-27i (siedem konektorów MCP wydanych łącznie: +mcp-uodo, +mcp-eurlex, +mcp-nbp; przegląd wszystkich 7 przykładów w shared/tools/mcp-servers wobec żywych API — trzy odpowiadały błędem, w tym ceidg 404/401 i eurlex 406; ⭐ KIO rozstrzygnięte: 22 168 orzeczeń w SAOS, osobny konektor zbędny; ⛔ dwie wady wykryte pomiarem mimo SELF-TEST OK; F-158b potwierdzona jako otwarta. Wcześniej 2026-09-27h: 2026-09-27h (cztery własne konektory MCP zbudowane i zmierzone na żywym API — mcp-isap-eli, mcp-saos, mcp-krs, mcp-wl-vat, każdy jako osobny plugin gotowy do instalacji; przegląd 59 repozytoriów matematicsolutions z decyzją o własnym kodzie zamiast forku; ⛔ dwa błędy we własnym kodzie wykryte przed wydaniem mimo przechodzącego self-testu; ⭐ biała lista VAT odpowiada 200 wbrew zapisom F-157b/F-204; F-8 zawężona do hostingu HTTPS, F-94 rozstrzygnięta faktycznie. Wcześniej 2026-09-27g: 2026-09-27g (⛔ korekta własnego błędu: F-208 opierała się na niezmierzonym wniosku oceniającego — pomiar ELI wykazał, że wszystkie kwestionowane pozycje Dz.U. są prawdziwe; flaga przeformułowana na niekompletność list nowelizacji [KKS 2026: ELI podaje cztery, przebiegi podały trzy i jedną]. F-8 zmierzona realnym protokołem MCP 2024-11-05 na mcp-isap 1.3.0. ⛔ Naprawione wykrywanie MCP w shared 3.87 — KROK 1 szukał nazw, których nigdy nie było w pliku, do którego odsyłał, więc MCP-FIRST nie włączyłby się nigdy. Wcześniej 2026-09-27f: 2026-09-27f (mechanizm uniwersalny pomiaru bramek: rejestr bramek jako dane + jedna implementacja buildera + kontrola resztkowa nazw krótkich [wada, przez którą ramię A zachowywało bramkę — dotyczy też B1–B5] + plan pomiaru i rejestr korpusu bez treści; pilot T1 na PL-04/PL-06: Δ=+2,0 pkt na korzyść bramek, ocena O-2, n=2/ramię — F-167 NIE zamknięta, brak oceny O-1 i konieczna decyzja o zmianie kryterium, bo K-02 okazał się skażony przez CN-2, a K-01/02/06 przez MIEDZYNARODOWE-GATES; nowe F-208 konfabulacja pozycji Dz.U. i F-209 luki pokrycia; kontrola repo/marketplace: 32/32 spójne, validate PASS, drzewo stabilne bez manifestów i 5–9 wydań wstecz; wcześniej 2026-09-27e: 2026-09-27e (import z marketplace w claude.ai: 4 z 32 pluginów; wszystkie 32 skille dostały `.claude-plugin/plugin.json`, 28 — `dependencies.requires: [shared]` we frontmatterze; treść bez zmian; nowy test T38 — plugin.json ↔ SKILL.md ↔ marketplace, BLOKER); wcześniej 2026-09-27d (WARN-CLOSE: F-207 — wywołanie WD odtworzone w 7 skillach z utraconego wydania AUDYT-2026-09-26, nowe numery; T35 PASS, T12 czysty; WARN-OTWARTE 22→21); wcześniej 2026-09-27c (RESOLVER-SKILLI: `shared` 3.85 — UNIVERSAL-RUNTIME-ADAPTER §1A, adresy logiczne rozwiązywane do faktycznej kopii przy instalacji z marketplace; router 3.57 — RESOLVER w PATH-SELFTEST, `requires` 31, odtworzone wywołanie WD z niedoręczonego 3.56; nowa flaga F-207 — wydanie AUDYT-2026-09-26 utracone w 7 skillach; WARN-OTWARTE 21→22); wcześniej 2026-09-27b (WARN-CLOSE: F-189 zamknięta — mechanizm nadpisań ustalony jako wiele równoległych sesji/urządzeń pushujących bez pull/rebase, potwierdzone wprost przez użytkownika, powiązane z F-197; F-167 pozostaje otwarta, zablokowana — materiał kazusów testowych K-0X nie istnieje w repozytorium, użytkownik zapytany wybrał zostawić otwartą; WARN-OTWARTE 22→21; wcześniej tego samego dnia 2026-09-27 (WARN-CLOSE: F-205 — FAZA 3E, 3/3 jednostek U-14 zweryfikowane fresh RZĄD 1: AI Act art. 25/art. 6 ust. 3/art. 13 ust. 3 dodane od zera w dr-11 (+ naprawiona błędna numeracja zał. III, brakujący pkt 1 Biometria i błędny pkt 8 „urządzenia medyczne"); nowa sekcja G.1D w analizator-umow-v1 (umowa ramowa zlecenia, konstrukcja oferta-przyjęcie, test realności, + art. 22 §1² KP dotąd niecytowany); art. 52 PrAut (IP-6) w mod-J9, poprzednio nieodczytany; odesłanie w dr-04. Wersje: dr-11 3.18→3.19, analizator-umow-v1 1.41→1.42, dr-04 3.40→3.41; WARN-OTWARTE 23→22; wcześniej 2026-09-26d (WARN-CLOSE: F-206 — 8 narzędzi `shared/tools/*.py` przywrócone bajt-w-bajt z historii git prawdziwego repozytorium użytkownika (pierwszy raz w tej serii sesji z dostępem do pełnej historii, nie tylko zamontowanej kopii bez `.git`); poprawiony błędny commit-hash odziedziczony przez samą flagę (`ec3f530b`→ w rzeczywistości `d3385b9`/`6dbe7a0`); znalezione 5 dodatkowych brakujących narzędzi poza pierwotnym opisem flagi; wszystkie zweryfikowane funkcjonalnie, nie tylko obecnością bajtów; `shared` 3.83→3.84 (178→192 plików); dodatkowo poza zakresem F-: naprawiony `.claude-plugin/marketplace.json` (błędne ścieżki source), zweryfikowany end-to-end na klonie repo; wcześniej tego samego dnia 2026-09-26c (WARN-CLOSE: F-203(a) — korpus regresyjny `analizator-umow-v1/benchmark/posiane-wady/` (5 umów pisane od zera, manifest złotego standardu 30 wad, instrukcja sędziego z metryką WD-1), zaadaptowany z atrybucją Apache 2.0 z apiotrowski-afk/commercial-legal-pl (treść umów/manifestu własna); wpięte jako T37 w REGRESSION-TEST-PLAN.md; analizator-umow-v1 1.40→1.41; WARN-OTWARTE 25→24; wcześniej 2026-09-26b: F-204 — adapter_krs_vat.py zbudowany i zweryfikowany live dla KRS, WL zablokowana WAF-em z tego środowiska — objaw zapisany; F-198 zamknięta wariantem adnotacji; marketplace.json dostarczony osobno; wcześniej 2026-09-26: T34–T36, F-196/F-199–F-202 zamknięte, F-206 otwarta; wcześniej 2026-09-23: przegląd rejestru żywego wg ZASADY 10: 25 bloków flag zamkniętych przeniesionych z WARN-OTWARTE.md do AUDIT-JOURNAL.md, wpis AUDYT-2026-09-23; pięć usterek samego rejestru zapisanych, w tym równoległe statusy O-5/O-6/O-7 i duplikat F-156; praca na drzewie z repozytorium GitHub; F-195 ZAMKNIĘTA, F-194 zawężona do CBOSA; wcześniej 2026-09-22c: F-195 — Ordynacja: sześć nowelizacji po t.j., trzy dotąd nieśledzone; wcześniej 2026-09-22b: F-195 — przegląd MONITORING przez art. końcowe: 8 wierszy zamkniętych, podmiana aktu 2025/1390 usunięta; F-194 częściowo — Zasada 2B w orzeczenia-sadowe-v2; wcześniej 2026-09-22: F-193 — L4: Dz.U. 2026 poz. 26 w MONITORING, nowa generacja mapy; F-194 — NSA I OSK 590/26 jako 🟨; wcześniej 2026-09-17u: ⭐⭐ F-135 zamknięta — Cellar; wcześniej 2026-09-17t: F-113 — ramię kontrolne; wcześniej 2026-09-17s: pomiar kanałów: SAOS wrócił; wcześniej 2026-09-17r: T33 — kontrola po wydaniu; wcześniej 2026-09-17q: ⭐ EUR-Lex odblokowany, RODO; wcześniej 2026-09-17p: domknięcie pozycji 17o; niewyjaśniona zmiana kopii roboczej; wcześniej 2026-09-17o: F-135 — prawo pracy, ustawy szczególne; wcześniej 2026-09-17n: F-135 — sprawy rodzinne; wcześniej 2026-09-16m: F-135 — KPA/PPSA; wcześniej 2026-09-16l: F-135 — u.o.d.o.; wcześniej 2026-09-16k: F-135 — KSC/NIS2; wcześniej 2026-09-16j: F-135 — PZP; wcześniej 2026-09-16i: T15 — t.j. ogłoszony w dniu audytu; wcześniej 2026-09-16h: F-135 — postępowanie spadkowe; wcześniej 2026-09-16g: F-135 — terminy KKS; wcześniej 2026-09-16f: F-135 — terminy KC; wcześniej 2026-09-16e: T32, T27 ZASTĄPIONY_TJ — O-11 zamknięta; wcześniej 2026-09-16d: T31 — podmiany aktu, O-11(d); 2026-09-16c: T30 — utrata treści, F-190 zamknięta; 2026-09-16b: T5 skrypt kandydatów, F-190, F-OP-2026-09 zamknięta; wcześniej 2026-09-16: F-189 — regresje dyskowe w 10 skillach, T12/T22/T28/T29. Poprzednio: 2026-09-14 (CBOSA snapshot/retrieval: host post-check, exact-match, provenance≠status; 10/10 prób metryka+sentencja. Poprzednio: 2026-09-14 (CBOSA: direct adapter spięty z RZĄD 2A/shared; F-183a zawężona do live-probe środowiska docelowego; 22/22 regresje adaptera. Poprzednio: 2026-09-13b (weryfikacja luk PPWR/EUDR: polska ustawa opakowaniowa NIE dostosowana do PPWR, który stosuje się od 12.08.2026; trzy luki, trzy różne wyniki, każdy zapisany z zakresem. Poprzednio: 2026-09-13 (PPWR i EUDR — dwa rozporządzenia UE bezpośrednio stosowane, nieobecne w systemie; EUDR jako podręcznikowy przypadek O-12: ten sam CELEX, ten sam status, data stosowania przesunięta o dwa lata. Poprzednio: 2026-09-12r (T13 — ta sama ślepa plamka drugi raz: satelity z podziału 12q wypadły poza zakres testu; zakres naprawiony rekurencyjnie + dodany selftest 5/5, którego T13 nie miał od powstania. Poprzednio: 2026-09-12q (podział TABELE-OPLAT na rdzeń 159 linii i siedem satelitów; nowy test T29 jako WARUNEK dopuszczalności podziału. Poprzednio: 2026-09-12p (T13 miał ślepą plamkę — mierzył tylko modules/mod-*.md, więc shared/TABELE-OPLAT.md urósł do 1472 linii poza zasięgiem testu; nowa kategoria raportowana + spisy treści zamiast podziału. Poprzednio: 2026-09-12o (KC — art. 118 zd. 2 i trzy pułapki art. 442¹; roszczenie posesoryjne WYGASA, nie przedawnia się. Poprzednio: 2026-09-12n (KP — granice dla pracodawcy z art. 52 § 2 i 109 § 1 mieszane z terminami pracownika; milcząca zgoda z art. 112 § 1 zd. 3. Poprzednio: 2026-09-12m (KSH — cztery reżimy zaskarżania uchwał zamiast jednego; RODZINA TERMINY ZAMKNIĘTA co do reżimów: 11 kodeksów, terminy.md 88 → 489 linii. Poprzednio: 2026-09-12l (upadłość — zły adresat zgłoszenia i zły skutek spóźnienia; trzecia kotwica wartości: przeciętne wynagrodzenie w sektorze przedsiębiorstw. Poprzednio: 2026-09-12k (KRO — termin prekluzyjny dziecka zawyżony trzykrotnie; wszystkie terminy biegną od dowiedzenia się, nie od urodzenia. Poprzednio: 2026-09-12j (KKW — moduł na 772 linie bez jednego terminu; karencja jako osobna konstrukcja od terminu zawitego; otwarta flaga F-OP-2026-09 dla pięciu nowelizacji Ordynacji w kolejce. Poprzednio: 2026-09-12i (Ordynacja podatkowa — pięć nowelizacji ogłoszonych po t.j., trzy wchodzą w ciągu trzech tygodni; twierdzenie o uchyleniu art. 70 § 6 pkt 1 niepotwierdzone. Poprzednio: 2026-09-12h (UPEA — termin zarzutu „7 dni od TW" nie istnieje; katalog podstaw sprzed nowelizacji; pierwszy udokumentowany przypadek, w którym RZĄD 2B potwierdził nieprawdę. Poprzednio: 2026-09-12g (terminy KPA i PPSA — dwa reżimy miały po jednym wierszu; obsadzone z odczytu treści. Poprzednio: 2026-09-12f (O-12 — wdrożony T28: kontrola wartości i cytatów, nie aktów; pierwszy przebieg znalazł 8 usterek, których ręczny przegląd nie znalazł; otwarta MON-4. Poprzednio: 2026-09-12e (O-11 ZAMKNIĘTA — trzecia rodzina wartości: odsetki, składki, skala PIT; doktryna „formuła zamiast procentu"; otwarta O-12: kontrola aktualności aktu nie jest kontrolą aktualności wartości. Poprzednio: 2026-09-12d (O-11 — rodzina TERMINY: uchylony art. 503 KPC w pliku kanonicznym, termin zarzutów od nakazu to MIESIĄC z art. 480² § 2 pkt 3, szóste wystąpienie nieistniejącej jednostki „art. 328¹ KPC". Poprzednio: 2026-09-12c (O-11 — domknięcie rodzin opłat poza KSCU: komornicze, skarbowe, notarialne, wieczystoksięgowe, KIO, koszty procesu karnego; wykryta nowa klasa ryzyka — wartość zmieniona przez rozporządzenie UCHYLAJĄCE poprzednie, poza zasięgiem KROK 2C. Poprzednio: 2026-09-12 (O-11 — pomiar rodziny „opłaty sądowe": 4 tabele satelickie naprawione, TABELE-OPLAT 1.5 z rozwodem, pracą, sprawami karnymi, wpisem WSA, zwrotem opłaty z art. 79 i wyłączeniem zwolnień z art. 104a; nowy rejestr tabel satelickich. Poprzednio: 2026-09-10x (O-11 — POWIĄZANIE tabeli opłat z systemem. Dotąd `TABELE-OPLAT` znały tylko dwa moduły; teraz: `required_modules` routera, warstwa odroczona PROFIL-LEKKI z wyzwalaczem „zamierzasz podać kwotę", nowa pozycja **KWOTA-GATE** w SELF-CHECK (trzy pytania przy każdej kwocie) oraz cztery dalsze skille — dr-12 (kanoniczny moduł KSCU), pisma-proste-v2, pisma-procesowe-v3, analiza-sadowa-v6. Poprzednio: 2026-09-10w)*
+*Wersja: 6.144 | Ostatnia aktualizacja: 2026-09-27n (pozycja 14 menu — instalacja serwerów MCP w Claude Desktop, FAZA 0E)*
 
 *(Stopka podawała „5.0 | 2026-07-04" przy `version: 6.8` w YAML — rozjazd
 9 wersji, naprawiony 2026-08-20y. **Stopkę aktualizuj razem z polem `version`**;
