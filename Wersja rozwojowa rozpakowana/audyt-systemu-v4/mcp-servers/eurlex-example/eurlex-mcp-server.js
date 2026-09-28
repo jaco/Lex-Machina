@@ -150,6 +150,100 @@ server.registerTool(
   }
 );
 
+// ── eurlex_tsue (AUDYT-2026-09-27q; luka F-212 wobec mcp-eu-sparql `search_cjeu*`) ─────────────────
+// Zmierzone 27q: (1) ECLI jako literał BEZ typu → 0 wyników, z ^^xsd:string → trafienie (ta sama pułapka co
+// CELEX); konkurencja omija ją porównaniem tekstowym FILTER (wolniej). (2) SYGNATURA SPRAWY — tak powołują
+// prawnicy („C-131/12”) — nie jest wyszukiwaniem u konkurencji; tu przeliczana deterministycznie na CELEX:
+// sektor 6 + rok + rodzaj + numer (C-131/12 → 62012CJ0131 wyrok, 62012CC0131 opinia RG; 380 ms).
+// (3) fraza w polskim tytule: „93/13”, wyroki od 2019 → 1,3 s.
+const RODZAJE = { J: "wyrok", O: "postanowienie", C: "opinia rzecznika generalnego", V: "opinia Trybunału", P: "stanowisko rzecznika generalnego" };
+const SYG_RE = /^\s*(?:([CTF])\s*[-–]\s*)?(\d{1,4})\s*\/\s*(\d{2}|\d{4})\s*(P)?\s*$/i;
+
+/** „C-131/12” → kandydaci CELEX (wyrok, postanowienie, opinia RG…). null, gdy format nie pasuje. */
+export function sygnaturaNaCelex(syg) {
+  const m = String(syg).match(SYG_RE);
+  if (!m) return null;
+  const sad = (m[1] ?? "C").toUpperCase();
+  let rok = Number(m[3]); if (rok < 100) rok += rok >= 50 ? 1900 : 2000;
+  const nr = String(m[2]).padStart(4, "0");
+  const litery = sad === "C" ? ["J", "O", "C", "V", "P"] : ["J", "O"];
+  return litery.map((l) => `6${rok}${sad}${l}${nr}`);
+}
+
+// Tytuł PL w Cellar: „opis#strony#przedmiot…” (liczba części zmienna — zmierzone 27q).
+const tytulPl = (t) => { const [opis, strony, ...reszta] = String(t ?? "").split("#").map((x) => x.trim()); return { opis: opis || null, strony: strony || null, przedmiot: reszta.filter(Boolean).join(" ") || null }; };
+/** 62012CJ0131 → „C-131/12”; orzeczenia sprzed 1989 (bez sądu pierwszej instancji) też z literą C. */
+export function celexNaSygnature(c) {
+  const m = String(c).match(/^6(\d{4})([CTF])[A-Z](\d{4})$/);
+  return m ? `${m[2]}-${Number(m[3])}/${m[1].slice(2)}` : null;
+}
+
+export function normalizujTsue(bindings, zapytanie) {
+  const baza = { query_type: "orzeczenie_tsue", source: "eur-lex" };
+  const po = new Map();
+  for (const b of bindings) {
+    const c = b.celex?.value; if (!c || po.has(c)) continue;
+    const t = tytulPl(b.title?.value);
+    po.set(c, { identyfikator: celexNaSygnature(c) ?? c, celex: c, ecli: b.ecli?.value ?? null,
+      rodzaj: RODZAJE[c.charAt(6)] ?? c.slice(5, 7), data_publikacji_lub_wyroku: b.date?.value ?? null,
+      tytul_lub_nazwa: t.opis, strony: t.strony, przedmiot: t.przedmiot,
+      url_zrodlowy: `https://eur-lex.europa.eu/legal-content/PL/TXT/?uri=CELEX:${c}` });
+  }
+  const lista = [...po.values()].sort((a, b) => String(b.data_publikacji_lub_wyroku).localeCompare(String(a.data_publikacji_lub_wyroku)));
+  if (!lista.length) return { status: "NOT_FOUND", ...baza, uwaga: `Brak orzeczeń TSUE dla: ${zapytanie}.` };
+  if (zapytanie.tryb === "fraza") return { status: lista.length > 1 ? "AMBIGUOUS" : "FOUND", ...baza, liczba_trafien: lista.length, kandydaci: lista.map((k) => ({ ...k, rola: "KANDYDAT" })) };
+  const glowny = lista.find((k) => k.celex.charAt(6) === "J") ?? lista[0];
+  return { status: "FOUND", ...baza, result: glowny, powiazane: lista.filter((k) => k !== glowny),
+    retrieved_at: new Date().toISOString(), confidence: "deterministic" };
+}
+
+const TYT = `OPTIONAL { ?x cdm:expression_belongs_to_work ?w ; cdm:expression_uses_language <http://publications.europa.eu/resource/authority/language/POL> ; cdm:expression_title ?title . }`;
+export function zapytanieTsue({ sygnatura, ecli, celex, fraza, dataOd, limit }) {
+  const P = "PREFIX cdm: <http://publications.europa.eu/ontology/cdm#> PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n";
+  const pola = "SELECT ?celex ?ecli ?date ?title WHERE {";
+  const reszta = `OPTIONAL { ?w cdm:case-law_ecli ?ecli } OPTIONAL { ?w cdm:work_date_document ?date } ${TYT} }`;
+  if (sygnatura || celex) {
+    const lista = celex ? [celex] : sygnaturaNaCelex(sygnatura);
+    if (!lista) throw new Error(`Nierozpoznany format sygnatury: ${sygnatura} (oczekiwane np. C-131/12, T-604/18, 131/85)`);
+    for (const c of lista) if (!/^6\d{4}[A-Z]{2}\d{4}$/.test(c)) throw new Error(`Niepoprawny CELEX orzeczenia: ${c}`);
+    return P + pola + ` VALUES ?celex { ${lista.map((c) => `"${c}"^^xsd:string`).join(" ")} } ?w cdm:resource_legal_id_celex ?celex . ` + reszta;
+  }
+  if (ecli) {
+    if (!/^ECLI:EU:[CTF]:\d{4}:\d{1,6}$/i.test(ecli)) throw new Error(`Niepoprawny ECLI: ${ecli}`);
+    return P + pola + ` ?w cdm:case-law_ecli "${ecli.toUpperCase()}"^^xsd:string ; cdm:resource_legal_id_celex ?celex . BIND("${ecli.toUpperCase()}" AS ?ecli) OPTIONAL { ?w cdm:work_date_document ?date } ${TYT} }`;
+  }
+  const f = String(fraza).toLowerCase().replace(/["\\]/g, "");
+  return P + `SELECT DISTINCT ?celex ?ecli ?date ?title WHERE { ?w cdm:work_has_resource-type <http://publications.europa.eu/resource/authority/resource-type/JUDG> ; cdm:resource_legal_id_celex ?celex ; cdm:work_date_document ?date . FILTER(?date >= "${dataOd ?? "2015-01-01"}"^^xsd:date) ?x cdm:expression_belongs_to_work ?w ; cdm:expression_uses_language <http://publications.europa.eu/resource/authority/language/POL> ; cdm:expression_title ?title . FILTER(CONTAINS(LCASE(STR(?title)), "${f}")) OPTIONAL { ?w cdm:case-law_ecli ?ecli } } ORDER BY DESC(?date) LIMIT ${Math.min(limit ?? 20, 50) * 2}`;
+}
+
+server.registerTool("eurlex_tsue", {
+  title: "Orzecznictwo TSUE — po sygnaturze sprawy, ECLI, CELEX albo frazie",
+  description: "Sygnatura („C-131/12”, „T-604/18”) przeliczana na CELEX; ECLI; CELEX (6…); fraza w polskim tytule " +
+    "(wyroki od `dataOd`, domyślnie 2015). Wynik: wyrok jako result, opinia RG/postanowienia jako powiązane.",
+  inputSchema: {
+    sygnatura: z.string().max(20).optional(), ecli: z.string().max(40).optional(),
+    celex: z.string().regex(/^6\d{4}[A-Z]{2}\d{4}$/).optional(), fraza: z.string().min(3).max(80).optional(),
+    dataOd: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(), limit: z.number().int().min(1).max(50).optional(),
+  },
+}, async (a) => {
+  const baza = { query_type: "orzeczenie_tsue", source: "eur-lex" };
+  try {
+    if (!a.sygnatura && !a.ecli && !a.celex && !a.fraza) throw new Error("Podaj sygnatura, ecli, celex albo fraza.");
+    const body = new URLSearchParams({ query: zapytanieTsue(a) });
+    let ostatni, dane;
+    for (let proba = 1; proba <= 3 && !dane; proba++) {
+      try { const r = await fetch(CELLAR_SPARQL_URL, { method: "POST", headers: { Accept: "application/sparql-results+json" }, body, signal: AbortSignal.timeout(60000) });
+        if (!r.ok) throw new Error(`CELLAR SPARQL HTTP ${r.status}`); dane = await r.json(); } catch (e) { ostatni = e; }
+    }
+    if (!dane) throw ostatni;
+    const w = normalizujTsue(dane.results?.bindings ?? [], { ...a, tryb: a.fraza && !a.sygnatura && !a.ecli && !a.celex ? "fraza" : "id" });
+    if (w.kandydaci) w.kandydaci = w.kandydaci.slice(0, a.limit ?? 20);
+    return { content: [{ type: "text", text: JSON.stringify(w, null, 2) }] };
+  } catch (e) {
+    return { content: [{ type: "text", text: JSON.stringify({ status: "ERROR", ...baza, detail: String(e?.message ?? e), retrieved_at: new Date().toISOString() }, null, 2) }] };
+  }
+});
+
 // ⛔ POPRAWKA 2026-09-27m: `import.meta.url === \`file://${process.argv[1]}\`` był fałszywy na Windows
 //    (ukośniki, litera dysku) i dla każdej ścieżki ze spacją (URL koduje %20) — serwer się wczytywał,
 //    ale NIE otwierał transportu, więc host nie widział narzędzi. Porównanie po normalizacji ścieżek.

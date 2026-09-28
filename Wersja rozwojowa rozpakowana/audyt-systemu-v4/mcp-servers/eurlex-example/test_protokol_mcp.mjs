@@ -8,7 +8,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import assert from "node:assert";
 
-const OCZEKIWANE = ["eurlex_lookup"];
+const OCZEKIWANE = ["eurlex_lookup", "eurlex_tsue"];
 const transport = new StdioClientTransport({ command: "node", args: ["eurlex-mcp-server.js"] });
 const client = new Client({ name: "test-protokolu", version: "2.0.0" });
 await client.connect(transport);

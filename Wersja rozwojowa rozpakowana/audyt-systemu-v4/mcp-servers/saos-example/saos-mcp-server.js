@@ -215,6 +215,86 @@ server.registerTool(
   }
 );
 
+// ── saos_cytator (AUDYT-2026-09-27q; luka F-212 wobec mcp-saos `saos_cite_check`) ────────────────
+// Mechanika jak u konkurencji (pełnotekstowe wyszukanie późniejszych orzeczeń zawierających sygnaturę + skan
+// fraz W OKNIE wokół KAŻDEGO wystąpienia sygnatury), implementacja i lista wzorców własne. Różnice:
+// ścisłe dopasowanie sygnatury w treści (sam wynik wyszukiwarki nie wystarcza), wykluczenie orzeczenia
+// cytowanego, osobno sygnały odstąpienia i kontekst uchwały poszerzonego składu.
+// ⚠️ NIEZMIERZONE NA ŻYWO: 27q SAOS w „przerwie technicznej”; skuteczność wzorców — F-212 pkt 1.
+const WZORCE_ODSTAPIENIA = [
+  [/odst[ąa]pi\w*\s+od\s+(?:tego\s+|powyższego\s+)?(?:pogl[ąa]d|stanowisk|zapatrywa|lini)/iu, "odstąpienie od poglądu"],
+  [/nie\s+podziela\w*\s+(?:tego\s+|powyższego\s+|wyra[żz]onego\s+)?(?:pogl[ąa]d|stanowisk|zapatrywa)/iu, "niepodzielenie poglądu"],
+  [/(?:utraci[łl]\w*|traci)\s+(?:na\s+)?aktualno/iu, "utrata aktualności"],
+  [/zdezaktualizowa/iu, "zdezaktualizowanie"],
+  [/nie\s+zas[łl]ugu\w*\s+na\s+aprobat/iu, "brak aprobaty"],
+  [/odmienn\w*\s+(?:ni[żz]|od)\s+(?:stanowisk|pogl[ąa]d|wyra[żz]on)/iu, "stanowisko odmienne"],
+  [/pogl[ąa]d\w*\s+odosobnion/iu, "pogląd odosobniony"],
+];
+const WZORCE_KONTEKSTU = [
+  [/uchwa[łl]\w*\s+(?:sk[łl]adu\s+siedmiu|pe[łl]nego\s+sk[łl]adu|ca[łl]ej\s+izby|po[łl][ąa]czonych\s+izb)/iu, "uchwała poszerzonego składu"],
+  [/zagadnieni\w*\s+prawn\w*\s+(?:przedstawion|budz[ąa]c|wymagaj[ąa]c)/iu, "przedstawione zagadnienie prawne"],
+];
+
+export function regexSygnatury(syg) {
+  const esc = String(syg).trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\s*\\?\/\s*/g, "\\s*/\\s*").replace(/\s+/g, "\\s+");
+  return new RegExp(`(?<![\\p{L}\\d])${esc}(?![\\d])`, "giu");
+}
+
+/** Czysta funkcja: skan okien wokół każdego wystąpienia sygnatury w treści. */
+export function skanujCytowanie(tekst, syg, okno = 700) {
+  const t = String(tekst ?? "").replace(/<\/?em>/g, "").replace(/\s+/g, " ");
+  const sygnaly = [], wid = new Set();
+  for (const m of t.matchAll(regexSygnatury(syg))) {
+    const fr = t.slice(Math.max(0, m.index - okno), m.index + m[0].length + okno);
+    for (const [re, et] of WZORCE_ODSTAPIENIA) if (re.test(fr) && !wid.has(et)) { wid.add(et); sygnaly.push({ typ: "odstapienie", etykieta: et, fragment: fr.slice(0, 1400) }); }
+    for (const [re, et] of WZORCE_KONTEKSTU) if (re.test(fr) && !wid.has(et)) { wid.add(et); sygnaly.push({ typ: "kontekst", etykieta: et, fragment: fr.slice(0, 1400) }); }
+  }
+  return { wystapienia: [...t.matchAll(regexSygnatury(syg))].length, sygnaly };
+}
+
+export function podsumujCytator(items, syg) {
+  const baza = { query_type: "cytowania", source: "saos" };
+  const norm = (x) => String(x).replace(/\s+/g, " ").replace(/\s*\/\s*/g, "/").trim().toUpperCase();
+  const cyt = [];
+  for (const it of items ?? []) {
+    const wlasne = (it.courtCases ?? []).map((c) => norm(c.caseNumber));
+    if (wlasne.includes(norm(syg))) continue; // samo orzeczenie cytowane
+    const s = skanujCytowanie(it.textContent, syg);
+    if (!s.wystapienia) continue; // wyszukiwarka trafiła, ale sygnatury w treści nie ma — odrzucone
+    cyt.push({ identyfikator: (it.courtCases ?? []).map((c) => c.caseNumber).join("; "), sad: nazwaSadu(it),
+      data_wyroku: it.judgmentDate ?? null, url_zrodlowy: it.id ? `https://www.saos.org.pl/judgments/${it.id}` : null,
+      sygnaly: s.sygnaly, rola: "KANDYDAT" });
+  }
+  if (!cyt.length) return { status: "NOT_FOUND", ...baza, uwaga: `Brak orzeczeń w SAOS cytujących ${syg}. SAOS nie obejmuje NSA/WSA i nie jest kompletny — to nie dowód braku cytowań.` };
+  cyt.sort((a, b) => String(b.data_wyroku).localeCompare(String(a.data_wyroku)));
+  const odst = cyt.filter((c) => c.sygnaly.some((x) => x.typ === "odstapienie"));
+  const kont = cyt.filter((c) => c.sygnaly.some((x) => x.typ === "kontekst"));
+  return { status: "FOUND", ...baza,
+    result: { identyfikator: syg, liczba_cytujacych: cyt.length, z_sygnalem_odstapienia: odst.length, z_kontekstem_uchwaly: kont.length,
+      werdykt: odst.length ? `⚠️ Sygnały odstąpienia/krytyki w ${odst.length} z ${cyt.length} orzeczeń cytujących — przeczytaj fragmenty przed powołaniem.`
+        : `Brak sygnałów odstąpienia w ${cyt.length} orzeczeniach cytujących (heurystyka).` },
+    cytujace: cyt.slice(0, 20),
+    uwaga: "Heurystyka językowa w oknie wokół sygnatury — nie zastępuje lektury. Wyniki = KANDYDACI. ⚠️ Wzorce niezmierzone na żywo (F-212 pkt 1).",
+    retrieved_at: new Date().toISOString(), confidence: "candidate-only" };
+}
+
+server.registerTool("saos_cytator", {
+  title: "SAOS — czy orzeczenie jest nadal aprobowane (późniejsze cytowania + sygnały odstąpienia)",
+  description: "Późniejsze orzeczenia SN/SP/TK/KIO zawierające sygnaturę; w oknie wokół każdego wystąpienia wykrywa sygnały " +
+    "odstąpienia od poglądu i kontekst uchwał poszerzonego składu. Heurystyka — wyniki są KANDYDATAMI.",
+  inputSchema: {
+    sygnatura: z.string().min(4).max(40).describe("np. III CZP 29/17"),
+    dataOd: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().describe("tylko orzeczenia od tej daty (np. data orzeczenia cytowanego)"),
+  },
+}, async ({ sygnatura, dataOd }) => {
+  try {
+    const items = await pobierzZSaos({ fraza: sygnatura, dataOd, pageSize: 100 });
+    return { content: [{ type: "text", text: JSON.stringify(podsumujCytator(items, sygnatura), null, 2) }] };
+  } catch (e) {
+    return { content: [{ type: "text", text: JSON.stringify({ status: "ERROR", query_type: "cytowania", source: "saos", detail: String(e?.message ?? e), retrieved_at: new Date().toISOString() }, null, 2) }] };
+  }
+});
+
 // ⛔ POPRAWKA 2026-09-27m: `import.meta.url === \`file://${process.argv[1]}\`` był fałszywy na Windows
 //    (ukośniki, litera dysku) i dla każdej ścieżki ze spacją (URL koduje %20) — serwer się wczytywał,
 //    ale NIE otwierał transportu, więc host nie widział narzędzi. Porównanie po normalizacji ścieżek.

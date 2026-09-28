@@ -169,6 +169,136 @@ server.registerTool(
   }
 );
 
+// ── isap_tekst (AUDYT-2026-09-27q; luka F-212 wobec mcp-isap `get_act_text`) ─────────────────────
+// Zmierzone 27q: `text.html` obwieszczenia t.j. jest PUSTY (0 B) — obowiązujące brzmienie jest WYŁĄCZNIE
+// w PDF. mcp-isap zwraca dla t.j. tylko link do PDF, a tekst podaje z `text.html` aktu bazowego = brzmienie
+// OGŁOSZONE (KC z 1964 r.). Tu: automatyczne przejście do aktualnego t.j., tekst z PDF (pdfjs),
+// cały artykuł (od „Art. N.” do następnego), punkt 2 obwieszczenia („tekst jednolity nie obejmuje”)
+// i akty zmieniające ogłoszone PO obwieszczeniu (F-156). Indeksy górne w treści: `Art. 385[1].`
+// ⛔ Status „obowiązujący” aktu zmieniającego NIE oznacza zmiany nieujętej w t.j. (zmierzone: 65 takich
+//    dla KC, w tym z 1982 r.) — sygnałem jest wyłącznie data ogłoszenia po obwieszczeniu.
+
+const pamiecTekstu = new Map();
+
+export function czyscTekstPdf(strony) {
+  return strony.map((t) => t.replace(/^Dziennik Ustaw\s*–\s*\d+\s*–\s*Poz\.\s*\d+\s*$/m, "")).join("\n")
+    .replace(/(\p{L})-\n(\p{Ll})/gu, "$1$2").replace(/[ \t]+\n/g, "\n").replace(/\n{2,}/g, "\n");
+}
+
+export function normalizujNumerArt(a) {
+  return String(a).trim().replace(/^art\.?\s*/i, "").replace(/\s+/g, "")
+    .replace(/[\^(]\s*(\d+)\s*\)?$/, "[$1]").replace(/([¹²³⁴⁵⁶⁷⁸⁹⁰]+)$/, (m) => "[" + [...m].map((c) => "⁰¹²³⁴⁵⁶⁷⁸⁹".indexOf(c)).join("") + "]");
+}
+
+/** Podział obwieszczenia: preambuła (pkt 1–2) i załącznik (tekst ustawy). */
+export function podzielObwieszczenie(tekst) {
+  const m = tekst.search(/\n\s*Załącznik do obwieszczenia/i);
+  const preambula = m > 0 ? tekst.slice(0, m) : "";
+  const zalacznik = m > 0 ? tekst.slice(m) : tekst;
+  const p2 = preambula.match(/\n2\.\s*Podany w załączniku[\s\S]*$/);
+  const stan = preambula.match(/stanu prawnego na dzień\s*\n?\s*(\d{1,2} \p{L}+ \d{4}) r\./u);
+  return { preambula, zalacznik, nie_obejmuje: p2 ? p2[0].trim() : null, stan_prawny_na: stan ? stan[1] : null };
+}
+
+/** Cały artykuł z tekstu ustawy: od „Art. N.” do następnego „Art. …”. */
+export function wytnijArtykul(zalacznik, numer) {
+  const n = normalizujNumerArt(numer).replace(/[[\]]/g, "\\$&");
+  const re = new RegExp(`(?:^|\\n)(Art\\.\\s*${n}\\.[\\s\\S]*?)(?=\\nArt\\.\\s*\\d+[a-z]*(?:\\[\\d+\\])?\\.\\s|\\n\\s*Rozdział|\\n\\s*DZIAŁ|\\n\\s*TYTUŁ|\\n\\s*KSIĘGA|$)`);
+  const m = zalacznik.match(re);
+  return m ? m[1].trim() : null;
+}
+
+async function tekstPdf(eli) {
+  if (pamiecTekstu.has(eli)) return pamiecTekstu.get(eli);
+  const resp = await fetch(`${ELI_BASE_URL}/${eli}/text.pdf`, { signal: AbortSignal.timeout(90000) });
+  if (!resp.ok) throw new Error(`PDF ${eli}: HTTP ${resp.status}`);
+  const dane = new Uint8Array(await resp.arrayBuffer());
+  const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  if (!globalThis.pdfjsWorker) globalThis.pdfjsWorker = await import("pdfjs-dist/legacy/build/pdf.worker.mjs");
+  const doc = await pdfjs.getDocument({ data: dane, isEvalSupported: false, disableFontFace: true, verbosity: 0 }).promise;
+  const strony = [];
+  for (let i = 1; i <= doc.numPages; i++) {
+    const c = await (await doc.getPage(i)).getTextContent();
+    strony.push(c.items.map((it) => it.str + (it.hasEOL ? "\n" : "")).join(""));
+  }
+  const t = czyscTekstPdf(strony);
+  pamiecTekstu.set(eli, t);
+  return t;
+}
+
+async function zmianyPoTj(eliBazowy, tj) {
+  const ref = await eliGet(`${eliBazowy}/references`);
+  const rokTj = Number(tj.eli.split("/")[1]);
+  const kandydaci = (ref?.["Akty zmieniające"] ?? []).map((x) => x.act).filter((a) => a && a.year >= rokTj - 1);
+  const po = [];
+  for (const a of kandydaci.slice(0, 15)) {
+    const d = await eliGet(`${a.publisher ?? "DU"}/${a.year}/${a.pos}`);
+    const ogl = d?.promulgation ?? d?.announcementDate;
+    if (ogl && tj.data_publikacji_lub_wyroku && ogl > tj.data_publikacji_lub_wyroku) po.push({ eli: d.ELI ?? `${a.publisher}/${a.year}/${a.pos}`, tytul: d.title, ogloszono: ogl, wejscie_w_zycie: d.entryIntoForce ?? null });
+  }
+  return po;
+}
+
+server.registerTool("isap_tekst", {
+  title: "Treść aktu (obowiązujące brzmienie) — artykuł, wyszukiwanie, strona",
+  description: "Treść z PDF AKTUALNEGO tekstu jednolitego (automatyczne przejście z pozycji pierwotnej). `artykul` = cały " +
+    "artykuł (np. '118', '385^1'); `szukaj` = fragmenty; bez nich strona 20 000 znaków od `offset`. Zwraca też, czego " +
+    "t.j. nie obejmuje (pkt 2 obwieszczenia) i akty zmieniające ogłoszone po t.j.",
+  inputSchema: {
+    eli: z.string().regex(/^(DU|MP)\/\d{4}\/\d{1,5}$/).describe("ELI aktu bazowego albo obwieszczenia t.j., np. DU/1964/93"),
+    artykul: z.string().max(12).optional(), szukaj: z.string().min(3).max(120).optional(),
+    offset: z.number().int().min(0).optional(),
+    wersja: z.enum(["aktualna", "ogloszona"]).optional().describe("domyślnie aktualna (t.j.)"),
+  },
+}, async ({ eli, artykul, szukaj, offset, wersja }) => {
+  const baza = { query_type: "tekst_aktu", source: "sejm-eli" };
+  try {
+    const meta = await eliGet(eli);
+    if (!meta) return tekstOdp({ status: "NOT_FOUND", ...baza, uwaga: `Brak ${eli} w ELI.` });
+    const st = mapujStatusEli(meta.status, meta.title);
+    let zrodlo = pozycja(meta), wersjaTekstu = "tekst_ogloszony", tj = null;
+    const jestObwieszczeniemTj = /jednolitego tekstu/i.test(meta.title ?? "");
+    if (jestObwieszczeniemTj) { wersjaTekstu = "tekst_jednolity"; tj = zrodlo; }
+    else if (st === "tekst_jednolity_nieaktualny" && wersja !== "ogloszona") {
+      tj = await aktualnyTekstJednolity(eli);
+      if (!tj) return tekstOdp({ status: "OUT_OF_SCOPE", ...baza, powod: "Nie ustalono aktualnego t.j. (brak obowiązującego obwieszczenia w /references)." });
+      zrodlo = tj; wersjaTekstu = "tekst_jednolity";
+    }
+    const pelny = await tekstPdf(zrodlo.eli);
+    const obw = wersjaTekstu === "tekst_jednolity" ? podzielObwieszczenie(pelny) : { zalacznik: pelny, nie_obejmuje: null, stan_prawny_na: null };
+    const result = { identyfikator: zrodlo.identyfikator, eli_bazowy: eli, eli_zrodla_tekstu: zrodlo.eli, wersja_tekstu: wersjaTekstu,
+      status_obowiazywania: wersjaTekstu === "tekst_jednolity" ? zrodlo.status_obowiazywania : st,
+      tytul_lub_nazwa: zrodlo.tytul_lub_nazwa, stan_prawny_na: obw.stan_prawny_na,
+      url_zrodlowy: `${ELI_BASE_URL}/${zrodlo.eli}/text.pdf` };
+    const uw = [];
+    if (wersjaTekstu === "tekst_ogloszony") uw.push("⚠️ Tekst OGŁOSZONY (brzmienie z dnia ogłoszenia), nie stan obecny.");
+    if (obw.nie_obejmuje) result.tj_nie_obejmuje = obw.nie_obejmuje.slice(0, 4000);
+    if (tj && !jestObwieszczeniemTj) {
+      result.zmiany_po_tj = await zmianyPoTj(eli, tj);
+      if (result.zmiany_po_tj.length) uw.push(`⚠️ ${result.zmiany_po_tj.length} akt(y) zmieniające ogłoszone po t.j. — brzmienie może być nieaktualne.`);
+    }
+    if (artykul) {
+      const art = wytnijArtykul(obw.zalacznik, artykul);
+      if (!art) return tekstOdp({ status: "NOT_FOUND", ...baza, result, uwaga: `Brak „Art. ${normalizujNumerArt(artykul)}.” w tekście ${zrodlo.identyfikator}.` });
+      result.artykul = normalizujNumerArt(artykul); result.tresc = art;
+      if (/^Art\.\s*\S+\.\s*\(uchylony\)/.test(art)) uw.push("⛔ Artykuł uchylony.");
+    } else if (szukaj) {
+      const fr = []; let i = -1; const low = obw.zalacznik.toLowerCase(), q = szukaj.toLowerCase();
+      while (fr.length < 5 && (i = low.indexOf(q, i + 1)) >= 0) fr.push({ pozycja: i, fragment: obw.zalacznik.slice(Math.max(0, i - 400), i + 400) });
+      if (!fr.length) return tekstOdp({ status: "NOT_FOUND", ...baza, result, uwaga: `Fraza „${szukaj}” nie występuje w tekście.` });
+      result.fragmenty = fr;
+    } else {
+      const o = offset ?? 0; result.tresc = obw.zalacznik.slice(o, o + 20000);
+      result.tresc_offset = o; result.tresc_dlugosc = obw.zalacznik.length;
+    }
+    uw.push("Tekst urzędowy integralny — nie parafrazuj; indeksy górne w zapisie Art. N[k].");
+    return tekstOdp({ status: "FOUND", ...baza, result, uwaga: uw.join(" "), retrieved_at: new Date().toISOString(), confidence: "deterministic" });
+  } catch (err) {
+    return tekstOdp({ status: "ERROR", ...baza, detail: String(err?.message ?? err), retrieved_at: new Date().toISOString() });
+  }
+});
+const tekstOdp = (w) => ({ content: [{ type: "text", text: JSON.stringify(w, null, 2) }] });
+
 // ⛔ POPRAWKA 2026-09-27m: `import.meta.url === \`file://${process.argv[1]}\`` był fałszywy na Windows
 //    (ukośniki, litera dysku) i dla każdej ścieżki ze spacją (URL koduje %20) — serwer się wczytywał,
 //    ale NIE otwierał transportu, więc host nie widział narzędzi. Porównanie po normalizacji ścieżek.

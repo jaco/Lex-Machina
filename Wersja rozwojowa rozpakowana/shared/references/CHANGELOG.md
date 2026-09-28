@@ -1,5 +1,7 @@
 # CHANGELOG — Biblioteka shared
 
+- 3.95 (2026-09-27q, AUDYT-2026-09-27q): MCP-INTEGRACJA: mapa +4 narzędzia (isap_tekst, eurlex_tsue, krs_reprezentacja, saos_cytator); KONEKTORY: porównanie — luki zamknięte.
+
 ## 3.94 — 2026-09-27o — AUDYT-2026-09-27o: czy skille wywołają serwery MCP po instalacji
 
 - `PRAWO-HARDGATE.md` POZIOM A / ŹRÓDŁO-0 i `PRAWO-HARDGATE-ORZECZENIA.md` KROK 0/0A wymieniały

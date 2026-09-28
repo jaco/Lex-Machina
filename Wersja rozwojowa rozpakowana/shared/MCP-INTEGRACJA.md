@@ -83,15 +83,19 @@ narzędzia. **Rozpoznawaj narzędzie, gdy nazwa KOŃCZY SIĘ nazwą z tabeli** (
 
 | Narzędzie (sufiks) | Zdolność | Krok HARDGATE | Status → decyzja |
 |---|---|---|---|
-| `isap_lookup` (`eli`: DU/RRRR/PPP) | akt Dz.U./M.P. po ELI; status; **aktualny t.j.** | ŹRÓDŁO-0 (`PRAWO-HARDGATE.md`) | FOUND+`obowiazuje` → MCP-VERIFIED metryki; `tekst_jednolity_nieaktualny` → powołuj `result.aktualny_tekst_jednolity`; TREŚĆ przepisu nadal wg ŹRÓDŁO-0 (tekst `/text.pdf`) — narzędzie nie zwraca brzmienia artykułu (F-212) |
+| `isap_lookup` (`eli`: DU/RRRR/PPP) | akt Dz.U./M.P. po ELI; status; **aktualny t.j.** | ŹRÓDŁO-0 (`PRAWO-HARDGATE.md`) | FOUND+`obowiazuje` → MCP-VERIFIED metryki; `tekst_jednolity_nieaktualny` → powołuj `result.aktualny_tekst_jednolity` |
+| `isap_tekst` (`eli`, `artykul` / `szukaj`) | **obowiązujące brzmienie** artykułu z PDF aktualnego t.j. (automatyczne przejście z pozycji pierwotnej); pkt 2 obwieszczenia („t.j. nie obejmuje”); akty zmieniające ogłoszone po t.j. | ŹRÓDŁO-0 — TREŚĆ przepisu | `wersja_tekstu` = `tekst_jednolity` + brak `zmiany_po_tj` → brzmienie do cytowania dosłownie; `tekst_ogloszony` → brzmienie z dnia ogłoszenia, nie stan obecny; indeksy górne jako `Art. N[k]` |
 | `isap_lookup` (`query`: tytuł) | identyfikacja aktu po tytule | ŹRÓDŁO-1 (zamiast web_search) | AMBIGUOUS → wybierz kandydata po tytule i statusie, potem `eli` |
 | `saos_search` (`sygnatura`) | istnienie sygnatury SN, SP, TK, KIO | `PRAWO-HARDGATE-ORZECZENIA.md` KROK 0 (SAOS) | kontrakt SYGNATURY; NSA/WSA → OUT_OF_SCOPE (SAOS ich nie ma) |
+| `saos_cytator` (`sygnatura`) | późniejsze orzeczenia cytujące + sygnały odstąpienia od poglądu (okno wokół sygnatury) | ocena aktualności linii orzeczniczej | KANDYDACI; ⚠️ wzorce niezmierzone na żywo (F-212 pkt 1) — nie jako jedyna podstawa |
 | `cbosa_sprawdz_sygnature` | istnienie sygnatury NSA/WSA (exact-match, fail-closed) | KROK 0A pkt 1 (MCP-FIRST) | FOUND = snapshot 🟨 bez awansu; OUT_OF_SCOPE → KROK 0A pkt 2 |
 | `cbosa_szukaj`, `cbosa_pobierz` | research NSA/WSA, treść orzeczenia | research, nie weryfikacja | KANDYDAT |
 | `eureka_sprawdz_sygnature` | istnienie i AKTUALNOŚĆ interpretacji podatkowej | weryfikacja interpretacji | FOUND+`uchylony` → nie powołuj jako aktualnego stanowiska |
 | `eureka_szukaj`, `eureka_pobierz` | research interpretacji, treść | research | KANDYDAT ze statusem |
+| `eurlex_tsue` (sygnatura C-/T-/F-, ECLI, CELEX, fraza) | orzeczenia TSUE: wyrok + opinia RG/postanowienia, tytuł PL, strony | powołanie orzecznictwa TSUE | FOUND = identyfikacja sprawy; treść wyroku — EUR-Lex (`url_zrodlowy`) |
 | `eurlex_lookup` (CELEX) | akt UE: status obowiązywania, data końca | ŹRÓDŁO-0 dla prawa UE | FOUND+`uchylony` → nie powołuj jako obowiązującego |
-| `krs_lookup` | podmiot w KRS | KROK 0D / PODMIOT-GATE | brak sposobu reprezentacji (F-212) — reprezentację ustal z odpisu |
+| `krs_lookup` | podmiot w KRS — rejestr P **i S** (fundacje, stowarzyszenia) | KROK 0D / PODMIOT-GATE | NOT_FOUND dopiero po P i S |
+| `krs_reprezentacja` | organ, sposób reprezentacji, skład (z zawieszeniem), prokurenci, organ nadzoru, stan rejestru | umocowanie osób podpisujących | nazwiska zamaskowane przez rejestr — tożsamość osoby potwierdza odpis/dokument; wnioski w toku niewidoczne |
 | `nbp_kurs_waluty` | kurs średni tabeli A | przeliczenia walutowe | `przesuniecie_dni` > 0 → podstawę tabeli ustal z przepisu |
 | `sudop_szukaj_pomocy` / `sudop_odbierz_wynik` | pomoc publiczna / de minimis | analiza pomocy | ERROR/`PENDING` ≠ brak pomocy |
 | `ceidg_szukaj_firmy` | JDG w CEIDG (wymaga klucza) | PODMIOT-GATE | bez klucza ERROR = kanał niedostępny |

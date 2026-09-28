@@ -41,3 +41,21 @@ const fx = (n) => JSON.parse(readFileSync(new URL(`./fixtures/saos_${n}.json`, i
   console.log("OK: AMBIGUOUS — każdy kandydat z sygnaturą"); }
 
 console.log("\nWSZYSTKIE TESTY JEDNOSTKOWE (bez sieci) PRZESZŁY");
+
+// ── saos_cytator: logika (kształt odpowiedzi z PRAWDZIWYCH fixture'ów SAOS; treść okna — konstrukcja testowa,
+//    bo SAOS 27q w przerwie technicznej; skuteczność wzorców na żywo — F-212 pkt 1) ─────────────────────
+import { skanujCytowanie, podsumujCytator, regexSygnatury } from "./saos-mcp-server.js";
+{ const baza = fx("SUPREME")[0];
+  const cyt = { ...baza, id: 1, courtCases: [{ caseNumber: "I CSK 1/20" }], judgmentDate: "2020-05-05",
+    textContent: "… Sąd Najwyższy w składzie niniejszym nie podziela poglądu wyrażonego w wyroku z dnia 1 lutego 2010 r., II  PK 291 / 09, …" };
+  const neutr = { ...baza, id: 2, courtCases: [{ caseNumber: "II PK 5/21" }], judgmentDate: "2021-01-01", textContent: "… por. wyrok SN z 2010 r., II PK 291/09 …" };
+  const falsz = { ...baza, id: 3, courtCases: [{ caseNumber: "II PK 6/21" }], textContent: "… II PK 291/099 oraz II PK 2910/09 …" };
+  assert.ok(regexSygnatury("II PK 291/09").test("sygn. II  PK 291 / 09."));
+  assert.strictEqual(skanujCytowanie(falsz.textContent, "II PK 291/09").wystapienia, 0, "291/099 i 2910/09 to inne sygnatury");
+  const w = podsumujCytator([baza, cyt, neutr, falsz], "II PK 291/09");
+  assert.strictEqual(w.status, "FOUND"); assert.strictEqual(w.result.liczba_cytujacych, 2, "samo orzeczenie i fałszywe trafienie wykluczone");
+  assert.strictEqual(w.result.z_sygnalem_odstapienia, 1); assert.match(w.result.werdykt, /^⚠️/);
+  assert.strictEqual(w.cytujace.find((c) => c.identyfikator === "I CSK 1/20").sygnaly[0].etykieta, "niepodzielenie poglądu");
+  assert.strictEqual(podsumujCytator([baza], "II PK 291/09").status, "NOT_FOUND");
+  console.log("OK: cytator — ścisłe dopasowanie sygnatury, wykluczenie cytowanego i fałszywych trafień, sygnał w oknie");
+  console.log("\nWSZYSTKIE TESTY saos_cytator PRZESZŁY"); }

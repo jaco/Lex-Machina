@@ -2,9 +2,9 @@
   "manifest_version": "0.3",
   "name": "lex-machina",
   "display_name": "Lex Machina — polskie źródła prawa",
-  "version": "1.0.0",
-  "description": "Weryfikacja źródeł prawa polskiego i UE: ISAP, SAOS, CBOSA, EUREKA, EUR-Lex, KRS, NBP, SUDOP, CEIDG.",
-  "long_description": "Serwery MCP systemu Lex Machina (audyt-systemu-v4 6.143). Każdy wynik w schemacie FOUND / NOT_FOUND / AMBIGUOUS / ERROR, z jawnym statusem obowiązywania lub aktualności. Kontrola sygnatur z post-checkiem tożsamości (prefiks ani prawie-trafienie nie potwierdza sygnatury). NSA/WSA (CBOSA): snapshot, brak trafień = OUT_OF_SCOPE.",
+  "version": "1.1.0",
+  "description": "Weryfikacja źródeł prawa polskiego i UE: ISAP (z treścią), SAOS (z cytatorem), CBOSA, EUREKA, EUR-Lex i TSUE, KRS, NBP, SUDOP, CEIDG.",
+  "long_description": "Serwery MCP systemu Lex Machina (audyt-systemu-v4 6.147). Każdy wynik w schemacie FOUND / NOT_FOUND / AMBIGUOUS / ERROR, z jawnym statusem obowiązywania lub aktualności. Kontrola sygnatur z post-checkiem tożsamości (prefiks ani prawie-trafienie nie potwierdza sygnatury). NSA/WSA (CBOSA): snapshot, brak trafień = OUT_OF_SCOPE.",
   "author": {
     "name": "Lex Machina",
     "url": "https://github.com/michaleiatrak-star/Lex-Machina"
@@ -85,6 +85,22 @@
     {
       "name": "ceidg_szukaj_firmy",
       "description": "CEIDG: firmy jednoosobowe (wymaga klucza)"
+    },
+    {
+      "name": "krs_reprezentacja",
+      "description": "KRS: zarząd, sposób reprezentacji, prokura, stan rejestru"
+    },
+    {
+      "name": "isap_tekst",
+      "description": "ISAP: obowiązujące brzmienie artykułu z aktualnego tekstu jednolitego"
+    },
+    {
+      "name": "eurlex_tsue",
+      "description": "TSUE: orzeczenie po sygnaturze (C-131/12), ECLI, CELEX lub frazie"
+    },
+    {
+      "name": "saos_cytator",
+      "description": "SAOS: późniejsze cytowania i sygnały odstąpienia od poglądu"
     }
   ],
   "user_config": {

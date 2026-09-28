@@ -34,3 +34,19 @@ const kc = fx("eli_DU_1964_93"), tj = fx("eli_DU_2026_795"), tjStary = fx("eli_D
 { assert.strictEqual(normalizujOdpowiedzELI([]).status, "NOT_FOUND");
   console.log("OK: brak pozycji → NOT_FOUND z zastrzeżeniem"); }
 console.log("\nWSZYSTKIE TESTY JEDNOSTKOWE (bez sieci) PRZESZŁY");
+
+// ── isap_tekst: wycinek PRAWDZIWEGO tekstu PDF t.j. KC (DU 2026 poz. 795, pdfjs, 2026-09-28) ─────
+import { podzielObwieszczenie, wytnijArtykul, normalizujNumerArt } from "./isap-eli-mcp-server.js";
+{ const t = readFileSync(new URL("./fixtures/tj_kc_2026_795_wycinek.txt", import.meta.url), "utf8");
+  const o = podzielObwieszczenie(t);
+  assert.strictEqual(o.stan_prawny_na, "19 maja 2026");
+  assert.match(o.nie_obejmuje, /^2\. Podany w załączniku/); assert.match(o.nie_obejmuje, /Dz\. U\. poz\. 1172/);
+  const a118 = wytnijArtykul(o.zalacznik, "118");
+  assert.match(a118, /^Art\. 118\. Jeżeli przepis szczególny nie stanowi inaczej, termin przedawnienia wynosi sześć lat/);
+  assert.match(a118, /ostatni dzień roku kalendarzowego/); assert.doesNotMatch(a118, /Art\. 119\./, "artykuł kończy się przed następnym");
+  const a3851 = wytnijArtykul(o.zalacznik, "385¹");
+  assert.match(a3851, /^Art\. 385\[1\]\. § 1\. Postanowienia umowy zawieranej z konsumentem/); assert.doesNotMatch(a3851, /Art\. 385\[2\]\./);
+  assert.strictEqual(wytnijArtykul(o.zalacznik, "13"), null, "cytat „Art. 13.” z pkt 2 preambuły NIE jest artykułem KC");
+  for (const w of ["385^1", "385(1)", "385¹", "art. 385^1"]) assert.strictEqual(normalizujNumerArt(w), "385[1]", w);
+  console.log("OK: isap_tekst — stan prawny, pkt 2, cały art. 118 i 385[1], preambuła wyłączona, indeksy górne");
+  console.log("\nWSZYSTKIE TESTY isap_tekst PRZESZŁY"); }

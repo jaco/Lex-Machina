@@ -26,3 +26,25 @@ const fx = (c) => JSON.parse(readFileSync(new URL(`./fixtures/cellar_${c}.json`,
   console.log("OK: literał typowany; wstrzyknięcie odrzucone"); }
 
 console.log("\nWSZYSTKIE TESTY JEDNOSTKOWE (bez sieci) PRZESZŁY");
+
+// ── eurlex_tsue: PRAWDZIWE odpowiedzi Cellar SPARQL (2026-09-28) ─────────────────────────────────
+import { normalizujTsue, sygnaturaNaCelex, celexNaSygnature, zapytanieTsue } from "./eurlex-mcp-server.js";
+{ const T = JSON.parse(readFileSync(new URL("./fixtures/cellar_tsue.json", import.meta.url)));
+  assert.deepStrictEqual(sygnaturaNaCelex("C-131/12").slice(0, 3), ["62012CJ0131", "62012CO0131", "62012CC0131"]);
+  assert.deepStrictEqual(sygnaturaNaCelex("T-604/18"), ["62018TJ0604", "62018TO0604"]);
+  assert.strictEqual(sygnaturaNaCelex("131/85")[0], "61985CJ0131");
+  assert.strictEqual(celexNaSygnature("62012CJ0131"), "C-131/12");
+  const w = normalizujTsue(T["C-131/12"], { tryb: "id" });
+  assert.strictEqual(w.status, "FOUND"); assert.strictEqual(w.result.identyfikator, "C-131/12");
+  assert.strictEqual(w.result.rodzaj, "wyrok"); assert.strictEqual(w.result.ecli, "ECLI:EU:C:2014:317");
+  assert.match(w.result.strony, /^Google Spain/); assert.ok(w.powiazane.some((x) => x.rodzaj === "opinia rzecznika generalnego"));
+  const d = normalizujTsue(T["C-260/18"], { tryb: "id" });
+  assert.match(d.result.strony, /Dziubak/); assert.strictEqual(d.result.data_publikacji_lub_wyroku, "2019-10-03");
+  assert.strictEqual(normalizujTsue(T["C-9999/12"], { tryb: "id" }).status, "NOT_FOUND");
+  const f = normalizujTsue(T["fraza_93/13_2026"], { tryb: "fraza" });
+  assert.ok(f.kandydaci.every((k) => k.rola === "KANDYDAT" && k.identyfikator.startsWith("C-")));
+  assert.strictEqual(new Set(f.kandydaci.map((k) => k.celex)).size, f.kandydaci.length, "bez duplikatów");
+  assert.match(zapytanieTsue({ ecli: "ECLI:EU:C:2014:317" }), /"ECLI:EU:C:2014:317"\^\^xsd:string/, "ECLI typowany");
+  assert.throws(() => zapytanieTsue({ ecli: 'x" } DROP' }), /Niepoprawny ECLI/);
+  console.log("OK: TSUE — sygnatura↔CELEX, wyrok + opinia RG, sprawa polska, NOT_FOUND, fraza bez duplikatów, ECLI typowany");
+  console.log("\nWSZYSTKIE TESTY eurlex_tsue PRZESZŁY"); }

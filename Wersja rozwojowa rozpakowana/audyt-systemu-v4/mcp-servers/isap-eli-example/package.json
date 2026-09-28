@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
+    "pdfjs-dist": "4.10.38",
     "zod": "^4.4.3"
   },
   "type": "module"

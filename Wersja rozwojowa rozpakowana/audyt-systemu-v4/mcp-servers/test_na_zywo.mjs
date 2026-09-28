@@ -73,6 +73,16 @@ const PRZYPADKI = [
   ["CBOSA: III OSK 1959/22 → FOUND, snapshot 🟨 (⚠️ z sandboxa Claude brama zwraca 503 — uruchom u siebie)", "cbosa-example", "cbosa-mcp-server.js",
     "cbosa_sprawdz_sygnature", { sygnatura: "III OSK 1959/22" },
     (w) => w.status === "FOUND" && w.snapshot === "🟨" && w.result.identyfikator === "III OSK 1959/22"],
+  ["KRS: fundacja WOŚP (rejestr S) → FOUND, nie NOT_FOUND", "krs-example", "krs-mcp-server.js", "krs_lookup", { numerKrs: "30897" },
+    (w) => w.status === "FOUND" && /^S/.test(w.result.rejestr)],
+  ["KRS: reprezentacja PKP → sposób + skład + prokurenci, bez PESEL", "krs-example", "krs-mcp-server.js", "krs_reprezentacja", { numerKrs: "0000019193" },
+    (w) => w.status === "FOUND" && /PREZESA/.test(w.result.reprezentacja.sposob_reprezentacji) && w.result.reprezentacja.sklad.length > 0 && !/\d{11}/.test(JSON.stringify(w))],
+  ["ISAP: treść art. 118 KC przez DU/1964/93 → aktualny t.j., brzmienie obowiązujące", "isap-eli-example", "isap-eli-mcp-server.js", "isap_tekst", { eli: "DU/1964/93", artykul: "118" },
+    (w) => w.status === "FOUND" && w.result.wersja_tekstu === "tekst_jednolity" && /sześć lat/.test(w.result.tresc) && !!w.result.tj_nie_obejmuje],
+  ["TSUE: C-131/12 → wyrok Google Spain + opinia RG", "eurlex-example", "eurlex-mcp-server.js", "eurlex_tsue", { sygnatura: "C-131/12" },
+    (w) => w.status === "FOUND" && w.result.identyfikator === "C-131/12" && w.result.ecli === "ECLI:EU:C:2014:317" && w.powiazane.length >= 1],
+  ["SAOS: cytator III CZP 29/17 → cytowania (⚠️ wzorce niezmierzone — F-212)", "saos-example", "saos-mcp-server.js", "saos_cytator", { sygnatura: "III CZP 29/17" },
+    (w) => w.status === "FOUND" && w.result.liczba_cytujacych > 0],
 ];
 
 let bledy = 0;
@@ -90,7 +100,11 @@ function schemat(w) {
   if ("zakres" in w) e.push("pole `zakres` wycofane w 3.94 — OUT_OF_SCOPE w `status`");
   return e;
 }
+// Filtr (np. gdy SAOS/CBOSA niedostępne): LEX_POMIN="SAOS|CBOSA" pomija przypadki, których opis pasuje.
+const POMIN = process.env.LEX_POMIN ? new RegExp(process.env.LEX_POMIN) : null;
+let pominiete = 0;
 for (const [opis, kat, plik, narz, args, warunek] of PRZYPADKI) {
+  if (POMIN && POMIN.test(opis)) { pominiete++; console.log(`⏭️ POMINIĘTE  ${opis}`); continue; }
   let w, ok = false;
   let sch = [];
   try { w = await wywolaj(kat, plik, narz, args); ok = !!warunek(w); sch = schemat(w); ok = ok && sch.length === 0; }
@@ -99,5 +113,5 @@ for (const [opis, kat, plik, narz, args, warunek] of PRZYPADKI) {
   if (sch.length) console.log("         SCHEMAT: " + sch.join("; "));
   if (!ok) { bledy++; console.log("         " + JSON.stringify(w).slice(0, 400)); }
 }
-console.log(`\n${PRZYPADKI.length - bledy}/${PRZYPADKI.length} przypadków zgodnych co do TREŚCI.`);
+console.log(`\n${PRZYPADKI.length - pominiete - bledy}/${PRZYPADKI.length - pominiete} przypadków zgodnych co do TREŚCI${pominiete ? ` (pominięte: ${pominiete})` : ""}.`);
 process.exit(bledy ? 1 : 0);
