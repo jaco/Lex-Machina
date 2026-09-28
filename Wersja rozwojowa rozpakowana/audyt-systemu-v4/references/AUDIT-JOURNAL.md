@@ -69196,3 +69196,45 @@ eu-compliance — nie wymagany (Cellar na żywo), legalize — nie PL. Tylko u n
 
 **Pomiar 27p:** SAOS w „przerwie technicznej” — HTTP 200 + strona HTML (serwer SAOS nie sprawdzał typu
 odpowiedzi; poprawione — czytelny komunikat ERROR). orzeczenia.uzp.gov.pl → 200; orzeczenia.uodo.gov.pl → 302.
+
+---
+
+## AUDYT-2026-09-27q — inżynieria wsteczna: to, co konkurencja miała lepsze
+
+**Wyzwalacz:** „popraw moje narzędzia implementując poprzez inżynierię wsteczną to co oni mają lepsze”.
+Metoda: odczyt mechaniki z paczek npm `@matematicsolutions/*` (MIT) — endpointy, pola, logika; kod własny,
+bez kopiowania. Każda funkcja zmierzona na żywym API przed implementacją; fixture'y z prawdziwych odpowiedzi.
+
+**KRS (`krs_reprezentacja` + poprawki `krs_lookup`):** dział 2 odpisu (`reprezentacja.nazwaOrganu`,
+`sposobReprezentacji`, `sklad[].czyZawieszona`, `prokurenci`, `organNadzoru`). Ustalenia: konkurencja czyta
+`reprezentacja.nazwa` (brak w API) — organ nigdy niewidoczny; `rodzajProkury` ORLEN zawiera pełne nazwisko i
+NIEZAMASKOWANY PESEL innej osoby — u nas maska; mój `krs_lookup` znał tylko rejestr P → fundacje/stowarzyszenia
+= NOT_FOUND (WOŚP 0000030897: P 404, S 200) — naprawione; status „wykreslony” poza schematem → „uchylony”.
+
+**ISAP (`isap_tekst`):** `text.html` obwieszczenia t.j. PUSTY (0 B) — brzmienie obowiązujące tylko w PDF;
+konkurencja: dla t.j. link do PDF, tekst z `text.html` aktu bazowego (KC z 1964 r.). U nas: pdfjs-dist 4.10.38
+(Apache-2.0, noty w NOTICE), automatyczne przejście do aktualnego t.j., cały artykuł, pkt 2 obwieszczenia
+(„t.j. nie obejmuje”), stan prawny, akty zmieniające ogłoszone po t.j. Zmierzone: art. 118 KC przez DU/1964/93 →
+DU 2026 poz. 795, „stan prawny na 19 maja 2026”, brzmienie po reformie przedawnienia; art. 385[1]. ⛔ Hipoteza
+odrzucona pomiarem: status „obowiązujący” aktu zmieniającego ≠ zmiana nieujęta w t.j. (65 takich dla KC, w tym
+z 1982 r.); sygnałem jest data ogłoszenia po obwieszczeniu. Pułapka: w preambule indeks górny spłaszczony
+(„1251” = 125¹), w treści ustawy zapis `385[1]` — cięcie artykułów wyłącznie z załącznika. Pakiet: 648 KB →
+2,4 MB (pdfjs + worker); działa bez node_modules, w ścieżce ze spacją, w trybie `wszystkie`.
+
+**TSUE (`eurlex_tsue`):** ECLI jako literał bez typu → 0 wyników, z `^^xsd:string` → trafienie (ta sama
+pułapka co CELEX; konkurencja omija ją FILTER-em). Nowość wobec konkurencji: SYGNATURA sprawy („C-131/12”) →
+CELEX deterministycznie (380 ms): wyrok + opinia RG. Fraza w tytule PL: „93/13” → wyroki 2026 (1,3 s).
+Sprawdzone: C-131/12 (Google Spain), C-260/18 (Dziubak), C-9999/12 → NOT_FOUND.
+
+**SAOS (`saos_cytator`):** mechanika jak `saos_cite_check` (wyszukanie późniejszych orzeczeń + skan fraz w oknie
+wokół sygnatury), wzorce i implementacja własne; ścisłe dopasowanie sygnatury w treści (291/099, 2910/09
+odrzucone), wykluczenie orzeczenia cytowanego. ⚠️ SAOS w „przerwie technicznej” — logika testowana na kształcie
+prawdziwych fixture'ów, treść okien testowa (konstrukcja jawnie oznaczona); skuteczność wzorców — F-212 pkt 1.
+
+**Weryfikacja:** testy offline 9/9 serwerów; protokół: 18 narzędzi; `test_na_zywo.mjs` (22 przypadki, filtr
+`LEX_POMIN`): 16/16 mierzalnych, 0 naruszeń schematu; pominięte: SAOS ×5 (przerwa), CBOSA (brama, F-213).
+Manifest MCPB 1.1.0 (18 narzędzi) — `mcpb validate` PASS.
+
+`shared` 3.94 → **3.95**; `audyt-systemu-v4` 6.146 → **6.147**. F-212 zawężona (pkt 1, 5, 6).
+
+**Otwarte:** F-212 (1, 5, 6), F-213, F-211, F-210, F-197. Wolny numer: **F-214**.
