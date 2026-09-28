@@ -86,8 +86,8 @@ narzędzia. **Rozpoznawaj narzędzie, gdy nazwa KOŃCZY SIĘ nazwą z tabeli** (
 | `isap_lookup` (`eli`: DU/RRRR/PPP) | akt Dz.U./M.P. po ELI; status; **aktualny t.j.** | ŹRÓDŁO-0 (`PRAWO-HARDGATE.md`) | FOUND+`obowiazuje` → MCP-VERIFIED metryki; `tekst_jednolity_nieaktualny` → powołuj `result.aktualny_tekst_jednolity` |
 | `isap_tekst` (`eli`, `artykul` / `szukaj`) | **obowiązujące brzmienie** artykułu z PDF aktualnego t.j. (automatyczne przejście z pozycji pierwotnej); pkt 2 obwieszczenia („t.j. nie obejmuje”); akty zmieniające ogłoszone po t.j. | ŹRÓDŁO-0 — TREŚĆ przepisu | `wersja_tekstu` = `tekst_jednolity` + brak `zmiany_po_tj` → brzmienie do cytowania dosłownie; `tekst_ogloszony` → brzmienie z dnia ogłoszenia, nie stan obecny; indeksy górne jako `Art. N[k]` |
 | `isap_lookup` (`query`: tytuł) | identyfikacja aktu po tytule | ŹRÓDŁO-1 (zamiast web_search) | AMBIGUOUS → wybierz kandydata po tytule i statusie, potem `eli` |
-| `saos_search` (`sygnatura`) | istnienie sygnatury SN, SP, TK, KIO | `PRAWO-HARDGATE-ORZECZENIA.md` KROK 0 (SAOS) | kontrakt SYGNATURY; NSA/WSA → OUT_OF_SCOPE (SAOS ich nie ma) |
-| `saos_cytator` (`sygnatura`) | późniejsze orzeczenia cytujące + sygnały odstąpienia od poglądu (okno wokół sygnatury) | ocena aktualności linii orzeczniczej | KANDYDACI; ⚠️ wzorce niezmierzone na żywo (F-212 pkt 1) — nie jako jedyna podstawa |
+| `saos_search` (`sygnatura`) | istnienie sygnatury: SP (bieżąco), SN do 2016, TK do 2015, KIO do 2018 | `PRAWO-HARDGATE-ORZECZENIA.md` KROK 0 (SAOS) | kontrakt SYGNATURY; NSA/WSA oraz SN/TK/KIO spoza zasięgu → OUT_OF_SCOPE (nie „zmyślona”) |
+| `saos_cytator` (`sygnatura`) | późniejsze orzeczenia cytujące (fraza w cudzysłowie, pełne treści) + sygnały odstąpienia w TYM SAMYM zdaniu, z kierunkiem (cytowane orzeczenie jako przedmiot vs aktor odstąpienia) | ocena aktualności linii orzeczniczej | KANDYDACI; próba 27t: 6/6 trafień z sygnałem prawdziwych; ⚠️ SN po 2016 i TK po 2015 niewidoczne — brak sygnału nie wyklucza zmiany linii |
 | `cbosa_sprawdz_sygnature` | istnienie sygnatury NSA/WSA (exact-match, fail-closed) | KROK 0A pkt 1 (MCP-FIRST) | FOUND = snapshot 🟨 bez awansu; OUT_OF_SCOPE → KROK 0A pkt 2 |
 | `cbosa_szukaj`, `cbosa_pobierz` | research NSA/WSA, treść orzeczenia | research, nie weryfikacja | KANDYDAT |
 | `eureka_sprawdz_sygnature` | istnienie i AKTUALNOŚĆ interpretacji podatkowej | weryfikacja interpretacji | FOUND+`uchylony` → nie powołuj jako aktualnego stanowiska |
@@ -97,6 +97,10 @@ narzędzia. **Rozpoznawaj narzędzie, gdy nazwa KOŃCZY SIĘ nazwą z tabeli** (
 | `krs_lookup` | podmiot w KRS — rejestr P **i S** (fundacje, stowarzyszenia) | KROK 0D / PODMIOT-GATE | NOT_FOUND dopiero po P i S |
 | `krs_reprezentacja` | organ, sposób reprezentacji, skład (z zawieszeniem), prokurenci, organ nadzoru, stan rejestru | umocowanie osób podpisujących | nazwiska zamaskowane przez rejestr — tożsamość osoby potwierdza odpis/dokument; wnioski w toku niewidoczne |
 | `nbp_kurs_waluty` | kurs średni tabeli A | przeliczenia walutowe | `przesuniecie_dni` > 0 → podstawę tabeli ustal z przepisu |
+| `uodo_sprawdz_sygnature` | istnienie decyzji Prezesa UODO (post-check — wyszukiwarka prefiksowa) i AKTUALNA prawomocność | weryfikacja decyzji UODO (RODO) | `prawomocnosc` ≠ „prawomocna” → nie powołuj jako utrwalonego stanowiska; prawomocność z metryki, nie z daty ogłoszenia |
+| `uodo_szukaj`, `uodo_pobierz` | research decyzji UODO (filtr prawomocności, daty), treść | research RODO | KANDYDAT z prawomocnością |
+| `wl_sprawdz_nip` | biała lista VAT: status (Czynny / Zwolniony / Niezarejestrowany), rachunki, `dowod_sprawdzenia.requestId` | PODMIOT-GATE; weryfikacja kontrahenta | NIP spoza wykazu → NOT_FOUND **z** requestId (dowód sprawdzenia negatywnego); `ma_rachunki_wirtualne` → rachunek tylko przez `wl_sprawdz_rachunek` |
+| `wl_sprawdz_rachunek` | czy rachunek jest przypisany do NIP na dzień | weryfikacja rachunku przed płatnością | TAK → FOUND, NIE → NOT_FOUND; requestId do akt; NIP/NRB walidowane lokalnie (mod 11 / mod 97) |
 | `sudop_szukaj_pomocy` / `sudop_odbierz_wynik` | pomoc publiczna / de minimis | analiza pomocy | ERROR/`PENDING` ≠ brak pomocy |
 | `ceidg_szukaj_firmy` | JDG w CEIDG (wymaga klucza) | PODMIOT-GATE | bez klucza ERROR = kanał niedostępny |
 

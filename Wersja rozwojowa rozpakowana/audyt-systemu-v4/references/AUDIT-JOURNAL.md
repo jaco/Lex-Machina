@@ -69238,3 +69238,106 @@ Manifest MCPB 1.1.0 (18 narzędzi) — `mcpb validate` PASS.
 `shared` 3.94 → **3.95**; `audyt-systemu-v4` 6.146 → **6.147**. F-212 zawężona (pkt 1, 5, 6).
 
 **Otwarte:** F-212 (1, 5, 6), F-213, F-211, F-210, F-197. Wolny numer: **F-214**.
+
+---
+
+## AUDYT-2026-09-27r — konektor UODO od zera (F-211 pkt UODO, F-212 pkt 6)
+
+**Wyzwalacz:** „co z tym konektorem uodo, wyjaśnij dokładniej i daj ewentualnie plik”.
+
+**Stan wyjściowy:** konektor `mcp-uodo` z sesji 27i — dostarczony użytkownikowi jako ZIP, nigdy nie trafił do
+repozytorium; w tej sesji niedostępny. Konektor konkurencji (`uodo-orzeczenia-mcp`, wymieniony w rejestrze
+`prawo-pl-mcp`: 5 narzędzi) — GitHub 404, brak w PyPI → inżynieria wsteczna samego portalu.
+
+**Dostęp (ustalony z kodu portalu):** React Router 7; dane loaderów pod `<trasa>.data` w formacie turbo-stream
+(własny dekoder). `/search.data` — parametry z mapy w kodzie portalu (content→q, refName→rn, status→s,
+keywords→k, decree→dcr, dtas/dtae/dtps/dtpe); strona: `page`. `/document/{URN}/content.data` → urn,
+refname, status, dates, body. `/webapi/suggest` — podpowiedzi haseł.
+
+**Pułapki zmierzone (każda dałaby błędny wynik):**
+1. nazwy pól formularza (`refName`, `status`) w adresie są IGNOROWANE — 584 decyzje, także dla fikcyjnej sygnatury;
+2. `rn` dopasowuje prefiksowo (DKN.5112.1 → 7 decyzji) — post-check tożsamości;
+3. `p=2` ignorowany (zwraca stronę 1), działa `page=2`;
+4. ⛔ PRAWOMOCNOŚĆ: status przy dacie „announcement” jest historyczny (zawsze „nonfinal”); z filtra
+   „prawomocne” wszystkie 3 sprawdzone decyzje miały przy ogłoszeniu „nonfinal”, a w metryce „final”
+   z datą `validation` (uprawomocnienie). Odczyt z daty ogłoszenia oznaczyłby każdą decyzję jako nieprawomocną;
+5. terminologia: portal — prawomocna / częściowo prawomocna / nieprawomocna / uchylona. 27i pisał „ostateczna”
+   — błędnie (decyzja UODO jest ostateczna od wydania; prawomocność dotyczy kontroli sądowoadministracyjnej).
+
+**`uodo-example` 1.0.0:** `uodo_sprawdz_sygnature`, `uodo_szukaj` (filtr prawomocności, daty, strona),
+`uodo_pobierz` (URN albo sygnatura; treść porcjami). Mapowanie: prawomocna → `obowiazuje`, uchylona →
+`uchylony`, pozostałe → `nieznany` + ostrzeżenie. Testy offline na prawdziwych danych portalu (5 grup);
+na żywo: DKN.5112.33.2022 prawomocna (uprawomocnienie 2026-03-23), „monitoring wizyjny” strona 2/2,
+treść DKN.5112.1.2023 (115 tys. zn., nieprawomocna); `test_na_zywo.mjs` 18/18 mierzalnych.
+Rozszerzenie MCPB 1.2.0: 21 narzędzi.
+
+**F-211** zawężona: z 7 konektorów 27h/27i brak odpowiednika wyłącznie dla białej listy VAT. **F-212 pkt 6** zamknięty.
+`shared` 3.95 → **3.96**; `audyt-systemu-v4` 6.147 → **6.148**.
+
+**Otwarte:** F-211 (biała lista VAT), F-212 (1, 5), F-213, F-210, F-197. Wolny numer: **F-214**.
+
+---
+
+## AUDYT-2026-09-27s — scalenie katalogu serwerów; biała lista VAT (F-211 zamknięta)
+
+**Wyzwalacz:** „zrób to” — scalić powtórzenia w `mcp-servers/` (audyt 199/200 plików), potem konektor białej listy VAT.
+
+**Scalenie (przed zmianą zmierzone):** 10 serwerów miało zablokowane IDENTYCZNE wersje (SDK 1.29.0, zod 4.4.3;
+ISAP + pdfjs 4.10.38); 10 testów protokołu różniło się wyłącznie listą narzędzi. Teraz: jeden `package.json` +
+`package-lock.json` w katalogu głównym (Node rozwiązuje w górę drzewa), jeden `test_protokol.mjs` z mapą narzędzi.
+Weryfikacja bez lokalnych `node_modules`: testy jednostkowe 10/10, protokół 10/10; test mutacyjny (zmieniona nazwa
+narzędzia) wykryty; pakiet `dist/lex-mcp.mjs` bajtowo identyczny po zmianie układu zależności. 88 → 61 plików.
+
+**Biała lista VAT (`wl-example`):** zmierzone — `date` obowiązkowy (WL-190); NIP spoza wykazu → HTTP 200,
+`subject: null`, ALE z requestId (dowód sprawdzenia negatywnego); `check` → accountAssigned TAK/NIE + requestId;
+rachunek z błędną sumą → WL-111, zła długość → WL-109; GUS i Orange mają rachunki wirtualne (porównanie z listą
+nie wystarcza); brak nagłówków limitów. Narzędzia: `wl_sprawdz_nip`, `wl_sprawdz_rachunek`; lokalna walidacja
+NIP (mod 11) i NRB (mod 97) — zgodna z werdyktami API, oszczędza zapytania. Testy: 5 grup na prawdziwych
+odpowiedziach; na żywo 3/3 (Czynny; rachunek formalnie poprawny, obcy → NOT_FOUND z requestId; zły NIP → ERROR
+lokalnie). `test_na_zywo.mjs`: 21/21 mierzalnych. Rozszerzenie MCPB 1.3.0: 23 narzędzia.
+
+**F-211 ZAMKNIĘTA:** wszystkie 7 konektorów z 27h/27i ma odpowiedniki w repozytorium (isap, saos, krs, eurlex,
+nbp, uodo, wl). CI: jeden `npm ci`, pętla testów jednostkowych, `test_protokol.mjs`; handshake 11 serwerów.
+
+`shared` 3.96 → **3.97**; `audyt-systemu-v4` 6.148 → **6.149**.
+
+**Otwarte:** F-212 (1, 5), F-213, F-210, F-197, F-208, F-209, F-167. Wolny numer: **F-214**.
+
+---
+
+## AUDYT-2026-09-27t — SAOS po powrocie: zasięg, cytator, pomiar
+
+**Wyzwalacz:** „Saos działa, zajmij się nim”.
+
+**Zaległe przypadki SAOS (5):** PASS. Następnie pomiar, który zmienił obraz źródła.
+
+**1. Zasięg czasowy SAOS (totalResults rok po roku, 2012–2026):** sądy powszechne — bieżąco (2026: 5559);
+Sąd Najwyższy — ostatni rok 2016 (0 od 2017); TK — 2015; KIO — 2018 częściowo (855), 0 od 2019. Skutki:
+sygnatura SN/TK/KIO spoza zasięgu dawała NOT_FOUND (wg SYGNATURY.md — „prawdopodobnie zmyślona”) → teraz
+OUT_OF_SCOPE ze wskazaniem źródła (rozpoznanie sądu po repertorium i roku z sygnatury); założenie z 27i
+„KIO pokryte przez SAOS” fałszywe po 2018 (F-212 pkt 5 → konektor UZP).
+
+**2. Cytator — trzy błędy znalezione pomiarem (test na żywo z 27q przechodził, bo sprawdzał tylko „są cytowania”):**
+(a) wyszukiwarka zwraca w `textContent` FRAGMENT ~400 zn. (pełny dokument 7–14 tys.) — skanowano fragmenty;
+(b) `all=<sygnatura>` bez cudzysłowu = osobne słowa (17–51 tys. trafień, cytujące w 0/6 par); w cudzysłowie
+41–92 trafienia, cytujące w 6/6; (c) ⛔ `\w` w JS obejmuje tylko ASCII — „odstąpi\w*” nie dopasowywało
+„odstąpił”, „podziela\w*” — „podzielając” (wszystkie polskie końcówki fleksyjne po cichu nie działały;
+test logiki użył formy bez polskich znaków). Poprawione: fraza w cudzysłowie, sortowanie od najnowszych,
+pełne treści (60 najnowszych + każdy z sygnałem we fragmencie), czyszczenie HTML, `\p{L}`.
+
+**3. Walidacja — mój błąd metodyczny:** automatyczna ekstrakcja par „A nie podziela poglądu z B” pomyliła
+KIERUNEK („…, III CKN 1283/00 Sąd Najwyższy odstąpił od tego stanowiska” — III CKN 1283/00 jest aktorem).
+Wprowadzone: kierunek wg najbliższego wystąpienia sygnatury (aktor → „samo odstąpiło”, nie sygnał przeciw);
+wymóg TEGO SAMEGO ZDANIA (fałszywe trafienie II PK 145/11 o II PK 129/09: „nie podziela stanowiska tego Sądu
+[rejonowego]” w innym zdaniu). Granica zdania odporna na skróty i „r. III CKN…”.
+
+**Próba ręczna (9 sygnatur, ~480 cytowań przeskanowanych):** 6 trafień z sygnałem — wszystkie prawdziwe
+(III CRN 126/80, od którego SN odstąpił w III CKN 1283/00); 6 poprawnie oznaczonych jako „aktor”; 0 fałszywych.
+Kryterium F-212 (próba 10) niespełnione wyłącznie liczebnie — sygnały są rzadkie; flaga zawężona.
+
+**Testy:** 7 przypadków SAOS na żywo PASS (nowe: sygnał, kierunek, OUT_OF_SCOPE dla SN 2017); testy jednostkowe
+na prawdziwych fragmentach (aktor/przedmiot, fałszywe trafienie jako przypadek testowy). Rozszerzenie MCPB 1.3.1.
+
+`shared` 3.97 → **3.98**; `audyt-systemu-v4` 6.149 → **6.150**.
+
+**Otwarte:** F-212 (1 — dopełnić próbę, 5 — konektor KIO/UZP), F-213, F-210, F-197. Wolny numer: **F-214**.

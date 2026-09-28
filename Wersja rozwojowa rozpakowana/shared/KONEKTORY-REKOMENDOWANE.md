@@ -321,15 +321,15 @@ z `audyt-systemu-v4/mcp-servers/`.
 | Kanał | Pomiar treści 27j | Konektor w repozytorium |
 |---|---|---|
 | `api.sejm.gov.pl/eli` (Dz.U./M.P.) | ✅ | `isap-eli-example` |
-| `www.saos.org.pl/api` — SN, SP, TK, KIO | ✅ (sygnatura w `courtCases[].caseNumber`) | `saos-example` 1.1.0 |
+| `www.saos.org.pl/api` — SP (bieżąco), SN do 2016, TK do 2015, KIO do 2018 | ✅ 27t: zasięg zmierzony rok po roku | `saos-example` 1.2.0 (OUT_OF_SCOPE poza zasięgiem) |
 | `www.saos.org.pl/api` — **NSA/WSA** | ⛔ **0 orzeczeń** dla każdego zapytania → OUT_OF_SCOPE | brak — właściwe źródło CBOSA |
 | `api-krs.ms.gov.pl` (KRS) | ✅ | `krs-example` |
 | `api.nbp.pl` (kursy) | ✅ (dni wolne → ostatnia tabela, jawnie) | `nbp-example` 1.1.0 |
 | `publications.europa.eu` SPARQL (Cellar) | ✅ (status obowiązywania, tytuł PL) | `eurlex-example` 1.1.0 |
 | `api-sudop.uokik.gov.pl` (SUDOP) | ⚠️ 303 → kolejka; wynik nieoddany w >30 min | `sudop-example` 1.1.0 (PENDING) — F-210 |
 | `dane.biznes.gov.pl/api/ceidg` v3 | ⚠️ 401 bez tokenu | `ceidg-example` (wymaga klucza) |
-| `wl-api.mf.gov.pl` (biała lista VAT) | ✅ 200 wg 27h — treści nie mierzono w 27j | brak w repo (F-211) |
-| `orzeczenia.uodo.gov.pl/api` (UODO) | ✅ 200 wg 27i — treści nie mierzono w 27j | brak w repo (F-211) |
+| `wl-api.mf.gov.pl` (biała lista VAT) | ✅ 27s: `date` obowiązkowy; NIP spoza wykazu = 200 + `subject: null` + requestId; `check` TAK/NIE; rachunki wirtualne | `wl-example` 1.0.0 |
+| `orzeczenia.uodo.gov.pl` (UODO) | ✅ 27r: loadery React Router (`/search.data`, `/document/{URN}/content.data`, turbo-stream) | `uodo-example` 1.0.0 — prawomocność z metryki, post-check sygnatury |
 | `orzeczenia.nsa.gov.pl` (CBOSA) | ⚠️ z sandboxa Claude: 503 bramy egress (27m) — pomiar z sieci użytkownika (F-213) | `cbosa-example` 1.0.0 (parser równoważny z referencyjnym) |
 | `eureka.mf.gov.pl` (interpretacje) | ✅ 27k (POST; post-check sygnatury; status aktualności) | `eureka-example` 1.0.0 |
 | `api.stat.gov.pl` (REGON/BIR) | ⚠️ wymaga UserKey | brak |
@@ -347,13 +347,14 @@ Paczki npm `@matematicsolutions/*` (MIT) uruchomione przez protokół MCP obok p
 | ISAP (`mcp-isap` 1.3.0) | ⭐ `get_act`, `get_act_text` (treść, wyszukiwanie w akcie, odesłanie do PDF), filtr `in_force` | — w przykładzie (mapowanie statusu było w pluginie 27h — F-211) | KC `DU/1964/93` → u nich „Stan: IN_FORCE” przy istniejącym t.j.; treść t.j. u nich tylko jako link do PDF (text.html t.j. pusty) — 27q: `isap_tekst` zwraca obowiązujące brzmienie z PDF |
 | KRS (`mcp-krs` 1.1.1) | `get_board` | 27q: `krs_reprezentacja` + rejestr S | u nich pole `nazwa` zamiast `nazwaOrganu` (organ nigdy niewidoczny); PESEL z wolnego tekstu prokury przekazywany bez maski (ORLEN) — u nas maskowany; fundacje (rejestr S) — u nas FOUND |
 | NSA/CBOSA (`mcp-nsa` 1.3.0; `cbosa-mcp` z ChatGPT) | istnieją | ⭐ `cbosa-example` 1.0.0 (27m): port parsera referencyjnego `orzeczenia-sadowe-v2` — exact-match, near-match odrzucany, paginacja z kontrolą licznika, fail-closed | ⛔ korekta 27m: 503 z 27k to BRAMA sandboxa Claude („upstream connect error”), nie CBOSA — z tego środowiska żadnego konektora CBOSA nie da się zmierzyć (F-213). `mcp-nsa`: `rejectUnauthorized: false`. `cbosa-mcp` (ChatGPT, Python): TLS poprawny, ale parser nie wyciąga Sygnatury/Daty/Sądu nawet z własnej próbki, próbki wymyślone (126/391 B), brak exact-match, błąd paginacji |
-| NBP, SUDOP, UODO, CEIDG | — | kanały, których oni nie mają | — |
+| UODO (w agregatorze `prawo-pl-mcp`; repozytorium niepubliczne) | istnieje | 27r: `uodo-example` — prawomocność z OSTATNIEGO zdarzenia (data ogłoszenia zawsze „nonfinal”), post-check sygnatury (wyszukiwarka prefiksowa) | ich kodu nie da się sprawdzić (GitHub 404, brak w PyPI) |
+| NBP, SUDOP, CEIDG | — | kanały, których oni nie mają | — |
 
 Wniosek: przewaga jakościowa (weryfikacja, status) po naszej stronie; przewaga zakresowa
 (cytator SAOS, TSUE, treść aktu, reprezentacja KRS) po ich — F-212.
 
 ⭐ **KIO**: w SAOS `courtType=NATIONAL_APPEAL_CHAMBER` (22 168 orzeczeń, sygnatury
-`KIO/UZP 2/07`). Do 3.89 enum `saos-example` NIE zawierał tej wartości, więc twierdzenie
+`KIO/UZP 2/07`) — ⛔ 27t: WYŁĄCZNIE do 2018 r. (0 od 2019); bieżące orzeczenia KIO: orzeczenia.uzp.gov.pl (F-212 pkt 5). Do 3.89 enum `saos-example` NIE zawierał tej wartości, więc twierdzenie
 „pokryte jednym parametrem” nie było prawdziwe dla kodu w repo; od 1.1.0 jest.
 
 ⛔ **Reguła od 3.90:** wiersz tej tabeli może zawierać „✅” tylko po pomiarze TREŚCI odpowiedzi

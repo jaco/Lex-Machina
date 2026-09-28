@@ -1,6 +1,6 @@
 ---
 name: shared
-version: "3.95"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
+version: "3.98"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
                   # jako float 3.17, a 3.17 < 3.9 — porządek wersji odwraca się
                   # dla każdego narzędzia porównującego liczbowo. Wykryte
                   # testem T12 (check_wersje_changelog.py), 2026-08-20z.
@@ -50,7 +50,7 @@ limitations:
 required_modules: []
   # nie ma zastosowania — shared jest wczytywany, nie wczytuje sam siebie
 changelog: |
-  Wersja bieżąca: 3.95 (2026-09-27q, AUDYT-2026-09-27q): MCP-INTEGRACJA: mapa +4 narzędzia (isap_tekst, eurlex_tsue, krs_reprezentacja, saos_cytator); KONEKTORY: porównanie — luki zamknięte.
+  Wersja bieżąca: 3.98 (2026-09-27t, AUDYT-2026-09-27t): DOSTEP-MASZYNOWY-API: zasięg czasowy SAOS (SN do 2016, TK do 2015, KIO do 2018); fraza w cudzysłowie; MCP-INTEGRACJA i KONEKTORY zaktualizowane.
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 

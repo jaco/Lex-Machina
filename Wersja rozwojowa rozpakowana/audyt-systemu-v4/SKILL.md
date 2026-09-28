@@ -5,7 +5,7 @@ dependencies:
   requires:
     - shared
   # 2026-09-27e: jawna zależność (każdy skill systemu korzysta z `shared`); pole czytane przy imporcie z marketplace
-version: "6.147"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
+version: "6.150"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
                   # parsuje jako float 6.1 — czyli numer NIŻSZY niż 6.9, co cicho
                   # odwraca porządek wersji. Wykryte przy walidacji 2026-08-20z.
                   # Każda kolejna wersja z dwucyfrowym minor — też w cudzysłowie.
@@ -1358,6 +1358,7 @@ z WARN-OTWARTE.md, dodaj pełny wpis do AUDIT-JOURNAL.md.
 > `dist/lex-mcp.mjs`, manifest rozszerzenia MCPB, instalator, skrypt budowy, README) — łącznie **192 pliki** (6.144: +`mcp-servers/LICENSE`). Drzewo niżej nie
 > rozpisuje `mcp-servers/` — opis w `mcp-servers/README.md`. Licznik w pierwszej linii drzewa jest
 > historyczny (stan 2026-09-09b).
+> ⚡ **2026-09-27s:** `mcp-servers/` scalony — wspólne `package.json`/`package-lock.json` i jeden `test_protokol.mjs` zamiast 10 kopii; 11 serwerów (+`wl-example`). Liczba plików skilla: `find . -type f | wc -l` (limit wydania 200).
 
 ```
 audyt-systemu-v4/                               ← 89 plików (stan 2026-09-09b; licznik sprawdzony
@@ -1411,7 +1412,7 @@ audyt-systemu-v4/                               ← 89 plików (stan 2026-09-09b
 
 ---
 
-*Wersja: 6.147 | Ostatnia aktualizacja: 2026-09-27q (serwery MCP: krs_reprezentacja, isap_tekst, eurlex_tsue, saos_cytator; KRS rejestr S; F-212 zawężona)*
+*Wersja: 6.150 | Ostatnia aktualizacja: 2026-09-27t (SAOS: zasięg i OUT_OF_SCOPE; cytator przebudowany i zmierzony (6/6 trafień prawdziwych))*
 
 *(Stopka podawała „5.0 | 2026-07-04" przy `version: 6.8` w YAML — rozjazd
 9 wersji, naprawiony 2026-08-20y. **Stopkę aktualizuj razem z polem `version`**;

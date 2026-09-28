@@ -2,11 +2,11 @@
 // test_na_zywo.mjs — pomiar TREŚCI odpowiedzi wszystkich przykładowych serwerów na żywym API.
 // Wprowadzony w AUDYT-2026-09-27j po dwóch sesjach z rzędu, w których SELF-TEST OK przepuścił
 // błędy treści ([object Object] w KRS; null zamiast sygnatury w SAOS; NOT_FOUND w weekend w NBP).
-// Wymaga: `npm ci` w isap-eli-example (stąd SDK). Zmienne proxy są przekazywane jawnie —
+// Wymaga: `npm ci` w katalogu mcp-servers (wspólne zależności, od 27s). Zmienne proxy są przekazywane jawnie —
 // SDK domyślnie przekazuje serwerowi tylko HOME/PATH/SHELL/TERM (ustalenie 27h).
 // Uruchomienie: node test_na_zywo.mjs   → kod wyjścia 0 tylko, gdy wszystkie asercje przeszły.
-import { Client } from "./isap-eli-example/node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js";
-import { StdioClientTransport } from "./isap-eli-example/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 const TU = path.dirname(fileURLToPath(import.meta.url));
@@ -81,8 +81,22 @@ const PRZYPADKI = [
     (w) => w.status === "FOUND" && w.result.wersja_tekstu === "tekst_jednolity" && /sześć lat/.test(w.result.tresc) && !!w.result.tj_nie_obejmuje],
   ["TSUE: C-131/12 → wyrok Google Spain + opinia RG", "eurlex-example", "eurlex-mcp-server.js", "eurlex_tsue", { sygnatura: "C-131/12" },
     (w) => w.status === "FOUND" && w.result.identyfikator === "C-131/12" && w.result.ecli === "ECLI:EU:C:2014:317" && w.powiazane.length >= 1],
-  ["SAOS: cytator III CZP 29/17 → cytowania (⚠️ wzorce niezmierzone — F-212)", "saos-example", "saos-mcp-server.js", "saos_cytator", { sygnatura: "III CZP 29/17" },
-    (w) => w.status === "FOUND" && w.result.liczba_cytujacych > 0],
+  ["SAOS: cytator III CRN 126/80 → sygnał odstąpienia (SN odstąpił w III CKN 1283/00)", "saos-example", "saos-mcp-server.js", "saos_cytator", { sygnatura: "III CRN 126/80" },
+    (w) => w.status === "FOUND" && w.result.z_sygnalem_odstapienia >= 1 && w.zakres_skanu.przeskanowano_pelnych > 0],
+  ["SAOS: cytator III CKN 1283/00 → „samo odstąpiło” (kierunek), nie sygnał przeciw niemu", "saos-example", "saos-mcp-server.js", "saos_cytator", { sygnatura: "III CKN 1283/00" },
+    (w) => w.status === "FOUND" && w.result.z_sygnalem_odstapienia === 0 && w.cytujace.some((c) => c.sygnaly.some((s) => /samo odstąpiło/.test(s.etykieta)))],
+  ["SAOS: sygnatura SN z 2017 (poza zasięgiem SAOS) → OUT_OF_SCOPE, nie „zmyślona”", "saos-example", "saos-mcp-server.js", "saos_search", { sygnatura: "III CZP 29/17", courtType: "SUPREME" },
+    (w) => w.status === "OUT_OF_SCOPE" && /po 2016/.test(w.powod)],
+  ["UODO: DKN.5112.33.2022 → FOUND, prawomocna (z ostatniego zdarzenia, nie z daty ogłoszenia)", "uodo-example", "uodo-mcp-server.js", "uodo_sprawdz_sygnature", { sygnatura: "DKN.5112.33.2022" },
+    (w) => w.status === "FOUND" && w.result.prawomocnosc === "prawomocna" && !!w.result.data_uprawomocnienia],
+  ["UODO: prefiks DKN.5112.1 → NOT_FOUND (post-check), nie potwierdzenie", "uodo-example", "uodo-mcp-server.js", "uodo_sprawdz_sygnature", { sygnatura: "DKN.5112.1" },
+    (w) => w.status === "NOT_FOUND" && (w.odrzucone_post_checkiem ?? []).length > 0],
+  ["Biała lista: GUS 5261040828 → Czynny, requestId", "wl-example", "wl-mcp-server.js", "wl_sprawdz_nip", { nip: "5261040828" },
+    (w) => w.status === "FOUND" && w.result.status_vat === "Czynny" && !!w.dowod_sprawdzenia.requestId],
+  ["Biała lista: rachunek obcy (poprawny formalnie) → NOT_FOUND z requestId", "wl-example", "wl-mcp-server.js", "wl_sprawdz_rachunek", { nip: "5261040828", rachunek: "41101000000000000012345678" },
+    (w) => w.status === "NOT_FOUND" && w.result.rachunek_na_liscie === false && !!w.dowod_sprawdzenia.requestId],
+  ["Biała lista: NIP z błędną sumą kontrolną → ERROR lokalnie, bez zapytania", "wl-example", "wl-mcp-server.js", "wl_sprawdz_nip", { nip: "5261040829" },
+    (w) => w.status === "ERROR" && /sumę kontrolną/.test(w.detail)],
 ];
 
 let bledy = 0;

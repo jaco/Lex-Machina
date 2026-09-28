@@ -1,5 +1,11 @@
 # CHANGELOG — Biblioteka shared
 
+- 3.98 (2026-09-27t, AUDYT-2026-09-27t): DOSTEP-MASZYNOWY-API: zasięg czasowy SAOS (SN do 2016, TK do 2015, KIO do 2018); fraza w cudzysłowie; MCP-INTEGRACJA i KONEKTORY zaktualizowane.
+
+- 3.97 (2026-09-27s, AUDYT-2026-09-27s): MCP-INTEGRACJA i KONEKTORY: biała lista VAT (wl_sprawdz_nip, wl_sprawdz_rachunek).
+
+- 3.96 (2026-09-27r, AUDYT-2026-09-27r): MCP-INTEGRACJA: narzędzia UODO; KONEKTORY: UODO w tabelach kanałów i porównania.
+
 - 3.95 (2026-09-27q, AUDYT-2026-09-27q): MCP-INTEGRACJA: mapa +4 narzędzia (isap_tekst, eurlex_tsue, krs_reprezentacja, saos_cytator); KONEKTORY: porównanie — luki zamknięte.
 
 ## 3.94 — 2026-09-27o — AUDYT-2026-09-27o: czy skille wywołają serwery MCP po instalacji

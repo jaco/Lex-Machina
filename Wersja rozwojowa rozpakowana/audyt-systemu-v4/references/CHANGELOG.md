@@ -1,5 +1,11 @@
 # CHANGELOG — audyt-systemu-v4
 
+- 6.150 (2026-09-27t, AUDYT-2026-09-27t): SAOS: zasięg i OUT_OF_SCOPE; cytator przebudowany i zmierzony (6/6 trafień prawdziwych).
+
+- 6.149 (2026-09-27s, AUDYT-2026-09-27s): serwer białej listy VAT (F-211 zamknięta); mcp-servers scalony — wspólne package.json/lock i jeden test protokołu (88 → 64 pliki).
+
+- 6.148 (2026-09-27r, AUDYT-2026-09-27r): serwer UODO (uodo-example: sygnatura, wyszukiwanie, treść; prawomocność z metryki); F-211 zawężona do białej listy VAT.
+
 - 6.147 (2026-09-27q, AUDYT-2026-09-27q): serwery MCP: krs_reprezentacja, isap_tekst, eurlex_tsue, saos_cytator; KRS rejestr S; F-212 zawężona.
 
 - 6.146 (2026-09-27p, AUDYT-2026-09-27p): **Porządki.** Usunięte z references/ (zero aktywnych odwołań w repozytorium; zamknięte flagi lub archiwum; historia w Git): mapa_dzu_2026-06-14.md, PRZETERMINOWANE-TJ-2026-09-10.md (F-181), F-135-cross-check-wartosci-prawnych-2026-08-28.md, F-187-dostep-maszynowy-pomiar-2026-09-13d.md, PRZEGLAD-MAP-ELI-2026-09-01i.md (F-155), AUDYT-PRZERWANYCH-ETAPOW-2026-08-28.md; 196 → 190 plików. FAZA 0C: odwołanie do COWORK-HARMONOGRAM-NATYWNY.md (czynna procedura bez linku). SAOS: wykrywanie „przerwy technicznej” (HTTP 200 + HTML). Porównanie z pełną organizacją matematicsolutions (60 repozytoriów); F-212 +2 punkty (KIO/UZP, UODO).

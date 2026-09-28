@@ -2,9 +2,9 @@
   "manifest_version": "0.3",
   "name": "lex-machina",
   "display_name": "Lex Machina — polskie źródła prawa",
-  "version": "1.1.0",
-  "description": "Weryfikacja źródeł prawa polskiego i UE: ISAP (z treścią), SAOS (z cytatorem), CBOSA, EUREKA, EUR-Lex i TSUE, KRS, NBP, SUDOP, CEIDG.",
-  "long_description": "Serwery MCP systemu Lex Machina (audyt-systemu-v4 6.147). Każdy wynik w schemacie FOUND / NOT_FOUND / AMBIGUOUS / ERROR, z jawnym statusem obowiązywania lub aktualności. Kontrola sygnatur z post-checkiem tożsamości (prefiks ani prawie-trafienie nie potwierdza sygnatury). NSA/WSA (CBOSA): snapshot, brak trafień = OUT_OF_SCOPE.",
+  "version": "1.3.1",
+  "description": "Weryfikacja źródeł prawa polskiego i UE: ISAP (z treścią), SAOS (z cytatorem), CBOSA, EUREKA, EUR-Lex i TSUE, KRS, NBP, SUDOP, UODO, biała lista VAT, CEIDG.",
+  "long_description": "Serwery MCP systemu Lex Machina (audyt-systemu-v4 6.150). Każdy wynik w schemacie FOUND / NOT_FOUND / AMBIGUOUS / ERROR, z jawnym statusem obowiązywania lub aktualności. Kontrola sygnatur z post-checkiem tożsamości (prefiks ani prawie-trafienie nie potwierdza sygnatury). NSA/WSA (CBOSA): snapshot, brak trafień = OUT_OF_SCOPE.",
   "author": {
     "name": "Lex Machina",
     "url": "https://github.com/michaleiatrak-star/Lex-Machina"
@@ -36,7 +36,7 @@
     },
     {
       "name": "saos_search",
-      "description": "SAOS: orzeczenia SN, SP, TK, KIO; kontrola sygnatury"
+      "description": "SAOS: orzeczenia SP (bieżąco), SN do 2016, TK do 2015, KIO do 2018; kontrola sygnatury"
     },
     {
       "name": "krs_lookup",
@@ -100,7 +100,27 @@
     },
     {
       "name": "saos_cytator",
-      "description": "SAOS: późniejsze cytowania i sygnały odstąpienia od poglądu"
+      "description": "SAOS: późniejsze cytowania i sygnały odstąpienia (pełne treści, kierunek, to samo zdanie)"
+    },
+    {
+      "name": "uodo_sprawdz_sygnature",
+      "description": "UODO: istnienie decyzji Prezesa UODO i jej aktualna prawomocność"
+    },
+    {
+      "name": "uodo_szukaj",
+      "description": "UODO: wyszukiwanie decyzji z filtrem prawomocności i dat"
+    },
+    {
+      "name": "uodo_pobierz",
+      "description": "UODO: pełna treść decyzji"
+    },
+    {
+      "name": "wl_sprawdz_nip",
+      "description": "Biała lista VAT: status podatnika, rachunki, requestId"
+    },
+    {
+      "name": "wl_sprawdz_rachunek",
+      "description": "Biała lista VAT: czy rachunek jest przypisany do NIP (z requestId)"
     }
   ],
   "user_config": {

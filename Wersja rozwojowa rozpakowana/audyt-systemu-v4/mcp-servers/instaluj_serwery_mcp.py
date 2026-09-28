@@ -35,7 +35,7 @@ from pathlib import Path
 
 TU = Path(__file__).resolve().parent
 PAKIET = TU / "dist" / "lex-mcp.mjs"
-SERWERY = ["isap", "saos", "krs", "nbp", "eurlex", "eureka", "sudop", "cbosa", "ceidg"]
+SERWERY = ["isap", "saos", "krs", "nbp", "eurlex", "eureka", "sudop", "cbosa", "uodo", "wl", "ceidg"]
 WYMAGA_KLUCZA = {"ceidg": "CEIDG_API_KEY"}
 PREFIKS = "lex-"
 ZMIENNE = ["HTTPS_PROXY", "HTTP_PROXY", "NO_PROXY", "https_proxy", "http_proxy", "no_proxy", "NODE_EXTRA_CA_CERTS"]

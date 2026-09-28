@@ -22,10 +22,12 @@ uruchamia serwer z pliku na dysku, nie z archiwum.
 | `zbuduj_pakiet.py` | przebudowa `dist/`; `--sprawdz` = CI wykrywa nieaktualny `dist/`; `--mcpb` = rozszerzenie |
 | `instaluj_serwery_mcp.py` | konfiguracja hosta; `--diagnoza` (czy ta maszyna ma Claude Desktop), `--scal-desktop`, `--mcpb KATALOG` (rozszerzenie bez sieci), `--sprawdz` (CI). Uruchamiany z pozycji 14 menu audytu (FAZA 0E) |
 | `LICENSE` | GPL-3.0 repozytorium — dołączana do rozszerzenia `.mcpb` |
-| `*-example/` | źródła i testy offline (`test_normalizacja.mjs` na prawdziwych odpowiedziach API, `test_protokol_mcp.mjs`) |
-| `test_na_zywo.mjs` | test TREŚCI na żywym API (22 przypadki; `LEX_POMIN="SAOS|CBOSA"` pomija niedostępne kanały); wymaga `npm ci` w `isap-eli-example/` |
+| `*-example/` | źródła i testy offline `test_normalizacja.mjs` (na prawdziwych odpowiedziach API) |
+| `package.json`, `package-lock.json` | WSPÓLNE zależności wszystkich serwerów (od 27s; dawniej 10 identycznych kopii) — `npm ci` raz, w tym katalogu |
+| `test_protokol.mjs` | protokół MCP wszystkich serwerów naraz (od 27s; dawniej 10 kopii `test_protokol_mcp.mjs`) |
+| `test_na_zywo.mjs` | test TREŚCI na żywym API (29 przypadków; `LEX_POMIN="SAOS|CBOSA"` pomija niedostępne kanały); wymaga `npm ci` w tym katalogu |
 
-Serwery: `isap`, `saos`, `krs`, `nbp`, `eurlex`, `eureka`, `sudop`, `cbosa`, `ceidg` (tylko z `CEIDG_API_KEY`).
+Serwery: `isap`, `saos`, `krs`, `nbp`, `eurlex`, `eureka`, `sudop`, `cbosa`, `uodo`, `wl` (biała lista VAT), `ceidg` (tylko z `CEIDG_API_KEY`).
 
 ⚠️ `cbosa`: port 1:1 parsera `orzeczenia-sadowe-v2/tools/cbosa_parser.py` (równoważność:
 `cbosa-example/test_normalizacja.mjs`, 25 przypadków generowanych z Pythona + paginacja). Warstwa

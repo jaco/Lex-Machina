@@ -346,6 +346,20 @@ zawiera daty `3013-12-04` i `0208-03-14`):
 
 Zero trafień poza tym oknem to **OUT_OF_SCOPE, nigdy NOT_FOUND** (K-SYG-1).
 
+⛔ **ZASIĘG CZASOWY SAOS (zmierzony 2026-09-28, AUDYT-2026-09-27t; totalResults rok po roku):**
+
+| Sąd w SAOS | Ostatni rok z danymi | Skutek |
+|---|---|---|
+| sądy powszechne | 2026 (bieżąco) | źródło aktualne |
+| **Sąd Najwyższy** | **2016** (0 od 2017) | sygnatura SN z 2017+ → OUT_OF_SCOPE; źródło: sn.pl (sekcja SN niżej) |
+| **Trybunał Konstytucyjny** | **2015** (0 od 2016) | → ipo.trybunal.gov.pl |
+| **KIO** | **2018 częściowo** (855), 0 od 2019 | → orzeczenia.uzp.gov.pl (F-212 pkt 5) |
+
+Brak trafienia SAOS dla sygnatury SN/TK/KIO spoza tych lat NIE jest dowodem nieistnienia (serwer `saos-example`
+≥1.2 zwraca wtedy OUT_OF_SCOPE). Wyszukiwarka zwraca w `textContent` tylko FRAGMENT (~400 zn.; pełna treść:
+`/api/judgments/{id}`, pole `data.textContent`, HTML). Fraza/sygnatura w `all=` wymaga CUDZYSŁOWU — bez niego
+słowa są wyszukiwane osobno („IV CKN 1525/00” → 42 tys. trafień zamiast 53).
+
 ⛔ **Pomiar 2026-09-27j (AUDYT-2026-09-27j) — dwie korekty tej sekcji:**
 1. **NSA/WSA w SAOS: zero, nie „okno 2021–2023”.** `courtType=ADMINISTRATIVE` zwraca
    `totalResults: 0` dla KAŻDEGO zapytania — bez frazy, z frazą „podatek”, z frazą „decyzja” —

@@ -59,3 +59,21 @@ import { skanujCytowanie, podsumujCytator, regexSygnatury } from "./saos-mcp-ser
   assert.strictEqual(podsumujCytator([baza], "II PK 291/09").status, "NOT_FOUND");
   console.log("OK: cytator — ścisłe dopasowanie sygnatury, wykluczenie cytowanego i fałszywych trafień, sygnał w oknie");
   console.log("\nWSZYSTKIE TESTY saos_cytator PRZESZŁY"); }
+
+// ── 27t: polskie końcówki (\p{L}) i KIERUNEK — fragment z PRAWDZIWEGO orzeczenia I CSK 358/11 (SAOS, 2026-09-28) ──
+{ const prawdziwy = "(por. postanowienia Sądu Najwyższego z dnia 12 października 2000 r., IV CKN 1525/00, niepubl. i z dnia 4 października 2002 r. III CKN 1283/00). Wprawdzie w wyroku z dnia 3 października 1980 r., III CRN 126/80 (OSNCP 1981, nr 8, poz. 150) Sąd Najwyższego wyraził pogląd, zaaprobowany wówczas w piśmiennictwie, że istniejący między współwłaścicielami budynku poważny konflikt może stanowić okoliczność uzasadniającą odmowę zniesienia współwłasności przez ustanowienie odrębnej własności lokali, jednakże w postanowieniu z dnia 4 listopada 2002 r., III CKN 1283/00 Sąd Najwyższy odstąpił od tego stanowiska i wyraził zapatrywanie, że konflikt osobisty";
+  const aktor = skanujCytowanie(prawdziwy, "III CKN 1283/00").sygnaly;
+  assert.ok(aktor.length && aktor.every((x) => x.typ === "kontekst"), "III CKN 1283/00 jest AKTOREM odstąpienia — nie sygnał przeciw niemu");
+  const przedmiot = skanujCytowanie(prawdziwy, "III CRN 126/80").sygnaly;
+  assert.ok(przedmiot.some((x) => x.typ === "odstapienie" && /odstąpienie/.test(x.etykieta)), "III CRN 126/80 jest PRZEDMIOTEM odstąpienia");
+  assert.strictEqual(skanujCytowanie(prawdziwy, "IV CKN 1525/00").sygnaly.length, 0, "IV CKN 1525/00 (aprobująco „por.”) — fraza w INNYM zdaniu → brak sygnału");
+  console.log("OK: 27t — „odstąpił” (\\p{L}), kierunek: aktor vs przedmiot odstąpienia na prawdziwym fragmencie"); }
+
+// ── 27t: fałszywe trafienie z próby na żywo (II PK 145/11 o II PK 129/09) — fraza w innym zdaniu ──
+import { toSamoZdanie } from "./saos-mcp-server.js";
+{ const fp = "(przykładowo wyroki Sądu Najwyższego z 3 października 2008 r., II PK 48/08, LEX nr 513006 oraz z 24 listopada 2009 r., II PK 129/09, LEX nr 571918). W rozpoznawanej sprawie uzasadnienie wyroku Sądu drugiej instancji dotknięte jest właśnie takimi brakami, które uniemożliwiają Sądowi Najwyższemu dokonanie oceny zarzutów kasacyjnych, bowiem Sąd drugiej instancji ograniczył się do stwierdzenia, że nie podziela stanowiska tego Sądu co do tego, że intencją stron było nawiązanie umowy";
+  assert.strictEqual(skanujCytowanie(fp, "II PK 129/09").sygnaly.length, 0, "fraza o sądzie rejonowym w innym zdaniu");
+  assert.ok(toSamoZdanie("z dnia 4 października 2002 r. III CKN 1283/00 Sąd Najwyższy odstąpił"), "„r. III CKN” to nie granica zdania");
+  assert.ok(toSamoZdanie("(OSNCP 1981, Nr 8, poz. 150) Sąd Najwyższy wyraził pogląd"), "skróty publikatora to nie granica");
+  assert.ok(!toSamoZdanie("LEX nr 571918). W rozpoznawanej sprawie"), "„). W” to granica");
+  console.log("OK: 27t — to samo zdanie: fałszywe trafienie z próby odrzucone; skróty i sygnatury rzymskie nie tną zdania"); }

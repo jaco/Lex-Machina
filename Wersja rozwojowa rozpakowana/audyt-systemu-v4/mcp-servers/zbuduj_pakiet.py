@@ -41,13 +41,8 @@ def zbuduj(wyjscie: Path):
     with tempfile.TemporaryDirectory() as tmp:
         stage = Path(tmp) / "stage"
         shutil.copytree(TU, stage, ignore=shutil.ignore_patterns("node_modules", "dist", "__pycache__"))
-        # jedna wspólna kopia zależności — z lockfile isap-eli-example (wszystkie serwery mają te same)
-        wsp = stage / "_zaleznosci"
-        wsp.mkdir()
-        for f in ("package.json", "package-lock.json"):
-            shutil.copy2(stage / "isap-eli-example" / f, wsp / f)
-        subprocess.run([npm, "ci", "--silent", "--no-audit", "--no-fund"], cwd=wsp, check=True)
-        shutil.move(str(wsp / "node_modules"), str(stage / "node_modules"))
+        # wspólne zależności z katalogu głównego (od 27s — jeden package.json/lock dla wszystkich serwerów)
+        subprocess.run([npm, "ci", "--silent", "--no-audit", "--no-fund"], cwd=stage, check=True)
         meta = Path(tmp) / "meta.json"
         out = Path(tmp) / "lex-mcp.mjs"
         subprocess.run([npx, "-y", ESBUILD, "lex-mcp.js", "--bundle", "--platform=node", "--format=esm",

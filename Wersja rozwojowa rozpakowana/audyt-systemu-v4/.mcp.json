@@ -55,6 +55,20 @@
         "${CLAUDE_PLUGIN_ROOT}/mcp-servers/dist/lex-mcp.mjs",
         "cbosa"
       ]
+    },
+    "lex-uodo": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/mcp-servers/dist/lex-mcp.mjs",
+        "uodo"
+      ]
+    },
+    "lex-wl": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/mcp-servers/dist/lex-mcp.mjs",
+        "wl"
+      ]
     }
   }
 }
