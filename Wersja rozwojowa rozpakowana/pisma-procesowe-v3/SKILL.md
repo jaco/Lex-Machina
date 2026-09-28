@@ -1,6 +1,6 @@
 ---
 name: pisma-procesowe-v3
-version: "5.31"
+version: "5.32"
 type: executive-pisma
 status: production
 description: "Zaawansowane pisma procesowe: pozwy, odpowiedzi, apelacje, zażalenia i inne pisma wymagające strategii, faktów, dowodów, weryfikacji prawa i finalnej walidacji dokumentu."

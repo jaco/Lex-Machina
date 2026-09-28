@@ -23,10 +23,12 @@ async function wywolaj(katalog, plik, narzedzie, args) {
 }
 
 const PRZYPADKI = [
-  ["ISAP: Kodeks cywilny → pozycje Dz.U.", "isap-eli-example", "isap-eli-mcp-server.js", "isap_lookup",
-    { query: "Kodeks cywilny" },
-    (w) => ["FOUND", "AMBIGUOUS"].includes(w.status) &&
-      (w.kandydaci ?? [w.result?.identyfikator]).every((k) => /^DU \d{4} poz\. \d+$/.test(k))],
+  ["ISAP: „Kodeks cywilny” → AMBIGUOUS, kandydaci z tytułem i statusem", "isap-eli-example", "isap-eli-mcp-server.js",
+    "isap_lookup", { query: "Kodeks cywilny" },
+    (w) => w.status === "AMBIGUOUS" && w.kandydaci.every((k) => k.tytul_lub_nazwa && k.status_obowiazywania)],
+  ["ISAP: DU/1964/93 (KC pierwotny) → tekst_jednolity_nieaktualny + aktualny t.j.", "isap-eli-example", "isap-eli-mcp-server.js",
+    "isap_lookup", { eli: "DU/1964/93" },
+    (w) => w.status === "FOUND" && w.result.status_obowiazywania === "tekst_jednolity_nieaktualny" && /Kodeks cywilny/.test(w.result.aktualny_tekst_jednolity?.tytul_lub_nazwa ?? "")],
   ["KRS: 0000019193 → PKP S.A.", "krs-example", "krs-mcp-server.js", "krs_lookup",
     { numerKrs: "0000019193" },
     (w) => w.status === "FOUND" && /POLSKIE KOLEJE PAŃSTWOWE/.test(w.result?.tytul_lub_nazwa)],
@@ -43,7 +45,7 @@ const PRZYPADKI = [
     { fraza: "wadium", courtType: "NATIONAL_APPEAL_CHAMBER", pageSize: 2 },
     (w) => (w.kandydaci ?? [w.result]).every((k) => /KIO/.test(k.identyfikator ?? ""))],
   ["SAOS: NSA/WSA → OUT_OF_SCOPE, nie „brak orzecznictwa”", "saos-example", "saos-mcp-server.js",
-    "saos_search", { fraza: "podatek", courtType: "ADMINISTRATIVE" }, (w) => w.zakres === "OUT_OF_SCOPE"],
+    "saos_search", { fraza: "podatek", courtType: "ADMINISTRATIVE" }, (w) => w.status === "OUT_OF_SCOPE"],
   ["EUR-Lex: RODO → obowiązuje, tytuł PL", "eurlex-example", "eurlex-mcp-server.js", "eurlex_lookup",
     { celex: "32016R0679" },
     (w) => w.status === "FOUND" && w.result.status_obowiazywania === "obowiazuje" && /^Rozporządzenie/.test(w.result.tytul_lub_nazwa)],
@@ -74,10 +76,27 @@ const PRZYPADKI = [
 ];
 
 let bledy = 0;
+// Walidator kontraktu (shared/SCHEMAT-ODPOWIEDZI-MCP.md, od 3.94): KAŻDA odpowiedź, niezależnie od przypadku.
+const STATUSY = ["FOUND", "NOT_FOUND", "AMBIGUOUS", "OUT_OF_SCOPE", "ERROR"];
+const OBOW = ["obowiazuje", "uchylony", "tekst_jednolity_nieaktualny", "nieznany"];
+function schemat(w) {
+  const e = [];
+  if (!STATUSY.includes(w.status)) e.push(`status spoza schematu: ${w.status}`);
+  if (!w.source || !w.query_type) e.push("brak source/query_type");
+  if (w.status === "FOUND" && !w.result?.identyfikator) e.push("FOUND bez result.identyfikator");
+  if (w.status === "OUT_OF_SCOPE" && !w.powod && !w.uwaga) e.push("OUT_OF_SCOPE bez powodu");
+  for (const r of [w.result, ...(w.kandydaci ?? [])].filter(Boolean))
+    if (r.status_obowiazywania !== undefined && !OBOW.includes(r.status_obowiazywania)) e.push(`status_obowiazywania spoza schematu: ${r.status_obowiazywania}`);
+  if ("zakres" in w) e.push("pole `zakres` wycofane w 3.94 — OUT_OF_SCOPE w `status`");
+  return e;
+}
 for (const [opis, kat, plik, narz, args, warunek] of PRZYPADKI) {
   let w, ok = false;
-  try { w = await wywolaj(kat, plik, narz, args); ok = !!warunek(w); } catch (e) { w = { wyjatek: String(e) }; }
+  let sch = [];
+  try { w = await wywolaj(kat, plik, narz, args); ok = !!warunek(w); sch = schemat(w); ok = ok && sch.length === 0; }
+  catch (e) { w = { wyjatek: String(e) }; }
   console.log(`${ok ? "✅ PASS" : "⛔ FAIL"}  ${opis}`);
+  if (sch.length) console.log("         SCHEMAT: " + sch.join("; "));
   if (!ok) { bledy++; console.log("         " + JSON.stringify(w).slice(0, 400)); }
 }
 console.log(`\n${PRZYPADKI.length - bledy}/${PRZYPADKI.length} przypadków zgodnych co do TREŚCI.`);

@@ -98,8 +98,7 @@ function nazwaSadu(item) {
 export function normalizujOdpowiedzSAOS(rawItems, kontekst = {}) {
   if (kontekst.courtType === "ADMINISTRATIVE") {
     return {
-      status: "NOT_FOUND",
-      zakres: "OUT_OF_SCOPE",
+      status: "OUT_OF_SCOPE", // 27o: status wprost — kontrakt SYGNATURY.md; NOT_FOUND = „prawdopodobnie zmyślona”
       query_type: "orzeczenie",
       source: "saos",
       uwaga:
@@ -177,14 +176,14 @@ server.registerTool(
       "SAOS REST API (ICM UW): sądy powszechne, SN, TK, KIO. BEZ NSA/WSA (użyj CBOSA). " +
       "Parametr `sygnatura` = kontrola istnienia (dokładne dopasowanie caseNumber); " +
       "`fraza` = wyszukiwanie treści (NIE potwierdza bytu sygnatury). Zwraca KANDYDATÓW " +
-      "do weryfikacji Tier 1 (Zasada 5). Status: FOUND/NOT_FOUND/AMBIGUOUS/ERROR.",
+      "do weryfikacji Tier 1 (Zasada 5). Status: FOUND/NOT_FOUND/AMBIGUOUS/OUT_OF_SCOPE/ERROR.",
     inputSchema: {
       sygnatura: z.string().optional()
         .describe("Sygnatura do kontroli istnienia, np. 'II PK 291/09' (białe znaki istotne)"),
       fraza: z.string().optional().describe("Fraza pełnotekstowa (treść/teza/uzasadnienie)"),
       courtType: z.enum([
         "COMMON", "SUPREME", "CONSTITUTIONAL_TRIBUNAL", "NATIONAL_APPEAL_CHAMBER", "ADMINISTRATIVE",
-      ]).optional().describe("Typ sądu. ADMINISTRATIVE zwraca OUT_OF_SCOPE — SAOS nie ma NSA/WSA."),
+      ]).optional().describe("Typ sądu. ADMINISTRATIVE zwraca status OUT_OF_SCOPE — SAOS nie ma NSA/WSA."),
       dataOd: z.string().optional().describe("Data początkowa, format yyyy-MM-dd"),
       dataDo: z.string().optional().describe("Data końcowa, format yyyy-MM-dd"),
       pageSize: z.number().int().min(1).max(100).optional().describe("Liczba wyników (domyślnie 10)"),

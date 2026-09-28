@@ -74,6 +74,32 @@ Przykłady zmierzone w środowisku: mcp__memory__memory_list,
    (co narzędzie robi wg swojego opisu), nie po nazwie własnej.
 ```
 
+**⭐ Narzędzia Lex Machina (`audyt-systemu-v4/mcp-servers/`, od shared 3.94) — dopasowanie po
+SUFIKSIE nazwy.** Prefiks zależy od hosta — zmierzone/udokumentowane:
+Claude Code + plugin: `mcp__plugin_audyt-systemu-v4_lex-<serwer>__<narzędzie>` (dokumentacja
+plugins-reference); instalator (`--scal-desktop`, `claude mcp add`): `mcp__lex-<serwer>__<narzędzie>`;
+rozszerzenie Claude Desktop (`lex-machina.mcpb`, jeden serwer `lex-machina`): prefiks hosta + nazwa
+narzędzia. **Rozpoznawaj narzędzie, gdy nazwa KOŃCZY SIĘ nazwą z tabeli** (po `__` albo w całości).
+
+| Narzędzie (sufiks) | Zdolność | Krok HARDGATE | Status → decyzja |
+|---|---|---|---|
+| `isap_lookup` (`eli`: DU/RRRR/PPP) | akt Dz.U./M.P. po ELI; status; **aktualny t.j.** | ŹRÓDŁO-0 (`PRAWO-HARDGATE.md`) | FOUND+`obowiazuje` → MCP-VERIFIED metryki; `tekst_jednolity_nieaktualny` → powołuj `result.aktualny_tekst_jednolity`; TREŚĆ przepisu nadal wg ŹRÓDŁO-0 (tekst `/text.pdf`) — narzędzie nie zwraca brzmienia artykułu (F-212) |
+| `isap_lookup` (`query`: tytuł) | identyfikacja aktu po tytule | ŹRÓDŁO-1 (zamiast web_search) | AMBIGUOUS → wybierz kandydata po tytule i statusie, potem `eli` |
+| `saos_search` (`sygnatura`) | istnienie sygnatury SN, SP, TK, KIO | `PRAWO-HARDGATE-ORZECZENIA.md` KROK 0 (SAOS) | kontrakt SYGNATURY; NSA/WSA → OUT_OF_SCOPE (SAOS ich nie ma) |
+| `cbosa_sprawdz_sygnature` | istnienie sygnatury NSA/WSA (exact-match, fail-closed) | KROK 0A pkt 1 (MCP-FIRST) | FOUND = snapshot 🟨 bez awansu; OUT_OF_SCOPE → KROK 0A pkt 2 |
+| `cbosa_szukaj`, `cbosa_pobierz` | research NSA/WSA, treść orzeczenia | research, nie weryfikacja | KANDYDAT |
+| `eureka_sprawdz_sygnature` | istnienie i AKTUALNOŚĆ interpretacji podatkowej | weryfikacja interpretacji | FOUND+`uchylony` → nie powołuj jako aktualnego stanowiska |
+| `eureka_szukaj`, `eureka_pobierz` | research interpretacji, treść | research | KANDYDAT ze statusem |
+| `eurlex_lookup` (CELEX) | akt UE: status obowiązywania, data końca | ŹRÓDŁO-0 dla prawa UE | FOUND+`uchylony` → nie powołuj jako obowiązującego |
+| `krs_lookup` | podmiot w KRS | KROK 0D / PODMIOT-GATE | brak sposobu reprezentacji (F-212) — reprezentację ustal z odpisu |
+| `nbp_kurs_waluty` | kurs średni tabeli A | przeliczenia walutowe | `przesuniecie_dni` > 0 → podstawę tabeli ustal z przepisu |
+| `sudop_szukaj_pomocy` / `sudop_odbierz_wynik` | pomoc publiczna / de minimis | analiza pomocy | ERROR/`PENDING` ≠ brak pomocy |
+| `ceidg_szukaj_firmy` | JDG w CEIDG (wymaga klucza) | PODMIOT-GATE | bez klucza ERROR = kanał niedostępny |
+
+Konektory obce (`mcp-isap`, `mcp-nsa`, `legal-cite-pl`, …) — dopasowanie po zdolności jak wyżej;
+nazwy z tabeli mają pierwszeństwo, bo ich zachowanie jest zmierzone (`test_na_zywo.mjs`, walidator
+schematu).
+
 **Zmierzone 2026-09-27g/h — serwery ELI/ISAP** (`@matematicsolutions/mcp-isap` 1.3.0,
 protokół MCP 2024-11-05, `initialize` + `tools/list` + `tools/call` wykonane
 realnie, źródło danych: api.sejm.gov.pl/eli — ten sam publikator, co RZĄD 1):

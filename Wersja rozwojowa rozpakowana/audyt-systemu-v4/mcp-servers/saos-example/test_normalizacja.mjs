@@ -31,7 +31,7 @@ const fx = (n) => JSON.parse(readFileSync(new URL(`./fixtures/saos_${n}.json`, i
   console.log("OK: NOT_FOUND z zastrzeżeniem"); }
 
 { const w = normalizujOdpowiedzSAOS([], { courtType: "ADMINISTRATIVE" });
-  assert.strictEqual(w.zakres, "OUT_OF_SCOPE");
+  assert.strictEqual(w.status, "OUT_OF_SCOPE");
   assert.strictEqual(w.snapshot, "🟨");
   console.log("OK: NSA/WSA → OUT_OF_SCOPE, nie „brak orzecznictwa”"); }
 

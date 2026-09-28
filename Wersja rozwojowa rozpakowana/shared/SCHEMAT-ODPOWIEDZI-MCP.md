@@ -7,7 +7,7 @@ niezależnie od tego, w jakim natywnym formacie odpowiada dany serwer.
 
 ```json
 {
-  "status": "FOUND | NOT_FOUND | AMBIGUOUS | ERROR",
+  "status": "FOUND | NOT_FOUND | AMBIGUOUS | OUT_OF_SCOPE | ERROR",
   "query_type": "akt_prawny | orzeczenie | podmiot",
   "source": "sejm-eli | saos | cbosa | kio | eurlex | krs",
   "result": {
@@ -33,6 +33,13 @@ niezależnie od tego, w jakim natywnym formacie odpowiada dany serwer.
 - `status: "NOT_FOUND"` → przejście do KROK 3 (fallback), nie interpretuj jako
   "akt nie istnieje".
 - `status: "AMBIGUOUS"` → przejście do KROK 3 z doprecyzowaniem zapytania.
+- `status: "OUT_OF_SCOPE"` (od 3.94) → baza nie pokrywa zapytania albo wyniku nie da się rozstrzygnąć
+  (fail-closed: drift HTML, niepełna paginacja, CAPTCHA; NSA/WSA w SAOS; brak exact-hit w CBOSA).
+  ⛔ NIGDY dowód nieistnienia i NIGDY „sygnatura prawdopodobnie zmyślona” — przejdź do następnego
+  źródła wg HARDGATE (dla NSA/WSA: `PRAWO-HARDGATE-ORZECZENIA.md` KROK 0A pkt 2). Pole `powod` podaje przyczynę.
+  Odpowiada statusowi OUT_OF_SCOPE kontraktu `SYGNATURY.md` — oba kontrakty mają teraz tę samą wartość.
+  (Do 3.93 serwery sygnalizowały to polem `zakres` przy `status: "NOT_FOUND"` — pole wycofane: skill
+  czytający tylko `status` wziąłby prawdziwe orzeczenie NSA za zmyślone.)
 - `status: "ERROR"` (timeout, błąd serwera, brak autoryzacji) → traktuj identycznie
   jak "MCP niedostępne" w KROK 1/3 — nigdy nie ujawniaj użytkownikowi surowego
   komunikatu błędu technicznego, tylko oznaczenie ⚠️ [WERYFIKACJA PROMPTOWA].
@@ -41,7 +48,7 @@ niezależnie od tego, w jakim natywnym formacie odpowiada dany serwer.
 
 Część istniejących serwerów MCP zwraca wolny tekst lub własny format. W takim
 wypadku Claude powinien sam zinterpretować odpowiedź connectora względem
-powyższych czterech statusów (FOUND/NOT_FOUND/AMBIGUOUS/ERROR) na podstawie treści
+powyższych pięciu statusów (FOUND/NOT_FOUND/AMBIGUOUS/OUT_OF_SCOPE/ERROR) na podstawie treści
 zwrotu — nie wymagaj literalnie tego JSON-a jako warunku działania protokołu.
 Schemat powyżej to punkt odniesienia przy projektowaniu/wyborze connectora przez
 developera, nie sztywny wymóg wejściowy blokujący użycie istniejących serwerów.

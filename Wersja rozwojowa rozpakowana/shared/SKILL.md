@@ -1,6 +1,6 @@
 ---
 name: shared
-version: "3.93"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
+version: "3.94"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
                   # jako float 3.17, a 3.17 < 3.9 — porządek wersji odwraca się
                   # dla każdego narzędzia porównującego liczbowo. Wykryte
                   # testem T12 (check_wersje_changelog.py), 2026-08-20z.
@@ -50,7 +50,7 @@ limitations:
 required_modules: []
   # nie ma zastosowania — shared jest wczytywany, nie wczytuje sam siebie
 changelog: |
-  Wersja bieżąca: 3.93 (2026-09-27m, AUDYT-2026-09-27m): serwery MCP przeniesione do audyt-systemu-v4/mcp-servers/ (rozpakowane, start z .mcp.json pluginu); archiwum i instalator usunięte z shared.
+  Wersja bieżąca: 3.94 (2026-09-27o, AUDYT-2026-09-27o): kontrakt MCP ↔ skille — status OUT_OF_SCOPE w SCHEMAT; mapa narzędzi Lex Machina w MCP-INTEGRACJA; HARDGATE i HARDGATE-ORZECZENIA wskazują faktyczne narzędzia.
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 

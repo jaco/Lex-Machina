@@ -8,8 +8,9 @@
  * transportu, FAIL-CLOSED przy zmianie HTML. Równoważność z Pythonem: test_normalizacja.mjs (równoważność z Pythonem).
  *
  * Statusy (preferencja użytkownika: „NSA/WSA: snapshot 🟨 bez awansu, brak trafień = OUT_OF_SCOPE”):
- *   FOUND/AMBIGUOUS → snapshot 🟨, awans: false;  0 wyników → NOT_FOUND + zakres OUT_OF_SCOPE;
- *   fail-closed parsera → ERROR + zakres OUT_OF_SCOPE + powód.
+ *   FOUND/AMBIGUOUS → snapshot 🟨, awans: false;  0 wyników i fail-closed → status OUT_OF_SCOPE + powód
+ *   (27o: wprost w `status` — kontrakt SYGNATURY.md; NOT_FOUND oznaczałoby „prawdopodobnie zmyśloną”);
+ *   awaria sieci → ERROR (= kanał niedostępny).
  *
  * ⚠️ AUDYT-2026-09-27m: z sandboxa Claude CBOSA NIEOSIĄGALNA (brama egress: „upstream connect
  *    error… remote connection failure” → 503; TLS kończy się na certyfikacie bramy). Warstwa
@@ -204,9 +205,9 @@ export function naSchemat(v) {
   const poz = (d) => ({ identyfikator: d.case_number, sad: d.court, data_wyroku: d.judgment_date,
     url_zrodlowy: d.url, doc_id: d.doc_id, uzasadnienie_dostepne: d.reasoning_available,
     sentencja: d.operative_part?.slice(0, 1500) ?? null, rola: "KANDYDAT" });
-  if (v.status === "OUT_OF_SCOPE") return { status: "ERROR", zakres: "OUT_OF_SCOPE", ...baza, powod: v.powod,
+  if (v.status === "OUT_OF_SCOPE") return { status: "OUT_OF_SCOPE", ...baza, powod: v.powod,
     uwaga: "Wynik CBOSA niepotwierdzony (fail-closed). Nie wolno z niego wnioskować o istnieniu ani braku orzeczenia." };
-  if (v.status === "NOT_FOUND") return { status: "NOT_FOUND", zakres: "OUT_OF_SCOPE", ...baza,
+  if (v.status === "NOT_FOUND") return { status: "OUT_OF_SCOPE", ...baza, powod: "Brak dokładnego trafienia w CBOSA.",
     odrzucone_post_checkiem: v.rejected ?? [], uwaga: "Brak dokładnego trafienia w CBOSA ≠ brak orzeczenia (NSA/WSA: OUT_OF_SCOPE). " + SNAP };
   if (v.status === "AMBIGUOUS") return { status: "AMBIGUOUS", ...baza, kandydaci: v.matches.map(poz), uwaga: SNAP };
   return { status: "FOUND", ...baza, result: poz(v.matches[0]), confidence: "snapshot",
@@ -264,7 +265,7 @@ server.registerTool("cbosa_sprawdz_sygnature", {
     const v = await weryfikujSygnature(pierwsza, sygnatura,
       (p) => s.zadanie(`${BASE}/cbo/find?p=${p}`), (id) => s.zadanie(`${BASE}/doc/${id}`));
     return tekst(naSchemat(v));
-  } catch (e) { return tekst({ ...blad(e), zakres: "OUT_OF_SCOPE", snapshot: "🟨" }); }
+  } catch (e) { return tekst({ ...blad(e), snapshot: "🟨" }); }
 });
 
 server.registerTool("cbosa_szukaj", {
@@ -279,13 +280,13 @@ server.registerTool("cbosa_szukaj", {
     const s = new Sesja();
     let html = await szukaj(s, { wszystkieSlowa: fraza, odDaty: odDaty ?? "", doDaty: doDaty ?? "" });
     const total = extractTotal(html);
-    if (total === null) return tekst({ status: "ERROR", zakres: "OUT_OF_SCOPE", query_type: "orzeczenie", source: "cbosa", powod: "Nie rozpoznano licznika wyników — możliwy drift HTML." });
+    if (total === null) return tekst({ status: "OUT_OF_SCOPE", query_type: "orzeczenie", source: "cbosa", powod: "Nie rozpoznano licznika wyników — możliwy drift HTML." });
     if ((strona ?? 1) > 1) html = await s.zadanie(`${BASE}/cbo/find?p=${strona}`);
     const ids = extractDocIds(html);
-    return tekst({ status: total === 0 ? "NOT_FOUND" : "AMBIGUOUS", zakres: total === 0 ? "OUT_OF_SCOPE" : undefined,
+    return tekst({ status: total === 0 ? "OUT_OF_SCOPE" : "AMBIGUOUS",
       query_type: "orzeczenie", source: "cbosa", snapshot: "🟨", awans: false, liczba_trafien: total, strona: strona ?? 1,
       kandydaci: ids.map((id) => ({ doc_id: id, url_zrodlowy: `${BASE}/doc/${id}`, rola: "KANDYDAT" })) });
-  } catch (e) { return tekst({ ...blad(e), zakres: "OUT_OF_SCOPE" }); }
+  } catch (e) { return tekst(blad(e)); }
 });
 
 server.registerTool("cbosa_pobierz", {
@@ -298,7 +299,7 @@ server.registerTool("cbosa_pobierz", {
     return tekst({ status: "FOUND", query_type: "orzeczenie", source: "cbosa", snapshot: "🟨", awans: false, confidence: "snapshot",
       result: { identyfikator: d.case_number, sad: d.court, data_wyroku: d.judgment_date, url_zrodlowy: d.url,
         sentencja: d.operative_part, uzasadnienie: d.reasoning, uzasadnienie_dostepne: d.reasoning_available }, uwaga: SNAP });
-  } catch (e) { return tekst({ ...blad(e), zakres: "OUT_OF_SCOPE" }); }
+  } catch (e) { return tekst({ ...blad(e), status: "OUT_OF_SCOPE", powod: String(e?.message ?? e) }); }
 });
 
 if (!globalThis.__LEX_MCP_WSPOLNY && process.argv[1] && fileURLToPath(import.meta.url) === realpathSync(process.argv[1])) {

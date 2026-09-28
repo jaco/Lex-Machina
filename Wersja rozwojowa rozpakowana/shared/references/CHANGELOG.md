@@ -1,5 +1,18 @@
 # CHANGELOG — Biblioteka shared
 
+## 3.94 — 2026-09-27o — AUDYT-2026-09-27o: czy skille wywołają serwery MCP po instalacji
+
+- `PRAWO-HARDGATE.md` POZIOM A / ŹRÓDŁO-0 i `PRAWO-HARDGATE-ORZECZENIA.md` KROK 0/0A wymieniały
+  WYŁĄCZNIE narzędzia obce (`get_act`, `verify_article`, `mcp-nsa`, `cbosa_search`) — żadnego z nich nie
+  ma w `audyt-systemu-v4/mcp-servers/`. Reguła „jeśli dostępny `mcp-nsa` → MCP-FIRST” nie trafiłaby
+  nigdy w `mcp__plugin_audyt-systemu-v4_lex-cbosa__cbosa_sprawdz_sygnature`. Teraz: narzędzia Lex Machina
+  jako pierwszy wybór, obce jako alternatywa.
+- `SCHEMAT-ODPOWIEDZI-MCP.md`: piąty status `OUT_OF_SCOPE` (= kontrakt `SYGNATURY.md`). Do 3.93 serwery
+  CBOSA/SAOS zwracały `status: NOT_FOUND` + `zakres: OUT_OF_SCOPE`; HARDGATE-ORZECZENIA czyta NOT_FOUND jako
+  „sygnatura prawdopodobnie zmyślona” — prawdziwe orzeczenie NSA mogło zostać tak zakwalifikowane.
+- `MCP-INTEGRACJA.md`: mapa 14 narzędzi (sufiks nazwy → zdolność → krok HARDGATE → decyzja) + nazewnictwo
+  hosta (Claude Code plugin: `mcp__plugin_audyt-systemu-v4_lex-<serwer>__<narzędzie>`).
+
 ## 3.93 — 2026-09-27m — AUDYT-2026-09-27m: serwery MCP przeniesione do audyt-systemu-v4
 
 Decyzja użytkownika: serwer musi być rozpakowany, żeby host go uruchomił — miejsce w pluginie

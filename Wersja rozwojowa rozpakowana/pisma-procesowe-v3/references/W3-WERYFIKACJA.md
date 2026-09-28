@@ -41,7 +41,7 @@ Dla każdego ⚠️On z listy W2.3:
 
 ```
   KROK 1: kanał strukturalny NAJPIERW (PRAWO-HARDGATE POZIOM A/B):
-           web_fetch → saos.org.pl/api/search/judgments?... lub MCP verify_signature,
+           web_fetch → saos.org.pl/api/search/judgments?... lub MCP: saos_search z `sygnatura` / cbosa_sprawdz_sygnature (Lex Machina — shared/MCP-INTEGRACJA.md; konektory obce: verify_signature),
            fallback: web_search → "[opis orzeczenia] sygnatura site:orzeczenia.ms.gov.pl"
            lub: web_search → "[opis orzeczenia] sygnatura site:sn.pl"
            Klasyfikuj wynik wg kontraktu FOUND/NOT_FOUND/AMBIGUOUS/OUT_OF_SCOPE

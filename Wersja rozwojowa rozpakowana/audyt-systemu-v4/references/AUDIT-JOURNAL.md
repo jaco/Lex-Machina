@@ -69107,3 +69107,47 @@ z piaskownicy; bez wykonania kodu — polecenie dla użytkownika; kontrola po in
 ⛔ Błąd własny wyłapany przez suitę przed wydaniem: podbita wersja w SKILL.md (6.144) bez `plugin.json` (6.143) — ta sama klasa błędu, która w 27g–27i ukryła trzy wydania przed hostem (27j). T38 FAIL → poprawione → PASS.
 
 **Otwarte:** bez zmian. Wolny numer: **F-214**.
+
+---
+
+## AUDYT-2026-09-27o — czy po instalacji serwery MCP będą prawidłowo wywoływane przez skille
+
+**Wyzwalacz:** „sprawdź czy po instalacji te serwery będą prawidłowo wywoływane przez system i skile”.
+
+**Metoda:** inwentaryzacja wszystkich odwołań do MCP i nazw narzędzi w 32 skillach, zestawienie z
+faktycznym zestawem 14 narzędzi, z regułami wykrywania (`MCP-INTEGRACJA.md`), z regułami decyzji
+(`SCHEMAT-ODPOWIEDZI-MCP.md`, `SYGNATURY.md`, `PRAWO-HARDGATE*.md`) i z odpowiedziami serwerów na żywo.
+
+**Ustalenia (odpowiedź: przed 27o — NIE w pełni):**
+1. HARDGATE (wykonywany w każdej sprawie) wymieniał wyłącznie narzędzia obce: `get_act`,
+   `verify_article`, `mcp-nsa`, `cbosa_search`; `pisma-procesowe-v3` W3 — `verify_signature`. Żadnego z nich
+   nie udostępniają serwery systemu. „Jeśli dostępny `mcp-nsa` → MCP-FIRST” nie trafi w
+   `mcp__plugin_audyt-systemu-v4_lex-cbosa__cbosa_sprawdz_sygnature` (nazewnictwo pluginów Claude Code —
+   plugins-reference). Wykrywanie w `MCP-INTEGRACJA.md` (kształt `mcp__…__…` + zdolność) było poprawne.
+2. Rozjazd kontraktów: SCHEMAT (4 statusy, bez OUT_OF_SCOPE) vs SYGNATURY (z OUT_OF_SCOPE; NOT_FOUND w
+   bazie pokrywającej = „prawdopodobnie zmyślona”). CBOSA przy 0 trafieniach zwracała `NOT_FOUND` +
+   `zakres: OUT_OF_SCOPE` → skill czytający `status` mógł uznać prawdziwe orzeczenie NSA za zmyślone.
+3. `isap_lookup` (shared → audyt, nigdy nie poprawiony po 27h): status ELI przepuszczany poza schemat
+   (KC pierwotny „akt posiada tekst jednolity”); kandydaci bez tytułu/statusu; brak odczytu po ELI —
+   ŹRÓDŁO-0 HARDGATE nie miało narzędzia MCP. Zmierzone 9 wartości statusu ELI (2009 pozycji);
+   pułapka: t.j. z „wygaśnięcie aktu” = zastąpiony nowszym t.j., nie akt uchylony.
+
+**Naprawy:** shared 3.94 (SCHEMAT: 5. status; MCP-INTEGRACJA: mapa 14 narzędzi + nazewnictwo hosta;
+HARDGATE/HARDGATE-ORZECZENIA: narzędzia Lex Machina pierwsze, obce alternatywą); `pisma-procesowe-v3`
+5.32 (W3); serwery: `isap_lookup` (mapowanie 9 statusów, `eli`, aktualny t.j. przez `/references` →
+„Inf. o tekście jednolitym” → pierwszy „obowiązujący”: KC → DU 2026 poz. 795, tytuł potwierdzony),
+SAOS/CBOSA — `OUT_OF_SCOPE` w `status`, pole `zakres` wycofane.
+
+**Weryfikacja:** testy offline 9/9 (isap — nowe fixture'y z ELI, w tym KC, t.j. aktualny i wygasły);
+`test_na_zywo.mjs` z walidatorem schematu każdej odpowiedzi (status ∈ 5, `status_obowiazywania` ∈ 4,
+FOUND z identyfikatorem, OUT_OF_SCOPE z powodem, brak `zakres`): 16/17 — jedyny FAIL to CBOSA (503 bramy,
+F-213); żadnego naruszenia schematu.
+
+**Nie zweryfikowane (granica tej sesji):** realny wybór narzędzia przez model w sprawie prowadzonej
+skillem — wymaga hosta z zainstalowanymi serwerami. Kontrola po instalacji: FAZA 0E pkt 3 + pytanie
+kontrolne „zweryfikuj sygnaturę III OSK 1959/22 i status Kodeksu cywilnego Dz.U. 1964 nr 16 poz. 93” —
+oczekiwane wywołania `cbosa_sprawdz_sygnature` i `isap_lookup` z `eli`.
+
+`shared` 3.93 → **3.94**; `audyt-systemu-v4` 6.144 → **6.145**; `pisma-procesowe-v3` 5.31 → **5.32**.
+
+**Otwarte:** bez nowych flag (luki narzędzi — F-212). Wolny numer: **F-214**.

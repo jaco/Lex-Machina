@@ -49,6 +49,7 @@
 ```
 KROK 0 (strukturalny — ZAWSZE próbuj pierwszy):
   Konektor MCP verify_signature (sententim / prawo-pl-saos) — gdy dostępny,
+  MCP: `saos_search` z parametrem `sygnatura` (Lex Machina, lex-saos) — ten sam kontrakt, exact caseNumber
   lub web_fetch: https://www.saos.org.pl/api/search/judgments?caseNumber=[sygnatura]
   → Wynik interpretuj wg kontraktu FOUND / NOT_FOUND / AMBIGUOUS / OUT_OF_SCOPE
     (pełny kontrakt: shared/SYGNATURY.md, sekcja "KONTRAKT WYNIKU WERYFIKACJI")
@@ -59,7 +60,9 @@ KROK 0 (strukturalny — ZAWSZE próbuj pierwszy):
   ⚠️ Zero trafień w bazie WTÓRNEJ ≠ dowód nieistnienia — rozstrzyga baza oficjalna (KROK 1).
 
 KROK 0A — OVERRIDE NSA/WSA (obowiązkowy, gdy repertorium routuje do CBOSA):
-  1. Jeśli jest dostępny connector `mcp-nsa` / `cbosa_search` → MCP-FIRST.
+  1. Jeśli jest dostępne narzędzie `cbosa_sprawdz_sygnature` (Lex Machina, lex-cbosa) albo connector
+     `mcp-nsa` → MCP-FIRST. Wynik `cbosa_sprawdz_sygnature`: FOUND = snapshot 🟨 bez awansu;
+     OUT_OF_SCOPE (0 exact-hit lub fail-closed; pole `powod`) → pkt 2, NIGDY „zmyślona”.
   2. Jeśli MCP brak / OUT_OF_SCOPE → NIE przechodź od razu do ogólnego
      web_search. Wykonaj fresh-probe i V-SYG-0.7 DIRECT-CBOSA:
        POST /cbo/search → kompletna /cbo/find?p=N → /doc/{ID} → exact-match.
