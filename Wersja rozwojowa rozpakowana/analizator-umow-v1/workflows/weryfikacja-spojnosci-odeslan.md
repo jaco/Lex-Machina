@@ -67,6 +67,13 @@ Wypisz wszystkie paragrafy/§ z krótkim opisem (max 1 zdanie) + załączniki.
   „z zastrzeżeniem § X", „stosuje się odpowiednio".
 - **C. Do definicji** — terminy z Wielkiej Litery, z liczbą wystąpień każdego.
 
+**Wsparcie deterministyczne (F-215, od 1.44):** z wykonaniem kodu uruchom
+`python shared/tools/kontrakt_rachunek.py odeslania --plik <umowa>` — wykaz odesłań kategorii A
+(§, ust., pkt, załączniki) do jednostek, których w umowie NIE MA. Wynik narzędzia to minimum,
+nie komplet: kategorie B i C oraz odesłania „poprawne formalnie, błędne merytorycznie” (odesłanie
+do istniejącego ustępu o innej treści) oceniasz sam. Cytaty z umowy przed wydaniem raportu:
+`kontrakt_rachunek.py cytaty --plik <umowa> --cytaty <lista.json>` (WD-2 deterministycznie).
+
 ### Krok 1.3 — definicje
 
 Wypisz wszystkie zdefiniowane terminy z lokalizacją definicji i skrótem

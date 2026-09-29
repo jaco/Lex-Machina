@@ -127,7 +127,7 @@
     "ceidg_klucz": {
       "type": "string",
       "title": "Klucz API CEIDG (opcjonalny)",
-      "description": "Token z dane.biznes.gov.pl. Bez niego narzędzie CEIDG jest wyłączone.",
+      "description": "Token (JWT) z Hurtowni danych CEIDG: https://dane.biznes.gov.pl/pl/portal/034872 — wniosek o dostęp, logowanie Profilem Zaufanym. Bez tokenu narzędzie CEIDG jest wyłączone. Token zawiera Twoje dane osobowe (PESEL) — nie publikuj go.",
       "sensitive": true,
       "required": false,
       "default": ""

@@ -98,7 +98,7 @@ def check_skill(root, name):
     print("--- {} ---".format(name))
     print("  plików na dysku: {}   wpisów: {}".format(len(on_disk), len(entries)))
     for label, items, mark in (
-            ("BRAK WPISU (plik istnieje, sumy nie ma)", brak_wpisu, "⛔"),
+            ("BRAK WPISU (plik istnieje, sumy nie ma) — ⚠️ ZANIM dopiszesz sumę: sprawdź w CHANGELOG, czy plik nie został USUNIĘTY w poprzednim wydaniu (relikt instalacji „na nakładkę”, AUDYT-2026-09-29c)", brak_wpisu, "⛔"),
             ("BRAK PLIKU (wpis istnieje, pliku nie ma)", brak_pliku, "⛔"),
             ("SUMA NIEZGODNA", niezgodne, "⚠️")):
         if items:

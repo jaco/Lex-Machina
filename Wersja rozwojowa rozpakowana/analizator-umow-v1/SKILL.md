@@ -1,6 +1,6 @@
 ---
 name: analizator-umow-v1
-version: "1.43"
+version: "1.44"
 type: executive-umowy
 status: production
 description: "Analiza, redakcja, negocjacje i generowanie umów oraz dokumentów korporacyjnych, HR i RODO: ryzyka klauzul, B2B/B2C, praca, najem, IT/SaaS, IP, founders, finansowanie i PZP."
@@ -553,6 +553,10 @@ na żądanie         → zawsze F.1 niezależnie od kwoty
 *             DISCLAIMER · SYGNATURY · WERYFIKACJA-SLAD*
 *Weryfikacja: ELI (RZĄD 1) · rejestr.uokik.gov.pl · uokik.gov.pl · eur-lex.europa.eu*
 *             sn.pl · orzeczenia.ms.gov.pl · curia.europa.eu · saos.org.pl · uodo.gov.pl · nbp.pl*
+*NOWE v1.44 (2026-09-29, F-215, patrz CHANGELOG.md): rachunek R-EKS, zgodność kwot cyfrą/słownie,*
+*martwe odesłania i dosłowność cytatów — deterministycznie przez `shared/tools/kontrakt_rachunek.py`*
+*(RK.2a pkt 0, triage Krok 2a, weryfikacja odesłań Krok 1.2). Bez wykonania kodu — jak dotąd, z adnotacją.*
+
 *NOWE v1.41 (2026-09-26, F-203(a), patrz CHANGELOG.md): korpus regresyjny*
 *             `benchmark/posiane-wady/` — 5 umów pisanych od zera (czysta ·*
 *             jawne wady · ukryte/kumulatywne · rachunkowe · adwersarialna z*

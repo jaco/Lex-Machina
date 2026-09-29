@@ -1322,3 +1322,43 @@ kontrakt, który sami przyjęliśmy (manifest = SKILL.md, jawna zależność od 
 jest odpowiedzią na pomiar z claude.ai 2026-09-27 (4 z 32 pluginów, jedyna cecha wspólna —
 `dependencies` we frontmatterze); mechanizm po stronie hosta nie jest udokumentowany.
 
+## T39 — deterministyczny rachunek umowy (dodany 2026-09-29, AUDYT-2026-09-29, F-215)
+
+| Test | Co mierzy | Waga | Zależność |
+|---|---|---|---|
+| T39 | (1) `shared/tools/test_kontrakt_rachunek.py` — 14 testów: `oblicz` (bezpieczeństwo AST), `ekspozycja` na liczbach umowy 04 = manifest złotego standardu (60 800 / 729 600 / 243,20 / 201,40 / NIEOGRANICZONA / data okna 2027-02-01), liczba bez źródła = BRAK_ZRODLA, odmiana liczebników, martwe odesłania, wykaz załączników w 2 liniach, cytaty; (2) korpus `analizator-umow-v1/benchmark/posiane-wady/`: 05 i3+i6 wykryte, 01 zero alarmów, 04 pary zgodne | KRYTYCZNY (BLOKER) | offline |
+
+**Wykonanie:** `python3 audyt-systemu-v4/scripts/check_kontrakt_rachunek.py --repo-root <drzewo>`.
+**Pomiar walidacyjny (2026-09-29):** 14/14 + 5/5 kontroli korpusu. Pierwszy przebieg wykrył fałszywy alarm
+narzędzia na umowie kontrolnej 01 (wykaz załączników zawinięty na 2 linie) — naprawiony, przypadek w testach.
+⚠️ **Ograniczenia jawne.** Narzędzie liczy wg brzmienia umowy; wyekstrahowanie liczb do JSON robi model
+(błąd ekstrakcji ≠ błąd rachunku — dlatego każda liczba niesie `zrodlo`). `odeslania` widzi tylko
+odesłania jednoznaczne (kat. A); semantyczne ocenia model. Pięć umów to nie jest pomiar skuteczności
+na umowach spoza katalogu — to jest regresja.
+
+## T40 — sekrety i PESEL w drzewie (dodany 2026-09-29, AUDYT-2026-09-29, F-216/F-217)
+
+| Test | Co mierzy | Waga | Zależność |
+|---|---|---|---|
+| T40 | JWT (z rozpoznaniem PESEL w zakodowanym ładunku), klucze PEM, tokeny `sk-ant-`/`ghp_`/`github_pat_`/`AKIA`/`xox*`, PESEL z poprawną sumą kontrolną przy słowie „PESEL”; wartości maskowane w raporcie; wyjątek linii `sekrety:ignoruj` | KRYTYCZNY (BLOKER) | offline |
+
+**Wykonanie:** `python3 audyt-systemu-v4/scripts/check_sekrety.py --repo-root <drzewo>`; `--selftest` 6/6.
+**Pomiar walidacyjny (2026-09-29):** pierwszy przebieg na drzewie 6.150 → **8 znalezisk**: prawdziwe PESEL-e
+(poprawna suma kontrolna) w wolnym tekście odpisu KRS `mcp-servers/krs-example/fixtures/krs_odpisy.json`
+— konektor maskował je na wyjściu, ale plik źródłowy był publiczny (F-217). Po zastąpieniu syntetycznymi
+numerami o błędnej sumie: 0 znalezisk, testy KRS PASS.
+⚠️ **Ograniczenia jawne.** Skan drzewa roboczego, nie historii gita. PESEL bez słowa „PESEL” w pobliżu
+nie jest zgłaszany (inaczej lawina fałszywych trafień na NIP/REGON/numerach rachunków).
+
+## T41 — liczba plików skilla < 200 (dodany 2026-09-29c, AUDYT-2026-09-29c)
+
+| Test | Co mierzy | Waga | Zależność |
+|---|---|---|---|
+| T41 | liczba plików każdego skilla (z ukrytymi, bez `__pycache__`/`node_modules`) — FAIL ≥ 200, WARN ≥ 190 | KRYTYCZNY (BLOKER) | offline |
+
+**Wykonanie:** `python3 audyt-systemu-v4/scripts/check_limit_plikow.py --repo-root <drzewo>`; `--selftest`.
+**Pomiar walidacyjny (2026-09-29c):** przed redukcją `audyt-systemu-v4` 209 → FAIL; po usunięciu 30 reliktów 179 → PASS;
+`shared` 195 → WARN (zapas 4 pliki na przyszłe wydania).
+⚠️ **Ograniczenie jawne.** T41 liczy pliki, nie ocenia, które są zbędne; redukcja wymaga ustalenia (CHANGELOG,
+równoważność treści), a scalanie — zachowania treści w całości.
+

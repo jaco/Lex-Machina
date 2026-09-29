@@ -4,43 +4,36 @@ Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixture
 
 ---
 
-# ceidg-example — referencyjny serwer MCP dla API CEIDG/Biznes.gov.pl
+# ceidg-example — serwer MCP dla API CEIDG v3 (dane.biznes.gov.pl)
 
-## Status uczciwie — NAJWIĘKSZA NIEPEWNOŚĆ ze wszystkich 6 serwerów tej sesji
+## Status (2026-09-29, AUDYT-2026-09-29, F-214) — ZMIERZONY TOKENEM
 
-✅ Protokół MCP zweryfikowany realnym klientem (w tym poprawna, czytelna
-obsługa braku klucza API — zwraca ERROR zamiast się wywalić).
-✅ Normalizacja: 3/3 przypadki testowe.
+✅ Kształt odpowiedzi zmierzony na żywym API v3 z prawdziwym tokenem. Wynik pomiaru obalił dwa
+założenia poprzedniej wersji: NIP i REGON leżą w `firmy[].wlasciciel.{nip,regon}` (poprzednio
+`identyfikator: null` przy każdym FOUND), a NIP spoza CEIDG daje **HTTP 204 bez treści**
+(poprzednio ERROR „Unexpected end of JSON input” zamiast NOT_FOUND). Obie wady naprawione;
+fixture `fixtures/firmy_nip_aktywny.json` ma zmierzony kształt i fikcyjne dane.
 
-⚠️ **Różni się od pozostałych 4 (KRS/NBP/SUDOP/ISAP/SAOS): wymaga klucza API**
-uzyskanego przez darmowy wniosek na `dane.biznes.gov.pl` — bez niego
-narzędzie zwraca czytelny ERROR, nie próbuje nawet wywołania sieciowego.
+| Odpowiedź API | Wynik narzędzia |
+|---|---|
+| 200 + `firmy[]` | FOUND; `result` = wpis AKTYWNY (albo najnowszy), pełna lista w `wpisy` |
+| 204 bez treści | NOT_FOUND + odesłanie do KRS (spółki nie są w CEIDG) |
+| zła suma kontrolna NIP | ERROR lokalnie, **bez zapytania** (API dałoby 400 `NIEPOPRAWNY_NUMER_NIP`) |
+| 401 / 403 / 429 | ERROR z opisem; 429 — nie ponawiać (limit liczony od ostatniego żądania) |
 
-⚠️ **Kształt zapytania NAJMNIEJ pewny w tej sesji:** dokumentacja znaleziona
-w tym researchu opisuje głównie API **asynchroniczne** ("Hurtownia Danych" —
-żądanie raportu → sprawdzenie statusu → pobranie CSV), nie prosty
-synchroniczny GET jak w pozostałych serwerach. Endpoint `/api/ceidg/v2/firmy`
-użyty w tym pliku to przybliżenie na podstawie wzmianki o "Interfejs METODA
-FIRMA" w dokumentacji — **wymaga potwierdzenia przez developera z pełnym
-dostępem do dokumentacji API (PDF z `dane.biznes.gov.pl`) bardziej niż
-jakikolwiek inny serwer w tej sesji.**
+## Klucz API — skąd i jak podać
 
-## Instalacja
+1. **Uzyskanie:** Hurtownia danych CEIDG i Biznes.gov.pl — https://dane.biznes.gov.pl/pl/portal/034872
+   („wypełnij wniosek o dostęp i zarejestruj się”; logowanie Profilem Zaufanym). Token (JWT) = klucz API.
+2. **Podanie:** rozszerzenie `.mcpb` → pole „Klucz API CEIDG” w Claude Desktop; albo
+   `python ../instaluj_serwery_mcp.py --scal-desktop --serwery ceidg --ceidg-klucz-plik PLIK`
+   (uzupełnia istniejącą instalację o sam CEIDG); kontrola: `--ceidg-test --ceidg-klucz-plik PLIK`.
+3. ⛔ Ładunek JWT (base64, nie szyfrowanie) zawiera **PESEL, imię i nazwisko** właściciela tokenu.
+   Nie zapisuj go w repozytorium ani w `mcp-config.json` w katalogu skilla — T40 blokuje takie wydanie.
+
+## Testy
 ```bash
-cd shared/tools/mcp-servers/ceidg-example
-npm install
-node test_normalizacja.mjs
-CEIDG_API_KEY=twoj_klucz node test_protokol_mcp.mjs   # bez klucza: self-test i tak przechodzi (sprawdza obsługę braku klucza)
+node test_normalizacja.mjs                      # offline, 6 przypadków na zmierzonym kształcie
+node test_protokol_mcp.mjs                      # tylko protokół MCP
+CEIDG_API_KEY="$(cat PLIK)" node ../test_na_zywo.mjs   # treść na żywym API (2 przypadki CEIDG)
 ```
-
-## Podłączenie
-```json
-{"mcpServers": {"ceidg": {"command": "node", "args": ["/pełna/ścieżka/ceidg-mcp-server.js"], "env": {"CEIDG_API_KEY": "..."}}}}
-```
-
-## Co dalej (priorytet wysoki — więcej pracy niż inne)
-1. Złożyć wniosek o klucz API na `dane.biznes.gov.pl`.
-2. Pobrać pełną dokumentację PDF i potwierdzić, czy istnieje faktycznie
-   synchroniczny endpoint wyszukiwania po NIP, czy trzeba przejść na model
-   asynchroniczny (raport → polling → pobranie pliku).
-3. Jeśli asynchroniczny — przepisać `pobierzZCeidg()` na trzy kroki zamiast jednego GET.

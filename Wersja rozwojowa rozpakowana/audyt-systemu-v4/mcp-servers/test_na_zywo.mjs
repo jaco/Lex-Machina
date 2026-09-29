@@ -52,9 +52,14 @@ const PRZYPADKI = [
   ["EUR-Lex: dyrektywa 95/46 → uchylona 2018-05-24", "eurlex-example", "eurlex-mcp-server.js", "eurlex_lookup",
     { celex: "31995L0046" },
     (w) => w.result?.status_obowiazywania === "uchylony" && w.result.koniec_obowiazywania === "2018-05-24"],
-  ["CEIDG: bez klucza → oczekiwany ERROR (degradacja, nie crash)", "ceidg-example", "ceidg-mcp-server.js",
+  ["CEIDG: spółka z KRS → NOT_FOUND z odesłaniem do KRS (z kluczem) / ERROR bez klucza", "ceidg-example", "ceidg-mcp-server.js",
     "ceidg_szukaj_firmy", { nip: "5261040828" },
-    (w) => process.env.CEIDG_API_KEY ? w.status !== "ERROR" : (w.status === "ERROR" && /CEIDG_API_KEY/.test(w.detail))],
+    // ⛔ 2026-09-29 (F-214): 5261040828 to spółka z KRS → API v3 oddaje HTTP 204 → oczekiwany NOT_FOUND.
+    //    Poprzednio `w.status !== "ERROR"` — a serwer i tak zwracał ERROR („Unexpected end of JSON input”).
+    (w) => process.env.CEIDG_API_KEY ? (w.status === "NOT_FOUND" && /KRS/.test(w.uwaga ?? "")) : (w.status === "ERROR" && /CEIDG_API_KEY/.test(w.detail))],
+  ["CEIDG: błędna suma kontrolna NIP → ERROR bez zapytania (oszczędność limitu)", "ceidg-example", "ceidg-mcp-server.js",
+    "ceidg_szukaj_firmy", { nip: "6340000543" },
+    (w) => w.status === "ERROR" && (/sumę kontrolną/.test(w.detail) || (!process.env.CEIDG_API_KEY && /CEIDG_API_KEY/.test(w.detail)))],
   ["SUDOP: zlecenie → wynik albo PENDING z kolejka_id (bez crasha)", "sudop-example", "sudop-mcp-server.js",
     "sudop_szukaj_pomocy", { nip: "5261040828" },
     (w) => (w.detail === "PENDING" && /^[0-9a-f-]{36}$/.test(w.kolejka_id)) || ["FOUND", "NOT_FOUND", "AMBIGUOUS"].includes(w.status)],

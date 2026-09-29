@@ -123,7 +123,7 @@ const AUDIT_ITEMS = [
     group: "Konektory MCP",
     label: "🔌 Instalacja serwerów MCP",
     badge: "Claude Desktop",
-    desc: "Skrypt mcp-servers/instaluj_serwery_mcp.py: na komputerze z Claude Desktop dopisuje 8 serwerów (ISAP, SAOS, CBOSA, EUREKA, EUR-Lex, KRS, NBP, SUDOP) do konfiguracji; w piaskownicy buduje rozszerzenie .mcpb do instalacji w Desktopie",
+    desc: "Lista wyboru 11 serwerów (akty i orzecznictwo, rejestry, podatki/dane) → instalacja wybranych: na komputerze z Claude Desktop dopisanie do konfiguracji, w piaskownicy rozszerzenie .mcpb. CEIDG: link do klucza (dane.biznes.gov.pl/pl/portal/034872), sam klucz można wkleić w kolejnej wiadomości",
     phase: "FAZA 0E"
   }
 ];

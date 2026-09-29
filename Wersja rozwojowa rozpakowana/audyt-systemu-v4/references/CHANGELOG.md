@@ -1,5 +1,11 @@
 # CHANGELOG — audyt-systemu-v4
 
+- 6.153 (2026-09-29c, AUDYT-2026-09-29c): liczba plików 209 → **179** bez utraty treści — usunięte 30 reliktów sprzed scalenia `mcp-servers` w 6.149 (10 × `package.json`, `package-lock.json`, `test_protokol_mcp.mjs`; zależności ⊆ wspólny `package.json`, listy narzędzi = wspólny `test_protokol.mjs`), które instalacja „na nakładkę” wskrzesiła, a wydanie 6.151 błędnie zalegalizowało sumami kontrolnymi. T41 `check_limit_plikow.py` (bloker < 200, WARN ≥ 190); T21 podpowiada kontrolę reliktu; ZASADA 7: instalacja = zastąpienie katalogu.
+
+- 6.152 (2026-09-29b, AUDYT-2026-09-29b): FAZA 0E w trzech turach — lista wyboru serwerów (`instaluj_serwery_mcp.py --lista`, 11 pozycji w 3 grupach; przyciski: 3 pytania multi_select), link do klucza CEIDG przy wyborze CEIDG, sam klucz w kolejnej wiadomości → test na żywo i uzupełnienie (`--scal-desktop --serwery ceidg` albo osobisty `lex-machina-osobisty.mcpb`). Launcher `lex-mcp.js` przyjmuje listę serwerów po przecinku; `.mcpb` zawiera tylko wybrane serwery i ich narzędzia; `dist` przebudowany. Menu poz. 14 zaktualizowane (było: 8 serwerów, bez wyboru).
+
+- 6.151 (2026-09-29, AUDYT-2026-09-29): CEIDG naprawiony po pomiarze tokenem (F-214: NIP z `wlasciciel`, 204 → NOT_FOUND, suma kontrolna, wiele wpisów; dist przebudowany); instalator: link do klucza, klucz z pliku/pytania, test `--ceidg-test`, uzupełnienie samego CEIDG, konfiguracja z tokenem poza repo; FAZA 0E pkt 1a. T39 (F-215) i T40 (F-216) jako blokery; 8 prawdziwych PESEL usuniętych z fixture KRS (F-217); 6 plików usuniętych w 6.146, a obecnych w instalacji — usunięte ponownie (T22).
+
 - 6.150 (2026-09-27t, AUDYT-2026-09-27t): SAOS: zasięg i OUT_OF_SCOPE; cytator przebudowany i zmierzony (6/6 trafień prawdziwych).
 
 - 6.149 (2026-09-27s, AUDYT-2026-09-27s): serwer białej listy VAT (F-211 zamknięta); mcp-servers scalony — wspólne package.json/lock i jeden test protokołu (88 → 64 pliki).

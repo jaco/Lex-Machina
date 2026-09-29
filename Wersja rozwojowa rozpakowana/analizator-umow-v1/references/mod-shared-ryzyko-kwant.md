@@ -120,6 +120,15 @@ WNIOSKI:
 > ekspozycją. Werdykt i flagi kalibrujesz do **policzonych kwot**, nie do etykiet.
 
 **Zasady rachunku**
+0. ⛔ **Arytmetykę wykonuje narzędzie, nie model** (F-215, od 1.44): gdy host ma wykonanie
+   kodu, zapisz liczby wyekstrahowane z umowy (każda z polem `zrodlo` = §/ust.) do JSON i uruchom
+   `python shared/tools/kontrakt_rachunek.py ekspozycja --json dane.json` (schemat: docstring i
+   `shared/tools/test_kontrakt_rachunek.py`, przypadek `TM04`). Linię `R-EKS:` bierzesz z pola
+   `linia_R_EKS` wyniku. Pojedyncze działanie: `kontrakt_rachunek.py oblicz "190*2*160"`.
+   Liczba bez źródła → narzędzie zwraca `BRAK_ZRODLA` (egzekwuje WD-2). Bez wykonania kodu —
+   rachunek ręczny jak niżej, z adnotacją `[rachunek ręczny — niezweryfikowany narzędziem]`.
+   Uzasadnienie pomiarowe: pilot benchmarku `commercial-legal-pl` — reguła „policz” nie naprawia
+   arytmetyki mniejszych modeli (3 zmyślenia rachunkowe → FAIL). Kwalifikacja prawna nadal osobno (pkt 3).
 1. **Liczby wyłącznie z tekstu umowy** (WD-2, `shared/MOD-WEJSCIE-DOKUMENTU.md`):
    każda liczba z lokalizacją (§/ust.). Brak liczby → `[BRAK DANYCH]`, nigdy szacunek
    podstawiony jako fakt. Kwota słownie ≠ cyfrą → oba zapisy i rozbieżność.

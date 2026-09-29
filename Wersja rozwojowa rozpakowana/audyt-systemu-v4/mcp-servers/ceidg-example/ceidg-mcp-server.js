@@ -33,38 +33,92 @@ import { fileURLToPath } from "node:url";
 //    w CEIDG; bez niego konektor MUSI zwracać ERROR, nie udawać braku podmiotu.
 const CEIDG_BASE_URL = "https://dane.biznes.gov.pl/api/ceidg/v3";
 
-const server = globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "ceidg-connector", version: "1.0.0" });
+const server = globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "ceidg-connector", version: "1.1.0" });
 
-export function normalizujOdpowiedzCEIDG(raw) {
-  const firma = raw?.firmy?.[0] ?? raw?.firma ?? null;
-  if (!firma) {
-    return { status: "NOT_FOUND", query_type: "podmiot", source: "ceidg" };
-  }
+// ⛔ POPRAWKA 2026-09-29 (AUDYT-2026-09-29, F-214) — kształt zmierzony na ŻYWYM API v3 z tokenem:
+//    (a) NIP i REGON są w `firmy[].wlasciciel.{nip,regon}`, NIE w `firmy[].nip` → poprzednio
+//        `identyfikator: null` przy każdym FOUND;
+//    (b) NIP spoza CEIDG (np. spółka z KRS) → HTTP 204 BEZ treści → poprzednio `resp.json()`
+//        rzucało „Unexpected end of JSON input” i narzędzie zwracało ERROR zamiast NOT_FOUND;
+//    (c) NIP z błędną sumą kontrolną → HTTP 400 {code:"NIEPOPRAWNY_NUMER_NIP"} — teraz odsiewane
+//        lokalnie (bez zużywania limitu zapytań) i komunikowane wprost;
+//    (d) jeden NIP może mieć KILKA wpisów (wykreślony + aktywny) — zwracamy wszystkie, `result`
+//        wskazuje wpis AKTYWNY, a przy jego braku najnowszy;
+//    (e) 401/403/429 dostają osobne, czytelne komunikaty (429: NIE ponawiać — limit liczony od
+//        ostatniego żądania, ponawianie przedłuża blokadę; DOSTEP-MASZYNOWY-API.md §4).
+export const CEIDG_WYSZUKIWARKA = "https://aplikacja.ceidg.gov.pl/CEIDG/CEIDG.Public.UI/Search.aspx";
+
+export function nipPoprawny(nip) {
+  const n = String(nip ?? "").replace(/[\s-]/g, "");
+  if (!/^\d{10}$/.test(n)) return false;
+  const s = [6, 5, 7, 2, 3, 4, 5, 6, 7].reduce((a, w, i) => a + w * Number(n[i]), 0) % 11;
+  return s === Number(n[9]);
+}
+
+function wpis(firma) {
+  const w = firma?.wlasciciel ?? {};
+  const a = firma?.adresDzialalnosci ?? null;
   return {
-    status: "FOUND",
-    query_type: "podmiot",
-    source: "ceidg",
-    result: {
-      identyfikator: firma.nip ?? null,
-      tytul_lub_nazwa: firma.nazwa ?? firma.firma ?? null,
-      status_obowiazywania: firma.status === "AKTYWNY" ? "obowiazuje" : (firma.status ?? "nieznany"),
-      data_publikacji_lub_wyroku: firma.dataRozpoczecia ?? null,
-      url_zrodlowy: "https://aplikacja.ceidg.gov.pl/CEIDG/CEIDG.Public.UI/Search.aspx",
-    },
+    identyfikator: w.nip ?? firma?.nip ?? null,
+    regon: w.regon ?? firma?.regon ?? null,
+    tytul_lub_nazwa: firma?.nazwa ?? firma?.firma ?? null,
+    wlasciciel: [w.imie, w.nazwisko].filter(Boolean).join(" ") || null,
+    status_ceidg: firma?.status ?? null,
+    status_obowiazywania: firma?.status === "AKTYWNY" ? "obowiazuje" : (firma?.status ?? "nieznany"),
+    data_publikacji_lub_wyroku: firma?.dataRozpoczecia ?? null,
+    adres_dzialalnosci: a ? [a.ulica, [a.budynek, a.lokal].filter(Boolean).join("/"), a.kod, a.miasto].filter(Boolean).join(" ") : null,
+    id_ceidg: firma?.id ?? null,
+    url_rekordu_api: firma?.link ?? null,
+    url_zrodlowy: CEIDG_WYSZUKIWARKA,
+  };
+}
+
+export function normalizujOdpowiedzCEIDG(raw, nipZapytania = null) {
+  const lista = Array.isArray(raw?.firmy) ? raw.firmy : (raw?.firma ? [raw.firma] : []);
+  if (!lista.length) {
+    return {
+      status: "NOT_FOUND", query_type: "podmiot", source: "ceidg",
+      uwaga: "Brak wpisu w CEIDG dla tego NIP. CEIDG obejmuje wyłącznie przedsiębiorców-osoby fizyczne " +
+        "(i wspólników s.c.) — spółkę prawa handlowego sprawdź w KRS (api-krs.ms.gov.pl) albo na białej liście VAT.",
+      retrieved_at: new Date().toISOString(),
+    };
+  }
+  const wpisy = lista.map(wpis);
+  const aktywne = wpisy.filter((w) => w.status_ceidg === "AKTYWNY");
+  const najnowszy = [...wpisy].sort((x, y) => String(y.data_publikacji_lub_wyroku ?? "").localeCompare(String(x.data_publikacji_lub_wyroku ?? "")))[0];
+  const wynik = {
+    status: "FOUND", query_type: "podmiot", source: "ceidg",
+    result: aktywne[0] ?? najnowszy,
+    liczba_wpisow: wpisy.length,
     retrieved_at: new Date().toISOString(),
     confidence: "deterministic",
   };
+  const uw = [];
+  if (wpisy.length > 1) { wynik.wpisy = wpisy; uw.push(`NIP ma ${wpisy.length} wpisy w CEIDG — sprawdź, który dotyczy okresu z Twojej sprawy.`); }
+  if (aktywne.length > 1) uw.push("Więcej niż jeden wpis AKTYWNY dla jednego NIP — sytuacja nietypowa, zweryfikuj ręcznie w wyszukiwarce CEIDG.");
+  if (!aktywne.length) uw.push(`⚠️ Brak wpisu AKTYWNEGO — status najnowszego: ${najnowszy.status_ceidg ?? "nieznany"}.`);
+  if (nipZapytania && wynik.result.identyfikator && wynik.result.identyfikator !== nipZapytania)
+    uw.push(`⛔ NIP w odpowiedzi (${wynik.result.identyfikator}) ≠ NIP zapytania (${nipZapytania}) — nie używaj wyniku.`);
+  if (uw.length) wynik.uwaga = uw.join(" ");
+  return wynik;
 }
 
 async function pobierzZCeidg(nip, apiKey) {
   const url = `${CEIDG_BASE_URL}/firmy?nip=${encodeURIComponent(nip)}`;
   const resp = await fetch(url, {
-    headers: { Authorization: `Bearer ${apiKey}` },
+    headers: { Authorization: `Bearer ${apiKey}`, Accept: "application/json" },
     signal: AbortSignal.timeout(15000),
   });
-  if (resp.status === 404) return null;
-  if (!resp.ok) throw new Error(`API CEIDG zwróciło HTTP ${resp.status}`);
-  return await resp.json();
+  if (resp.status === 204 || resp.status === 404) return null;   // brak wpisu — nie błąd
+  const tekst = await resp.text();
+  let json = null;
+  try { json = tekst ? JSON.parse(tekst) : null; } catch { /* treść nie-JSON */ }
+  if (resp.ok) return json;
+  const kod = json?.code ? ` ${json.code}` : "";
+  if (resp.status === 401) throw new Error("API CEIDG HTTP 401 — token nieprawidłowy, wygasły albo nieprzekazany (sprawdź CEIDG_API_KEY).");
+  if (resp.status === 403) throw new Error("API CEIDG HTTP 403 — token bez uprawnień do tej metody.");
+  if (resp.status === 429) throw new Error("API CEIDG HTTP 429 — przekroczony limit zapytań. NIE ponawiaj od razu: limit liczony od ostatniego żądania, ponawianie przedłuża blokadę.");
+  throw new Error(`API CEIDG HTTP ${resp.status}${kod}${json?.message ? ` — ${json.message}` : ""}`);
 }
 
 server.registerTool(
@@ -72,36 +126,26 @@ server.registerTool(
   {
     title: "Weryfikacja jednoosobowej działalności gospodarczej w CEIDG",
     description:
-      "Sprawdza dane jednoosobowej działalności gospodarczej po numerze NIP " +
-      "w rejestrze CEIDG. WYMAGA klucza API (zmienna środowiskowa CEIDG_API_KEY) " +
-      "— w odróżnieniu od pozostałych connectorów tej sesji.",
+      "Sprawdza wpis przedsiębiorcy-osoby fizycznej po NIP w CEIDG (API v3): nazwa, właściciel, REGON, " +
+      "status (AKTYWNY/ZAWIESZONY/WYKREŚLONY…), data rozpoczęcia, adres. Wszystkie wpisy dla NIP. " +
+      "Spółki handlowe → KRS. WYMAGA tokenu CEIDG_API_KEY.",
     inputSchema: {
       nip: z.string().regex(/^\d{10}$/).describe("10-cyfrowy NIP przedsiębiorcy"),
     },
   },
   async ({ nip }) => {
     const apiKey = process.env.CEIDG_API_KEY;
+    const blad = (detail) => ({ status: "ERROR", query_type: "podmiot", source: "ceidg", detail, retrieved_at: new Date().toISOString() });
     let wynik;
     if (!apiKey) {
-      wynik = {
-        status: "ERROR",
-        query_type: "podmiot",
-        source: "ceidg",
-        detail: "Brak CEIDG_API_KEY w zmiennych środowiskowych — wymagany klucz z dane.biznes.gov.pl",
-        retrieved_at: new Date().toISOString(),
-      };
+      wynik = blad("Brak CEIDG_API_KEY w zmiennych środowiskowych — wymagany klucz z dane.biznes.gov.pl");
+    } else if (!nipPoprawny(nip)) {
+      wynik = blad(`NIP ${nip} ma niepoprawną sumę kontrolną — nie wysłano zapytania (oszczędność limitu).`);
     } else {
       try {
-        const raw = await pobierzZCeidg(nip, apiKey);
-        wynik = normalizujOdpowiedzCEIDG(raw);
+        wynik = normalizujOdpowiedzCEIDG(await pobierzZCeidg(nip, apiKey), nip);
       } catch (err) {
-        wynik = {
-          status: "ERROR",
-          query_type: "podmiot",
-          source: "ceidg",
-          detail: String(err?.message ?? err),
-          retrieved_at: new Date().toISOString(),
-        };
+        wynik = blad(String(err?.message ?? err));
       }
     }
     return { content: [{ type: "text", text: JSON.stringify(wynik, null, 2) }] };

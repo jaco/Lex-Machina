@@ -167,6 +167,12 @@ def main():
         ("T36", "T36 KRYTYCZNY — ekstraktor jednostek ELI (offline)", "check_eli_extract.py", ["--repo-root", str(root)]),
         # 2026-09-27e: manifest pluginu = SKILL.md; import z marketplace (claude.ai) i aktualizacje.
         ("T38", "T38 KRYTYCZNY — plugin.json ↔ SKILL.md ↔ marketplace.json", "check_plugin_manifest.py", ["--repo-root", str(root)]),
+        # 2026-09-29 (F-215): rachunek umowy liczony deterministycznie, nie „w głowie” modelu.
+        ("T39", "T39 KRYTYCZNY — kontrakt_rachunek: testy + korpus posiane-wady", "check_kontrakt_rachunek.py", ["--repo-root", str(root)]),
+        # 2026-09-29 (F-216/F-217): JWT (także z PESEL w ładunku), klucze, PESEL z poprawną sumą.
+        ("T40", "T40 KRYTYCZNY — sekrety i PESEL w drzewie", "check_sekrety.py", ["--repo-root", str(root)]),
+        # 2026-09-29c: skill < 200 plików (reguła użytkownika); WARN od 190.
+        ("T41", "T41 KRYTYCZNY — liczba plików skilla < 200", "check_limit_plikow.py", ["--repo-root", str(root)]),
         ("MOCK", "MOCK — self-test sync_dzu_eli wobec lokalnego mock-ELI", "mock_eli_server_test.py", []),
     ]:
         sekcja(label)
@@ -187,7 +193,8 @@ def main():
     # po odczycie treści — dokładnie ta klasa, którą regresja ma blokować.
     # T34–T36 dołączyły 2026-09-26 (F-196, F-200, F-201).
     # T38 dołączył 2026-09-27e (AUDYT-2026-09-27e).
-    BLOCKERY = ("T1", "T6_T7", "T18", "T19", "T19b", "T22", "T28", "T29", "T30", "T34", "T35", "T36", "T38")
+    # T39 i T40 dołączyły 2026-09-29 (F-215, F-216/F-217); T41 — 2026-09-29c (limit plików).
+    BLOCKERY = ("T1", "T6_T7", "T18", "T19", "T19b", "T22", "T28", "T29", "T30", "T34", "T35", "T36", "T38", "T39", "T40", "T41")
     critical_fail = False
     for key, code in results.items():
         if code == "MANUAL":

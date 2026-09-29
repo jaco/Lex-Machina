@@ -69341,3 +69341,125 @@ na prawdziwych fragmentach (aktor/przedmiot, fałszywe trafienie jako przypadek 
 `shared` 3.97 → **3.98**; `audyt-systemu-v4` 6.149 → **6.150**.
 
 **Otwarte:** F-212 (1 — dopełnić próbę, 5 — konektor KIO/UZP), F-213, F-210, F-197. Wolny numer: **F-214**.
+
+
+---
+
+## AUDYT-2026-09-29 — CEIDG zmierzony tokenem (F-214); porównanie z commercial-legal-pl (ZIP) i ocena opinii zewnętrznej; F-215–F-217; T39, T40
+
+**Tryb:** TARGETED + WARN-CLOSE. **Wyzwalacz:** polecenie użytkownika — (1) porównanie z przesłanym ZIP-em
+`commercial-legal-pl-main` (v0.8.0, 128 plików) i wdrożenie tego, czego LM nie ma; (2) test serwera MCP CEIDG
+kluczem użytkownika; (3) link do uzyskania klucza przy instalacji i możliwość uzupełnienia MCP o klucz;
+(4) ocena opinii zewnętrznej (ChatGPT) i wdrożenie zależne od wyniku. Wydanie wg ZASADY 7.
+
+### 1. Stan zastany
+Suita na drzewie zainstalowanym: jedyny bloker **T22** — 6 plików `references/` bez rejestracji. Ustalenie:
+te pliki **usunięto w 6.146** (CHANGELOG 6.146, „Porządki”), a instalacja paczki w środowisku użytkownika ich
+nie skasowała (nałożenie paczki na istniejący katalog). Naprawa zgodna z decyzją 6.146: usunięcie, nie rejestracja.
+Wniosek dla wdrażania: instalacja „przez nadpisanie” wskrzesza pliki usunięte — to ten sam mechanizm co F-189.
+Pierwszy przebieg z katalogami jako dowiązaniami symbolicznymi dał T28 „przeskanowano 0 plików” (artefakt
+środowiska pomiaru, nie wada T28) — pomiar powtórzony na prawdziwych katalogach.
+
+### 2. F-214 — CEIDG — ZAMKNIĘTA
+Pomiar tokenem użytkownika (token ważny, `iat` 2026-09-29): API v3 odpowiada 200/204/400 zamiast 401.
+Dwie wady serwera: (a) NIP/REGON w `firmy[].wlasciciel`, kod czytał `firmy[].nip` → `identyfikator: null`
+przy każdym FOUND; (b) HTTP 204 bez treści → `resp.json()` → ERROR „Unexpected end of JSON input” zamiast
+NOT_FOUND. `test_na_zywo.mjs` przepuszczał (b), bo akceptował „cokolwiek poza ERROR”. Naprawa: odczyt
+z `wlasciciel`, 204 → NOT_FOUND z odesłaniem do KRS, lokalna suma kontrolna NIP, wiele wpisów (`result` =
+AKTYWNY), 401/403/429 opisane, post-check tożsamości NIP. Pomiar po naprawie: offline 6/6; na żywo MCP 3/3
+(JDG FOUND z NIP+REGON, spółka NOT_FOUND, zła suma ERROR bez zapytania); `dist/lex-mcp.mjs` przebudowany,
+`wszystkie` z kluczem: 23 narzędzia, CEIDG FOUND/NOT_FOUND poprawnie. W tym samym przebiegu SAOS — „przerwa
+techniczna” po stronie serwisu, CBOSA 503 z piaskownicy (F-213) — poza zakresem zmiany.
+**Klucz przy instalacji:** źródło klucza zweryfikowane — `https://dane.biznes.gov.pl/pl/portal/034872`
+(HTTP 200, „wypełnij wniosek o dostęp i zarejestruj się”); adres `/pl/dane-po-api` podawany przez serwisy
+trzecie → 404, nieużyty. Instalator: klucz z pliku / zmiennej / pytania (getpass), `--ceidg-test`,
+uzupełnienie samego CEIDG (`--scal-desktop --serwery ceidg`), a **konfiguracja z tokenem zapisywana do
+`~/.lex-machina/` (600) zamiast do katalogu skilla** — poprzednio `mcp-config.json` z kluczem powstawał
+domyślnie w repozytorium. FAZA 0E pkt 1a; opis pola w `mcpb-manifest.json`.
+⛔ **Token nie został wpisany do żadnego pliku skilla** mimo polecenia „wstaw go”: ładunek JWT zawiera jawnie
+(base64) PESEL, imię i nazwisko użytkownika, a repozytorium jest publiczne. Klucz podaje się przy instalacji.
+
+### 3. Porównanie z commercial-legal-pl (ZIP) — co nowe względem AUDYT-2026-09-26
+Tamte porównania (v1.22, 2026-09-26) objęły workflow, reguły R8–R12, ius cogens, benchmark (metodologia).
+Nowe w ZIP: **wyniki pilota benchmarku** (`examples/benchmark/wyniki/pilot/`). Najważniejszy pomiar: reguła
+„policz, zanim ocenisz” nie naprawia arytmetyki mniejszego modelu (3 zmyślenia rachunkowe → FAIL); autorzy
+sami wnioskują o deterministycznym kalkulatorze, którego nie mają. Luka wspólna obu systemów → **F-215**.
+Drugi realny element: pre-commit sanitizer (regex na jawny tekst) → własny, mocniejszy **T40** (F-216).
+Baza klauzul i baza wiedzy KTZR — bez zmian stanowiska z v1.22 (treść konkretnej kancelarii).
+
+### 4. Ocena opinii zewnętrznej (ChatGPT) — teza po tezie wobec plików, nie README
+Opinia opierała się na publicznym README LM („z publicznie widocznej architektury nie wynika…”).
+| Rekomendacja | Stan LM (plik) | Decyzja |
+|---|---|---|
+| Bramka kompletności z jawnym zamknięciem obszaru | WD-3 (`shared/MOD-WEJSCIE-DOKUMENTU.md`), wołana w analizatorze; J0 MASTER CHECKLISTA | obecne — bez zmian |
+| ius cogens przed scoringiem | `mod-shared-ius-cogens.md` IC.2 „bramka wstępna” | obecne — bez zmian |
+| Rachunek ekspozycji deterministyczny | R-EKS był rachunkiem modelu | **wdrożone (F-215)** |
+| Walidacja cytatu z umowy | WD-2 jako reguła | **wzmocnione narzędziem** (`cytaty`) |
+| Devil's advocate | `workflows/ocena-drugiej-strony.md`, `shared/MOD-ATAK-NA-DRAFT.md` | obecne — bez zmian |
+| Hierarchia negocjacyjna, „w zamian za” | `mod-shared-neg-strategia.md` NEG.2 (M/S/N/T, „w zamian za”) | obecne — bez zmian |
+| Ontologia klauzul (frontmatter `mandatory_for`/`requires`) + graf | graf: MU.2 `mod-shared-model-umowy.md` | **odrzucone teraz**: w źródle metadane opisują bazę klauzul KTZR (świadomie nieprzejętą w v1.22); bez narzędzia, które je czyta, byłyby drugim, niesynchronizowanym źródłem prawdy obok J0/MU.2 (DRY). Warunek powrotu: konsument maszynowy (np. kontrola kompletności per typ umowy w `kontrakt_rachunek`) |
+| Benchmark per typ umowy, ślepy | F-203(b) otwarta; manifest już tajny dla audytowanego modelu | bez nowej flagi — rozszerzenie zakresu F-203(b) |
+
+### 5. F-215 — deterministyczny rachunek umowy — ZAMKNIĘTA
+`shared/tools/kontrakt_rachunek.py` (stdlib): `oblicz`, `ekspozycja`, `slownie`, `odeslania`, `cytaty`;
+14 testów; wpięty w RK.2a pkt 0, triage Krok 2a, weryfikację odesłań Krok 1.2 (analizator 1.44). T39 (bloker).
+Pomiar na korpusie LM: 05 — i3 (9.800 ↔ „osiem tysięcy”) i i6 (§10 ust. 5) wykryte; 04 — wartości
+= manifest; 01 kontrolna — po poprawce wykazu załączników w 2 liniach zero alarmów (pierwszy przebieg:
+fałszywy alarm z winy narzędzia, udokumentowany w T39).
+
+### 6. F-216 — skaner sekretów — ZAMKNIĘTA; F-217 — PESEL w fixture KRS — CZĘŚCIOWO
+T40 `check_sekrety.py` (bloker; selftest 6/6). Pierwszy przebieg: 8 prawdziwych PESEL (poprawna suma
+kontrolna) w wolnym tekście odpisu KRS ORLEN w `krs-example/fixtures/krs_odpisy.json` — konektor maskował je
+na wyjściu, plik źródłowy nie. Zastąpione numerami syntetycznymi o błędnej sumie (format zachowany); testy KRS
+PASS; T40 = 0. **Otwarte F-217(b):** numery pozostają w historii gita repozytorium publicznego — decyzja
+dewelopera (przepisanie historii albo przyjęcie, że dane pochodzą z jawnego rejestru).
+
+### 7. Wydanie (ZASADA 7)
+`audyt-systemu-v4` 6.150 → **6.151**; `shared` 3.98 → **3.99**; `analizator-umow-v1` 1.43 → **1.44**.
+Liczby plików i diffy — w odpowiedzi tej sesji (PRE-DELIVERY-COMPLETENESS-CHECK).
+
+**Otwarte:** F-217(b), F-212, F-213, F-210, F-197, F-203(b). Wolny numer: **F-218**.
+
+
+---
+
+## AUDYT-2026-09-29b — FAZA 0E: lista wyboru serwerów MCP, klucz CEIDG w kolejnej wiadomości
+
+**Wyzwalacz:** polecenie użytkownika — przy instalacji MCP z audytu systemu lista z wyborem serwerów, przy
+CEIDG link do wygenerowania klucza i możliwość uzupełnienia samego klucza w kolejnej wiadomości.
+
+**Wykonane:** (1) `instaluj_serwery_mcp.py`: `GRUPY` jako jedyne źródło listy (11 serwerów, 3 grupy, stała
+numeracja), `--lista`, `--serwery` przyjmuje numery/nazwy/„wszystkie”, `--mcpb` buduje rozszerzenie tylko
+z wybranymi serwerami (argument launchera + narzędzia w manifeście; bez CEIDG usuwane pole klucza), a z
+`--ceidg-klucz-plik` — wersję OSOBISTĄ `lex-machina-osobisty.mcpb` (token w env manifestu, test klucza przed
+budową, 401 przerywa budowę, plik 600). (2) `lex-mcp.js`: lista po przecinku → jeden serwer współdzielony;
+`dist/lex-mcp.mjs` przebudowany. (3) SKILL.md FAZA 0E przepisana na trzy tury z regułami obchodzenia się
+z tokenem (bez powtarzania, bez zapisu w pamięci i w plikach skilla). (4) WIDGET-MENU poz. 14 — opis
+nieaktualny (8 serwerów) poprawiony; drzewo katalogów w SKILL.md bez usuniętej mapy 06-14.
+
+**Pomiar:** `--lista` OK; wybór `1 5 6` → 3 serwery, 6 narzędzi; nieznany token → błąd; osobisty `.mcpb`
+(wybór 5 6 + klucz): manifest `krs,wl,ceidg`, 5 narzędzi = 5 narzędzi wystawionych przez serwer uruchomiony
+poleceniem z manifestu; `ceidg_szukaj_firmy` → FOUND (NIP i status AKTYWNY). Token nieobecny w drzewie (T40).
+
+`audyt-systemu-v4` 6.151 → **6.152**. Otwarte bez zmian: F-217(b), F-212, F-213, F-210, F-197, F-203(b). Wolny numer: **F-218**.
+
+
+---
+
+## AUDYT-2026-09-29c — limit plików skilla < 200: 209 → 179 bez utraty treści; T41
+
+**Wyzwalacz:** polecenie użytkownika — skille powyżej 200 plików zmniejszyć poniżej progu bez straty treści.
+**Inwentaryzacja:** przekracza wyłącznie `audyt-systemu-v4` (209); `shared` 195, pozostałe < 150.
+**Ustalenie:** 30 plików `mcp-servers/*-example/{package.json, package-lock.json, test_protokol_mcp.mjs}` to relikty —
+CHANGELOG 6.149 („wspólne package.json/lock i jeden test protokołu”) i `mcp-servers/README.md` („dawniej 10 kopii”)
+opisują ich zastąpienie; wydanie 6.150 nie miało dla nich sum kontrolnych. Instalacja „na nakładkę” je wskrzesiła
+(jak 6 plików z 6.146 — AUDYT-2026-09-29). **Błąd własny wydania 6.151:** T21 zgłosił właśnie te 30 plików, a zamiast
+ustalenia przyczyny dopisano im sumy — legalizacja reliktów. Naprawione tutaj.
+**Dowód braku straty treści:** zależności każdego katalogowego `package.json` ⊆ wspólny `package.json` (typ `module`
+dziedziczony z katalogu nadrzędnego); lista narzędzi każdego `test_protokol_mcp.mjs` = wiersz wspólnego
+`test_protokol.mjs` (10/10). Po usunięciu: `test_protokol.mjs` — PROTOKÓŁ MCP OK dla 11 serwerów; `test_normalizacja.mjs`
+11/11 PASS; wszystkie 66 plików `mcp-servers/` mają sumy (T21).
+**Zabezpieczenia:** T41 (bloker < 200, WARN ≥ 190); podpowiedź reliktu w T21; ZASADA 7 — instalacja przez zastąpienie katalogu.
+Alternatywa rozważona i niepotrzebna: scalenie 13 raportów `references/raporty-pokrycia-2026-08-13/` w jeden plik (−12).
+
+`audyt-systemu-v4` 6.152 → **6.153** (209 → 179 plików). Otwarte bez zmian: F-217(b), F-212, F-213, F-210, F-197, F-203(b). Wolny numer: **F-218**.

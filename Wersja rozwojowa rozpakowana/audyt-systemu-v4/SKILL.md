@@ -5,7 +5,7 @@ dependencies:
   requires:
     - shared
   # 2026-09-27e: jawna zależność (każdy skill systemu korzysta z `shared`); pole czytane przy imporcie z marketplace
-version: "6.150"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
+version: "6.153"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
                   # parsuje jako float 6.1 — czyli numer NIŻSZY niż 6.9, co cicho
                   # odwraca porządek wersji. Wykryte przy walidacji 2026-08-20z.
                   # Każda kolejna wersja z dwucyfrowym minor — też w cudzysłowie.
@@ -125,6 +125,15 @@ scripts:
                                           # marketplace.json ↔ katalogi 1:1. Offline, selftest 5/5; BLOKER
                                           # od 2026-09-27e. ⛔ Każde podbicie `version:` w SKILL.md wymaga
                                           # tej samej zmiany w plugin.json — inaczej T38 FAIL.
+  - scripts/check_kontrakt_rachunek.py    # T39 — regresja shared/tools/kontrakt_rachunek.py (F-215): testy
+                                          # jednostkowe + korpus analizator-umow-v1/benchmark/posiane-wady
+                                          # (05: i3 słownie≠cyfrą, i6 martwe §10; 01: zero alarmów). BLOKER
+  - scripts/check_sekrety.py              # T40 — JWT (również PESEL zakodowany w ładunku), klucze PEM, tokeny
+                                          # API, PESEL z poprawną sumą kontrolną; wartości maskowane. Offline,
+                                          # selftest 6/6; BLOKER od 2026-09-29 (F-216, F-217)
+  - scripts/check_limit_plikow.py         # T41 — każdy skill < 200 plików (reguła użytkownika), WARN od 190;
+                                          # przed redukcją szukaj RELIKTÓW (pliki usunięte, a wskrzeszone przez
+                                          # instalację „na nakładkę”). Offline, selftest; BLOKER od 2026-09-29c
   - scripts/check_tabele_satelickie.py    # T32 — rejestr tabel satelickich (shared/TABELE-OPLAT.md §7):
                                           # plik musi istnieć (FAIL), kwota bez podstawy w wierszu, kolumnie
                                           # albo nagłówku/zdaniu wprowadzającym = WARN. Offline, selftest 9/9;
@@ -537,38 +546,75 @@ produkcyjnej: klasyfikator pamięci odrzuca treść sterującą zachowaniem mode
 zapis jest niewykonalny z założenia, a ponowienie lub przeformułowanie
 stanowiłoby obchodzenie zabezpieczenia. Wynik stały: `ZAPIS: NIEOBSŁUGIWANE W HOŚCIE`.
 
-## FAZA 0E — INSTALACJA SERWERÓW MCP W CLAUDE DESKTOP (POZYCJA 14, od 6.144)
+## FAZA 0E — INSTALACJA SERWERÓW MCP (POZYCJA 14; wybór serwerów i klucz CEIDG od 6.152)
 
 Po wyborze pozycji 14 menu („Instalacja serwerów MCP”, plakietka 🖥️ *działa w Claude Desktop*)
-albo poleceniu „zainstaluj serwery MCP”. Narzędzie: `mcp-servers/instaluj_serwery_mcp.py`
-(ten skill). Serwery: ISAP, SAOS, CBOSA, EUREKA, EUR-Lex, KRS, NBP, SUDOP (+CEIDG z kluczem).
+albo poleceniu „zainstaluj serwery MCP”. Narzędzie: `mcp-servers/instaluj_serwery_mcp.py` (ten skill).
+Przebieg ma **trzy tury**: (1) lista wyboru → (2) instalacja wybranych + prośba o klucz CEIDG, jeśli
+wybrano CEIDG → (3) sam klucz w kolejnej wiadomości → uzupełnienie. Tura 3 jest opcjonalna.
 
 ⛔ **Działa w Claude Desktop.** claude.ai w przeglądarce nie uruchamia serwerów lokalnych — tam
 wynikiem jest plik rozszerzenia do zainstalowania w Desktopie. Nie obiecuj działania w przeglądarce.
 
-1. **Ustal ścieżkę pomiarem, nie domysłem.** Z wykonaniem kodu uruchom z katalogu tego skilla:
-   ```
-   python mcp-servers/instaluj_serwery_mcp.py --diagnoza
-   ```
-   - **kod 0 — „ŚCIEŻKA: --scal-desktop”**: skrypt działa na komputerze z Claude Desktop
-     (Claude Code, terminal lokalny). Jednym zdaniem uprzedź, że skrypt dopisze serwery `lex-*`
-     do `claude_desktop_config.json` i zrobi kopię `.kopia-przed-lex`; następnie:
-     `python mcp-servers/instaluj_serwery_mcp.py --scal-desktop`. Przekaż wynik dosłownie (wiersze ✅/⛔,
-     ścieżka kopii) i poproś o ponowne uruchomienie Claude Desktop.
-   - **kod 3 — „ŚCIEŻKA: --mcpb”**: piaskownica (czat Claude Desktop, claude.ai, Cowork). Uruchom
-     `python mcp-servers/instaluj_serwery_mcp.py --mcpb <katalog wyjściowy hosta>` (czysty Python, bez
-     sieci; działa z katalogu skilla tylko do odczytu) i udostępnij `lex-machina.mcpb`
-     (`present_files`). Instrukcja: Claude Desktop → Ustawienia → Rozszerzenia → zainstaluj z pliku.
-     Pola opcjonalne: klucz CEIDG; certyfikat CA — wyłącznie w sieci z proxy przechwytującym HTTPS.
-   - ⛔ Przy kodzie 3 NIGDY nie uruchamiaj `--scal-desktop` i nie raportuj „zainstalowano” —
-     konfiguracja w piaskownicy nie jest konfiguracją Claude Desktop użytkownika.
-2. **Bez wykonania kodu:** podaj polecenie do uruchomienia u siebie
-   (`python <katalog skilla>/mcp-servers/instaluj_serwery_mcp.py --scal-desktop`) albo wskaż plik
-   `.mcpb` z wydania — bez fikcyjnego raportu wykonania (adapter hosta, zasada 5).
+**0. LISTA WYBORU (tura 1) — zanim cokolwiek zbudujesz.** Jedynym źródłem listy jest
+`python mcp-servers/instaluj_serwery_mcp.py --lista` (11 serwerów, 3 grupy, stała numeracja 1–11);
+nie przepisuj jej z pamięci. Zapytaj jednym zdaniem, które serwery zainstalować:
+   - host z przyciskami wyboru (np. `ask_user_input_v0`): **trzy pytania multi_select = trzy grupy
+     z `--lista`** (≤4 opcje każde): „Akty prawne i orzecznictwo” (ISAP/ELI, EUR-Lex+TSUE, SAOS,
+     CBOSA), „Rejestry podmiotów” (KRS, Biała lista VAT, CEIDG — wymaga klucza), „Podatki, finanse,
+     dane osobowe” (NBP, EUREKA, SUDOP, UODO). Etykiety krótkie; brak zaznaczeń w grupie = pomiń grupę;
+   - host bez przycisków: pokaż wynik `--lista` i poproś o odpowiedź numerami, nazwami albo „wszystkie”;
+   - użytkownik od razu napisał „wszystkie” / wymienił serwery → pomiń pytanie.
+   **Przy CEIDG zawsze** (także w pytaniu z przyciskami — w zdaniu wprowadzającym) podaj link do
+   klucza: **https://dane.biznes.gov.pl/pl/portal/034872** (Hurtownia danych CEIDG: „wypełnij wniosek
+   o dostęp i zarejestruj się”, logowanie Profilem Zaufanym; token JWT = klucz API).
+   Po wysłaniu pytania zakończ turę.
+
+1. **Ścieżka pomiarem, nie domysłem (tura 2).** `python mcp-servers/instaluj_serwery_mcp.py --diagnoza`.
+   `WYBÓR` = numery/nazwy z tury 1 (argument `--serwery` przyjmuje jedne i drugie).
+   - **kod 0 — „ŚCIEŻKA: --scal-desktop”** (komputer z Claude Desktop: Claude Code, terminal lokalny).
+     Jednym zdaniem uprzedź, że skrypt dopisze wybrane serwery `lex-*` do `claude_desktop_config.json`
+     i zrobi kopię `.kopia-przed-lex`; następnie `… --scal-desktop --serwery WYBÓR --bez-pytan`.
+     Przekaż wynik dosłownie (✅/⛔, ścieżka kopii); poproś o restart Claude Desktop.
+   - **kod 3 — „ŚCIEŻKA: --mcpb”** (piaskownica: claude.ai, czat Desktop, Cowork):
+     `… --mcpb <katalog wyjściowy hosta> --serwery WYBÓR` → `lex-machina.mcpb` tylko z wybranymi
+     serwerami (manifest wymienia wyłącznie ich narzędzia); udostępnij plik (`present_files`).
+     Instrukcja: Claude Desktop → Ustawienia → Rozszerzenia → zainstaluj z pliku.
+     ⛔ Przy kodzie 3 NIGDY nie uruchamiaj `--scal-desktop` i nie raportuj „zainstalowano”.
+   - **Bez wykonania kodu:** podaj polecenie do uruchomienia u siebie
+     (`python <katalog skilla>/mcp-servers/instaluj_serwery_mcp.py --scal-desktop --serwery WYBÓR`)
+     — bez fikcyjnego raportu wykonania (adapter hosta, zasada 5).
+   - **Wybrano CEIDG, a klucza jeszcze nie ma** → na końcu odpowiedzi DOKŁADNIE ta treść w sensie:
+     „Klucz CEIDG uzyskasz tu: https://dane.biznes.gov.pl/pl/portal/034872. Gdy go dostaniesz, **wklej
+     w kolejnej wiadomości sam klucz** — sprawdzę go i uzupełnię instalację o CEIDG.” (Na ścieżce
+     `.mcpb` dodaj: albo wpisz go sam w polu „Klucz API CEIDG” rozszerzenia.) Bez klucza serwer
+     CEIDG jest nieaktywny — pozostałe działają normalnie.
+
+2. **KLUCZ W KOLEJNEJ WIADOMOŚCI (tura 3).** Wyzwalacz: wiadomość, której treścią jest (prawie)
+   wyłącznie token JWT (`eyJ….eyJ….…`), w rozmowie, w której trwa FAZA 0E albo padła prośba z pkt 1.
+   ⛔ Token to dane osobowe — ładunek (base64, nie szyfrowanie) zawiera PESEL, imię i nazwisko:
+   - NIE powtarzaj tokenu ani jego fragmentów w odpowiedzi, NIE dekoduj na głos PESEL-u, NIE zapisuj
+     go w pamięci rozmów ani w plikach skilla; w myśleniu nie przepisuj go ponad potrzebę polecenia;
+   - zapisz go do pliku POZA katalogiem skilla z uprawnieniami 600 (piaskownica: plik roboczy hosta,
+     np. `~/.ceidg_token`; komputer użytkownika: `~/.lex-machina/ceidg.token`);
+   - `… --ceidg-test --ceidg-klucz-plik PLIK` (jedno żądanie; 204/200 = działa, 401 = zły lub wygasły
+     → podaj link ponownie i poproś o nowy klucz; 429 → poproś o ponowienie za kilka minut, nie ponawiaj sam);
+   - po teście 204/200:
+     • kod 0 → `… --scal-desktop --serwery ceidg --ceidg-klucz-plik PLIK` (uzupełnia istniejącą
+       instalację wyłącznie o CEIDG; konfiguracja z tokenem ląduje w `~/.lex-machina/`, nie w repo);
+     • kod 3 → `… --mcpb <katalog wyjściowy> --serwery WYBÓR --ceidg-klucz-plik PLIK` →
+       **`lex-machina-osobisty.mcpb`** z kluczem wpisanym na stałe (CEIDG dołączany automatycznie).
+       Powiedz wprost: przed instalacją odinstaluj wcześniejsze „Lex Machina”; plik jest OSOBISTY
+       (zawiera token) — nie udostępniać, nie wrzucać do repozytorium;
+     • w piaskownicy usuń plik z tokenem po zbudowaniu rozszerzenia;
+   - przypomnij jednym zdaniem, że token pozostaje w historii tej rozmowy (decyzja użytkownika, czy ją usunąć).
+   Brak wybranego wcześniej zestawu (tura 3 bez tur 1–2) → przyjmij „wszystkie”.
+
 3. **Kontrola po instalacji** (nowa rozmowa w Claude Desktop): narzędzia `lex-*` widoczne; wywołanie
-   `nbp_kurs_waluty` dla EUR zwraca FOUND. `cbosa_sprawdz_sygnature` „III OSK 1959/22” → FOUND zamyka
-   **F-213** (z sandboxa Claude CBOSA jest nieosiągalna).
-4. Zapisz w AUDIT-JOURNAL.md jednym zdaniem: ścieżka (scal-desktop / mcpb / polecenie), wynik.
+   `nbp_kurs_waluty` dla EUR (jeśli wybrany) zwraca FOUND; `ceidg_szukaj_firmy` dla NIP spółki
+   → NOT_FOUND z odesłaniem do KRS (dowód, że klucz działa). `cbosa_sprawdz_sygnature` „III OSK 1959/22”
+   → FOUND zamyka **F-213** (z sandboxa Claude CBOSA jest nieosiągalna).
+4. Zapisz w AUDIT-JOURNAL.md jednym zdaniem: ścieżka, wybrane serwery, CEIDG tak/nie — **bez tokenu**.
 
 ---
 
@@ -1119,6 +1165,12 @@ z WARN-OTWARTE.md, dodaj pełny wpis do AUDIT-JOURNAL.md.
    Dostarczanie wyłącznie zmodyfikowanego pliku bez reszty struktury grozi nieodwracalną
    utratą danych przy wgraniu (nadpisanie katalogu bez pozostałych plików).
 
+   ⛔ **Limit i relikty (od 6.153):** skill ma mieć < 200 plików (T41). Instalację wydania
+   wykonuje się przez ZASTĄPIENIE katalogu skilla w całości, nie nałożenie paczki na stary katalog —
+   nałożenie wskrzesza pliki usunięte w poprzednich wydaniach (zmierzone: 6 plików z 6.146 i 30 z 6.149
+   w jednej instalacji; AUDYT-2026-09-29c). Plik zgłoszony przez T21 jako „BRAK WPISU” najpierw
+   sprawdź w CHANGELOG — dopisanie mu sumy legalizuje relikt.
+
    **Reguła:** po każdej naprawie → `find <skill>/ -not -path "*/archive/*"` →
    skopiuj WSZYSTKIE pliki do `/home/claude/<skill>/` z zachowaniem podfolderów →
    `zip -r <skill>.zip <skill>/` → skopiuj ZIP do `/mnt/user-data/outputs/` →
@@ -1406,13 +1458,13 @@ audyt-systemu-v4/                               ← 89 plików (stan 2026-09-09b
     ├── mapa_dzu_2026-09-09.md                  ← generacja poprzednia (F-172)
     ├── mapa_dzu_2026-08-28.md                  ← POPRZEDNIA generacja
     ├── mapa_dzu_2026-08-26.md                  ← POPRZEDNIA generacja
-    ├── mapa_dzu_2026-07-15 / 07-04 / 07-02 / 06-14.md  ← POPRZEDNIE generacje, cytowane w dzienniku
+    ├── mapa_dzu_2026-07-15 / 07-04 / 07-02.md  ← POPRZEDNIE generacje, cytowane w dzienniku (06-14 usunięta w 6.146)
     └── raporty-pokrycia-2026-08-13/            ← 12 raportów + indeks = 13 plików
 ```
 
 ---
 
-*Wersja: 6.150 | Ostatnia aktualizacja: 2026-09-27t (SAOS: zasięg i OUT_OF_SCOPE; cytator przebudowany i zmierzony (6/6 trafień prawdziwych))*
+*Wersja: 6.153 | Ostatnia aktualizacja: 2026-09-29c (209 → 179 plików: 30 reliktów sprzed 6.149 usuniętych; T41 limit < 200 plików)*
 
 *(Stopka podawała „5.0 | 2026-07-04" przy `version: 6.8` w YAML — rozjazd
 9 wersji, naprawiony 2026-08-20y. **Stopkę aktualizuj razem z polem `version`**;
