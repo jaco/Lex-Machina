@@ -77,3 +77,18 @@ import { toSamoZdanie } from "./saos-mcp-server.js";
   assert.ok(toSamoZdanie("(OSNCP 1981, Nr 8, poz. 150) Sąd Najwyższy wyraził pogląd"), "skróty publikatora to nie granica");
   assert.ok(!toSamoZdanie("LEX nr 571918). W rozpoznawanej sprawie"), "„). W” to granica");
   console.log("OK: 27t — to samo zdanie: fałszywe trafienie z próby odrzucone; skróty i sygnatury rzymskie nie tną zdania"); }
+
+// 2026-10-01: odesłanie DATĄ (fragment prawdziwego uzasadnienia III CKN 1283/00, pomiar na pełnym tekście SAOS).
+{
+  const tekst = "Sąd Najwyższy zważył, co następuje: W wyroku z dnia 3 października 1980 r., III CRN 126/80 Sąd Najwyższy wyraził pogląd, " +
+    "zaaprobowany wówczas w piśmiennictwie, że istniejący między właścicielami budynku poważny konflikt może stanowić okoliczność " +
+    "uzasadniającą odmowę zniesienia współwłasności. " + "Dalszy wywód o art. 211 k.c. ".repeat(60) +
+    "Nie można także uznać za zadowalające odwołanie się do wyroku Sądu Najwyższego z dnia 3 października 1980 r. i poprzestanie na stwierdzeniu, że konflikt wyklucza podział.";
+  const s = skanujCytowanie(tekst, "III CRN 126/80");
+  if (s.wystapienia !== 1 || !s.sygnaly.some((x) => x.typ === "odstapienie")) { console.error("FAIL: odesłanie datą niewykryte", JSON.stringify(s).slice(0, 300)); process.exit(1); }
+  // ta sama data przy INNEJ sygnaturze nie jest kotwicą
+  const inny = "W wyroku z dnia 3 października 1980 r., III CRN 126/80 SN wyraził pogląd. " + "x ".repeat(400) +
+    "Nie można uznać za trafne stanowiska z wyroku z dnia 3 października 1980 r., II CR 999/80.";
+  if (skanujCytowanie(inny, "III CRN 126/80").sygnaly.length) { console.error("FAIL: data przy innej sygnaturze potraktowana jako kotwica"); process.exit(1); }
+  console.log("OK: 2026-10-01 — odesłanie datą wykryte; ta sama data z inną sygnaturą pominięta");
+}

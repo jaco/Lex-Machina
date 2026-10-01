@@ -1,6 +1,6 @@
 > ⛔ **STAN 2026-09-27j (AUDYT-2026-09-27j, shared 3.90):** SUDOP 1.1.0 — API asynchroniczne: `sudop_szukaj_pomocy` zleca i czeka ≤50 s, potem zwraca ERROR/`PENDING` z `kolejka_id`; `sudop_odbierz_wynik` odbiera. ⚠️ Wyniku końcowego nie zaobserwowano w pomiarze (kolejka >30 min bez odpowiedzi) — kształt JSON wyniku NIEZWERYFIKOWANY.
 
-Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixtures/`), `test_protokol_mcp.mjs` (tylko protokół MCP — nie sprawdza treści), `../test_na_zywo.mjs` (treść na żywym API; jedyny test, który wykrywa błędy treści).
+Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixtures/`), `../test_protokol.mjs` (tylko protokół MCP — nie sprawdza treści), `../test_na_zywo.mjs` (treść na żywym API; jedyny test, który wykrywa błędy treści).
 
 ---
 
@@ -18,7 +18,7 @@ Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixture
 cd shared/tools/mcp-servers/sudop-example
 npm install
 node test_normalizacja.mjs
-node test_protokol_mcp.mjs
+node ../test_protokol.mjs
 ```
 
 ## Podłączenie

@@ -1,6 +1,6 @@
 > ✅ **STAN 2026-09-27j:** treść zmierzona na żywym API (`../test_na_zywo.mjs`) — bez zmian w kodzie.
 
-Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixtures/`), `test_protokol_mcp.mjs` (tylko protokół MCP — nie sprawdza treści), `../test_na_zywo.mjs` (treść na żywym API; jedyny test, który wykrywa błędy treści).
+Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixtures/`), `../test_protokol.mjs` (tylko protokół MCP — nie sprawdza treści), `../test_na_zywo.mjs` (treść na żywym API; jedyny test, który wykrywa błędy treści).
 
 ---
 
@@ -34,6 +34,6 @@ fixture `fixtures/firmy_nip_aktywny.json` ma zmierzony kształt i fikcyjne dane.
 ## Testy
 ```bash
 node test_normalizacja.mjs                      # offline, 6 przypadków na zmierzonym kształcie
-node test_protokol_mcp.mjs                      # tylko protokół MCP
+node ../test_protokol.mjs                      # tylko protokół MCP
 CEIDG_API_KEY="$(cat PLIK)" node ../test_na_zywo.mjs   # treść na żywym API (2 przypadki CEIDG)
 ```

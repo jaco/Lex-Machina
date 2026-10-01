@@ -27,13 +27,14 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { sygnal, owinSerwer, budzetWyczerpany } from "../wspolne/budzet.mjs";
 
 // ⛔ POPRAWKA 2026-09-27h: wersja v2 zwraca HTTP 404 (zmierzone). Działa v3, ale wymaga
 //    TOKENU (v3 bez nagłówka Authorization → HTTP 401). Token uzyskuje się z rejestracji
 //    w CEIDG; bez niego konektor MUSI zwracać ERROR, nie udawać braku podmiotu.
 const CEIDG_BASE_URL = "https://dane.biznes.gov.pl/api/ceidg/v3";
 
-const server = globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "ceidg-connector", version: "1.1.0" });
+const server = owinSerwer(globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "ceidg-connector", version: "1.1.0" }));
 
 // ⛔ POPRAWKA 2026-09-29 (AUDYT-2026-09-29, F-214) — kształt zmierzony na ŻYWYM API v3 z tokenem:
 //    (a) NIP i REGON są w `firmy[].wlasciciel.{nip,regon}`, NIE w `firmy[].nip` → poprzednio
@@ -107,7 +108,7 @@ async function pobierzZCeidg(nip, apiKey) {
   const url = `${CEIDG_BASE_URL}/firmy?nip=${encodeURIComponent(nip)}`;
   const resp = await fetch(url, {
     headers: { Authorization: `Bearer ${apiKey}`, Accept: "application/json" },
-    signal: AbortSignal.timeout(15000),
+    signal: sygnal(15000),
   });
   if (resp.status === 204 || resp.status === 404) return null;   // brak wpisu — nie błąd
   const tekst = await resp.text();

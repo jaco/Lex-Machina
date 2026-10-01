@@ -1,6 +1,6 @@
 > ✅ **STAN 2026-09-27j:** treść zmierzona na żywym API (`../test_na_zywo.mjs`) — bez zmian w kodzie.
 
-Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixtures/`), `test_protokol_mcp.mjs` (tylko protokół MCP — nie sprawdza treści), `../test_na_zywo.mjs` (treść na żywym API; jedyny test, który wykrywa błędy treści).
+Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixtures/`), `../test_protokol.mjs` (tylko protokół MCP — nie sprawdza treści), `../test_na_zywo.mjs` (treść na żywym API; jedyny test, który wykrywa błędy treści).
 
 ---
 
@@ -18,7 +18,7 @@ Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixture
 cd shared/tools/mcp-servers/krs-example
 npm install
 node test_normalizacja.mjs
-node test_protokol_mcp.mjs
+node ../test_protokol.mjs
 ```
 
 ## Podłączenie

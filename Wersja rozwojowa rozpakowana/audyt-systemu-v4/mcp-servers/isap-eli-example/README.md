@@ -1,6 +1,6 @@
 > ✅ **STAN 2026-09-27j:** treść zmierzona na żywym API (`../test_na_zywo.mjs`) — bez zmian w kodzie.
 
-Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixtures/`), `test_protokol_mcp.mjs` (tylko protokół MCP — nie sprawdza treści), `../test_na_zywo.mjs` (treść na żywym API; jedyny test, który wykrywa błędy treści).
+Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixtures/`), `../test_protokol.mjs` (tylko protokół MCP — nie sprawdza treści), `../test_na_zywo.mjs` (treść na żywym API; jedyny test, który wykrywa błędy treści).
 
 ---
 
@@ -12,7 +12,7 @@ Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixture
 - Serwer poprawnie implementuje protokół MCP (stdio) — prawdziwy klient MCP
   (`@modelcontextprotocol/sdk` Client) połączył się, wykonał handshake,
   zobaczył narzędzie `isap_lookup` przez `tools/list`, wywołał je przez
-  `tools/call` i poprawnie odebrał odpowiedź. Patrz `test_protokol_mcp.mjs`.
+  `tools/call` i poprawnie odebrał odpowiedź. Patrz `../test_protokol.mjs`.
 - Funkcja normalizująca odpowiedź (`normalizujOdpowiedzELI`) do schematu
   FOUND/NOT_FOUND/AMBIGUOUS/ERROR z `shared/SCHEMAT-ODPOWIEDZI-MCP.md —
   3/3 przypadków testowych PASS. Patrz `test_normalizacja.mjs`.
@@ -50,7 +50,7 @@ developer wolał zacząć od czegoś działającego niż od zera.
 cd shared/tools/mcp-servers/isap-eli-example
 npm install
 node test_normalizacja.mjs      # test bez sieci — powinien przejść zawsze
-node test_protokol_mcp.mjs      # test protokołu MCP — przejdzie, ale
+node ../test_protokol.mjs      # test protokołu MCP — przejdzie, ale
                                  # isap_lookup zwróci ERROR bez dostępu do
                                  # api.sejm.gov.pl (tak jak w tym środowisku)
 ```

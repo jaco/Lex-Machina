@@ -27,6 +27,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { sygnal, owinSerwer, budzetWyczerpany } from "../wspolne/budzet.mjs";
 
 const BASE = "https://orzeczenia.nsa.gov.pl";
 const HOST = "orzeczenia.nsa.gov.pl";
@@ -223,17 +224,27 @@ class Sesja {
       if (u.protocol !== "https:" || u.hostname !== HOST) throw new Error(`Odmowa: host spoza CBOSA (${u.host})`);
       const headers = { "User-Agent": "lex-machina-cbosa/1.0", "Accept-Language": "pl-PL,pl;q=0.9", ...(init.headers ?? {}) };
       if (this.cookies.size) headers.Cookie = [...this.cookies].map(([k, v]) => `${k}=${v}`).join("; ");
-      const r = await fetch(url, { ...init, headers, redirect: "manual", signal: AbortSignal.timeout(40000) });
+      const r = await fetch(url, { ...init, headers, redirect: "manual", signal: sygnal(40000) });
       for (const c of r.headers.getSetCookie?.() ?? []) { const [kv] = c.split(";"); const i = kv.indexOf("="); if (i > 0) this.cookies.set(kv.slice(0, i).trim(), kv.slice(i + 1).trim()); }
       if (r.status >= 300 && r.status < 400 && r.headers.get("location")) {
         url = new URL(r.headers.get("location"), url).href; init = { method: "GET" }; continue;
       }
       if (!r.ok) throw new Error(`CBOSA HTTP ${r.status}`);
       const buf = Buffer.from(await r.arrayBuffer());
+      // Content-Length to rozmiar PRZESŁANY: przy gzip/br fetch zwraca treść po dekompresji
+      // (większą), więc długość porównujemy tylko bez kompresji (wcześniej: fałszywy błąd 18128/5690 B).
+      // ⚠️ Korekta 2026-10-01 (pomiar lokalny, undici/Node 22): ucięcie przy Content-Length lub w trybie
+      //    chunked rzuca UND_ERR_SOCKET już w fetch; ucięty gzip BEZ Content-Length (koniec = zamknięcie
+      //    połączenia) przechodzi BEZ wyjątku (4918/30013 B). Przed tym chroni dopiero kontrola treści:
+      //    dokument — zamknięcie BODY/HTML w parsujDokument; lista wyników — kontrola niżej (</html>).
       const cl = Number(r.headers.get("content-length"));
-      if (cl && cl !== buf.length) throw new Error(`Niekompletny transport HTTP (${buf.length}/${cl} B)`);
+      const kodowanie = (r.headers.get("content-encoding") ?? "").trim().toLowerCase();
+      if (cl && (!kodowanie || kodowanie === "identity") && cl !== buf.length) throw new Error(`Niekompletny transport HTTP (${buf.length}/${cl} B)`);
       const cs = ((r.headers.get("content-type") ?? "").match(/charset=([\w-]+)/i)?.[1] ?? "utf-8").toLowerCase();
-      return new TextDecoder(cs).decode(buf);
+      const html = new TextDecoder(cs).decode(buf);
+      if (/text\/html/i.test(r.headers.get("content-type") ?? "") && !/<\/html>/i.test(html))
+        throw new Error(`Niekompletny HTML CBOSA (brak </html>, ${buf.length} B) — transport ucięty`);
+      return html;
     }
     throw new Error("Pętla przekierowań CBOSA");
   }
@@ -251,7 +262,7 @@ async function szukaj(sesja, pola) {
 
 const blad = (e) => ({ status: "ERROR", query_type: "orzeczenie", source: "cbosa", detail: String(e?.message ?? e), retrieved_at: new Date().toISOString() });
 const tekst = (w) => ({ content: [{ type: "text", text: JSON.stringify(w, null, 2) }] });
-const server = globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "cbosa-connector", version: "1.0.0" });
+const server = owinSerwer(globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "cbosa-connector", version: "1.0.0" }));
 
 server.registerTool("cbosa_sprawdz_sygnature", {
   title: "CBOSA — kontrola istnienia sygnatury NSA/WSA (exact-match, fail-closed)",

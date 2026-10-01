@@ -40,13 +40,14 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { sygnal, owinSerwer, budzetWyczerpany } from "../wspolne/budzet.mjs";
 
 const ELI_BASE_URL = "https://api.sejm.gov.pl/eli/acts"; // ✅ zweryfikowane wobec żywego API 2026-09-27g
 
-const server = globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({
+const server = owinSerwer(globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({
   name: "isap-eli-connector",
   version: "1.0.0",
-});
+}));
 
 // ⛔ POPRAWKA 2026-09-27o (AUDYT-2026-09-27o) — zmierzone na żywym ELI:
 //  (1) status ELI przepuszczany bez mapowania poza schemat 4 wartości: „akt posiada tekst jednolity”
@@ -110,7 +111,7 @@ async function eliGet(sciezka) {
   let ostatni;
   for (let proba = 1; proba <= 3; proba++) {
     try {
-      const resp = await fetch(`${ELI_BASE_URL}/${sciezka}`, { signal: AbortSignal.timeout(20000) });
+      const resp = await fetch(`${ELI_BASE_URL}/${sciezka}`, { signal: sygnal(20000) });
       if (resp.status === 404) return null;
       if (!resp.ok) throw new Error(`Sejm ELI API zwróciło HTTP ${resp.status}`);
       return await resp.json();
@@ -210,7 +211,7 @@ export function wytnijArtykul(zalacznik, numer) {
 
 async function tekstPdf(eli) {
   if (pamiecTekstu.has(eli)) return pamiecTekstu.get(eli);
-  const resp = await fetch(`${ELI_BASE_URL}/${eli}/text.pdf`, { signal: AbortSignal.timeout(90000) });
+  const resp = await fetch(`${ELI_BASE_URL}/${eli}/text.pdf`, { signal: sygnal(90000) });
   if (!resp.ok) throw new Error(`PDF ${eli}: HTTP ${resp.status}`);
   const dane = new Uint8Array(await resp.arrayBuffer());
   const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");

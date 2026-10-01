@@ -25,6 +25,8 @@ uruchamia serwer z pliku na dysku, nie z archiwum.
 | `*-example/` | źródła i testy offline `test_normalizacja.mjs` (na prawdziwych odpowiedziach API) |
 | `package.json`, `package-lock.json` | WSPÓLNE zależności wszystkich serwerów (od 27s; dawniej 10 identycznych kopii) — `npm ci` raz, w tym katalogu |
 | `test_protokol.mjs` | protokół MCP wszystkich serwerów naraz (od 27s; dawniej 10 kopii `test_protokol_mcp.mjs`) |
+| `test_poprawnosci.mjs` | test PRAWDZIWOŚCI treści (od 2026-10-01): każda odpowiedź porównana z niezależnym odczytem źródła (surowe API, pełny tekst, SPARQL, `pdftotext` dla PDF ISAP) + budżet czasu na zawieszonym źródle; `CEIDG_API_KEY` tylko w zmiennej środowiskowej |
+| `wspolne/budzet.mjs` | wspólny budżet czasu wywołania narzędzia (domyślnie 50 s, `LEX_BUDZET_MS`) — zawieszone źródło daje ERROR serwera zamiast `-32001 Request timed out` klienta (60 s) |
 | `test_na_zywo.mjs` | test TREŚCI na żywym API (29 przypadków; `LEX_POMIN="SAOS|CBOSA"` pomija niedostępne kanały); wymaga `npm ci` w tym katalogu |
 
 Serwery: `isap`, `saos`, `krs`, `nbp`, `eurlex`, `eureka`, `sudop`, `cbosa`, `uodo`, `wl` (biała lista VAT), `ceidg` (tylko z `CEIDG_API_KEY`).

@@ -22,6 +22,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { sygnal, owinSerwer, budzetWyczerpany } from "../wspolne/budzet.mjs";
 
 const B = "https://orzeczenia.uodo.gov.pl";
 const TRASA_DOK = "routes/_main.document.($urn).content";
@@ -123,7 +124,7 @@ async function pobierzDane(sciezka) {
   let ostatni;
   for (let p = 1; p <= 3; p++) {
     try {
-      const r = await fetch(B + sciezka, { signal: AbortSignal.timeout(30000) });
+      const r = await fetch(B + sciezka, { signal: sygnal(30000) });
       if (!r.ok) throw new Error(`UODO HTTP ${r.status}`);
       const typ = r.headers.get("content-type") ?? "";
       if (!/script|json/.test(typ)) throw new Error(`UODO zwrócił ${typ} zamiast danych loadera (zmiana portalu?)`);
@@ -136,7 +137,7 @@ const szukaj = async (p) => (await pobierzDane(`/search.data?${new URLSearchPara
 const dokument = async (urn) => (await pobierzDane(`/document/${urn}/content.data`))[TRASA_DOK]?.data;
 const blad = (e) => ({ status: "ERROR", query_type: "decyzja_uodo", source: "uodo", detail: String(e?.message ?? e), retrieved_at: new Date().toISOString() });
 const odp = (w) => ({ content: [{ type: "text", text: JSON.stringify(w, null, 2) }] });
-const server = globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "uodo-connector", version: "1.0.0" });
+const server = owinSerwer(globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "uodo-connector", version: "1.0.0" }));
 
 server.registerTool("uodo_sprawdz_sygnature", {
   title: "UODO — istnienie decyzji Prezesa UODO i jej prawomocność",

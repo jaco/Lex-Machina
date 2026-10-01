@@ -87,7 +87,7 @@ const PRZYPADKI = [
   ["TSUE: C-131/12 → wyrok Google Spain + opinia RG", "eurlex-example", "eurlex-mcp-server.js", "eurlex_tsue", { sygnatura: "C-131/12" },
     (w) => w.status === "FOUND" && w.result.identyfikator === "C-131/12" && w.result.ecli === "ECLI:EU:C:2014:317" && w.powiazane.length >= 1],
   ["SAOS: cytator III CRN 126/80 → sygnał odstąpienia (SN odstąpił w III CKN 1283/00)", "saos-example", "saos-mcp-server.js", "saos_cytator", { sygnatura: "III CRN 126/80" },
-    (w) => w.status === "FOUND" && w.result.z_sygnalem_odstapienia >= 1 && w.zakres_skanu.przeskanowano_pelnych > 0],
+    (w) => w.status === "FOUND" && w.result.z_sygnalem_odstapienia >= 1 && w.zakres_skanu.przeskanowano_pelnych > 0 && w.result.przeskanowano > 0 /* 2026-10-01: było 0 mimo pobranych tekstów */],
   ["SAOS: cytator III CKN 1283/00 → „samo odstąpiło” (kierunek), nie sygnał przeciw niemu", "saos-example", "saos-mcp-server.js", "saos_cytator", { sygnatura: "III CKN 1283/00" },
     (w) => w.status === "FOUND" && w.result.z_sygnalem_odstapienia === 0 && w.cytujace.some((c) => c.sygnaly.some((s) => /samo odstąpiło/.test(s.etykieta)))],
   ["SAOS: sygnatura SN z 2017 (poza zasięgiem SAOS) → OUT_OF_SCOPE, nie „zmyślona”", "saos-example", "saos-mcp-server.js", "saos_search", { sygnatura: "III CZP 29/17", courtType: "SUPREME" },

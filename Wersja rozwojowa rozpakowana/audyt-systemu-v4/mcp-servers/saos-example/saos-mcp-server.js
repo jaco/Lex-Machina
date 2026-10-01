@@ -44,15 +44,16 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { sygnal, owinSerwer, budzetWyczerpany } from "../wspolne/budzet.mjs";
 
 // ⭐ USTALENIE 2026-09-27h: SAOS zawiera także orzeczenia KIO — courtType=NATIONAL_APPEAL_CHAMBER
 //    zwraca 22 168 orzeczeń (sygnatury typu "KIO/UZP 2/07"). Osobny konektor do KIO jest zbędny.
 const SAOS_BASE_URL = "https://www.saos.org.pl/api/search/judgments";
 
-const server = globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({
+const server = owinSerwer(globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({
   name: "saos-connector",
   version: "1.1.0",
-});
+}));
 
 // ⛔ POPRAWKA 2026-09-27j (AUDYT-2026-09-27j) — zmierzone na żywym API:
 //  (1) Sygnatura NIE leży w `item.caseNumber`, tylko w `item.courtCases[].caseNumber`.
@@ -184,7 +185,7 @@ async function pobierzZSaos(params) {
   let ostatni;
   for (let proba = 1; proba <= PROBY; proba++) {
     try {
-      const resp = await fetch(url, { signal: AbortSignal.timeout(TIMEOUT_MS) });
+      const resp = await fetch(url, { signal: sygnal(TIMEOUT_MS) });
       if (!resp.ok) throw new Error(`SAOS API zwróciło HTTP ${resp.status}`);
       // 27p: zmierzone — w czasie „Przerwy technicznej” SAOS zwraca HTTP 200 ze stroną HTML.
       const typ = resp.headers.get("content-type") ?? "";
@@ -261,6 +262,9 @@ const WZORCE_ODSTAPIENIA = [
   [/nie\s+zas[łl]ugu\p{L}*\s+na\s+aprobat/iu, "brak aprobaty"],
   [/odmienn\p{L}*\s+(?:ni[żz]|od)\s+(?:stanowisk|pogl[ąa]d|wyra[żz]on)/iu, "stanowisko odmienne"],
   [/pogl[ąa]d\p{L}*\s+odosobnion/iu, "pogląd odosobniony"],
+  // 2026-10-01 (pomiar: III CKN 1283/00 wobec III CRN 126/80): „Nie można także uznać za zadowalające odwołanie się
+  //    do wyroku Sądu Najwyższego z dnia 3 października 1980 r.” — krytyka wyrażona bez słów „odstąpić”/„nie podziela”.
+  [/nie\s+(?:mo[żz]na|spos[óo]b)\s+(?:tak[żz]e\s+|te[żz]\s+)?uzna\p{L}*\s+za\s+(?:zadowalaj|trafn|przekonuj)/iu, "zakwestionowanie poglądu"],
 ];
 const WZORCE_KONTEKSTU = [
   [/uchwa[łl]\p{L}*\s+(?:sk[łl]adu\s+siedmiu|pe[łl]nego\s+sk[łl]adu|ca[łl]ej\s+izby|po[łl][ąa]czonych\s+izb)/iu, "uchwała poszerzonego składu"],
@@ -286,6 +290,25 @@ export function skanujCytowanie(tekst, syg, okno = 700) {
   const wyst = [...t.matchAll(regexSygnatury(syg))].map((m) => ({ od: m.index, do: m.index + m[0].length }));
   const sygnaly = [];
   if (!wyst.length) return { wystapienia: 0, sygnaly };
+  // 2026-10-01: odesłanie DATĄ. Uzasadnienia przywołują orzeczenie raz z sygnaturą („wyrok z dnia 3 października
+  //    1980 r., III CRN 126/80”), a dalej samą datą („odwołanie się do wyroku … z dnia 3 października 1980 r.”) —
+  //    krytyka padała ~2000 zn. od sygnatury i była niewidoczna. Data wzięta WYŁĄCZNIE z tekstu przed sygnaturą
+  //    staje się dodatkową kotwicą, jeśli za nią nie stoi inna sygnatura (inne orzeczenie z tego samego dnia).
+  const daty = new Set();
+  for (const w of wyst) {
+    const m = t.slice(Math.max(0, w.od - 80), w.od).match(/z\s+dnia\s+(\d{1,2}\s+\p{L}+\s+\d{4})\s*r\.?\s*,?\s*(?:sygn\.\s*(?:akt\s*)?)?$/u);
+    if (m) daty.add(m[1]);
+  }
+  const liczbaSyg = wyst.length;
+  for (const d of daty) {
+    const re = new RegExp(`z\\s+dnia\\s+${d.replace(/\s+/g, "\\s+")}\\s*r\\.?`, "giu");
+    for (const m of t.matchAll(re)) {
+      const od = m.index, kon = od + m[0].length;
+      if (wyst.some((w) => Math.abs(w.od - kon) < 25 || (w.od <= od && w.do >= od))) continue; // to samo przywołanie z sygnaturą
+      if (/^\s*,?\s*(?:sygn\.\s*(?:akt\s*)?)?[IVX]+\s+\p{Lu}/u.test(t.slice(kon, kon + 20))) continue; // inna sygnatura z tą datą
+      wyst.push({ od, do: kon, data: true });
+    }
+  }
   const dodaj = (typ, etykieta, pocz, kon) => {
     const i = sygnaly.findIndex((x) => x.etykieta === etykieta);
     const fr = t.slice(Math.max(0, pocz - 300), kon + 300).slice(0, 1400);
@@ -314,7 +337,7 @@ export function skanujCytowanie(tekst, syg, okno = 700) {
   };
   ocen(WZORCE_ODSTAPIENIA, "odstapienie");
   ocen(WZORCE_KONTEKSTU, "kontekst");
-  return { wystapienia: wyst.length, sygnaly };
+  return { wystapienia: liczbaSyg, sygnaly };
 }
 
 export function podsumujCytator(items, syg, pelne = new Map(), lacznie = null) {
@@ -350,14 +373,15 @@ export function podsumujCytator(items, syg, pelne = new Map(), lacznie = null) {
     retrieved_at: new Date().toISOString(), confidence: "candidate-only" };
 }
 
-// ⛔ POPRAWKA 27t (SAOS dostępny, zmierzone): (1) `all=III CZP 29/17` bez cudzysłowu = OR po słowach
+// ⛔ POPRAWKA 27t (SAOS dostępny, zmierzone): (1) `all=III CZP 29/17` bez cudzysłowu = AND po tokenach
+//    (korekta 2026-10-01: nie OR — „zachowek darowizna” 1968 < „zachowek” 3346; tokeny III/29/17 są pospolite)
 //    (81 357 trafień) → fraza w cudzysłowie (5920); (2) `textContent` w wynikach wyszukiwania = FRAGMENT
 //    z podświetleniem (400–900 zn.) → pełny tekst z /api/judgments/{id} dla próby najnowszych.
 const PROBA_PELNEGO_TEKSTU = 25;
 async function pelnyTekst(id) {
   for (let p = 1; p <= 3; p++) {
     try {
-      const r = await fetch(`https://www.saos.org.pl/api/judgments/${id}`, { signal: AbortSignal.timeout(45000) });
+      const r = await fetch(`https://www.saos.org.pl/api/judgments/${id}`, { signal: sygnal(45000) });
       if (!(r.headers.get("content-type") ?? "").includes("json")) throw new Error("SAOS: HTML zamiast JSON");
       return (await r.json())?.data?.textContent ?? "";
     } catch (e) { if (p === 3) return null; }
@@ -374,7 +398,7 @@ async function kandydaciCytujacy(syg, dataOd) {
   let ostatni;
   for (let p = 1; p <= PROBY; p++) {
     try {
-      const r = await fetch(`${SAOS_BASE_URL}?${qs}`, { signal: AbortSignal.timeout(TIMEOUT_MS) });
+      const r = await fetch(`${SAOS_BASE_URL}?${qs}`, { signal: sygnal(TIMEOUT_MS) });
       if (!r.ok || !(r.headers.get("content-type") ?? "").includes("json")) throw new Error(`SAOS HTTP ${r.status}`);
       const d = await r.json(); return { items: d.items ?? [], total: d.info?.totalResults ?? null };
     } catch (e) { ostatni = e; }
@@ -384,7 +408,7 @@ async function kandydaciCytujacy(syg, dataOd) {
 async function pelnaTresc(id) {
   for (let p = 1; p <= 3; p++) {
     try {
-      const r = await fetch(`https://www.saos.org.pl/api/judgments/${id}`, { signal: AbortSignal.timeout(TIMEOUT_MS) });
+      const r = await fetch(`https://www.saos.org.pl/api/judgments/${id}`, { signal: sygnal(TIMEOUT_MS) });
       if (!r.ok || !(r.headers.get("content-type") ?? "").includes("json")) throw new Error(`HTTP ${r.status}`);
       return (await r.json()).data?.textContent ?? null;
     } catch (e) { if (p === 3) return null; }
@@ -407,13 +431,27 @@ server.registerTool("saos_cytator", {
     // tani pre-skan fragmentów: kandydat z sygnałem już we fragmencie zawsze idzie do pełnego skanu
     const zSygnalem = new Set(obce.filter((it) => skanujCytowanie(it.textContent, sygnatura).sygnaly.some((x) => x.typ === "odstapienie")).map((it) => it.id));
     const kand = obce.filter((it, i) => i < LIMIT_PELNYCH || zSygnalem.has(it.id));
-    const pelne = [];
-    for (let i = 0; i < kand.length; i += 8) {
-      pelne.push(...await Promise.all(kand.slice(i, i + 8).map(async (it) => ({ ...it, textContent: (await pelnaTresc(it.id)) ?? it.textContent }))));
+    // ⛔ POPRAWKA 2026-10-01 (test poprawności): wcześniej podsumujCytator dostawał tablicę bez mapy
+    //    pełnych tekstów → każde cytowanie miało przeskanowano_pelny_tekst=false, `przeskanowano`=0,
+    //    a werdykt brzmiał „… w 0 najnowszych orzeczeniach cytujących”, choć teksty pobrano. Do tego
+    //    nieudane pobranie po cichu wracało do FRAGMENTU, a raport twierdził, że skan był pełny.
+    const pelneTeksty = new Map();
+    let nieudane = 0;
+    for (let i = 0; i < kand.length && !budzetWyczerpany(); i += 8) {
+      await Promise.all(kand.slice(i, i + 8).map(async (it) => {
+        const t = await pelnaTresc(it.id);
+        if (t) pelneTeksty.set(it.id, t); else nieudane++;
+      }));
     }
-    const w = podsumujCytator(pelne, sygnatura);
-    w.zakres_skanu = { trafien_frazy: total, kandydatow_z_wyszukiwarki: items.length, przeskanowano_pelnych: pelne.length,
+    const w = podsumujCytator(items, sygnatura, pelneTeksty, total);
+    const pominieteBudzet = kand.filter((it) => !pelneTeksty.has(it.id)).length - nieudane;
+    w.zakres_skanu = { trafien_frazy: total, kandydatow_z_wyszukiwarki: items.length, przeskanowano_pelnych: pelneTeksty.size,
+      nieudane_pobrania_pelnego_tekstu: nieudane, pominiete_z_braku_czasu: Math.max(0, pominieteBudzet),
       zasieg_saos: "SP do 2026; SN do 2016; TK do 2015; KIO do 2018 — późniejsze orzeczenia SN/TK/KIO niewidoczne" };
+    if (nieudane || pominieteBudzet > 0) {
+      w.uwaga = (w.uwaga ? w.uwaga + " " : "") + `⚠️ Skan niepełny: ${nieudane} pełnych tekstów nie pobrano, ${Math.max(0, pominieteBudzet)} pominięto z braku czasu — ` +
+        "dla nich oceniono tylko fragment wyszukiwarki; brak sygnału odstąpienia NIE jest rozstrzygający.";
+    }
     const sr = sadIRok(sygnatura);
     if (sr?.courtType === "SUPREME" || sr?.courtType === "CONSTITUTIONAL_TRIBUNAL") {
       w.uwaga = (w.uwaga ? w.uwaga + " " : "") + `⚠️ Cytowania przez ${sr.courtType === "SUPREME" ? "SN po 2016" : "TK po 2015"} r. poza zasięgiem SAOS — brak sygnału odstąpienia nie wyklucza późniejszej zmiany linii.`;

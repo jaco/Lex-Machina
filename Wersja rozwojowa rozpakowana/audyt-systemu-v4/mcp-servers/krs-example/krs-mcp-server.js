@@ -28,10 +28,11 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { sygnal, owinSerwer, budzetWyczerpany } from "../wspolne/budzet.mjs";
 
 const KRS_BASE_URL = "https://api-krs.ms.gov.pl/api/krs";
 
-const server = globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "krs-connector", version: "1.1.0" });
+const server = owinSerwer(globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "krs-connector", version: "1.1.0" }));
 
 // ⛔ POPRAWKA 2026-09-27q (AUDYT-2026-09-27q) — zmierzone na żywym API KRS:
 //  (1) tylko rejestr=P → fundacje i stowarzyszenia (rejestr S) dawały NOT_FOUND jak nieistniejący podmiot
@@ -113,7 +114,7 @@ async function pobierzZKrs(numerKrs) {
   for (const rejestr of ["P", "S"]) {
     for (let proba = 1; proba <= 3; proba++) {
       try {
-        const resp = await fetch(`${KRS_BASE_URL}/OdpisAktualny/${numerKrs}?rejestr=${rejestr}&format=json`, { signal: AbortSignal.timeout(20000) });
+        const resp = await fetch(`${KRS_BASE_URL}/OdpisAktualny/${numerKrs}?rejestr=${rejestr}&format=json`, { signal: sygnal(20000) });
         if (resp.status === 404) { ostatni = null; break; }
         if (!resp.ok) throw new Error(`API KRS zwróciło HTTP ${resp.status}`);
         return await resp.json();

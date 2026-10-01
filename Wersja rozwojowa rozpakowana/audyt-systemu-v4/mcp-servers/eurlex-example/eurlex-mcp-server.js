@@ -26,6 +26,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { sygnal, owinSerwer, budzetWyczerpany } from "../wspolne/budzet.mjs";
 
 // ⛔ POPRAWKA 2026-09-27j (AUDYT-2026-09-27j) — diagnoza z 27h była BŁĘDNA.
 //    27h: „SPARQL zwraca 406 przy Accept: application/json”. Zmierzone 27j: SPARQL zwraca
@@ -45,7 +46,7 @@ import { fileURLToPath } from "node:url";
 const CELLAR_SPARQL_URL = "https://publications.europa.eu/webapi/rdf/sparql";
 const CELEX_RE = /^[0-9CE][0-9]{4}[A-Z]{1,2}[0-9A-Z()_.\-]{1,20}$/;
 
-const server = globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "eurlex-connector", version: "1.1.0" });
+const server = owinSerwer(globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "eurlex-connector", version: "1.1.0" }));
 
 export function budujZapytanieSparql(celex) {
   if (!CELEX_RE.test(celex)) throw new Error(`Niepoprawny numer CELEX: ${celex}`);
@@ -116,7 +117,7 @@ async function pobierzZCellar(celex) {
         method: "POST",
         headers: { Accept: "application/sparql-results+json" },
         body,
-        signal: AbortSignal.timeout(40000),
+        signal: sygnal(40000),
       });
       if (!resp.ok) throw new Error(`CELLAR SPARQL zwrócił HTTP ${resp.status}`);
       const dane = await resp.json();
@@ -232,7 +233,7 @@ server.registerTool("eurlex_tsue", {
     const body = new URLSearchParams({ query: zapytanieTsue(a) });
     let ostatni, dane;
     for (let proba = 1; proba <= 3 && !dane; proba++) {
-      try { const r = await fetch(CELLAR_SPARQL_URL, { method: "POST", headers: { Accept: "application/sparql-results+json" }, body, signal: AbortSignal.timeout(60000) });
+      try { const r = await fetch(CELLAR_SPARQL_URL, { method: "POST", headers: { Accept: "application/sparql-results+json" }, body, signal: sygnal(60000) });
         if (!r.ok) throw new Error(`CELLAR SPARQL HTTP ${r.status}`); dane = await r.json(); } catch (e) { ostatni = e; }
     }
     if (!dane) throw ostatni;

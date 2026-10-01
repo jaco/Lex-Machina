@@ -1,6 +1,6 @@
 > ⛔ **STAN 2026-09-27j (AUDYT-2026-09-27j, shared 3.90):** EUR-Lex 1.1.0 — przyczyną 406 był niezakodowany `+` w `format=`, nie nagłówek Accept; pod spodem literał bez typu dawał puste wyniki (RODO → NOT_FOUND). Teraz: POST, `^^xsd:string`, walidacja CELEX (wstrzyknięcie), status obowiązywania, data końca, tytuł PL.
 
-Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixtures/`), `test_protokol_mcp.mjs` (tylko protokół MCP — nie sprawdza treści), `../test_na_zywo.mjs` (treść na żywym API; jedyny test, który wykrywa błędy treści).
+Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixtures/`), `../test_protokol.mjs` (tylko protokół MCP — nie sprawdza treści), `../test_na_zywo.mjs` (treść na żywym API; jedyny test, który wykrywa błędy treści).
 
 ---
 
@@ -27,7 +27,7 @@ zapytanie o pełniejszy zestaw predykatów CDM przed produkcją.
 cd shared/tools/mcp-servers/eurlex-example
 npm install
 node test_normalizacja.mjs
-node test_protokol_mcp.mjs
+node ../test_protokol.mjs
 ```
 
 ## Podłączenie

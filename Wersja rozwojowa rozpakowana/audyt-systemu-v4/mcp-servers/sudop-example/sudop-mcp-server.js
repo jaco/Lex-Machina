@@ -22,6 +22,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { sygnal, owinSerwer, budzetWyczerpany } from "../wspolne/budzet.mjs";
 
 // ⛔ POPRAWKA 2026-09-27j (AUDYT-2026-09-27j). Stan 27h: nota o asynchroniczności, ale
 //    kod dalej robił jedno żądanie i parsował JSON → crash „Unexpected token 'P'”.
@@ -38,7 +39,7 @@ const SUDOP_BASE_URL = `${SUDOP_HOST}/sudop-api/api/przypadki-pomocy`;
 const CZEKANIE_MS = 50000;
 const INTERWAL_MS = 10000;
 
-const server = globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "sudop-connector", version: "1.1.0" });
+const server = owinSerwer(globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "sudop-connector", version: "1.1.0" }));
 
 export function normalizujOdpowiedzSUDOP(raw) {
   const rawItems = Array.isArray(raw) ? raw : raw?.items ?? raw?.content ?? raw?.dane ?? [];
@@ -79,7 +80,7 @@ async function odpytajKolejke(kolejkaId, limitMs) {
   const start = Date.now();
   let komunikat = null;
   for (;;) {
-    const resp = await fetch(url, { signal: AbortSignal.timeout(20000) });
+    const resp = await fetch(url, { signal: sygnal(20000) });
     if (!resp.ok) throw new Error(`SUDOP kolejka zwróciła HTTP ${resp.status}`);
     const typ = resp.headers.get("content-type") ?? "";
     if (typ.includes("json")) return { gotowe: true, dane: await resp.json() };
@@ -91,7 +92,7 @@ async function odpytajKolejke(kolejkaId, limitMs) {
 
 async function zlec(nip) {
   const resp = await fetch(`${SUDOP_BASE_URL}?nip-beneficjenta=${encodeURIComponent(nip)}`, {
-    redirect: "manual", signal: AbortSignal.timeout(20000),
+    redirect: "manual", signal: sygnal(20000),
   });
   if (resp.status === 200 && (resp.headers.get("content-type") ?? "").includes("json")) {
     return { natychmiast: await resp.json() };

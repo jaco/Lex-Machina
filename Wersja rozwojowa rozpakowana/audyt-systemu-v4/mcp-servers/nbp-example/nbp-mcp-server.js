@@ -20,13 +20,14 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { sygnal, owinSerwer, budzetWyczerpany } from "../wspolne/budzet.mjs";
 
 // ⛔ POPRAWKA 2026-09-27h: NBP nie publikuje tabel w dni wolne — zmierzone 14 i 15.03.2026
 //    (sobota, niedziela) → HTTP 404 "Brak danych". Przy kursie "z dnia" trzeba cofnąć się do
 //    ostatniej tabeli i POWIEDZIEĆ o tym. (27h odsyłało tu do „pluginu mcp-nbp”, którego nie ma w repo — naprawa: 27j, niżej.)
 const NBP_BASE_URL = "https://api.nbp.pl/api/exchangerates/rates";
 
-const server = globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "nbp-connector", version: "1.1.0" });
+const server = owinSerwer(globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "nbp-connector", version: "1.1.0" }));
 
 // ⛔ POPRAWKA 2026-09-27j (AUDYT-2026-09-27j): opis z 27h odsyłał do „pluginu mcp-nbp”,
 //    którego NIE MA w repozytorium marketplace — shared zawierał wersję z błędem.
@@ -96,7 +97,7 @@ export function normalizujOdpowiedzNBP(raw, kodWaluty, dataZadana) {
 async function pobierzZNbp(kodWaluty, dataZadana) {
   const od = minusDni(dataZadana, OKNO_DNI);
   const url = `${NBP_BASE_URL}/a/${kodWaluty.toLowerCase()}/${od}/${dataZadana}/?format=json`;
-  const resp = await fetch(url, { signal: AbortSignal.timeout(15000) });
+  const resp = await fetch(url, { signal: sygnal(15000) });
   if (resp.status === 404) return null; // brak jakiejkolwiek tabeli w oknie
   if (!resp.ok) throw new Error(`NBP API zwróciło HTTP ${resp.status}`);
   return await resp.json();

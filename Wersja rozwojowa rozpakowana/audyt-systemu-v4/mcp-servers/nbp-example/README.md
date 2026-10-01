@@ -1,6 +1,6 @@
 > ⛔ **STAN 2026-09-27j (AUDYT-2026-09-27j, shared 3.90):** NBP 1.1.0 — w dni bez publikacji (weekend, święto, przed ok. 12:00) zwraca ostatnią tabelę przed datą z jawnym `przesuniecie_dni` i `uwaga`; wcześniej NOT_FOUND, także bez podanej daty.
 
-Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixtures/`), `test_protokol_mcp.mjs` (tylko protokół MCP — nie sprawdza treści), `../test_na_zywo.mjs` (treść na żywym API; jedyny test, który wykrywa błędy treści).
+Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixtures/`), `../test_protokol.mjs` (tylko protokół MCP — nie sprawdza treści), `../test_na_zywo.mjs` (treść na żywym API; jedyny test, który wykrywa błędy treści).
 
 ---
 
@@ -18,7 +18,7 @@ Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixture
 cd shared/tools/mcp-servers/nbp-example
 npm install
 node test_normalizacja.mjs
-node test_protokol_mcp.mjs
+node ../test_protokol.mjs
 ```
 
 ## Podłączenie

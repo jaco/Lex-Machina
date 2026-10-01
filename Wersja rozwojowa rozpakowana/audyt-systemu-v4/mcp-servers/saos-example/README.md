@@ -1,6 +1,6 @@
 > ⛔ **STAN 2026-09-27j (AUDYT-2026-09-27j, shared 3.90):** SAOS 1.1.0 — sygnatura z `courtCases[].caseNumber` (wcześniej zawsze null), parametr `sygnatura` (kontrola istnienia, V-SYG-0), KIO i TK w `courtType`, NSA/WSA → `zakres: OUT_OF_SCOPE` (SAOS ma 0 orzeczeń administracyjnych), 3 próby × 45 s.
 
-Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixtures/`), `test_protokol_mcp.mjs` (tylko protokół MCP — nie sprawdza treści), `../test_na_zywo.mjs` (treść na żywym API; jedyny test, który wykrywa błędy treści).
+Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixtures/`), `../test_protokol.mjs` (tylko protokół MCP — nie sprawdza treści), `../test_na_zywo.mjs` (treść na żywym API; jedyny test, który wykrywa błędy treści).
 
 ---
 
@@ -11,7 +11,7 @@ Testy: `test_normalizacja.mjs` (offline, na prawdziwych odpowiedziach z `fixture
 ✅ **Zweryfikowane w tej sesji, realnym testem:**
 - Protokół MCP (stdio) — prawdziwy klient MCP połączył się, wykonał
   handshake, zobaczył narzędzie `saos_search` przez `tools/list`, wywołał je
-  przez `tools/call` i odebrał odpowiedź. Patrz `test_protokol_mcp.mjs`.
+  przez `tools/call` i odebrał odpowiedź. Patrz `../test_protokol.mjs`.
 - Normalizacja odpowiedzi (`normalizujOdpowiedzSAOS`) — 4/4 przypadki testowe
   PASS (FOUND, NOT_FOUND, AMBIGUOUS, fallback nazwy sądu SN przez `chambers`).
   Patrz `test_normalizacja.mjs`.
@@ -47,7 +47,7 @@ wyszukania kandydatów, nigdy samodzielnej weryfikacji**. Dlatego:
 cd shared/tools/mcp-servers/saos-example
 npm install
 node test_normalizacja.mjs      # test bez sieci — powinien przejść zawsze
-node test_protokol_mcp.mjs      # test protokołu MCP — przejdzie, ale
+node ../test_protokol.mjs      # test protokołu MCP — przejdzie, ale
                                  # saos_search zwróci ERROR bez dostępu do
                                  # saos.org.pl (tak jak w tym środowisku)
 ```

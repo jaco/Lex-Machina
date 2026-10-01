@@ -17,6 +17,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { sygnal, owinSerwer, budzetWyczerpany } from "../wspolne/budzet.mjs";
 
 const B = "https://wl-api.mf.gov.pl/api";
 const dzis = () => new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Warsaw" }).format(new Date());
@@ -73,7 +74,7 @@ async function api(sciezka) {
   let ostatni;
   for (let p = 1; p <= 3; p++) {
     try {
-      const r = await fetch(`${B}/${sciezka}`, { signal: AbortSignal.timeout(20000) });
+      const r = await fetch(`${B}/${sciezka}`, { signal: sygnal(20000) });
       const d = await r.json();
       if (r.status === 400 || r.ok) return d; // 400 = błąd merytoryczny z kodem WL-xxx — nie ponawiamy
       throw new Error(`Biała lista HTTP ${r.status}`);
@@ -84,7 +85,7 @@ async function api(sciezka) {
 const blad = (q, m) => ({ status: "ERROR", query_type: q, source: "biala-lista-vat", detail: m, retrieved_at: new Date().toISOString() });
 const odp = (w) => ({ content: [{ type: "text", text: JSON.stringify(w, null, 2) }] });
 const DATA = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().describe("dzień, na który sprawdzasz (domyślnie dziś, czas warszawski)");
-const server = globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "wl-connector", version: "1.0.0" });
+const server = owinSerwer(globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "wl-connector", version: "1.0.0" }));
 
 server.registerTool("wl_sprawdz_nip", {
   title: "Biała lista VAT — status podatnika i rachunki",
