@@ -1,6 +1,6 @@
 ---
 name: przesluchanie-swiadkow-v2-min90
-version: "3.29"
+version: "3.30"
 type: legal-skill
 domain: litigation-witness-examination
 status: production
@@ -63,7 +63,7 @@ pipeline:
     - W5-BINDER
     - W6-LIVE-DIRECT
 changelog: |
-  Wersja bieżąca: 3.29 (2026-09-27e, AUDYT-2026-09-27e): jawny manifest `.claude-plugin/plugin.json` — import z marketplace w claude.ai. Treść skilla bez zmian.
+  Wersja bieżąca: 3.30 (2026-10-01b, AUDYT-2026-10-01b): anonimizacja danych świadka z prawdziwej sprawy (przykład i dziennik); reguły bez zmian.
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 
@@ -1194,7 +1194,7 @@ przy wyraźnym żądaniu natychmiastowych pytań, system:
 Wynik tego self-checku pokazujesz użytkownikowi jako krótki nagłówek
 przed właściwymi pytaniami W3 (2–4 linijki, nie rozbudowany raport) —
 np.: "Potwierdzone: tezy+chronologia (Twoja wiadomość z [opis]), świadek:
-Maria Koroleva (postanowienie sądu z 8.07.2026). Pominięte etapy: brak."
+[ŚWIADEK-K] (postanowienie sądu z 8.07.2026). Pominięte etapy: brak."
 Jeśli coś pominięto — wpisz to zamiast "brak".
 
 ---

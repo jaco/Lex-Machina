@@ -1,6 +1,6 @@
 ---
 name: chronologia-sprawy-v1
-version: "1.12"
+version: "1.13"
 type: executive-chronologia
 status: production
 compatibility: "live_web_lookup, file_read, optional_interactive_ui"
@@ -177,6 +177,24 @@ KROK A5 — Wczytaj references/sprzecznosci-dat.md → sprawdź kolizje → budu
 KROK A6 — Wygeneruj raport chronologiczny (FORMAT RAPORTU niżej):
            osobna oś per wątek + widok zbiorczy + fakty bezsporne + indeks sprzeczności
 KROK A7 — Zaproponuj widget jeśli ≥5 zdarzeń lub ≥2 wątki lub użytkownik potrzebuje eksportu
+```
+
+### TRYB C — Graf przyczynowy (zależności zdarzeń, wpływ wzajemny, „co jeśli”) — od v1.13
+
+Gdy użytkownik pyta „co z czego wynika”, „jak zdarzenia na siebie wpływają”, „co jeśli X się nie
+utrzyma”, „pokaż zależności / graf”, albo gdy oś czasu ma ≥ 2 wątki ze wspólnymi węzłami:
+
+```
+KROK C1 — Oś czasu z TRYBU A (zdarzenia z polem id Z-nnn; bez osi czasu TRYB C nie rusza)
+KROK C2 — view shared/MOD-GRAF-PRZYCZYNOWY.md → krawędzie: dowód połączenia (MET-PT), csqn,
+          przypisanie prawne; bramy I/LUB; wersja przeciwnika jako OSLABIA/PRZERYWA
+KROK C3 — Raport: python3 shared/tools/graf_przyczynowy.py graf.json (MD; --mermaid dla diagramu)
+          albo — gdy brak wykonania kodu — ten sam model ręcznie wg §4 modułu, z jawnym rachunkiem
+KROK C4 — Widget: visualize:read_me(["interactive"]) → show_widget z
+          assets/widget-graf-przyczynowy.html (podmień stałą GRAF; pasek MOD-WIDGET-IO JSON/MD;
+          kliknięcie węzła = scenariusz obalony/udowodniony z przeliczeniem na żywo)
+KROK C5 — Ogniwa krytyczne i flagi (post hoc, csqn, art. 361 § 1/362/441 KC, art. 2 KK) do raportu
+          końcowego; liczby zawsze z zastrzeżeniem założeń (§4 modułu)
 ```
 
 ### TRYB B — Widget interaktywny
@@ -526,6 +544,7 @@ KROK W4 — Generuj widok zbiorczy (CROSS-WĄTEK):
 
 ```
 ZDARZENIE:
+  id:                [Z-001, Z-002, … — od v1.13; ten sam ID w grafie przyczynowym i w MP13 (pole fakt_m1)]
   data:              [dd.mm.rrrr lub zakres lub ~miesiąc.rrrr lub "MIĘDZY X a Y"]
   pewnosc:           [BEZSPORNE / PEWNE / WYDEDUKOWANE / SPORNE]
   dedukacja:         [null / opis rozumowania + podstawa + przedział czasowy]
@@ -544,6 +563,9 @@ ZDARZENIE:
   znaczenie:         [KLUCZOWE / ISTOTNE / TŁO]
   kolizja_id:        [null / "SPRZECZNOŚĆ-01" — odesłanie do Indeksu Sprzeczności]
   typ_kolizji:       [null / DATA / OPIS / DATA_I_OPIS]
+  przyczyny:         [od v1.13, opcjonalnie — [{ "od": "Z-003", "typ": "WYWOLUJE", "dowod": "KORELACJA" }];
+                      tylko gdy materiał mówi coś o MECHANIZMIE; sama kolejność dat to nie przyczyna
+                      (post hoc) — pełna analiza w TRYBIE C]
 ```
 
 ---

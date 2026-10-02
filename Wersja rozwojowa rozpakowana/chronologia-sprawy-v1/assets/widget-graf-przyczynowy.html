@@ -1,0 +1,239 @@
+<!-- widget-graf-przyczynowy.html — TRYB C chronologia-sprawy-v1 (1.13, AUDYT-2026-10-01b).
+     Wzorzec dla show_widget: podmień stałą GRAF (dane z rozmowy, schemat: shared/MOD-GRAF-PRZYCZYNOWY.md §2).
+     Silnik między znacznikami ENGINE-START/ENGINE-END jest 1:1 z shared/tools/graf_przyczynowy.py
+     (parytet sprawdza audyt-systemu-v4/scripts/check_graf_przyczynowy.py — T42). Dane przykładowe są fikcyjne. -->
+<style>
+  .gp { font-family: var(--font-sans, system-ui, sans-serif); color: var(--color-text-primary, #1f2328); }
+  .gp h3 { margin: 4px 0 8px; font-size: 16px; }
+  .gp .uwaga { font-size: 12px; color: var(--color-text-secondary, #57606a); margin-bottom: 8px; }
+  .gp .teza { font-size: 14px; margin: 6px 0; }
+  .gp svg { width: 100%; height: auto; border: 1px solid var(--color-border-tertiary, #d0d7de); border-radius: 8px; background: var(--color-background-primary, #fff); }
+  .gp .wezel rect { stroke-width: 1.5; rx: 6; cursor: pointer; }
+  .gp .wezel text { font-size: 11px; pointer-events: none; }
+  .gp .legenda { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; margin: 6px 0; }
+  .gp ul { font-size: 13px; padding-left: 18px; margin: 4px 0; }
+  .gp table { border-collapse: collapse; font-size: 12px; width: 100%; }
+  .gp td, .gp th { border-bottom: 1px solid var(--color-border-tertiary, #d0d7de); padding: 3px 6px; text-align: left; }
+  .io-bar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; font-size: 12px; }
+  .io-group { display: flex; gap: 6px; align-items: center; }
+  .io-label { color: var(--color-text-secondary, #57606a); }
+  .io-btn { border: 1px solid var(--color-border-secondary, #d0d7de); background: transparent; border-radius: 6px; padding: 3px 8px; cursor: pointer; font-size: 12px; color: inherit; }
+  .io-status { font-size: 12px; } .io-status.error { color: #cf222e; }
+</style>
+<div class="gp">
+  <!-- ═══ MOD-WIDGET-IO v1.0 — PASEK IMPORT/EXPORT ═══ -->
+  <div class="io-bar" id="io-bar">
+    <div class="io-group"><span class="io-label">Eksport</span>
+      <button class="io-btn" onclick="ioExportJSON()">💾 JSON</button>
+      <button class="io-btn" onclick="ioExportMD()">📄 MD</button>
+    </div>
+    <div class="io-group"><span class="io-label">Import</span>
+      <label class="io-btn">📂 Wczytaj JSON<input type="file" accept=".json" style="display:none" onchange="ioImportJSON(event)"></label>
+    </div>
+    <div class="io-status" id="io-status" style="display:none"></div>
+  </div>
+  <!-- ═══ koniec MOD-WIDGET-IO ═══ -->
+  <h3 id="gp-tytul">Graf przyczynowy</h3>
+  <div class="uwaga">Kliknij węzeł: zwykły → <b>obalony</b> → <b>udowodniony</b> → zwykły. Teza i skutki przeliczają się od razu.
+    Liczby to ocena porządkowa siły materiału przy założeniu niezależności ogniw — nie statystyka orzecznicza.</div>
+  <div class="legenda">
+    <span>━ wywołuje</span><span>═ warunkuje</span><span>┄ wzmacnia</span><span style="color:#cf222e">━✕ osłabia / przerywa</span>
+    <span>przerywana linia = tylko korelacja (post hoc)</span><span>wypełnienie = wsparcie</span>
+  </div>
+  <div class="teza" id="gp-teza"></div>
+  <svg id="gp-svg" viewBox="0 0 900 400" role="img" aria-label="Graf zależności zdarzeń"></svg>
+  <h3>Ogniwa krytyczne</h3><ul id="gp-krytyczne"></ul>
+  <h3>Przypisanie prawne i ostrzeżenia</h3><ul id="gp-flagi"></ul>
+</div>
+<script>
+// ── DANE (fikcyjny przykład — podmień) ─────────────────────────────────────────
+let GRAF = {
+  tytul: "Przykład: wypowiedzenie po skardze",
+  teza: "Z-005", dziedzina: "cywilne",
+  wezly: [
+    { id: "Z-001", opis: "Skarga pracownika do kadr", data: "2024-09-02", typ: "ZDARZENIE", strona: "powod", pewnosc: "BEZSPORNE", watek: "W1" },
+    { id: "Z-002", opis: "Spotkanie przełożonego z kadrami", data: "2024-09-05", typ: "ZDARZENIE", strona: "pozwany", pewnosc: "SPORNE", watek: "W1" },
+    { id: "Z-003", opis: "Reorganizacja działu", data: "2024-09-10", typ: "ZDARZENIE", strona: "pozwany", pewnosc: "PEWNE", watek: "W2" },
+    { id: "Z-004", opis: "Wypowiedzenie umowy", data: "2024-09-20", typ: "ZDARZENIE", strona: "pozwany", pewnosc: "BEZSPORNE", watek: "W1", brama: "LUB" },
+    { id: "Z-005", opis: "Utrata zarobku", data: "2024-10-31", typ: "SKUTEK_PRAWNY", pewnosc: "BEZSPORNE", watek: "W1" }
+  ],
+  krawedzie: [
+    { od: "Z-001", do: "Z-002", typ: "WYWOLUJE", dowod: "POSREDNI", csqn: "TAK", adekwatnosc: "NORMALNE", zrodla: ["DOK-03"] },
+    { od: "Z-002", do: "Z-004", typ: "WYWOLUJE", dowod: "KORELACJA", csqn: "NIEUSTALONE", adekwatnosc: "NORMALNE", zrodla: [] },
+    { od: "Z-003", do: "Z-004", typ: "WYWOLUJE", dowod: "BEZPOSREDNI", csqn: "TAK", adekwatnosc: "NORMALNE", zrodla: ["DOK-07"] },
+    { od: "Z-004", do: "Z-005", typ: "WYWOLUJE", dowod: "BEZPOSREDNI", csqn: "TAK", adekwatnosc: "NORMALNE", zrodla: ["DOK-09"] }
+  ],
+  scenariusze: []
+};
+let STAN = {}; // id → "obalony" | "udowodniony"
+
+// ENGINE-START — 1:1 z shared/tools/graf_przyczynowy.py (nie zmieniaj osobno)
+const P_WEZLA = { BEZSPORNE: 0.98, PEWNE: 0.9, WYDEDUKOWANE: 0.7, SPORNE: 0.5 };
+const P_KRAWEDZI = { BEZPOSREDNI: 0.9, POSREDNI: 0.7, KORELACJA: 0.4 };
+const POZYTYWNE = new Set(["WYWOLUJE", "WARUNKUJE"]);
+const TYPY = new Set(["WYWOLUJE", "WARUNKUJE", "WZMACNIA", "OSLABIA", "PRZERYWA"]);
+const r6 = (x) => Math.round(x * 1e6) / 1e6;
+function pWezla(w) { return w.p != null ? Number(w.p) : (P_WEZLA[w.pewnosc || "SPORNE"] ?? 0.5); }
+function pKrawedzi(k) {
+  if (k.csqn === "NIE" && POZYTYWNE.has(k.typ)) return 0;
+  if (k.p != null) return Number(k.p);
+  return P_KRAWEDZI[k.dowod || "KORELACJA"] ?? 0.4;
+}
+function waliduj(g) {
+  const b = [], ids = g.wezly.map((w) => w.id), znane = new Set(ids), daty = {};
+  if (ids.length !== znane.size) b.push("powtórzony identyfikator węzła");
+  g.wezly.forEach((w) => (daty[w.id] = w.data));
+  for (const k of g.krawedzie) {
+    if (!znane.has(k.od) || !znane.has(k.do)) { b.push(`krawędź ${k.od}→${k.do}: nieznany węzeł`); continue; }
+    if (!TYPY.has(k.typ)) b.push(`krawędź ${k.od}→${k.do}: nieznany typ ${k.typ}`);
+    const d1 = daty[k.od], d2 = daty[k.do];
+    if (d1 && d2 && d1.length >= 10 && d2.length >= 10 && d1.slice(0, 10) > d2.slice(0, 10) && k.typ !== "OSLABIA")
+      b.push(`krawędź ${k.od}→${k.do}: przyczyna (${d1}) późniejsza niż skutek (${d2})`);
+  }
+  if (g.teza && !znane.has(g.teza)) b.push(`teza ${g.teza}: nieznany węzeł`);
+  return b;
+}
+function scc(wezly, kraw) {
+  const sas = {}; wezly.forEach((w) => (sas[w] = []));
+  kraw.forEach((k) => sas[k.od].push(k.do));
+  const ind = {}, low = {}, stos = [], na = new Set(), wyn = []; let licz = 0;
+  function odw(v) {
+    ind[v] = low[v] = licz++; stos.push(v); na.add(v);
+    for (const u of sas[v]) {
+      if (!(u in ind)) { odw(u); low[v] = Math.min(low[v], low[u]); }
+      else if (na.has(u)) low[v] = Math.min(low[v], ind[u]);
+    }
+    if (low[v] === ind[v]) { const s = []; let u; do { u = stos.pop(); na.delete(u); s.push(u); } while (u !== v); wyn.push(s); }
+  }
+  wezly.forEach((v) => { if (!(v in ind)) odw(v); });
+  const petle = new Set(kraw.filter((k) => k.od === k.do).map((k) => k.od));
+  return wyn.filter((s) => s.length > 1 || petle.has(s[0]));
+}
+function rozetnij(g) {
+  const daty = {}; g.wezly.forEach((w) => (daty[w.id] = w.data || ""));
+  let akt = [...g.krawedzie]; const sprz = [], cykle = [];
+  for (;;) {
+    const s = scc(g.wezly.map((w) => w.id), akt); if (!s.length) break;
+    const zb = new Set(s[0]); cykle.push([...zb].sort());
+    const wewn = akt.filter((k) => zb.has(k.od) && zb.has(k.do));
+    wewn.sort((a, b) => (daty[a.od] < daty[b.od] ? 1 : daty[a.od] > daty[b.od] ? -1 : pKrawedzi(a) - pKrawedzi(b)));
+    const z = wewn[0]; akt = akt.filter((k) => k !== z); sprz.push(z);
+  }
+  return { akt, sprz, cykle };
+}
+function porzadek(wezly, kraw) {
+  const wej = {}; wezly.forEach((w) => (wej[w] = 0)); kraw.forEach((k) => wej[k.do]++);
+  const q = wezly.filter((w) => wej[w] === 0), wyn = [];
+  while (q.length) { const v = q.shift(); wyn.push(v); for (const k of kraw) if (k.od === v && --wej[k.do] === 0) q.push(k.do); }
+  return wyn;
+}
+function wsparcie(g, akt, nad = {}) {
+  const w = {}; g.wezly.forEach((x) => (w[x.id] = x)); const s = {};
+  for (const v of porzadek(Object.keys(w), akt)) {
+    if (v in nad) { s[v] = nad[v]; continue; }
+    const wej = akt.filter((k) => k.do === v);
+    const poz = wej.filter((k) => POZYTYWNE.has(k.typ)), wzm = wej.filter((k) => k.typ === "WZMACNIA"),
+      neg = wej.filter((k) => k.typ === "OSLABIA" || k.typ === "PRZERYWA");
+    const p = pWezla(w[v]); let wart;
+    if (!poz.length && !wzm.length) wart = p;
+    else {
+      let f = null;
+      if (poz.length) {
+        if ((w[v].brama || "I") === "LUB") { let il = 1; poz.forEach((k) => (il *= 1 - s[k.od] * pKrawedzi(k))); f = 1 - il; }
+        else { f = 1; poz.forEach((k) => (f *= s[k.od] * pKrawedzi(k))); }
+      }
+      if (wzm.length) { let il = 1; wzm.forEach((k) => (il *= 1 - s[k.od] * pKrawedzi(k))); f = 1 - (1 - (f || 0)) * il; }
+      wart = p * f;
+    }
+    neg.forEach((k) => (wart *= 1 - s[k.od] * pKrawedzi(k)));
+    s[v] = r6(wart);
+  }
+  return s;
+}
+// ENGINE-END
+
+function analiza() {
+  const bledy = waliduj(GRAF); if (bledy.length) return { bledy };
+  const { akt, sprz, cykle } = rozetnij(GRAF);
+  const nad = {}; for (const [id, st] of Object.entries(STAN)) nad[id] = st === "obalony" ? 0 : 1;
+  const baza = wsparcie(GRAF, akt), s = wsparcie(GRAF, akt, nad);
+  const kryt = [];
+  if (GRAF.teza) for (const x of GRAF.wezly) if (x.id !== GRAF.teza) {
+    const n = wsparcie(GRAF, akt, { ...nad, [x.id]: 0 })[GRAF.teza];
+    if (s[GRAF.teza] - n >= 0.05) kryt.push([x.id, n]);
+  }
+  kryt.sort((a, b) => a[1] - b[1]);
+  const flagi = [];
+  GRAF.krawedzie.forEach((k) => {
+    if (k.dowod === "KORELACJA" && POZYTYWNE.has(k.typ)) flagi.push(`POST HOC: ${k.od}→${k.do} — tylko korelacja czasowa; potrzebny dowód mechanizmu (MET-PT)`);
+    if (POZYTYWNE.has(k.typ) && (!k.csqn || k.csqn === "NIEUSTALONE" || !k.adekwatnosc || k.adekwatnosc === "NIEUSTALONE")) flagi.push(`Test csqn/adekwatności nieustalony: ${k.od}→${k.do}`);
+    if (k.csqn === "NIE" && POZYTYWNE.has(k.typ)) flagi.push(`CSQN: ${k.od}→${k.do} — skutek nastąpiłby i bez przyczyny`);
+  });
+  if (cykle.length) flagi.push(`SPRZĘŻENIE (wzajemny wpływ): ${cykle.map((c) => c.join("↔")).join("; ")} — rozcięte: ${sprz.map((k) => k.od + "→" + k.do).join(", ")}`);
+  return { akt, s, baza, kryt, flagi };
+}
+
+function render() {
+  const a = analiza(), svg = document.getElementById("gp-svg");
+  document.getElementById("gp-tytul").textContent = GRAF.tytul || "Graf przyczynowy";
+  if (a.bledy) { document.getElementById("gp-teza").innerHTML = "⛔ " + a.bledy.join("<br>⛔ "); svg.innerHTML = ""; return; }
+  // układ: oś X = kolejność dat, oś Y = wątek
+  const wezly = [...GRAF.wezly].sort((x, y) => (x.data || "").localeCompare(y.data || ""));
+  const watki = [...new Set(wezly.map((x) => x.watek || "—"))];
+  const W = 160, H = 46, dx = Math.max(190, 860 / Math.max(1, wezly.length)), dy = 90, poz = {};
+  wezly.forEach((x, i) => (poz[x.id] = { x: 20 + i * dx, y: 20 + watki.indexOf(x.watek || "—") * dy }));
+  const szer = 40 + wezly.length * dx, wys = 40 + watki.length * dy;
+  svg.setAttribute("viewBox", `0 0 ${szer} ${wys}`);
+  let h = `<defs><marker id="gp-g" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="currentColor"/></marker></defs>`;
+  for (const k of GRAF.krawedzie) {
+    const p1 = poz[k.od], p2 = poz[k.do]; if (!p1 || !p2) continue;
+    const neg = k.typ === "OSLABIA" || k.typ === "PRZERYWA", kol = neg ? "#cf222e" : "var(--color-text-secondary, #57606a)";
+    const szerL = k.typ === "WARUNKUJE" ? 3.5 : 1.8, przer = k.dowod === "KORELACJA" ? "6 4" : k.typ === "WZMACNIA" ? "2 3" : "";
+    const x1 = p1.x + W, y1 = p1.y + H / 2, x2 = p2.x, y2 = p2.y + H / 2, mx = (x1 + x2) / 2;
+    h += `<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none" stroke="${kol}" stroke-width="${szerL}" stroke-dasharray="${przer}" style="color:${kol}" marker-end="url(#gp-g)"><title>${k.od}→${k.do}: ${k.typ}, ${k.dowod || "?"}, csqn ${k.csqn || "?"}, adekw. ${k.adekwatnosc || "?"}, p=${pKrawedzi(k)}</title></path>`;
+  }
+  for (const x of wezly) {
+    const p = poz[x.id], s = a.s[x.id], st = STAN[x.id], teza = x.id === GRAF.teza;
+    const ramka = st === "obalony" ? "#cf222e" : st === "udowodniony" ? "#1a7f37" : teza ? "#8250df" : "var(--color-border-secondary, #8c959f)";
+    h += `<g class="wezel" onclick="przelacz('${x.id}')"><title>${x.id}: ${x.opis} — wsparcie ${s.toFixed(2)} (bez scenariusza ${a.baza[x.id].toFixed(2)})</title>
+      <rect x="${p.x}" y="${p.y}" width="${W}" height="${H}" fill="var(--color-background-secondary, #f6f8fa)" stroke="${ramka}" stroke-width="${teza ? 3 : 1.5}"/>
+      <rect x="${p.x}" y="${p.y + H - 6}" width="${(W * s).toFixed(1)}" height="6" fill="#1a7f37" opacity="0.75"/>
+      <text x="${p.x + 6}" y="${p.y + 15}" fill="currentColor"><tspan font-weight="600">${x.id}</tspan> ${x.data || ""} ${st ? "· " + st.toUpperCase() : ""}</text>
+      <text x="${p.x + 6}" y="${p.y + 31}" fill="currentColor">${(x.opis || "").slice(0, 26)}${(x.opis || "").length > 26 ? "…" : ""} · ${s.toFixed(2)}</text></g>`;
+  }
+  svg.innerHTML = h;
+  const t = GRAF.teza;
+  document.getElementById("gp-teza").innerHTML = t ? `<b>Teza ${t}</b>: wsparcie <b>${a.s[t].toFixed(2)}</b>` +
+    (Object.keys(STAN).length ? ` (bez scenariusza ${a.baza[t].toFixed(2)})` : "") : "";
+  document.getElementById("gp-krytyczne").innerHTML = a.kryt.length ? a.kryt.map(([id, n]) => `<li>${id}: obalenie → teza ${n.toFixed(2)}</li>`).join("") : "<li>brak ogniwa zmieniającego tezę o ≥ 0,05</li>";
+  document.getElementById("gp-flagi").innerHTML = a.flagi.length ? a.flagi.map((f) => `<li>⚠️ ${f}</li>`).join("") : "<li>brak</li>";
+}
+function przelacz(id) { STAN[id] = !STAN[id] ? "obalony" : STAN[id] === "obalony" ? "udowodniony" : undefined; if (!STAN[id]) delete STAN[id]; render(); }
+
+// ── MOD-WIDGET-IO v1.0 ──
+const IO_SKILL_ID = "chronologia-sprawy-v1", IO_SKILL_VERSION = "1.13";
+let IO_CASE_ID = GRAF.sygnatura || "brak";
+function ioGetState() { return { ...GRAF, scenariusz_widgetu: { ...STAN } }; }
+function ioSetState(s) { const { scenariusz_widgetu, ...g } = s; GRAF = { krawedzie: [], wezly: [], ...g }; STAN = scenariusz_widgetu || {}; IO_CASE_ID = GRAF.sygnatura || "brak"; render(); }
+function ioGetMarkdown() {
+  const a = analiza(); if (a.bledy) return "# Graf przyczynowy — błędy\n" + a.bledy.map((b) => "- " + b).join("\n");
+  let md = `# ${GRAF.tytul || "Graf przyczynowy"}\n\n> Założenie niezależności ogniw; liczby porządkowe, nie statystyka orzecznicza.\n\n| Węzeł | Opis | Data | Pewność | Wsparcie |\n|---|---|---|---|---|\n`;
+  GRAF.wezly.forEach((x) => (md += `| ${x.id} | ${x.opis} | ${x.data || ""} | ${x.pewnosc || ""} | ${a.s[x.id].toFixed(2)} |\n`));
+  md += `\n| Od | Do | Typ | Dowód połączenia | csqn | Adekwatność | Źródła |\n|---|---|---|---|---|---|---|\n`;
+  GRAF.krawedzie.forEach((k) => (md += `| ${k.od} | ${k.do} | ${k.typ} | ${k.dowod || ""} | ${k.csqn || ""} | ${k.adekwatnosc || ""} | ${(k.zrodla || []).join(", ")} |\n`));
+  if (Object.keys(STAN).length) md += `\nScenariusz: ${Object.entries(STAN).map(([i, s]) => i + " " + s).join(", ")}\n`;
+  md += `\n## Ostrzeżenia\n` + (a.flagi.map((f) => "- " + f).join("\n") || "- brak");
+  return md;
+}
+function _ioDL(c, n, m) { const u = URL.createObjectURL(new Blob([c], { type: m })); const l = Object.assign(document.createElement("a"), { href: u, download: n }); document.body.appendChild(l); l.click(); setTimeout(() => { URL.revokeObjectURL(u); l.remove(); }, 500); }
+function _ioStatus(t, e) { const el = document.getElementById("io-status"); el.textContent = t; el.className = "io-status" + (e ? " error" : ""); el.style.display = "block"; setTimeout(() => (el.style.display = "none"), 3000); }
+const _ioNazwa = (ext) => `${IO_SKILL_ID}_${String(IO_CASE_ID).replace(/\//g, "-")}_${new Date().toISOString().slice(0, 10)}.${ext}`;
+function ioExportJSON() { try { _ioDL(JSON.stringify({ _meta: { skill: IO_SKILL_ID, version: IO_SKILL_VERSION, exported_at: new Date().toISOString(), case_id: IO_CASE_ID }, state: ioGetState() }, null, 2), _ioNazwa("json"), "application/json"); _ioStatus("✅ Zapisano JSON"); } catch (e) { _ioStatus("❌ " + e.message, true); } }
+function ioExportMD() { try { _ioDL(ioGetMarkdown(), _ioNazwa("md"), "text/markdown;charset=utf-8"); _ioStatus("✅ Zapisano Markdown"); } catch (e) { _ioStatus("❌ " + e.message, true); } }
+function ioImportJSON(ev) {
+  const f = ev.target.files[0]; if (!f) return; const r = new FileReader();
+  r.onload = (e) => { try { const p = JSON.parse(e.target.result); if (!p._meta || !p.state) return _ioStatus("❌ Nieprawidłowy format pliku JSON", true); ioSetState(p.state); _ioStatus("✅ Wczytano: " + f.name); } catch (err) { _ioStatus("❌ " + err.message, true); } };
+  r.readAsText(f); ev.target.value = "";
+}
+render();
+</script>

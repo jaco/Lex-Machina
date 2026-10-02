@@ -341,6 +341,13 @@ INTEGRACJA:  Wejście: chronologia-sprawy-v1 (bezsporna kolejność) + MD4-pokry
              (mapa cel→przesłanka→dowód, kolumna "Słabe punkty") w
              pisma-procesowe-v3 oraz wnioski dowodowe ukierunkowane na
              etapy oznaczone "TYLKO KORELACJA".
+             ⛔ 2026-10-01b: do tej wersji ani pisma-procesowe-v3, ani
+             chronologia-sprawy-v1, ani analizator-dowodow-v3 nie wczytywały
+             tego pliku — MET-PT był osiągalny tylko z raport-sytuacyjny-v2.
+             Teraz wynik MET-PT to atrybut `dowod` każdej krawędzi w
+             shared/MOD-GRAF-PRZYCZYNOWY.md (BEZPOSREDNI / POSREDNI /
+             KORELACJA), wywoływanym z MP13 §13.2a i z TRYBU C chronologii —
+             tamtędy MET-PT trafia do analizy i do pism (MOD-LANCUCH §ŁB).
 ```
 
 ### MET-TRI — Triangulacja źródeł

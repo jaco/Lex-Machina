@@ -605,7 +605,7 @@ w `refid` (`urn:ndoc:gov:pl:uodo:…`). Okno: `1M`, `1Y`.
 | Źródło | Kanał | Wymóg |
 |---|---|---|
 | **KRS** | ✅ `api-krs.ms.gov.pl/api/krs/{OdpisAktualny\|OdpisPelny}/{nr}?rejestr=P\|S&format=json` | bez klucza; numer dopełniony zerami do 10 cyfr |
-| **CEIDG v3** | ⛔ `dane.biznes.gov.pl/api/ceidg/v3/firmy` | **Bearer JWT** z konta biznes.gov.pl; 401 bez tokenu = API żyje, nie awaria. Limit ~50/180 s liczony od OSTATNIEGO żądania — ponawianie **przedłuża** blokadę |
+| **CEIDG v3** | ✅ z tokenem `dane.biznes.gov.pl/api/ceidg/v3/firmy?nip=` (zmierzone 2026-09-29, F-214; ponownie 2026-10-01) | **Bearer JWT** — klucz: Hurtownia danych CEIDG `https://dane.biznes.gov.pl/pl/portal/034872` (wniosek o dostęp, Profil Zaufany). 401 bez tokenu = API żyje, nie awaria. **200** → `firmy[]` z NIP/REGON w `wlasciciel.{nip,regon}` (nie w `firmy[].nip`); **204 bez treści** = brak wpisu (np. spółka z KRS); **400** `NIEPOPRAWNY_NUMER_NIP` = zła suma kontrolna. Limit ~50/180 s liczony od OSTATNIEGO żądania — ponawianie **przedłuża** blokadę. ⛔ Ładunek JWT (base64) zawiera PESEL właściciela — tokenu nie zapisuje się w repozytorium (T40) |
 | **KW** | `ekw.ms.gov.pl/eukw_ogol/menu.do` | root pętli; brak API |
 | **KRZ**, **wyszukiwarka KRS** | ⛔ 403 WAF | odczyt KRS i tak przez `api-krs` |
 | **SUDOP** | ✅ `sudop.uokik.gov.pl` | pomoc publiczna, NIE decyzje |

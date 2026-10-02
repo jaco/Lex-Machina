@@ -1,6 +1,6 @@
 # MOD-LANCUCH-DOWODOWY — Budowa, wzmacnianie i atak na łańcuch dowodowy
 
-> **Wersja:** 1.0.0 | **Status:** PRODUKCJA — plik kanoniczny shared/
+> **Wersja:** 1.0.1 (2026-10-01b: poprawiony rachunek szereg/równolegle) | **Status:** PRODUKCJA — plik kanoniczny shared/
 > **Wywoływany z:**
 >   - `pisma-procesowe-v3` W1.3 (budowa łańcuchów do tez głównych)
 >   - `pisma-procesowe-v3` W1.2c MACIERZ (po MT4 — sprawdź czy łańcuchy zamknięte)
@@ -32,13 +32,23 @@ Roszczenie = X + Y + Z → wniosek.     Fakty X+Y → domniemanie faktyczne Z
                                         (art. 231 KPC) wzmocnione D-C (kl.C).
 Problem: przeciwnik atakuje           Z + przesłanka prawna → roszczenie.
 każdy dowód osobno. Obalenie          
-jednego = dziura w fundamencie.       Przeciwnik musi obalić KAŻDE ogniwo.
-                                       Siła = mnożnik, nie suma.
+jednego = dziura w fundamencie.       Przeciwnik obala łańcuch JEDNYM ogniwem.
+                                       Ogniwa wzmacniaj redundancją (ŁO-WZM).
 
-ZASADA KLUCZOWA:
-  Łańcuch z 3 ogniw × 0.9 odporności = 0.73 → szansa obalenia 27%
-  Lista 3 niezależnych dowodów × 0.9 = 0.27 → szansa obalenia 73%
-  → Łańcuch jest silniejszy niż suma składowych.
+ZASADA KLUCZOWA (poprawiona 2026-10-01b — do 1.0.0 rachunek był odwrócony):
+  ⛔ Do shared 3.98 stało tu: że lista trzech niezależnych dowodów po 0.9 daje 0.27 (szansa obalenia 73%)
+     i wniosek „łańcuch jest silniejszy niż suma składowych”. Oba nieprawdziwe — patrz niżej.
+
+  SZEREG (każde ogniwo konieczne — łańcuch A → B → C):
+    0.9 × 0.9 × 0.9 = 0.729 → szansa obalenia 27%
+    → łańcuch jest SŁABSZY niż każde jego ogniwo; jedno zerwane ogniwo obala całość (MP13 §13.2).
+  RÓWNOLEGLE (3 niezależne dowody TEGO SAMEGO faktu — każdy wystarcza):
+    1 − 0.1 × 0.1 × 0.1 = 0.999 → szansa obalenia 0.1% (przeciwnik musi obalić WSZYSTKIE)
+  → Siłę daje REDUNDANCJA: każde ogniwo łańcucha wzmacniaj niezależnymi dowodami (ŁO-WZM),
+    a łańcuch skracaj — każde dodatkowe ogniwo konieczne obniża jego odporność.
+  → Gdy ogniwa się rozgałęziają lub zbiegają (kilka przyczyn, kilka skutków, alternatywne
+    wyjaśnienia), przejdź do sieci: shared/MOD-GRAF-PRZYCZYNOWY.md (silnik
+    shared/tools/graf_przyczynowy.py liczy szereg i równoległość w jednym modelu).
 ```
 
 ---

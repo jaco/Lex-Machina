@@ -34,13 +34,13 @@
     ],
     zdarzenia: [
       {
-        data: "2024-10-07", pewnosc: "BEZSPORNE", dedukacja: null,
+        id: "Z-001", data: "2024-10-07", pewnosc: "BEZSPORNE", dedukacja: null,
         opis: "Pismo grożące zwolnieniem dyscyplinarnym (zarzuty karne)",
         proweniencja: { typ_zrodla: "DOKUMENT_PRYWATNY", dok_id: "DOK-05", strona_dok: "str. 1", autor_twierdzenia: "pozwany" },
         watki: ["W1", "W2"], wezel_wspolny: true, znaczenie: "KLUCZOWE", kolizja_id: "SPRZECZNOSC-01"
       },
       {
-        data: "2024-10-09", pewnosc: "BEZSPORNE", dedukacja: null,
+        id: "Z-002", data: "2024-10-09", pewnosc: "BEZSPORNE", dedukacja: null,
         opis: "Porozumienie stron o rozwiązaniu umowy o pracę",
         proweniencja: { typ_zrodla: "DOKUMENT_PRYWATNY", dok_id: "DOK-06", strona_dok: "str. 1", autor_twierdzenia: "obie_strony" },
         watki: ["W1"], wezel_wspolny: false, znaczenie: "KLUCZOWE", kolizja_id: "SPRZECZNOSC-01"
@@ -50,7 +50,7 @@
     finanse: [
       {
         id: "FIN-01", kwota: 700, waluta: "PLN", tytul: "zwrot opłaty za pozwolenie na pracę",
-        platnik: "Human Park / Maria Koroleva", odbiorca: "[OSOBA-NIEZIDENTYFIKOWANA-1] (kontakt +977 982-7316121)",
+        platnik: "[PRACODAWCA] / [ŚWIADEK-K]", odbiorca: "[OSOBA-NIEZIDENTYFIKOWANA-1] (kontakt: [TELEFON])",
         termin: null, status: "DO_ZAPŁATY",
         proweniencja: { typ_zrodla: "KORESPONDENCJA", dok_id: "DOK-13", strona_dok: "treść wiadomości", autor_twierdzenia: "osoba_trzecia" },
         powiazane_dok_id: ["DOK-11", "DOK-17"], kolizja_id: null
@@ -61,7 +61,7 @@
         id: "SPRZECZNOSC-01", typ: "OPIS", zdarzenie: "Tryb rozwiązania stosunku pracy",
         watek: "W1",
         wersja_a: { tresc: "Świadectwo pracy: rozwiązanie za porozumieniem stron (art. 30 §1 pkt 1 KP)", dok_id: "DOK-07", strona_dok: "pkt 4", autor: "pozwany (dokument urzędowy)" },
-        wersja_b: { tresc: "Mail do podmiotu trzeciego: \"został zwolniony dyscyplinarnie\"", dok_id: "DOK-14", strona_dok: "treść maila", autor: "pozwany (Maria Koroleva)" },
+        wersja_b: { tresc: "Mail do podmiotu trzeciego: \"został zwolniony dyscyplinarnie\"", dok_id: "DOK-14", strona_dok: "treść maila", autor: "pozwany ([ŚWIADEK-K])" },
         common_ground: "Obie wersje zgadzają się, że 7.10.2024 zagrożono dyscyplinarką, a 9.10.2024 podpisano porozumienie.",
         roznica_dni: null, kategoria: "A-KRYTYCZNA",
         wplyw: "Rdzeń roszczenia o zadośćuczynienie za pomówienie.",

@@ -360,7 +360,7 @@ Przyczyna: analiza błędów sprawa VII P 94/25 (sesja 2026-06-26):
   prawnych zawartych w pismach procesowych powoda dostępnych w materiale:
   - art. 94³ §3 KP (odszkodowanie za mobbing) — pismo Riposta, pismo 12.05.2026
   - art. 101¹ §1 KP (abuzywny zakaz konkurencji) — Riposta pkt IV
-  - fałszywe zeznania Marii Koroleva, sprawa VIII W 633/25 — pismo 12.05.2026 pkt IV
+  - zarzut wobec zeznań świadka [ŚWIADEK-K] w odrębnej sprawie — pismo 12.05.2026 pkt IV
   - art. 6 KEA (konflikt interesów pełnomocnika) — Riposta pkt VI
   - roszczenie z tytułu opłat za pozwolenia na pracę / przywłaszczenie — Riposta pkt III/V
   - propozycja ugodowa (zakres wycofania roszczeń) — pismo 12.05.2026 pkt V

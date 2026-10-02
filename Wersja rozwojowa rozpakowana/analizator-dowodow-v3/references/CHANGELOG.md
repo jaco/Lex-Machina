@@ -1,5 +1,7 @@
 # CHANGELOG — analizator-dowodow-v3
 
+- 5.16.18 (2026-10-01b, AUDYT-2026-10-01b): MP13 §13.2a — graf przyczynowy (`shared/MOD-GRAF-PRZYCZYNOWY.md`): ogniwa z wspólnym ID (`fakt_m1` / Z-nnn), trzy ustalenia na krawędź, wersja przeciwnika w tym samym grafie, ogniwa krytyczne i scenariusze. Rachunek siły łańcucha doprecyzowany (szereg słabszy niż ogniwo, redundancja wzmacnia). E1 wskazuje §13.2a.
+
 - 5.16.17 (2026-09-27p, AUDYT-2026-09-27p): Dodane agents/openai.yaml i assets/icon.svg — jedyny z 32 skilli bez metadanych OpenAI Codex.
 
 - 5.16.16 (2026-09-27e, AUDYT-2026-09-27e): claude.ai po dodaniu marketplace instalował wyłącznie 4 z 32 pluginów (shared, prawny-router-v3, analizator-dowodow-v3, przesluchanie-swiadkow-v2-min90); jedyna cecha wspólna tych 4, nieobecna w żadnym z 28 pozostałych, to klucz `dependencies` we frontmatterze SKILL.md. Ten skill już go miał; oraz jawny manifest pluginu (name, description = description z SKILL.md, author, repository, license) — host nie musi niczego wnioskować z SKILL.md. `version` w manifeście = `version:` z SKILL.md (pilnuje T38 w audyt-systemu-v4) — host rozpoznaje aktualizację po podbiciu wersji. Treść skilla bez zmian.

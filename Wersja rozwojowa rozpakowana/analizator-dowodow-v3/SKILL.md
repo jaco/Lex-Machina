@@ -1,6 +1,6 @@
 ---
 name: analizator-dowodow-v3
-version: "5.16.17"
+version: "5.16.18"
 type: executive-analiza
 status: production
 description: "Ocena dowodów, dokumentów, zeznań i akt: siła dowodowa, hierarchia A-D, pokrycie przesłanek, sprzeczności, terminy procesowe i analiza śledcza."
@@ -39,7 +39,7 @@ pipeline:
     - AD-KROK3-WYKONANIE
     - AD-KROK4-DASHBOARD
 changelog: |
-  Wersja bieżąca: 5.16.17 (2026-09-27p): dodane agents/openai.yaml i assets/icon.svg (metadane Codex; AUDYT-2026-09-27p).
+  Wersja bieżąca: 5.16.18 (2026-10-01b, AUDYT-2026-10-01b): MP13 §13.2a — graf przyczynowy (shared/MOD-GRAF-PRZYCZYNOWY.md); rachunek siły łańcucha doprecyzowany.
   Poprzednia: 5.16.16 (2026-09-27e, AUDYT-2026-09-27e): jawny manifest `.claude-plugin/plugin.json` — import z marketplace w claude.ai. Treść skilla bez zmian.
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
@@ -465,6 +465,8 @@ D6. Potrzebna matryca dowodowa (admissibility, chain of custody)?
 E1. Pytanie o „logikę zdarzeń" / „co z czego wynika" / „narrację procesową"
     / „powiązanie faktów" / łańcuchy przyczynowe LUB sprawa złożona ≥2 dok.?
     TAK → dodaj: MP13 (synteza faktyczna — 442 linie, wczytuj świadomie)
+    + gdy łańcuchy się rozgałęziają/zbiegają, jest przyczynienie, kilku sprawców, wzajemny wpływ
+      albo pytanie „co jeśli” → MP13 §13.2a → shared/MOD-GRAF-PRZYCZYNOWY.md (od 5.16.18)
 
 E2. Podejrzenie manipulacji, ukrytych motywacji, kłamstwa, zaplanowanego działania
     LUB sprawa karna LUB użytkownik pyta o profilowanie / zachowanie stron?

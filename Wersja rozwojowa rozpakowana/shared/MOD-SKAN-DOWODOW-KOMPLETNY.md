@@ -440,8 +440,7 @@ REGUŁA-PFRON-SUDOP:
   → Zsumuj PER PODMIOT (NIP), nie łącznie.
   → Porównaj z okresem spornym: które miesiące pokrywa, które nie.
 
-REGUŁA-TRUNCATION-VIEW (dodana 2026-07-14, sprawa XI P 27/26 — świadek Maria
-Koroleva, protokół rozprawy 08.07.2026):
+REGUŁA-TRUNCATION-VIEW (dodana 2026-07-14, sprawa XI P 27/26 — świadek [ŚWIADEK-K], protokół rozprawy 08.07.2026):
   Narzędzie `view` wywołane BEZ `view_range` automatycznie obcina środek pliku,
   gdy treść przekracza próg znakowy — niezależnie od tego, czy plik "wygląda"
   na krótki (mało linii, mały rozmiar w KB). Sam plik protokołu rozprawy

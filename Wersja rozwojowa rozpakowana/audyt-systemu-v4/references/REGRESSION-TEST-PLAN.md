@@ -1326,10 +1326,10 @@ jest odpowiedzią na pomiar z claude.ai 2026-09-27 (4 z 32 pluginów, jedyna cec
 
 | Test | Co mierzy | Waga | Zależność |
 |---|---|---|---|
-| T39 | (1) `shared/tools/test_kontrakt_rachunek.py` — 14 testów: `oblicz` (bezpieczeństwo AST), `ekspozycja` na liczbach umowy 04 = manifest złotego standardu (60 800 / 729 600 / 243,20 / 201,40 / NIEOGRANICZONA / data okna 2027-02-01), liczba bez źródła = BRAK_ZRODLA, odmiana liczebników, martwe odesłania, wykaz załączników w 2 liniach, cytaty; (2) korpus `analizator-umow-v1/benchmark/posiane-wady/`: 05 i3+i6 wykryte, 01 zero alarmów, 04 pary zgodne | KRYTYCZNY (BLOKER) | offline |
+| T39 | (1) `shared/tools/test_kontrakt_rachunek.py` — 13 testów: `oblicz` (bezpieczeństwo AST), `ekspozycja` na liczbach umowy 04 = manifest złotego standardu (60 800 / 729 600 / 243,20 / 201,40 / NIEOGRANICZONA / data okna 2027-02-01), liczba bez źródła = BRAK_ZRODLA, odmiana liczebników, martwe odesłania, wykaz załączników w 2 liniach, cytaty; (2) korpus `analizator-umow-v1/benchmark/posiane-wady/`: 05 i3+i6 wykryte, 01 zero alarmów, 04 pary zgodne | KRYTYCZNY (BLOKER) | offline |
 
 **Wykonanie:** `python3 audyt-systemu-v4/scripts/check_kontrakt_rachunek.py --repo-root <drzewo>`.
-**Pomiar walidacyjny (2026-09-29):** 14/14 + 5/5 kontroli korpusu. Pierwszy przebieg wykrył fałszywy alarm
+**Pomiar walidacyjny (2026-09-29):** 13/13 (wpis pierwotnie podawał 14 — korekta 2026-10-01b wg zapisu sesji) + 5/5 kontroli korpusu. Pierwszy przebieg wykrył fałszywy alarm
 narzędzia na umowie kontrolnej 01 (wykaz załączników zawinięty na 2 linie) — naprawiony, przypadek w testach.
 ⚠️ **Ograniczenia jawne.** Narzędzie liczy wg brzmienia umowy; wyekstrahowanie liczb do JSON robi model
 (błąd ekstrakcji ≠ błąd rachunku — dlatego każda liczba niesie `zrodlo`). `odeslania` widzi tylko
@@ -1361,4 +1361,17 @@ nie jest zgłaszany (inaczej lawina fałszywych trafień na NIP/REGON/numerach r
 `shared` 195 → WARN (zapas 4 pliki na przyszłe wydania).
 ⚠️ **Ograniczenie jawne.** T41 liczy pliki, nie ocenia, które są zbędne; redukcja wymaga ustalenia (CHANGELOG,
 równoważność treści), a scalanie — zachowania treści w całości.
+
+## T42 — graf przyczynowy: silnik, parytet widgetu, rachunek łańcucha (dodany 2026-10-01b, AUDYT-2026-10-01b)
+
+| Test | Co mierzy | Waga | Zależność |
+|---|---|---|---|
+| T42 | (A) selftest `shared/tools/graf_przyczynowy.py` — szereg 3×0,9 = 0,729, równolegle 0,999, csqn, cykle, błąd czasu, flagi art. 361/362/441 KC i art. 2 KK, brak fałszywych flag bez jawnych oznaczeń; (B) parytet z blokiem ENGINE widgetu `chronologia-sprawy-v1/assets/widget-graf-przyczynowy.html` na 4 grafach (±1e-6); (C) brak formuły „× 0,9 = 0,27” w MOD-LANCUCH-DOWODOWY i podpięcia MP13 §13.2a, TRYB C, MET-PT | KRYTYCZNY (BLOKER) | offline; Node dla (B) — bez Node WARN |
+
+**Wykonanie:** `python3 audyt-systemu-v4/scripts/check_graf_przyczynowy.py --repo-root <drzewo>`.
+**Pomiar walidacyjny (2026-10-01b):** PASS (11+1 przypadków selftestu, 4/4 grafy zgodne); widget dodatkowo
+uruchomiony w jsdom: 0 błędów JS, 5 węzłów / 4 krawędzie, scenariusz „obalony Z-003” 0,72 → 0,12 — ta sama
+wartość co silnik Python na tych samych danych.
+⚠️ **Ograniczenie jawne.** T42 sprawdza rachunek i spójność kodu, nie trafność ocen wprowadzonych do grafu
+(pewność węzłów, dowód połączenia, csqn) — te pochodzą z analizy materiału i podlegają MP13 §13.7.
 

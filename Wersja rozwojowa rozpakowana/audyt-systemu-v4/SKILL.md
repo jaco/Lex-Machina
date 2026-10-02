@@ -5,7 +5,7 @@ dependencies:
   requires:
     - shared
   # 2026-09-27e: jawna zależność (każdy skill systemu korzysta z `shared`); pole czytane przy imporcie z marketplace
-version: "6.154"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
+version: "6.155"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
                   # parsuje jako float 6.1 — czyli numer NIŻSZY niż 6.9, co cicho
                   # odwraca porządek wersji. Wykryte przy walidacji 2026-08-20z.
                   # Każda kolejna wersja z dwucyfrowym minor — też w cudzysłowie.
@@ -131,6 +131,10 @@ scripts:
   - scripts/check_sekrety.py              # T40 — JWT (również PESEL zakodowany w ładunku), klucze PEM, tokeny
                                           # API, PESEL z poprawną sumą kontrolną; wartości maskowane. Offline,
                                           # selftest 6/6; BLOKER od 2026-09-29 (F-216, F-217)
+  - scripts/check_graf_przyczynowy.py     # T42 — MOD-GRAF-PRZYCZYNOWY: selftest silnika shared/tools/graf_przyczynowy.py,
+                                          # parytet z silnikiem JS widgetu chronologii (±1e-6), regresja błędu
+                                          # „× 0,9 = 0,27” w MOD-LANCUCH-DOWODOWY, podpięcia MP13/TRYB C/MET-PT.
+                                          # Offline (Node opcjonalny: bez niego WARN); BLOKER od 2026-10-01b
   - scripts/check_limit_plikow.py         # T41 — każdy skill < 200 plików (reguła użytkownika), WARN od 190;
                                           # przed redukcją szukaj RELIKTÓW (pliki usunięte, a wskrzeszone przez
                                           # instalację „na nakładkę”). Offline, selftest; BLOKER od 2026-09-29c
@@ -1464,7 +1468,7 @@ audyt-systemu-v4/                               ← 89 plików (stan 2026-09-09b
 
 ---
 
-*Wersja: 6.154 | Ostatnia aktualizacja: 2026-10-01 (serwery MCP: budżet czasu, cytator, EUREKA, CBOSA; test poprawności; 36 reliktów usuniętych ponownie: 218 → 182 plików)*
+*Wersja: 6.155 | Ostatnia aktualizacja: 2026-10-01b (T42 graf przyczynowy; anonimizacja; 36 reliktów usuniętych ponownie: 218 → 183 plików)*
 
 *(Stopka podawała „5.0 | 2026-07-04" przy `version: 6.8` w YAML — rozjazd
 9 wersji, naprawiony 2026-08-20y. **Stopkę aktualizuj razem z polem `version`**;

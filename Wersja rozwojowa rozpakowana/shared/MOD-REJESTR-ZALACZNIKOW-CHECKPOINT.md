@@ -158,7 +158,7 @@ jako kompletnych.
 
 ```
 1.0.0 (2026-07-12, aktualizacja integracji 2026-07-14)
-Przyczyna: sprawa XI P 27/26, świadek Maria Koroleva — moduł istniał od
+Przyczyna: sprawa XI P 27/26, świadek [ŚWIADEK-K] — moduł istniał od
   utworzenia (poniżej), ale w przesluchanie-swiadkow-v2-min90 nie był
   deklarowaną zależnością required, więc uruchamiał się wyłącznie
   reaktywnie (na wprost zadane pytanie użytkownika), a nie proaktywnie

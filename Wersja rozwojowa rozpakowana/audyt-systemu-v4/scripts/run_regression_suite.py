@@ -173,6 +173,8 @@ def main():
         ("T40", "T40 KRYTYCZNY — sekrety i PESEL w drzewie", "check_sekrety.py", ["--repo-root", str(root)]),
         # 2026-09-29c: skill < 200 plików (reguła użytkownika); WARN od 190.
         ("T41", "T41 KRYTYCZNY — liczba plików skilla < 200", "check_limit_plikow.py", ["--repo-root", str(root)]),
+        # 2026-10-01b: MOD-GRAF-PRZYCZYNOWY — selftest silnika, parytet Python↔JS widgetu, regresja rachunku łańcucha.
+        ("T42", "T42 KRYTYCZNY — graf przyczynowy: silnik, parytet widgetu, rachunek łańcucha", "check_graf_przyczynowy.py", ["--repo-root", str(root)]),
         ("MOCK", "MOCK — self-test sync_dzu_eli wobec lokalnego mock-ELI", "mock_eli_server_test.py", []),
     ]:
         sekcja(label)

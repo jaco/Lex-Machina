@@ -36,6 +36,7 @@ Nie ładuj całego modułu dla spraw jednoaktowych.
 |--------|-----------------|
 | 13.1 Klastry faktyczne | zawsze przy ≥ 3 faktach z M1 w jednym wątku |
 | 13.2 Łańcuchy przyczynowe | gdy fakty tworzą sekwencję kauzalną lub temporalną |
+| 13.2a Graf przyczynowy | gdy łańcuchy się rozgałęziają/zbiegają, są alternatywne wyjaśnienia, przyczynienie, kilku sprawców, wzajemny wpływ — albo użytkownik pyta „co jeśli” |
 | 13.3 Analiza zbieżności | gdy ≥ 3 niezależne fakty wspierają tę samą tezę bez dowodu bezpośredniego |
 | 13.4 Narracja własna | zawsze gdy MP13 uruchomiony |
 | 13.5 Narracja przeciwnika | zawsze gdy MP13 uruchomiony — obowiązkowa, odrębna logika faz |
@@ -132,6 +133,29 @@ Najsłabsze ogniwo:
 Jak przeciwnik zerwie łańcuch (adekwatnie do podatności dla danego typu):
 Riposta:
 ```
+
+**Rachunek siły (od 2026-10-01b):** łańcuch, w którym każde ogniwo jest konieczne, jest SŁABSZY niż jego
+najsłabsze ogniwo (3 × 0,9 = 0,729). Siłę daje redundancja — niezależne dowody tego samego ogniwa
+(3 × 0,9 równolegle = 0,999). Skala 1–10 powyżej pozostaje oceną opisową; wartości liczbowe licz tylko
+modelem z §13.2a.
+
+---
+
+## 13.2a Graf przyczynowy — sieć zależności, wpływ wzajemny, „co jeśli”
+
+```text
+view shared/MOD-GRAF-PRZYCZYNOWY.md   (MET-PT jako atrybut krawędzi — patrz §3 modułu)
+```
+
+1. Każde ogniwo łańcuchów z 13.2 = węzeł grafu; `fakt_m1` = ID faktu z M1, a gdy istnieje chronologia —
+   `id` = `Z-nnn` z chronologia-sprawy-v1 (jedna przestrzeń identyfikatorów).
+2. Każde powiązanie = krawędź z trzema osobnymi ustaleniami: dowód połączenia (MET-PT), csqn,
+   przypisanie prawne (art. 361 § 1 / 362 / 441 KC; art. 2 KK) — §3 modułu.
+3. Wersja przeciwnika z 13.5 wchodzi do TEGO SAMEGO grafu jako krawędzie OSLABIA/PRZERYWA.
+4. Silnik `shared/tools/graf_przyczynowy.py` (lub widget chronologii, TRYB C) → raport: wsparcie tezy,
+   ścieżki z najsłabszym ogniwem, ogniwa krytyczne, scenariusze, flagi prawne, ostrzeżenia post hoc.
+5. Ogniwa krytyczne zasilają 13.6 (fakty szkodliwe), 13.7 (test spójności) i blok dla M7.
+6. Liczby podawaj zawsze z założeniami z §4 modułu (niezależność ogniw; skala porządkowa, nie statystyka).
 
 ---
 

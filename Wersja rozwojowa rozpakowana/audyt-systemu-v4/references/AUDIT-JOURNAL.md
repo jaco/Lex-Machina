@@ -8174,7 +8174,7 @@ wybrał wyłącznie F-12 do objęcia w tej rundzie).
 **Zakres:** Skill proceduralny `przesluchanie-swiadkow-v2-min90` +
 zależność `shared/MOD-SKAN-DOWODOW-KOMPLETNY.md`. Nie dotyczy mapy Dz.U.
 
-**Sprawa:** XI P 27/26, świadek Maria Koroleva.
+**Sprawa:** XI P 27/26, świadek [ŚWIADEK-K].
 
 ### 1. INCYDENT
 
@@ -9729,7 +9729,7 @@ procesowego dot. Sharmy/rekrutacji.
    W 633/25) — pytania właściwe w jednym mogą być nieadmisyjne w innym.
 3. Ocena przesłanki "czy oferowanie pracy było w zakresie obowiązków"
    pominęła własne pismo procesowe użytkownika oraz transkrypt zeznań
-   Marii Koroleva, oba już dostępne w tym samym archiwum, oba wprost
+   [ŚWIADEK-K], oba już dostępne w tym samym archiwum, oba wprost
    potwierdzające tę przesłankę.
 4. Brak systematycznego wydobywania z dostępnych transkryptów wcześniejszych
    przesłuchań tego samego świadka: przyznanych faktów, sprzeczności i
@@ -69488,3 +69488,34 @@ Alternatywa rozważona i niepotrzebna: scalenie 13 raportów `references/raporty
 `audyt-systemu-v4` 6.153 → **6.154** (na wejściu z `main` 218 plików, w tym 36 reliktów; po wydaniu 182 = 180 plików wydania 6.153 [179 z sumami + `CHECKSUMS.sha256`] + `mcp-servers/wspolne/budzet.mjs` + `mcp-servers/test_poprawnosci.mjs`). Otwarte bez zmian: F-217(b), F-212 (uzupełniona o wyniki powyżej), F-213 (kryterium rozszerzone), F-210, F-197, F-203(b). Wolny numer: **F-218**.
 
 **T34 (paczki `WERSJA ROZWOJOWA/`) — ustalenie poza zakresem zmian:** na `main` T34 FAIL (94 rozbieżności). Przyczyny: (a) `audyt-systemu-v4.zip` to wydanie 6.152; (b) ⛔ `shared.zip` NIE zawiera `shared` — jego jedynym katalogiem głównym jest `audyt-systemu-v4/` (wydanie 6.153), stąd ostrzeżenie „shared/ bez paczki” i rozbieżności przypisane audytowi. Z paczką tego wydania w miejscu `audyt-systemu-v4.zip` i bez błędnego `shared.zip`: T34 PASS (0 rozbieżności, 31 skilli). Do decyzji użytkownika: odbudować `shared.zip` z drzewa `shared/` (ZASADA 7, osobna paczka).
+
+## AUDYT-2026-10-01b — przyczynowość: badanie, szacowanie, przewidywanie, wykazanie; graf przyczynowy (6.155)
+
+**Pytanie użytkownika:** czy system bada, szacuje, przewiduje i wykazuje związki przyczynowo-skutkowe oraz czy potrafi zbudować sieć zależności zdarzeń z ich wzajemnym wpływem. **Polecenie po raporcie:** wdrożyć.
+
+**Stan zastany (pomiar na `main` 1ef6319, 32 skille):**
+- BADANIE — istniało tekstowo: MP13 (7 typów łańcuchów, *post hoc*, wersja przeciwnika), MET-PT (dowód bezpośredni / pośredni / tylko korelacja), art. 361 KC (11 plików), art. 362 KC (11). Brak: test csqn (0 plików), przerwanie związku (0), przyczynowość alternatywna/kumulatywna (0), obiektywne przypisanie (0), „normalne następstwa” (1).
+- SZACOWANIE — skale 1–10 i „[%]” (analiza-sadowa-v6 §9, MP4) bez metody. ⛔ `shared/MOD-LANCUCH-DOWODOWY.md` „ZASADA KLUCZOWA”: lista 3 niezależnych dowodów po 0,9 miała dawać 0,27 (73% szans obalenia), wniosek „łańcuch silniejszy niż suma składowych” — rachunek odwrócony: równolegle 1 − 0,1³ = 0,999, szereg 0,9³ = 0,729 (słabszy niż każde ogniwo). Sprzeczne z MP13 („zerwanie jednego ogniwa obala cały łańcuch”). Moduł zasila pisma-procesowe-v3 W1.3.
+- PRZEWIDYWANIE — tylko wynik końcowy (wariant główny/alternatywny); brak „co jeśli”.
+- WYKAZANIE — tylko tekst; schemat zdarzenia chronologii bez ID i bez pól przyczyny/skutku; ID faktów M1 (F-nnn) i zdarzeń chronologii w osobnych przestrzeniach — łańcucha nie dało się powiązać z osią czasu.
+- ⛔ MET-PT: integracja zadeklarowana jednostronnie (pisma-procesowe-v3 W1.3, chronologia) — żaden z tych skilli ani analizator-dowodow-v3 nie wczytywał `MOD-METODY-BADAWCZE.md`; osiągalny tylko z raport-sytuacyjny-v2.
+- ⛔ Dane osób trzecich z prawdziwej sprawy w publicznym repozytorium: imię i nazwisko świadka (w `shared/CLAIM-VALIDATION.md` z zarzutem dotyczącym zeznań), numer telefonu i nazwa pracodawcy w `chronologia-sprawy-v1/assets/widget-timeline.html`, ten sam świadek w przesluchanie-swiadkow-v2-min90 (SKILL.md, CHANGELOG) i w tym dzienniku. Klasa F-217 (PESEL w fixture). T40 tego nie łapie (wykrywa sekrety i PESEL, nie nazwiska).
+
+**Wdrożone:**
+1. `shared/MOD-GRAF-PRZYCZYNOWY.md` 1.0.0 — model danych (węzły Z-nnn + `fakt_m1`; krawędzie WYWOLUJE/WARUNKUJE/WZMACNIA/OSLABIA/PRZERYWA; bramy I/LUB; jawne `sprawca` / `przyczynienie` / `obowiazek_dzialania`), trzy ustalenia na krawędź (MET-PT, csqn, przypisanie: art. 361 § 1, 362, 441 KC — brzmienia z ELI, t.j. Dz.U. 2026 poz. 795; art. 2 KK — t.j. Dz.U. 2025 poz. 383, cztery nowelizacje po t.j. sprawdzone: art. 2 bez zmian), jawny model liczbowy z granicami, ogniwa krytyczne, scenariusze, sprzężenia (cykle), formaty wyjścia. Orzecznictwo do testów doktrynalnych wyłącznie przez MCP (`saos_search`, `cbosa_szukaj` 🟨).
+2. `shared/tools/graf_przyczynowy.py` — silnik (MD/JSON/Mermaid; czyta też eksport widgetu), selftest 12/12. ⛔ Wykryte własnym testem przed wydaniem: flaga art. 441 KC powstawała z samej „strony” przodka (skarga pracownika-powoda = „drugi sprawca”) → flagi prawne tylko z jawnych oznaczeń + przypadek kontrolny.
+3. `chronologia-sprawy-v1` 1.13 — `id` i `przyczyny` w schemacie zdarzenia; TRYB C; `assets/widget-graf-przyczynowy.html` (SVG, oś X = daty, wiersze = wątki, kliknięcie = obalony/udowodniony, przeliczenie na żywo, MOD-WIDGET-IO JSON/MD). Uruchomiony w jsdom: 0 błędów JS; przykład: teza 0,72, po obaleniu Z-003 → 0,12 — identycznie jak silnik Python.
+4. `analizator-dowodow-v3` 5.16.18 — MP13 §13.2a i rachunek siły łańcucha; E1 wskazuje graf.
+5. `MOD-LANCUCH-DOWODOWY` 1.0.1 — rachunek poprawiony; `MOD-METODY-BADAWCZE` — MET-PT jako atrybut krawędzi grafu (realna ścieżka wywołania).
+6. T42 `scripts/check_graf_przyczynowy.py` (BLOKER) — selftest, parytet Python↔JS (4 grafy, ±1e-6), regresja formuły, podpięcia.
+7. Anonimizacja: [ŚWIADEK-K]/[ŚWIADEK-P], [PRACODAWCA], [TELEFON] w 7 plikach 4 skilli (shared, chronologia, przesłuchanie, ten dziennik). ⚠️ Historia gita nadal zawiera te dane — usunięcie wymaga przepisania historii (np. `git filter-repo`) i prośby do GitHub o wyczyszczenie pamięci podręcznej; decyzja użytkownika.
+
+**Czego graf NIE robi (jawnie):** nie zastępuje oceny materiału (pewność węzłów, dowód połączenia, csqn wprowadza analiza — MP13 §13.7); liczby zakładają niezależność ogniw i są skalą porządkową, nie statystyką orzeczniczą; nie liczy procentu „szans wygranej”. Predykcja analiza-sadowa-v6 §9 nadal nie ma metody — do decyzji, czy wiązać ją z grafem (osobna zmiana skilla).
+
+**Relikty:** aktualizacja 6.154 na `main` znowu nałożona na stary katalog — 36 plików wróciło (T41 FAIL 218). Usunięte ponownie → 183 (182 z 6.154 + T42).
+
+**ZASADA 7:** pięć osobnych pełnych paczek: `shared` 3.99, `chronologia-sprawy-v1` 1.13, `analizator-dowodow-v3` 5.16.18, `przesluchanie-swiadkow-v2-min90` 3.30, `audyt-systemu-v4` 6.155; PRE-DELIVERY-COMPLETENESS-CHECK osobno dla każdej. Wolny numer flagi: **F-218**.
+
+**Suita na wydaniu (poza zakresem tej zmiany):** T39 FAIL także na `main` 1ef6319 — `shared/tools/kontrakt_rachunek.py` i jego testu nie ma w ŻADNYM commicie repozytorium (wydanie 6.151/F-215 nie trafiło do gita), a `analizator-umow-v1` (SKILL.md, 2 workflowy, `mod-shared-ryzyko-kwant.md`) i T39 się do niego odwołują. Do decyzji użytkownika: wgrać plik z paczki 6.151, jeśli jest u niego, albo odbudować. T34 na `main`: paczki w `WERSJA ROZWOJOWA/` nieaktualne, `shared.zip` zawiera katalog `audyt-systemu-v4` (AUDYT-2026-10-01).
+
+**Uzupełnienie AUDYT-2026-10-01b — `kontrakt_rachunek.py` odtworzony (T39).** Na polecenie użytkownika przeszukano historię rozmów: plik powstał w sesji AUDYT-2026-09-29 („Porównanie z Lex Machina i integracja CEIDG”). Odtworzony 1:1 z zapisu: utworzenie + trzy późniejsze edycje (wykaz załączników w 2 liniach; podkomenda `cytaty`; usunięcie martwego kodu w `oblicz`) oraz test w ostatecznym brzmieniu (z korektą „3/5”). Jedyna niepewność rekonstrukcji: separator tysięcy w `CYFRY`/`_cyfra` — w zapisie widoczny jako dwa znaki odstępu; przyjęto U+00A0 i U+202F (spacje niełamiące), zwykłej spacji nie (inaczej sąsiednie liczby zlewałyby się w jedną). Weryfikacja: 13/13 testów, T39 5/5 na korpusie (05: i3 i i6 wykryte; 01: zero alarmów; 04: 5 par zgodnych). ⚠️ Wpisy z 2026-09-29 mówią o 14 testach; zapis sesji zawiera 13 metod testowych — liczba skorygowana w REGRESSION-TEST-PLAN. Tamta sesja wydała też shared 3.99 z wierszem CEIDG v3 w `DOSTEP-MASZYNOWY-API.md` — również nieobecnym na `main`; odtworzony. Numer 3.99 użyty raz: wydanie tej rundy zawiera oba zestawy zmian. T39: FAIL → PASS.
