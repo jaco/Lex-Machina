@@ -1,6 +1,6 @@
 ---
 name: shared
-version: "3.99"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
+version: "3.99.1"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
                   # jako float 3.17, a 3.17 < 3.9 — porządek wersji odwraca się
                   # dla każdego narzędzia porównującego liczbowo. Wykryte
                   # testem T12 (check_wersje_changelog.py), 2026-08-20z.
@@ -50,7 +50,7 @@ limitations:
 required_modules: []
   # nie ma zastosowania — shared jest wczytywany, nie wczytuje sam siebie
 changelog: |
-  Wersja bieżąca: 3.99 (2026-10-01b, AUDYT-2026-10-01b): graf przyczynowy (MOD-GRAF-PRZYCZYNOWY + tools/graf_przyczynowy.py); tools/kontrakt_rachunek.py odtworzony (F-215 — wydanie 3.99 z 2026-09-29 nie trafiło do repo); CEIDG v3 w DOSTEP-MASZYNOWY-API; MOD-LANCUCH-DOWODOWY 1.0.1 — poprawiony rachunek szereg/równolegle; MET-PT podpięty; anonimizacja danych osób trzecich.
+  Wersja bieżąca: 3.99.1 (2026-10-02, AUDYT-2026-10-02): rewizja ekspercka grafu (NESS, zaniechanie hipotetyczne, obiektywne przypisanie, art. 5 § 2 KPK / art. 6 KC, model wykluczeniowy) i MET-ACH wg Heuera; dostęp do orzeczenia.uzp.gov.pl (KIO). Poprzednio 3.99 (2026-10-01b, AUDYT-2026-10-01b): graf przyczynowy (MOD-GRAF-PRZYCZYNOWY + tools/graf_przyczynowy.py); tools/kontrakt_rachunek.py odtworzony (F-215 — wydanie 3.99 z 2026-09-29 nie trafiło do repo); CEIDG v3 w DOSTEP-MASZYNOWY-API; MOD-LANCUCH-DOWODOWY 1.0.1 — poprawiony rachunek szereg/równolegle; MET-PT podpięty; anonimizacja danych osób trzecich.
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 

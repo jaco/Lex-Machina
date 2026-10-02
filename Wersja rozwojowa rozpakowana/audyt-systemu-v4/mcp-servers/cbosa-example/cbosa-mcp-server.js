@@ -96,7 +96,10 @@ function sygnaturaZTytulu(title) {
 function parsujDokumentSurowo(html) {
   const s = { title: new Zbieracz(), inTitle: false, tabela: {}, sekcje: {}, tdKl: null, td: new Zbieracz(),
     divKl: null, div: new Zbieracz(), etykTab: null, etykSek: null, glab: 0, sekcja: null,
-    htmlEnd: false, bodyEnd: false, widzSent: false, widzUzas: false };
+    htmlEnd: false, bodyEnd: false, widzSent: false, widzUzas: false,
+    // CBOSA zagnieżdża tabelę w komórce wartości („Data orzeczenia”: data | „orzeczenie prawomocne”);
+    // wewnętrzne komórki należą do wartości zewnętrznej. Wcześniej gubiły datę: „brak pól Data orzeczenia”.
+    tdZagn: 0 };
   const nl = () => { if (s.tdKl) s.td.newline(); if (s.divKl) s.div.newline(); };
   for (const t of tokeny(html)) {
     if (t.typ === "tekst") {
@@ -111,7 +114,10 @@ function parsujDokumentSurowo(html) {
     if (t.typ === "start" || t.typ === "pusty") {
       const k = klasy(t.atr);
       if (tag === "title") { s.inTitle = true; continue; }
-      if (tag === "td") { s.tdKl = klucz(k); s.td = new Zbieracz(); continue; }
+      if (tag === "td") {
+        if (s.tdKl !== null) { s.tdZagn += 1; s.td.add(" "); continue; }
+        s.tdKl = klucz(k); s.td = new Zbieracz(); continue;
+      }
       if (tag === "div") { s.divKl = klucz(k); s.div = new Zbieracz(); continue; }
       if (tag === "span" && k.has("info-list-value-uzasadnienie") && s.etykSek) { s.glab = 1; s.sekcja = new Zbieracz(); continue; }
       if (s.glab > 0) {
@@ -134,6 +140,7 @@ function parsujDokumentSurowo(html) {
       } else if (["p", "div", "li", "tr"].includes(tag) && s.sekcja) s.sekcja.newline();
       continue;
     }
+    if (tag === "td" && s.tdZagn > 0) { s.tdZagn -= 1; s.td.add(" "); continue; }
     if (tag === "td" && s.tdKl !== null) {
       const tx = s.td.text(), k = new Set(s.tdKl.split(" "));
       if (k.has("lista-label")) s.etykTab = tx;
@@ -159,7 +166,10 @@ export function parsujDokument(html, docId) {
   let syg = sygnaturaZTytulu(s.title.text()) || s.tabela["Sygnatura"] || s.tabela["Sygnatura akt"];
   if (!syg) throw new Error(`Brak sygnatury w dokumencie CBOSA ${id}`);
   syg = normalizeCaseNumber(syg);
-  const sad = s.tabela["Sąd"], data = s.tabela["Data orzeczenia"];
+  const sad = s.tabela["Sąd"], dataPole = s.tabela["Data orzeczenia"] ?? "";
+  // „2019-05-22 orzeczenie prawomocne” → data i informacja CBOSA o prawomocności
+  const data = dataPole.match(/\d{4}-\d{2}-\d{2}/)?.[0] ?? dataPole;
+  const prawomocnosc = /orzeczenie\s+(nie)?prawomocne/i.exec(dataPole)?.[0]?.toLowerCase() ?? null;
   const sent = s.sekcje["Sentencja"], uzas = s.sekcje["Uzasadnienie"];
   if (!s.htmlEnd || !s.bodyEnd) throw new Error(`Niekompletny HTML CBOSA ${id}: brak zamknięcia BODY/HTML`);
   const brak = [["Sąd", sad], ["Data orzeczenia", data], ["Sentencja", sent]].filter(([, v]) => !v).map(([n]) => n);
@@ -167,7 +177,7 @@ export function parsujDokument(html, docId) {
   if (s.widzUzas && !uzas) throw new Error(`Niekompletna sekcja Uzasadnienie w dokumencie CBOSA ${id}`);
   return { doc_id: id, case_number: syg, court: sad || null, judgment_date: data || null,
     operative_part: sent || null, reasoning: uzas || null, url: `${BASE}/doc/${id}`,
-    reasoning_available: Boolean(uzas), document_complete: true };
+    reasoning_available: Boolean(uzas), document_complete: true, finality: prawomocnosc };
 }
 
 /** Odpowiednik collect_search_doc_ids + verify_search_results + classify_exact_matches. */
@@ -309,6 +319,7 @@ server.registerTool("cbosa_pobierz", {
     const d = parsujDokument(await new Sesja().zadanie(`${BASE}/doc/${doc_id.toUpperCase()}`), doc_id);
     return tekst({ status: "FOUND", query_type: "orzeczenie", source: "cbosa", snapshot: "🟨", awans: false, confidence: "snapshot",
       result: { identyfikator: d.case_number, sad: d.court, data_wyroku: d.judgment_date, url_zrodlowy: d.url,
+        ...(d.finality ? { prawomocnosc: `${d.finality} (wg CBOSA)` } : {}),
         sentencja: d.operative_part, uzasadnienie: d.reasoning, uzasadnienie_dostepne: d.reasoning_available }, uwaga: SNAP });
   } catch (e) { return tekst({ ...blad(e), status: "OUT_OF_SCOPE", powod: String(e?.message ?? e) }); }
 });

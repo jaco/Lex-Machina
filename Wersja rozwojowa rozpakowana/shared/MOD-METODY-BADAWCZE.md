@@ -139,39 +139,52 @@ PROCEDURA GŁĘBOKA (KROK B, po wyborze "Analiza głęboka"):
 
 ```
 ID:          MET-ACH
-NAZWA PL:    Analiza konkurujących hipotez
-OPIS:        Dla danego zdarzenia/faktu spornego budowana jest macierz:
-             wiersze = hipotezy konkurujące (np. "powód sam wypowiedział umowę"
-             vs "pracodawca rozwiązał umowę bez przyczyny"), kolumny = dowody.
-             Każdy dowód oceniany jest jako: POTWIERDZA / WYKLUCZA / NEUTRALNY
-             względem każdej hipotezy. Hipoteza z największą liczbą "WYKLUCZA"
-             jest najsłabsza — nie ta z największą liczbą potwierdzeń.
-ZASTOSOWANIE: Sprawy ze sprzecznymi wersjami zdarzeń (klasa SPORNE w
-             chronologia-sprawy-v1), gdzie strony przedstawiają wzajemnie
-             wykluczające się narracje i nie ma dowodu rozstrzygającego wprost.
-WYNIK:       Macierz hipoteza×dowód + ranking hipotez od najsłabszej (do
-             odrzucenia) do najsilniejszej (do budowy na niej argumentacji).
+NAZWA PL:    Analiza konkurujących hipotez (model wykluczeniowy)
+ŹRÓDŁO METODY: R. J. Heuer, „Psychology of Intelligence Analysis”, CIA Center for the Study of Intelligence,
+             1999, rozdz. 8 — 8 kroków. Rewizja 2026-10-02 (AUDYT-2026-10-02): poprzedni opis (a) brał pod
+             uwagę tylko wersje stron, (b) oceniał „POTWIERDZA/WYKLUCZA”, co miesza zgodność z rozstrzygnięciem,
+             (c) liczył niespójności bez wagi dowodu, (d) nie odrzucał dowodów niediagnostycznych, (e) nie miał
+             analizy wrażliwości ani nakładki procesowej (ciężar dowodu, in dubio pro reo).
+OPIS:        Macierz: wiersze = dowody i argumenty (także BRAK oczekiwanego dowodu i założenia), kolumny =
+             hipotezy. Ocena każdego dowodu wobec każdej hipotezy: ++ (bardzo zgodny), + (zgodny), 0 (neutralny),
+             − (niezgodny), −− (bardzo niezgodny / wyklucza). Rozstrzyga NIESPÓJNOŚĆ ważona klasą dowodu
+             (A 1,0 · B 0,75 · C 0,5 · D 0,25), nie liczba potwierdzeń — dowód zgodny z wieloma hipotezami
+             niczego nie rozstrzyga.
+PROCEDURA (KROK B — pełna):
+  1. Hipotezy: WSZYSTKIE rozsądne, nie tylko wersje stron — także „obie wersje częściowo prawdziwe”,
+     „nieporozumienie / błąd bez winy”, „przyczyna zewnętrzna”. Hipotezy wzajemnie się wykluczają.
+  2. Dowody i argumenty: każdy z klasą (A–D, MOD-KARTA-DOWODU) i źródłem; dopisz brak dowodu, który przy danej
+     hipotezie POWINIEN istnieć (np. brak korespondencji, której wersja strony wymaga).
+  3. Macierz ocen ++ / + / 0 / − / −− (zgodność, nie „potwierdza”).
+  4. Odrzuć dowody NIEDIAGNOSTYCZNE (ta sama ocena dla wszystkich hipotez) — zostają w raporcie jako tło.
+  5. Wnioski wstępne: hipoteza z NAJMNIEJSZĄ ważoną niespójnością jest najmocniejsza; staraj się obalać,
+     nie potwierdzać. „Wykluczona” = −− z dowodu klasy A/B; samo − nie wyklucza.
+  6. Wrażliwość: wskaż DOWODY KRYTYCZNE — te, których podważenie (fałsz, antydatowanie, niewiarygodny świadek)
+     zmienia zwycięską hipotezę; to cele ataku przeciwnika i miejsca na wnioski dowodowe.
+  7. Raport: względna siła WSZYSTKICH hipotez, nie tylko zwycięskiej.
+  8. Kamienie milowe: jakie przyszłe dowody (np. opinia biegłego, dokument w posiadaniu przeciwnika lub osoby trzeciej) zmieniłyby
+     wynik → lista wniosków dowodowych.
+NAKŁADKA PROCESOWA (obowiązkowa, brzmienia z ELI 2026-10-02):
+  • sprawa cywilna: ciężar udowodnienia faktu „spoczywa na osobie, która z faktu tego wywodzi skutki prawne”
+    (art. 6 KC); strony wskazują dowody (art. 232 KPC) — nierozstrzygnięta macierz działa przeciw tej stronie;
+  • sprawa karna: „niedające się usunąć wątpliwości rozstrzyga się na korzyść oskarżonego” (art. 5 § 2 KPK) —
+    hipoteza korzystna dla oskarżonego, NIEwykluczona dowodem klasy A/B, blokuje przyjęcie wersji oskarżenia.
+WYNIK:       Macierz + ranking po ważonej niespójności + dowody niediagnostyczne + dowody krytyczne + hipotezy
+             wykluczone + flagi procesowe. Silnik: `python3 shared/tools/graf_przyczynowy.py plik.json --ach`.
+POWIĄZANIE Z GRAFEM: hipotezy o PRZYCZYNIE skutku = węzły alternatywne w MOD-GRAF-PRZYCZYNOWY (§5a); wykluczona
+             dowodem A/B → niskie p węzła; niewykluczona → krawędź OSLABIA o sile z materiału.
 KRYTERIUM AUTO-DOBORU:
-             ≥2 wzajemnie wykluczające się wersje zdarzenia tego samego faktu
-             ORAZ brak dowodu kategorii A (urzędowy/bezsporny) rozstrzygającego
-             jednoznacznie → auto-aktywacja.
-INTEGRACJA:  Wejście: MD3c (sprzeczności między dokumentami) z
-             analizator-dowodow-v3. Wyjście: zasila §I.3 (Sprzeczności)
-             w raport-sytuacyjny-v2 oraz argumentację "obalanie" w
-             MOD-WARIANTY-POZWU.
+             ≥2 wzajemnie wykluczające się wersje zdarzenia tego samego faktu ORAZ brak dowodu kategorii A
+             rozstrzygającego jednoznacznie → auto-aktywacja; także: graf zgłasza „WYKLUCZENIE” (§5a).
+INTEGRACJA:  Wejście: MD3c (sprzeczności między dokumentami) z analizator-dowodow-v3; węzły alternatywne grafu.
+             Wyjście: §I.3 (Sprzeczności) w raport-sytuacyjny-v2, argumentacja „obalanie” w MOD-WARIANTY-POZWU,
+             `p` węzłów alternatywnych w MOD-GRAF-PRZYCZYNOWY.
 MODEL WYKONANIA: DWUETAPOWY (§1a).
 PROCEDURA SZKICU (KROK A):
-             1. Zidentyfikuj fakt sporny + dwie (lub więcej) wzajemnie
-                wykluczające się hipotezy (z MD3c).
-             2. Wskaż 1 dowód kategorii A (jeśli istnieje, choćby częściowo
-                rozstrzygający) lub stwierdź jego brak.
-             3. NIE buduj pełnej macierzy hipoteza×dowód — to KROK B.
-             WYNIK SZKICU: "Fakt: [opis]. Hipotezy: [H1] vs [H2]. Dowód
-             rozstrzygający: [wskazany / brak]." — 1-2 zdania.
-PROCEDURA GŁĘBOKA (KROK B, po wyborze "Analiza głęboka"):
-             Pełna macierz hipoteza×dowód wg pola WYNIK — wszystkie dostępne
-             dowody oceniane POTWIERDZA/WYKLUCZA/NEUTRALNY względem każdej
-             hipotezy, ranking od najsłabszej.
+             1. Fakt sporny + wszystkie rozsądne hipotezy (nie tylko wersje stron).
+             2. Wskaż 1 dowód kategorii A (choćby częściowo rozstrzygający) lub stwierdź jego brak.
+             3. Pełna macierz — dopiero KROK B.
+             WYNIK SZKICU: "Fakt: [opis]. Hipotezy: [H1…Hn]. Dowód rozstrzygający: [wskazany / brak]."
 ```
 
 ### MET-FTL — Forensic Timeline (analiza chronologii śledczej/dowodowej)

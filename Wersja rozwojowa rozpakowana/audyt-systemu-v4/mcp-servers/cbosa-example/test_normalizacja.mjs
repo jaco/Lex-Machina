@@ -27,4 +27,12 @@ const ids = (a, b) => Array.from({ length: b - a }, (_, i) => `A${String(a + i).
   assert.strictEqual(v.status, "AMBIGUOUS"); assert.strictEqual(v.doc_ids.length, 12); n++; }
 { const v = await weryfikujSygnature(strona(11, ids(0, 10)), "II FSK 100/24", async () => strona(11, ids(0, 10)), async () => dok);
   assert.strictEqual(v.status, "OUT_OF_SCOPE"); assert.match(v.powod, /bez nowych ID/); n++; }
+// Komórka wartości z zagnieżdżoną tabelą (data | prawomocność) — wcześniej „brak pól Data orzeczenia”.
+{ const zagn = dok.replace(/<td class="info-list-value">(\d{4}-\d{2}-\d{2})<\/td>/,
+    '<td class="info-list-value"><table class="info-list"><tr><td >$1</td><td class="war_header">orzeczenie prawomocne</td></tr></table></td>');
+  assert.notStrictEqual(zagn, dok);
+  const d = parsujDokument(zagn, "AAAAAAAAAA");
+  assert.match(d.judgment_date, /^\d{4}-\d{2}-\d{2}$/);
+  assert.strictEqual(d.finality, "orzeczenie prawomocne");
+  assert.ok(d.court); n++; }
 console.log(`OK: ${n} przypadków zgodnych z parserem referencyjnym (Python) + paginacja`);

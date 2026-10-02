@@ -31,6 +31,12 @@ import { fileURLToPath } from "node:url";
 import { sygnal, owinSerwer, budzetWyczerpany } from "../wspolne/budzet.mjs";
 
 const KRS_BASE_URL = "https://api-krs.ms.gov.pl/api/krs";
+// „Otwórz w źródle”: oficjalna wyszukiwarka KRS (prs.ms.gov.pl to aplikacja JavaScript bez treści
+// dla podglądu). Pełny odpis aktualny do podglądu: Otwarte API KRS (url_podgladu).
+export const KRS_WYSZUKIWARKA = "https://wyszukiwarka-krs.ms.gov.pl/";
+// NIP/REGON → numer KRS: wykaz podatników VAT (wl-api.mf.gov.pl) podaje pole `krs` (zmierzone 2026-10-01:
+// ORLEN NIP 7740001454 i REGON 610188201 → 0000028860). Otwarte API KRS nie ma wyszukiwania po NIP/REGON.
+const WL_API = "https://wl-api.mf.gov.pl/api";
 
 const server = owinSerwer(globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({ name: "krs-connector", version: "1.1.0" }));
 
@@ -75,7 +81,11 @@ export function normalizujOdpowiedzKRS(raw, numerKrs) {
       data_publikacji_lub_wyroku: n.stanZDnia ?? null,
       stan_z_dnia: n.stanZDnia ?? null,
       data_ostatniego_wpisu: n.dataOstatniegoWpisu ?? null,
-      url_zrodlowy: `https://prs.ms.gov.pl/krs/podglad-informacji-aktualnej/${numerKrs}`,
+      url_zrodlowy: KRS_WYSZUKIWARKA,
+      url_podgladu: `${KRS_BASE_URL}/OdpisAktualny/${numerKrs}?rejestr=${n.rejestr === "RejS" ? "S" : "P"}&format=json`,
+      nip: dp.identyfikatory?.nip ?? null,
+      // KRS dopełnia 9-cyfrowy REGON zerami do 14 cyfr; zwracamy REGON jednostki głównej.
+      regon: dp.identyfikatory?.regon ? String(dp.identyfikatory.regon).replace(/^(\d{9})00000$/, "$1") : null,
     },
     retrieved_at: new Date().toISOString(),
     confidence: "deterministic",
@@ -125,6 +135,32 @@ async function pobierzZKrs(numerKrs) {
   return { status: 404 };
 }
 
+export function regonPoprawny(regon) {
+  const r = String(regon ?? "").replace(/[\s-]/g, "");
+  const suma = (w, n) => w.reduce((s, x, i) => s + x * Number(n[i]), 0) % 11 % 10;
+  if (/^\d{9}$/.test(r)) return suma([8, 9, 2, 3, 4, 5, 6, 7], r) === Number(r[8]);
+  // 14 cyfr: KRS podaje REGON jednostki głównej dopełniony zerami (ORLEN 61018820100000), bez cyfry kontrolnej
+  // REGON-14 — sprawdzamy 9-cyfrowy rdzeń, którym i tak szuka wykaz VAT.
+  if (/^\d{14}$/.test(r)) return regonPoprawny(r.slice(0, 9));
+  return false;
+}
+export function nipPoprawny(nip) {
+  const n = String(nip ?? "").replace(/[\s-]/g, "");
+  if (!/^\d{10}$/.test(n)) return false;
+  return [6, 5, 7, 2, 3, 4, 5, 6, 7].reduce((s, x, i) => s + x * Number(n[i]), 0) % 11 === Number(n[9]);
+}
+
+/** Numer KRS z wykazu podatników VAT po NIP albo REGON (9 cyfr; 14-cyfrowy skracany do 9). */
+async function krsZWykazu(rodzaj, wartosc) {
+  const dzis = new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Warsaw" }).format(new Date());
+  const resp = await fetch(`${WL_API}/search/${rodzaj}/${wartosc}?date=${dzis}`, { signal: sygnal(20000) });
+  const dane = await resp.json().catch(() => null);
+  if (!resp.ok && resp.status !== 400) throw new Error(`Wykaz podatników VAT HTTP ${resp.status}`);
+  const s = dane?.result?.subject ?? null;
+  return { krs: s?.krs ?? null, nazwa: s?.name ?? null, nip: s?.nip ?? null, regon: s?.regon ?? null,
+    requestId: dane?.result?.requestId ?? null, kod: dane?.code ?? null };
+}
+
 const odpowiedz = (w) => ({ content: [{ type: "text", text: JSON.stringify(w, null, 2) }] });
 const blad = (err) => ({ status: "ERROR", query_type: "podmiot", source: "krs", detail: String(err?.message ?? err), retrieved_at: new Date().toISOString() });
 const NUMER = z.string().regex(/^\d{1,10}$/).transform((s) => s.padStart(10, "0")).describe("Numer KRS (zera wiodące opcjonalne)");
@@ -147,6 +183,36 @@ server.registerTool("krs_reprezentacja", {
 }, async ({ numerKrs }) => {
   try { return odpowiedz(normalizujReprezentacje(await pobierzZKrs(numerKrs), numerKrs)); }
   catch (e) { return odpowiedz(blad(e)); }
+});
+
+server.registerTool("krs_szukaj", {
+  title: "KRS — podmiot po NIP albo REGON",
+  description: "Ustala numer KRS po NIP albo REGON (przez wykaz podatników VAT Ministerstwa Finansów, który podaje KRS) " +
+    "i zwraca odpis aktualny jak krs_lookup. Podmiot spoza wykazu VAT (np. niezarejestrowany do VAT) nie zostanie " +
+    "znaleziony tą drogą — wtedy podaj numer KRS albo użyj wyszukiwarki KRS.",
+  inputSchema: {
+    nip: z.string().min(10).max(13).optional().describe("NIP (10 cyfr)"),
+    regon: z.string().min(9).max(14).optional().describe("REGON (9 albo 14 cyfr)"),
+  },
+}, async ({ nip, regon }) => {
+  const n = nip?.replace(/[\s-]/g, ""), r = regon?.replace(/[\s-]/g, "");
+  const baza = { query_type: "podmiot", source: "krs", url_zrodlowy: KRS_WYSZUKIWARKA, retrieved_at: new Date().toISOString() };
+  if (!n === !r) return odpowiedz({ status: "ERROR", ...baza, detail: "Podaj dokładnie jedno: NIP albo REGON." });
+  if (n && !nipPoprawny(n)) return odpowiedz({ status: "ERROR", ...baza, detail: `NIP ${nip} ma niepoprawną sumę kontrolną — nie wysłano zapytania.` });
+  if (r && !regonPoprawny(r)) return odpowiedz({ status: "ERROR", ...baza, detail: `REGON ${regon} ma niepoprawną sumę kontrolną — nie wysłano zapytania.` });
+  try {
+    const w = await krsZWykazu(n ? "nip" : "regon", n ?? r.slice(0, 9));
+    if (!w.krs) {
+      return odpowiedz({ status: "NOT_FOUND", ...baza,
+        uwaga: w.nazwa
+          ? `${w.nazwa} jest w wykazie podatników VAT, ale bez numeru KRS (np. osoba fizyczna — sprawdź CEIDG).`
+          : `Brak podmiotu o ${n ? `NIP ${n}` : `REGON ${r}`} w wykazie podatników VAT, więc numeru KRS nie ustalono. ` +
+            "To nie dowód, że podmiotu nie ma w KRS — podaj numer KRS albo użyj wyszukiwarki KRS." });
+    }
+    const wynik = normalizujOdpowiedzKRS(await pobierzZKrs(w.krs.padStart(10, "0")), w.krs.padStart(10, "0"));
+    wynik.ustalono_przez = `wykaz podatników VAT (requestId ${w.requestId ?? "—"}): ${n ? `NIP ${n}` : `REGON ${r}`} → KRS ${w.krs}`;
+    return odpowiedz(wynik);
+  } catch (e) { return odpowiedz(blad(e)); }
 });
 
 // ⛔ POPRAWKA 2026-09-27m: `import.meta.url === \`file://${process.argv[1]}\`` był fałszywy na Windows

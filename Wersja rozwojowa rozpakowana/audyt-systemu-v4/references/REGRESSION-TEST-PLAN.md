@@ -1366,7 +1366,7 @@ równoważność treści), a scalanie — zachowania treści w całości.
 
 | Test | Co mierzy | Waga | Zależność |
 |---|---|---|---|
-| T42 | (A) selftest `shared/tools/graf_przyczynowy.py` — szereg 3×0,9 = 0,729, równolegle 0,999, csqn, cykle, błąd czasu, flagi art. 361/362/441 KC i art. 2 KK, brak fałszywych flag bez jawnych oznaczeń; (B) parytet z blokiem ENGINE widgetu `chronologia-sprawy-v1/assets/widget-graf-przyczynowy.html` na 4 grafach (±1e-6); (C) brak formuły „× 0,9 = 0,27” w MOD-LANCUCH-DOWODOWY i podpięcia MP13 §13.2a, TRYB C, MET-PT | KRYTYCZNY (BLOKER) | offline; Node dla (B) — bez Node WARN |
+| T42 | (A) selftest `shared/tools/graf_przyczynowy.py` — szereg 3×0,9 = 0,729, równolegle 0,999, csqn, cykle, błąd czasu, flagi art. 361/362/441 KC i art. 2 KK, brak fałszywych flag bez jawnych oznaczeń; od 2026-10-02 także NESS (przyczyny nadmiarowe), zaniechanie hipotetyczne, obiektywne przypisanie i art. 5 § 2 KPK, model wykluczeniowy, niezależność dowodów, MET-ACH (niediagnostyczne, ważona niespójność, dowody krytyczne); (B) parytet z blokiem ENGINE widgetu `chronologia-sprawy-v1/assets/widget-graf-przyczynowy.html` na 4 grafach (±1e-6); (C) brak formuły „× 0,9 = 0,27” w MOD-LANCUCH-DOWODOWY i podpięcia MP13 §13.2a, TRYB C, MET-PT | KRYTYCZNY (BLOKER) | offline; Node dla (B) — bez Node WARN |
 
 **Wykonanie:** `python3 audyt-systemu-v4/scripts/check_graf_przyczynowy.py --repo-root <drzewo>`.
 **Pomiar walidacyjny (2026-10-01b):** PASS (11+1 przypadków selftestu, 4/4 grafy zgodne); widget dodatkowo

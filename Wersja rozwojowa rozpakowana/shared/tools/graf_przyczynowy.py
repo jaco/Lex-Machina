@@ -19,10 +19,24 @@ Model liczbowy (jawny, ten sam co w widgecie chronologia-sprawy-v1/assets/widget
   OSLABIA/PRZERYWA: s ← s · Π (1 − s_c · p_e)
 ⛔ Założenie niezależności ogniw — liczby są oceną PORZĄDKOWĄ siły materiału, nie statystyką orzeczniczą.
 
+Rewizja ekspercka 2026-10-02 (AUDYT-2026-10-02):
+  • csqn zawodzi przy przyczynowości kumulatywnej/nadmiarowej (dwie przyczyny, każda wystarczająca) — wartość
+    `csqn: "NESS"` (konieczny element zbioru warunków wystarczającego) NIE zeruje krawędzi; „NIE” tylko gdy skutek
+    nastąpiłby i bez A, a A nie należy do żadnego obecnego zbioru warunków wystarczających;
+  • zaniechanie: przyczynowość hipotetyczna — krawędź z węzła ZANIECHANIE wymaga `dzialanie_hipotetyczne`
+    (jakie działanie zgodne z obowiązkiem zapobiegłoby skutkowi), a jej p = prawdopodobieństwo zapobieżenia;
+  • karne: obiektywne przypisanie — `ryzyko` (STWORZONE/ZWIEKSZONE/BRAK) i `realizacja_ryzyka` (TAK/NIE);
+    niedające się usunąć wątpliwości (csqn NIEUSTALONE, tylko korelacja) → art. 5 § 2 KPK;
+  • model wykluczeniowy: brak zbadanych przyczyn alternatywnych przy połączeniu pośrednim/korelacyjnym → flaga;
+    dowody „niezależne” z tego samego źródła w bramie LUB → flaga zależności;
+  • `--ach plik.json`: analiza konkurujących hipotez (MET-ACH wg Heuera) — diagnostyczność, ważona niespójność,
+    dowody krytyczne, nakładka procesowa (art. 6 KC / art. 232 KPC; art. 5 § 2 KPK).
+
 Użycie:
   python3 graf_przyczynowy.py graf.json            → raport Markdown
   python3 graf_przyczynowy.py graf.json --json     → wynik JSON
   python3 graf_przyczynowy.py graf.json --mermaid  → diagram Mermaid
+  python3 graf_przyczynowy.py hipotezy.json --ach  → macierz MET-ACH (MD; z --json wynik JSON)
   python3 graf_przyczynowy.py --selftest
 Kod wyjścia: 0 OK; 1 błąd danych (np. przyczyna późniejsza niż skutek, nieznany węzeł); 2 selftest FAIL.
 """
@@ -227,6 +241,27 @@ def analizuj(g):
             wynik["ostrzezenia"].append(f"POST HOC: {k['od']}→{k['do']} — tylko korelacja czasowa (MET-PT); wymaga dowodu mechanizmu")
         if k.get("csqn") == "NIE" and k["typ"] in POZYTYWNE:
             wynik["ostrzezenia"].append(f"CSQN: {k['od']}→{k['do']} — skutek nastąpiłby i bez przyczyny; krawędź wyzerowana")
+    w_ = {x["id"]: x for x in g["wezly"]}
+    for k in g["krawedzie"]:
+        if k.get("csqn") == "NESS" and k["typ"] in POZYTYWNE:
+            wynik["ostrzezenia"].append(f"NESS: {k['od']}→{k['do']} — przyczyna wystarczająca współwystępująca z inną (csqn zawodzi); "
+                                        "krawędź liczona, oceń przyczynowość kumulatywną/alternatywną")
+        if w_[k["od"]].get("typ") == "ZANIECHANIE" and k["typ"] in POZYTYWNE and not k.get("dzialanie_hipotetyczne"):
+            wynik["ostrzezenia"].append(f"ZANIECHANIE {k['od']}→{k['do']}: brak `dzialanie_hipotetyczne` — przyczynowość zaniechania jest "
+                                        "hipotetyczna (czy działanie zgodne z obowiązkiem zapobiegłoby skutkowi i z jakim prawdopodobieństwem)")
+    for v, x in w_.items():
+        wej = [k for k in g["krawedzie"] if k["do"] == v]
+        poz = [k for k in wej if k["typ"] in POZYTYWNE]
+        alt = [k for k in wej if k["typ"] in ("OSLABIA", "PRZERYWA")]
+        if poz and not alt and any(k.get("dowod") in ("POSREDNI", "KORELACJA") for k in poz) and not x.get("alternatywy_zbadane"):
+            wynik["ostrzezenia"].append(f"WYKLUCZENIE: {v} — połączenie pośrednie/korelacyjne bez zbadanych przyczyn alternatywnych "
+                                        "(dodaj węzły alternatywne z krawędzią OSLABIA albo `alternatywy_zbadane` z uzasadnieniem; MET-ACH)")
+        if (x.get("brama") or "I") == "LUB" and len(poz) >= 2:
+            zr = [set(k.get("zrodla") or []) | set(w_[k["od"]].get("dok_id") or []) for k in poz]
+            wspolne = set.intersection(*zr) if all(zr) else set()
+            if wspolne:
+                wynik["ostrzezenia"].append(f"NIEZALEŻNOŚĆ: {v} — przyczyny w bramie LUB opierają się na tym samym źródle "
+                                            f"({', '.join(sorted(wspolne))}); rachunek 1 − Π(1 − s·p) zawyża wsparcie — połącz w jeden węzeł")
     if cykle:
         wynik["ostrzezenia"].append(f"SPRZĘŻENIE: {len(cykle)} cykl(e) — wzajemny wpływ; do obliczeń rozcięte krawędzie {wynik['sprzezenia']}")
     if teza:
@@ -279,11 +314,85 @@ def _przypisanie(g, teza, aktywne, sciezki, s):
     sprawcy = {w[v].get("strona") or v for v in przodkowie if w[v].get("sprawca")}
     if len(sprawcy) >= 2 and dz == "cywilne":
         flagi.append(f"KILKU SPRAWCÓW ({', '.join(sorted(sprawcy))}) — art. 441 KC (solidarność, regres wg przyczynienia)")
+    if dz == "karne":
+        sc_kraw = [k for _, kr in sciezki for k in kr if k["typ"] in POZYTYWNE]
+        for k in {id(k): k for k in sc_kraw}.values():
+            if k.get("ryzyko") in (None, "BRAK") or k.get("realizacja_ryzyka") != "TAK":
+                flagi.append(f"OBIEKTYWNE PRZYPISANIE {k['od']}→{k['do']}: wymagane stworzenie/zwiększenie prawnie nieakceptowalnego ryzyka "
+                             f"i realizacja tego ryzyka w skutku (ryzyko={k.get('ryzyko')}, realizacja={k.get('realizacja_ryzyka')})")
+        watpliwe = sorted({f"{k['od']}→{k['do']}" for k in sc_kraw if k.get("csqn") in (None, "NIEUSTALONE") or k.get("dowod") == "KORELACJA"})
+        if watpliwe:
+            flagi.append(f"IN DUBIO PRO REO: niedające się usunąć wątpliwości ({', '.join(watpliwe)}) rozstrzyga się na korzyść oskarżonego "
+                         "— art. 5 § 2 KPK (t.j. Dz.U. 2026 poz. 490, brzmienie z ELI)")
+    elif teza and any(k.get("csqn") in (None, "NIEUSTALONE") for _, kr in sciezki for k in kr if k["typ"] in POZYTYWNE):
+        flagi.append("CIĘŻAR DOWODU: nieustalony związek obciąża stronę, która wywodzi z niego skutki prawne — art. 6 KC; "
+                     "dowody wskazuje strona — art. 232 KPC; wnioskowanie z innych ustalonych faktów — art. 231 KPC")
     for v in przodkowie:
         if w[v].get("typ") == "ZANIECHANIE" and not w[v].get("obowiazek_dzialania"):
             flagi.append(f"ZANIECHANIE {v} bez wskazanego obowiązku działania" +
                          (" — art. 2 KK: tylko gdy ciążył prawny, szczególny obowiązek zapobiegnięcia skutkowi" if dz == "karne" else ""))
     return flagi
+
+
+# ── MET-ACH — analiza konkurujących hipotez (Heuer, „Psychology of Intelligence Analysis”, 1999, rozdz. 8) ──
+SKALA_ACH = {"++": 2, "+": 1, "0": 0, "-": -1, "--": -2}
+WAGA_DOWODU = {"A": 1.0, "B": 0.75, "C": 0.5, "D": 0.25}
+
+
+def ach(d):
+    """Wejście: {"dziedzina", "hipotezy":[{"id","opis","korzystna_dla_oskarzonego"?}],
+    "dowody":[{"id","opis","klasa":"A|B|C|D","oceny":{"H1":"++|+|0|-|--",...}}]}.
+    Ranking po WAŻONEJ NIESPÓJNOŚCI (nie po liczbie potwierdzeń): hipoteza z najmniejszą niespójnością = najmocniejsza."""
+    H = [h["id"] for h in d["hipotezy"]]
+    bledy = [f"dowód {e['id']}: brak oceny dla {h}" for e in d["dowody"] for h in H if e.get("oceny", {}).get(h) not in SKALA_ACH]
+    if len(H) < 2:
+        bledy.append("co najmniej 2 hipotezy (Heuer krok 1: także hipotezy uznawane z góry za mało prawdopodobne)")
+    if bledy:
+        return {"status": "ERROR", "bledy": bledy}
+    diag, niediag = [], []
+    for e in d["dowody"]:
+        (niediag if len({e["oceny"][h] for h in H}) == 1 else diag).append(e)
+    def wynik_h(h, dowody):
+        return round(sum(min(0, SKALA_ACH[e["oceny"][h]]) * WAGA_DOWODU.get(e.get("klasa", "C"), 0.5) for e in dowody), 3)
+    niesp = {h: wynik_h(h, diag) for h in H}
+    ranking = sorted(H, key=lambda h: -niesp[h])
+    krytyczne = []
+    for e in diag:
+        bez = [x for x in diag if x is not e]
+        if sorted(H, key=lambda h: -wynik_h(h, bez))[0] != ranking[0]:
+            krytyczne.append(e["id"])
+    wykluczone = sorted({h for e in diag for h in H if e["oceny"][h] == "--" and e.get("klasa") in ("A", "B")})
+    flagi = []
+    if d.get("dziedzina") == "karne":
+        for h in d["hipotezy"]:
+            if h.get("korzystna_dla_oskarzonego") and h["id"] not in wykluczone:
+                flagi.append(f"IN DUBIO PRO REO: hipoteza {h['id']} korzystna dla oskarżonego nie została wykluczona dowodem "
+                             "klasy A/B — art. 5 § 2 KPK")
+    else:
+        flagi.append("Ciężar dowodu: hipoteza strony wywodzącej skutki prawne musi przeważyć — art. 6 KC; art. 232 KPC")
+    if len(diag) < 2:
+        flagi.append("Mniej niż 2 dowody diagnostyczne — macierz nie rozstrzyga; wskaż, jakiego dowodu brakuje")
+    return {"status": "OK", "niespojnosc_wazona": niesp, "ranking_od_najmocniejszej": ranking,
+            "dowody_niediagnostyczne": [e["id"] for e in niediag], "dowody_krytyczne": krytyczne,
+            "hipotezy_wykluczone_dowodem_A_B": wykluczone, "flagi": flagi,
+            "zalozenie": "ocena porządkowa; wagi klas dowodu A 1,0 · B 0,75 · C 0,5 · D 0,25; liczy się tylko niespójność"}
+
+
+def raport_ach(d, r):
+    if r["status"] != "OK":
+        return "## MET-ACH — BŁĘDY DANYCH\n\n" + "\n".join(f"- ⛔ {b}" for b in r["bledy"])
+    H = [h["id"] for h in d["hipotezy"]]
+    out = ["## MET-ACH — analiza konkurujących hipotez", "", f"> {r['zalozenie']}.", "",
+           "| Dowód | Klasa | " + " | ".join(H) + " |", "|---|---|" + "---|" * len(H)]
+    for e in d["dowody"]:
+        znak = " (niediagnostyczny)" if e["id"] in r["dowody_niediagnostyczne"] else (" ⚑ krytyczny" if e["id"] in r["dowody_krytyczne"] else "")
+        out.append(f"| {e['id']}{znak} | {e.get('klasa', 'C')} | " + " | ".join(e["oceny"][h] for h in H) + " |")
+    out += ["", "| Hipoteza | Ważona niespójność |", "|---|---|"] + [f"| {h} | {r['niespojnosc_wazona'][h]} |" for h in r["ranking_od_najmocniejszej"]]
+    out += ["", f"**Najmocniejsza (najmniej niespójna):** {r['ranking_od_najmocniejszej'][0]}; "
+            f"wykluczone dowodem A/B: {', '.join(r['hipotezy_wykluczone_dowodem_A_B']) or '—'}",
+            f"**Dowody krytyczne (ich podważenie zmienia wynik):** {', '.join(r['dowody_krytyczne']) or '—'}"]
+    out += ["", "**Flagi:**"] + [f"- ⚠️ {f}" for f in r["flagi"]]
+    return "\n".join(out)
 
 
 def mermaid(g, wynik=None):
@@ -369,6 +478,28 @@ def _selftest():
            "krawedzie": [{"od": "A", "do": "B", "typ": "WYWOLUJE", "p": 0.9}, {"od": "P", "do": "B", "typ": "WYWOLUJE", "p": 0.9}]}
     sprawdz(not any("441" in f or "362" in f for f in analizuj(bez)["przypisanie_prawne"]), "bez jawnych oznaczeń: brak fałszywych flag 441/362 KC")
     sprawdz("graph LR" in mermaid(przyk, r), "eksport Mermaid")
+    ness = {"teza": "S", "wezly": [{"id": "A", "p": 1}, {"id": "B", "p": 1}, {"id": "S", "p": 1, "brama": "LUB"}],
+            "krawedzie": [{"od": "A", "do": "S", "typ": "WYWOLUJE", "p": 0.9, "csqn": "NESS"}, {"od": "B", "do": "S", "typ": "WYWOLUJE", "p": 0.9, "csqn": "NESS"}]}
+    r = analizuj(ness)
+    sprawdz(abs(r["wsparcie"]["S"] - 0.99) < 1e-6 and any("NESS" in o for o in r["ostrzezenia"]), "przyczyny nadmiarowe (NESS): krawędzie liczone, nie zerowane")
+    zan = {"teza": "S", "wezly": [{"id": "Z", "typ": "ZANIECHANIE", "p": 1, "obowiazek_dzialania": "art. X"}, {"id": "S", "p": 1}],
+           "krawedzie": [{"od": "Z", "do": "S", "typ": "WYWOLUJE", "p": 0.8, "dowod": "POSREDNI", "csqn": "TAK", "adekwatnosc": "NORMALNE"}]}
+    o = " ".join(analizuj(zan)["ostrzezenia"])
+    sprawdz("dzialanie_hipotetyczne" in o and "WYKLUCZENIE" in o, "zaniechanie bez testu hipotetycznego; brak zbadanych alternatyw → flagi")
+    kar = {"teza": "S", "dziedzina": "karne", "wezly": [{"id": "C", "p": 1}, {"id": "S", "p": 1}],
+           "krawedzie": [{"od": "C", "do": "S", "typ": "WYWOLUJE", "p": 0.9, "dowod": "KORELACJA", "csqn": "NIEUSTALONE", "ryzyko": "ZWIEKSZONE"}]}
+    fl = " ".join(analizuj(kar)["przypisanie_prawne"])
+    sprawdz("art. 5 § 2 KPK" in fl and "OBIEKTYWNE PRZYPISANIE" in fl, "karne: in dubio pro reo i obiektywne przypisanie")
+    zal = {"teza": "T", "wezly": [{"id": "Z1", "p": 0.9, "dok_id": ["DOK-1"]}, {"id": "Z2", "p": 0.9, "dok_id": ["DOK-1"]}, {"id": "T", "p": 1, "brama": "LUB", "alternatywy_zbadane": "brak innych"}],
+           "krawedzie": [{"od": "Z1", "do": "T", "typ": "WYWOLUJE", "p": 1}, {"od": "Z2", "do": "T", "typ": "WYWOLUJE", "p": 1}]}
+    sprawdz(any("NIEZALEŻNOŚĆ" in o for o in analizuj(zal)["ostrzezenia"]), "brama LUB z jednego źródła → flaga zależności dowodów")
+    A = {"dziedzina": "karne", "hipotezy": [{"id": "H1", "opis": "sprawca X"}, {"id": "H2", "opis": "osoba trzecia", "korzystna_dla_oskarzonego": True}],
+         "dowody": [{"id": "D1", "klasa": "C", "oceny": {"H1": "+", "H2": "+"}}, {"id": "D2", "klasa": "B", "oceny": {"H1": "+", "H2": "-"}},
+                    {"id": "D3", "klasa": "D", "oceny": {"H1": "-", "H2": "+"}}]}
+    ra = ach(A)
+    sprawdz(ra["dowody_niediagnostyczne"] == ["D1"] and ra["ranking_od_najmocniejszej"][0] == "H1", "ACH: dowód zgodny ze wszystkimi = niediagnostyczny; ranking po ważonej niespójności")
+    sprawdz(any("art. 5 § 2 KPK" in f for f in ra["flagi"]), "ACH karne: hipoteza korzystna dla oskarżonego niewykluczona → art. 5 § 2 KPK")
+    sprawdz(ra["dowody_krytyczne"] == ["D2"], "ACH: dowód krytyczny = ten, którego podważenie zmienia wynik")
     return ok
 
 
@@ -378,6 +509,7 @@ def main():
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--mermaid", action="store_true")
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--ach", action="store_true", help="plik to macierz hipotez MET-ACH")
     a = ap.parse_args()
     if a.selftest:
         return 0 if _selftest() else 2
@@ -386,6 +518,10 @@ def main():
     with open(a.plik, encoding="utf-8") as f:
         g = json.load(f)
     g = g.get("state", g)  # akceptuje też eksport z widgetu (MOD-WIDGET-IO: {_meta, state})
+    if a.ach:
+        r = ach(g)
+        print(json.dumps(r, ensure_ascii=False, indent=2) if a.json else raport_ach(g, r))
+        return 0 if r["status"] == "OK" else 1
     wynik = analizuj(g)
     if a.json:
         print(json.dumps(wynik, ensure_ascii=False, indent=2))

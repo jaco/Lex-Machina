@@ -26,4 +26,18 @@ const raw = JSON.parse(readFileSync(new URL("./fixtures/nbp_eur_zakres.json", im
   assert.strictEqual(w.status, "NOT_FOUND");
   console.log("OK: brak tabel w całym oknie → NOT_FOUND"); }
 
+{ const rawC = { table: "C", code: "EUR", rates: [
+    { no: "186/C/NBP/2026", effectiveDate: "2026-09-25", bid: 4.21, ask: 4.29 }] };
+  const w = normalizujOdpowiedzNBP(raw, "eur", "2026-09-25", rawC);
+  assert.strictEqual(w.result.kurs_kupna, 4.21);
+  assert.strictEqual(w.result.kurs_sprzedazy, 4.29);
+  assert.strictEqual(w.result.tabela_c, "186/C/NBP/2026");
+  assert.match(w.result.url_podgladu, /^https:\/\/api\.nbp\.pl\/api\/exchangerates\/rates\/a\/eur\/2026-09-25\/\?format=json$/);
+  console.log("OK: tabela C → kurs kupna i sprzedaży obok średniego"); }
+
+{ const w = normalizujOdpowiedzNBP(raw, "eur", "2026-09-25", null);
+  assert.strictEqual(w.result.kurs_kupna, undefined);
+  assert.match(w.uwaga, /nie publikuje kursów kupna i sprzedaży EUR/);
+  console.log("OK: waluta spoza tabeli C → jawna uwaga, kurs średni zostaje"); }
+
 console.log("\nWSZYSTKIE TESTY JEDNOSTKOWE (bez sieci) PRZESZŁY");

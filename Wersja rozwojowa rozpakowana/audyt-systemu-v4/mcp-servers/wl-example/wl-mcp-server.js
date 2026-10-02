@@ -20,6 +20,8 @@ import { fileURLToPath } from "node:url";
 import { sygnal, owinSerwer, budzetWyczerpany } from "../wspolne/budzet.mjs";
 
 const B = "https://wl-api.mf.gov.pl/api";
+// Oficjalna wyszukiwarka wykazu (Ministerstwo Finansów); podatnik.info to serwis prywatny.
+export const WL_WYSZUKIWARKA = "https://www.podatki.gov.pl/wykaz-podatnikow-vat-wyszukiwarka";
 const dzis = () => new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Warsaw" }).format(new Date());
 
 export function nipPoprawny(nip) {
@@ -49,7 +51,7 @@ export function normalizujPodmiot(raw, nip, data) {
       adres: s.workingAddress ?? s.residenceAddress ?? null, data_publikacji_lub_wyroku: data,
       data_rejestracji_vat: s.registrationLegalDate ?? null, data_wykreslenia: s.removalDate ?? null, podstawa_wykreslenia: s.removalBasis ?? null,
       liczba_rachunkow: rach.length, rachunki: rach.slice(0, 20), ma_rachunki_wirtualne: s.hasVirtualAccounts === true,
-      url_zrodlowy: "https://www.podatnik.info/" },
+      url_zrodlowy: WL_WYSZUKIWARKA },
     dowod_sprawdzenia: dowod(r), retrieved_at: new Date().toISOString(), confidence: "deterministic" };
   const uw = [];
   if (s.statusVat !== "Czynny") uw.push(`⚠️ Status VAT: ${s.statusVat}${s.removalDate ? ` (wykreślony ${s.removalDate}${s.removalBasis ? `, ${s.removalBasis}` : ""})` : ""}.`);
@@ -64,7 +66,7 @@ export function normalizujRachunek(raw, nip, nrb, data) {
   const r = raw?.result;
   if (!r) return { status: "ERROR", ...baza, detail: raw?.message ?? "Nieoczekiwana odpowiedź API", kod: raw?.code ?? null };
   const res = { identyfikator: `NIP ${nip} / rachunek …${String(nrb).slice(-4)}`, rachunek_na_liscie: r.accountAssigned === "TAK",
-    data_publikacji_lub_wyroku: data, url_zrodlowy: "https://www.podatnik.info/" };
+    data_publikacji_lub_wyroku: data, url_zrodlowy: WL_WYSZUKIWARKA };
   if (r.accountAssigned === "TAK") return { status: "FOUND", ...baza, result: res, dowod_sprawdzenia: dowod(r), retrieved_at: new Date().toISOString(), confidence: "deterministic" };
   return { status: "NOT_FOUND", ...baza, result: res, dowod_sprawdzenia: dowod(r),
     uwaga: `⚠️ Rachunek NIE jest przypisany do NIP ${nip} w wykazie na dzień ${data} (odpowiedź API: ${r.accountAssigned}). requestId — zachowaj jako dowód sprawdzenia.` };

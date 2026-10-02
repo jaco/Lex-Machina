@@ -161,3 +161,16 @@ def test_content_length_mismatch_fails_closed():
     fetched=FetchedHtml(text=html,content_length=len(html)+10,received_bytes=len(html))
     r=verify_search_results(search(1,[("AAAAAAAAAA","one")]),"II FSK 100/24",lambda _:fetched)
     assert r.status == VerificationStatus.OUT_OF_SCOPE
+
+
+def test_value_cell_with_nested_table_keeps_judgment_date():
+    # CBOSA: date and finality in a table nested in the value cell.
+    html = doc().replace(
+        '<td class="info-list-value">2026-01-10</td>',
+        '<td class="info-list-value"><table class="info-list"><tr><td >2026-01-10</td>'
+        '<td class="war_header">orzeczenie prawomocne</td></tr></table></td>',
+    )
+    assert html != doc()
+    parsed = parse_cbosa_document(html, "AAAAAAAAAA")
+    assert parsed.judgment_date == "2026-01-10"
+    assert parsed.court == "Naczelny Sąd Administracyjny"

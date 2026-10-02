@@ -61,6 +61,7 @@ GRUPY = [
         ("eurlex", "EUR-Lex + TSUE — akty UE, status, wyroki"),
         ("saos", "SAOS — orzeczenia sądów powszechnych i SN, cytator"),
         ("cbosa", "CBOSA — orzeczenia NSA/WSA (snapshot 🟨)"),
+        ("kio", "KIO — orzeczenia Krajowej Izby Odwoławczej (wyszukiwarka UZP)"),
     ]),
     ("Rejestry podmiotów", [
         ("krs", "KRS — odpis, reprezentacja (bez klucza)"),
@@ -244,7 +245,7 @@ def zbuduj_mcpb(wyjscie, wybrane=None, klucz=None):
     man = json.loads((TU / "mcpb-manifest.json").read_text(encoding="utf-8"))
     pelny = set(wybrane) == set(SERWERY)
     man["server"]["mcp_config"]["args"][1] = "wszystkie" if pelny else ",".join(wybrane)
-    pref = {"isap": "isap_", "eurlex": "eurlex_", "saos": "saos_", "cbosa": "cbosa_", "krs": "krs_", "wl": "wl_",
+    pref = {"isap": "isap_", "eurlex": "eurlex_", "saos": "saos_", "cbosa": "cbosa_", "kio": "kio_", "krs": "krs_", "wl": "wl_",
             "ceidg": "ceidg_", "nbp": "nbp_", "eureka": "eureka_", "sudop": "sudop_", "uodo": "uodo_"}
     man["tools"] = [t for t in man["tools"] if any(t["name"].startswith(pref[n]) for n in wybrane)]
     if "ceidg" not in wybrane:

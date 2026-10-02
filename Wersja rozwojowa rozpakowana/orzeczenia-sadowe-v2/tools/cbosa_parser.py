@@ -122,6 +122,9 @@ class _DocumentParser(HTMLParser):
 
         self._current_td_class: Optional[str] = None
         self._current_td = _TextCollector()
+        # CBOSA nests a table in a value cell ("Data orzeczenia": date | "orzeczenie
+        # prawomocne"); inner cells belong to the outer value, not new pairs.
+        self._td_nesting = 0
         self._pending_table_label: Optional[str] = None
         self.table_values: dict[str, str] = {}
 
@@ -148,6 +151,10 @@ class _DocumentParser(HTMLParser):
             self._in_title = True
             return
         if low == "td":
+            if self._current_td_class is not None:
+                self._td_nesting += 1
+                self._current_td.add(" ")
+                return
             self._current_td_class = next(iter(classes), None) if len(classes) == 1 else " ".join(sorted(classes))
             self._current_td = _TextCollector()
             return
@@ -207,6 +214,10 @@ class _DocumentParser(HTMLParser):
                 self._section_collector.newline()
             return
 
+        if low == "td" and self._td_nesting > 0:
+            self._td_nesting -= 1
+            self._current_td.add(" ")
+            return
         if low == "td" and self._current_td_class is not None:
             text = self._current_td.text()
             classes = set(self._current_td_class.split())
@@ -295,6 +306,10 @@ def parse_cbosa_document(document_html: str, doc_id: str) -> CbosaJudgment:
     case_number = normalize_case_number(case_number)
     court = parser.table_values.get("Sąd")
     judgment_date = parser.table_values.get("Data orzeczenia")
+    # "2019-05-22 orzeczenie prawomocne" -> "2019-05-22"
+    date_match = re.search(r"\d{4}-\d{2}-\d{2}", judgment_date or "")
+    if date_match:
+        judgment_date = date_match.group(0)
     operative_part = parser.sections.get("Sentencja")
     reasoning = parser.sections.get("Uzasadnienie")
 

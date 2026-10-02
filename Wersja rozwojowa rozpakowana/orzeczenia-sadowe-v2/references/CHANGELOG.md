@@ -1,5 +1,7 @@
 # CHANGELOG — orzeczenia-sadowe-v2
 
+- 2.21 (2026-10-02, AUDYT-2026-10-02): `tools/cbosa_parser.py` — komórka wartości metryki CBOSA z zagnieżdżoną tabelą („Data orzeczenia”: data | „orzeczenie prawomocne”) była rozbijana na fałszywe pary; data obcinana do RRRR-MM-DD; test regresyjny (zmiana użytkownika, wdrożona z paczki `lex-mcp-kio.zip`; 25/25 testów, port JS w audyt-systemu-v4 zgodny — 26 przypadków).
+
 **2.18 (2026-09-22, F-194) — Zasada 2B:** odwołanie do `GRAD-3b-SYM` (symbol CBOSA jako flaga wymuszająca odczyt przedmiotu) i `KALIBRACJA-PRZECIWNIK` z `shared/WERYFIKACJA-SLAD.md` 1.8; precedens NSA I OSK 590/26 jako 🟨 bez awansu (CBOSA 503, 2026-09-22).
 
 **2.17 (2026-09-14) — retrieval/snapshot CBOSA jako materiał badawczy z jawnym provenance:**

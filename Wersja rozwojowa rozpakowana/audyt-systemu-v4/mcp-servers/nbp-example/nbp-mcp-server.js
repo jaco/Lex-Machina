@@ -56,7 +56,19 @@ function roznicaDni(a, b) {
  * Normalizuje odpowiedź zakresową NBP ({"rates":[...]}) do schematu
  * shared/SCHEMAT-ODPOWIEDZI-MCP.md. Wybiera ostatnią tabelę z effectiveDate ≤ dataZadana.
  */
-export function normalizujOdpowiedzNBP(raw, kodWaluty, dataZadana) {
+// Strona tabel NBP dla człowieka („Otwórz w źródle”); dane do podglądu z API (url_podgladu).
+export const NBP_STRONA_TABEL = "https://nbp.pl/statystyka-i-sprawozdawczosc/kursy/tabela-a/";
+
+/**
+ * Tabela C (kursy kupna i sprzedaży) dla tej samej daty: ostatnia tabela ≤ dataZadana.
+ * rawC === null → NBP nie publikuje tej waluty w tabeli C (albo brak tabeli w oknie).
+ */
+function kursyKupnaSprzedazy(rawC, dataZadana) {
+  const stawki = (rawC?.rates ?? []).filter((r) => !dataZadana || r.effectiveDate <= dataZadana);
+  return stawki[stawki.length - 1] ?? null;
+}
+
+export function normalizujOdpowiedzNBP(raw, kodWaluty, dataZadana, rawC = undefined) {
   const kod = kodWaluty.toUpperCase();
   const stawki = (raw?.rates ?? []).filter((r) => !dataZadana || r.effectiveDate <= dataZadana);
   const stawka = stawki[stawki.length - 1];
@@ -72,10 +84,11 @@ export function normalizujOdpowiedzNBP(raw, kodWaluty, dataZadana) {
     source: "nbp",
     result: {
       identyfikator: `${kod} tabela ${stawka.no}`,
-      tytul_lub_nazwa: `Kurs średni ${kod}/PLN`,
+      tytul_lub_nazwa: `Kurs ${kod}/PLN (NBP)`,
       status_obowiazywania: "obowiazuje",
       data_publikacji_lub_wyroku: stawka.effectiveDate,
-      url_zrodlowy: `https://api.nbp.pl/api/exchangerates/rates/a/${kod.toLowerCase()}/${stawka.effectiveDate}/`,
+      url_zrodlowy: NBP_STRONA_TABEL,
+      url_podgladu: `https://api.nbp.pl/api/exchangerates/rates/a/${kod.toLowerCase()}/${stawka.effectiveDate}/?format=json`,
       kurs_sredni: stawka.mid,
       data_zadana: dataZadana ?? stawka.effectiveDate,
       data_tabeli: stawka.effectiveDate,
@@ -84,19 +97,37 @@ export function normalizujOdpowiedzNBP(raw, kodWaluty, dataZadana) {
     retrieved_at: new Date().toISOString(),
     confidence: "deterministic",
   };
+  const uwagi = [];
+  const c = rawC === undefined ? undefined : kursyKupnaSprzedazy(rawC, dataZadana);
+  if (c) {
+    Object.assign(wynik.result, {
+      kurs_kupna: c.bid,
+      kurs_sprzedazy: c.ask,
+      tabela_c: c.no,
+      data_tabeli_c: c.effectiveDate,
+    });
+    if (c.effectiveDate !== stawka.effectiveDate) {
+      uwagi.push(`Kursy kupna i sprzedaży z tabeli C ${c.no} z ${c.effectiveDate} (inna data niż tabela A).`);
+    }
+  } else if (rawC === null) {
+    uwagi.push(`NBP nie publikuje kursów kupna i sprzedaży ${kod} (tabela C obejmuje tylko wybrane waluty); podano kurs średni z tabeli A.`);
+  } else if (rawC && typeof rawC === "object" && rawC.blad) {
+    uwagi.push(`Kursy kupna i sprzedaży (tabela C) niedostępne: ${rawC.blad}.`);
+  }
   if (wynik.result.przesuniecie_dni > 0) {
-    wynik.uwaga =
+    uwagi.unshift(
       `⚠️ NBP nie opublikował tabeli A z dnia ${dataZadana} (dzień wolny lub przed publikacją). ` +
       `Zwrócono OSTATNIĄ tabelę przed tą datą: ${stawka.no} z ${stawka.effectiveDate} ` +
       `(o ${wynik.result.przesuniecie_dni} dni wcześniej). Czy to właściwa tabela dla podstawy ` +
-      `prawnej przeliczenia — ustal z brzmienia przepisu (ELI), konektor tego nie rozstrzyga.`;
+      `prawnej przeliczenia — ustal z brzmienia przepisu (ELI), konektor tego nie rozstrzyga.`);
   }
+  if (uwagi.length) wynik.uwaga = uwagi.join(" ");
   return wynik;
 }
 
-async function pobierzZNbp(kodWaluty, dataZadana) {
+async function pobierzZNbp(kodWaluty, dataZadana, tabela = "a") {
   const od = minusDni(dataZadana, OKNO_DNI);
-  const url = `${NBP_BASE_URL}/a/${kodWaluty.toLowerCase()}/${od}/${dataZadana}/?format=json`;
+  const url = `${NBP_BASE_URL}/${tabela}/${kodWaluty.toLowerCase()}/${od}/${dataZadana}/?format=json`;
   const resp = await fetch(url, { signal: sygnal(15000) });
   if (resp.status === 404) return null; // brak jakiejkolwiek tabeli w oknie
   if (!resp.ok) throw new Error(`NBP API zwróciło HTTP ${resp.status}`);
@@ -106,11 +137,12 @@ async function pobierzZNbp(kodWaluty, dataZadana) {
 server.registerTool(
   "nbp_kurs_waluty",
   {
-    title: "Kurs średni waluty NBP (tabela A)",
+    title: "Kurs waluty NBP: średni (tabela A), kupna i sprzedaży (tabela C)",
     description:
       "Średni kurs waluty obcej z tabeli A NBP dla wskazanego dnia (domyślnie dziś, czas " +
-      "warszawski). W dni bez publikacji zwraca ostatnią tabelę przed datą i JAWNIE podaje " +
-      "przesunięcie (pola data_zadana, data_tabeli, przesuniecie_dni, uwaga).",
+      "warszawski) oraz, gdy NBP je publikuje, kurs kupna i sprzedaży z tabeli C (kurs_kupna, " +
+      "kurs_sprzedazy, tabela_c). W dni bez publikacji zwraca ostatnią tabelę przed datą i JAWNIE " +
+      "podaje przesunięcie (pola data_zadana, data_tabeli, przesuniecie_dni, uwaga).",
     inputSchema: {
       kodWaluty: z.string().regex(/^[A-Za-z]{3}$/).describe("Kod ISO 4217, np. USD, EUR, GBP"),
       data: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional()
@@ -127,8 +159,12 @@ server.registerTool(
         retrieved_at: new Date().toISOString() };
     } else {
       try {
-        const raw = await pobierzZNbp(kodWaluty, dataZadana);
-        wynik = normalizujOdpowiedzNBP(raw, kodWaluty, dataZadana);
+        const [raw, rawC] = await Promise.all([
+          pobierzZNbp(kodWaluty, dataZadana),
+          // Tabela C jest uzupełnieniem: jej błąd nie przekreśla kursu średniego.
+          pobierzZNbp(kodWaluty, dataZadana, "c").catch((e) => ({ blad: String(e?.message ?? e) })),
+        ]);
+        wynik = normalizujOdpowiedzNBP(raw, kodWaluty, dataZadana, rawC);
       } catch (err) {
         wynik = { status: "ERROR", query_type: "kurs_waluty", source: "nbp",
           detail: String(err?.message ?? err), retrieved_at: new Date().toISOString() };

@@ -36,7 +36,7 @@
     },
     {
       "name": "saos_search",
-      "description": "SAOS: orzeczenia SP (bieżąco), SN do 2016, TK do 2015, KIO do 2018; kontrola sygnatury"
+      "description": "SAOS: orzeczenia SP (bieżąco), SN do 2016, TK do 2015, KIO tylko do 2018 (nowsze: kio_*); kontrola sygnatury"
     },
     {
       "name": "krs_lookup",
@@ -81,6 +81,22 @@
     {
       "name": "cbosa_pobierz",
       "description": "CBOSA: pełny dokument orzeczenia"
+    },
+    {
+      "name": "kio_szukaj",
+      "description": "KIO: wyszukiwanie orzeczeń Krajowej Izby Odwoławczej (wyszukiwarka UZP) po frazie, sygnaturze i dacie"
+    },
+    {
+      "name": "kio_sprawdz_sygnature",
+      "description": "KIO: czy orzeczenie o tej sygnaturze jest w wyszukiwarce UZP"
+    },
+    {
+      "name": "kio_kontrola_sadowa",
+      "description": "KIO: wyroki sądu zamówień publicznych na skargę na orzeczenie KIO (sygnatura sądu, sposób rozstrzygnięcia)"
+    },
+    {
+      "name": "kio_pobierz",
+      "description": "KIO: metryka i treść orzeczenia"
     },
     {
       "name": "ceidg_szukaj_firmy",

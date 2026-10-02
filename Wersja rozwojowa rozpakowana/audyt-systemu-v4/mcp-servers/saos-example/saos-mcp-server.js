@@ -47,7 +47,8 @@ import { fileURLToPath } from "node:url";
 import { sygnal, owinSerwer, budzetWyczerpany } from "../wspolne/budzet.mjs";
 
 // ⭐ USTALENIE 2026-09-27h: SAOS zawiera także orzeczenia KIO — courtType=NATIONAL_APPEAL_CHAMBER
-//    zwraca 22 168 orzeczeń (sygnatury typu "KIO/UZP 2/07"). Osobny konektor do KIO jest zbędny.
+//    zwraca 22 168 orzeczeń (sygnatury typu "KIO/UZP 2/07"). ⛔ KOREKTA 2026-10-02: wniosek „osobny konektor
+//    zbędny” był błędny — SAOS ma KIO tylko do 6.09.2018 (pomiar 2026-10-02); od 6.155+ KIO po 2017 → kio-example.
 const SAOS_BASE_URL = "https://www.saos.org.pl/api/search/judgments";
 
 const server = owinSerwer(globalThis.__LEX_MCP_WSPOLNY ?? new McpServer({
@@ -99,7 +100,7 @@ function nazwaSadu(item) {
 export const ZASIEG = {
   SUPREME: { doRoku: 2016, zrodlo: "sn.pl (DOSTEP-MASZYNOWY-API § SN, proxy snproxy)" },
   CONSTITUTIONAL_TRIBUNAL: { doRoku: 2015, zrodlo: "ipo.trybunal.gov.pl" },
-  NATIONAL_APPEAL_CHAMBER: { doRoku: 2017, zrodlo: "orzeczenia.uzp.gov.pl (2018 w SAOS tylko częściowo)" },
+  NATIONAL_APPEAL_CHAMBER: { doRoku: 2017, zrodlo: "narzędzie kio_sprawdz_sygnature (wyszukiwarka UZP orzeczenia.uzp.gov.pl; 2018 w SAOS tylko częściowo)" },
 };
 const REPERT_SN = "CZP|CSK|CSKP|CNP|CNPP|CZ|CZD|CO|CK|CKN|CKS|NSK|NSKP|NSNc|NSNk|NSNp|PK|PZP|PSK|PSKP|PZ|PO|UK|UZP|USK|USKP|UZ|UO|KK|KZP|KO|KS|KZ|KSP|KX|SNO|SDI|NO|DO|WZ|WO|WK|WA|NWW|NW";
 /** Rozpoznanie sądu po sygnaturze (repertorium) i roku; null gdy nie da się ustalić. */

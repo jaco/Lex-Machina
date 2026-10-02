@@ -96,6 +96,21 @@ const PRZYPADKI = [
     (w) => w.status === "FOUND" && w.result.prawomocnosc === "prawomocna" && !!w.result.data_uprawomocnienia],
   ["UODO: prefiks DKN.5112.1 → NOT_FOUND (post-check), nie potwierdzenie", "uodo-example", "uodo-mcp-server.js", "uodo_sprawdz_sygnature", { sygnatura: "DKN.5112.1" },
     (w) => w.status === "NOT_FOUND" && (w.odrzucone_post_checkiem ?? []).length > 0],
+  ["KIO: KIO 827/18 → FOUND (dokładne dopasowanie w wyszukiwarce UZP)", "kio-example", "kio-mcp-server.js", "kio_sprawdz_sygnature", { sygnatura: "KIO 827/18" },
+    (w) => w.status === "FOUND" && w.result.identyfikator === "KIO 827/18" && !!w.result.id_kio],
+  ["KIO: fraza „rażąco niska cena” → lista orzeczeń z sygnaturą, datą i id", "kio-example", "kio-mcp-server.js", "kio_szukaj", { fraza: "rażąco niska cena" },
+    (w) => w.status === "AMBIGUOUS" && w.liczba_trafien > 100 && w.kandydaci.length === 10 &&
+      w.kandydaci.every((k) => /^KIO /.test(k.identyfikator ?? "") && /^\d{4}-\d{2}-\d{2}$/.test(k.data_wyroku ?? "") && !!k.id_kio)],
+  ["KIO: kio_pobierz 32291 → KIO 4983/25 z metryką i treścią", "kio-example", "kio-mcp-server.js", "kio_pobierz", { id: "32291" },
+    (w) => w.status === "FOUND" && /KIO 4983\/25/.test(w.result.identyfikator) && w.result.tresc.length > 1000 && w.result.przepisy_pzp.length > 0],
+  ["KIO: sprawa łączona KIO 2306/23 → FOUND (sygnatury rozdzielone „|”)", "kio-example", "kio-mcp-server.js", "kio_sprawdz_sygnature", { sygnatura: "KIO 2306/23" },
+    (w) => w.status === "FOUND" && w.result.sygnatury.includes("KIO 2306/23")],
+  ["KIO: kontrola sądowa KIO 44/12 → wyrok SO I Ca 117/12 „zmienia”", "kio-example", "kio-mcp-server.js", "kio_kontrola_sadowa", { sygnatura: "KIO 44/12" },
+    (w) => w.status === "FOUND" && w.orzeczenia_sadu.some((o) => /I Ca 117\/12/i.test(o.identyfikator) && /zmienia/.test(o.rozstrzygniecie ?? "")) && /⛔/.test(w.uwaga)],
+  ["KIO: data z przyszłości w źródle (KIO 4983/25) → ostrzezenie_daty", "kio-example", "kio-mcp-server.js", "kio_sprawdz_sygnature", { sygnatura: "KIO 4983/25" },
+    (w) => w.status === "FOUND" && (w.result.data_wyroku <= new Date().toISOString().slice(0, 10) || /PÓŹNIEJSZA/.test(w.result.ostrzezenie_daty ?? ""))],
+  ["KIO: fikcyjna KIO 99999/18 → OUT_OF_SCOPE", "kio-example", "kio-mcp-server.js", "kio_sprawdz_sygnature", { sygnatura: "KIO 99999/18" },
+    (w) => w.status === "OUT_OF_SCOPE"],
   ["Biała lista: GUS 5261040828 → Czynny, requestId", "wl-example", "wl-mcp-server.js", "wl_sprawdz_nip", { nip: "5261040828" },
     (w) => w.status === "FOUND" && w.result.status_vat === "Czynny" && !!w.dowod_sprawdzenia.requestId],
   ["Biała lista: rachunek obcy (poprawny formalnie) → NOT_FOUND z requestId", "wl-example", "wl-mcp-server.js", "wl_sprawdz_rachunek", { nip: "5261040828", rachunek: "41101000000000000012345678" },
@@ -121,9 +136,11 @@ function schemat(w) {
 }
 // Filtr (np. gdy SAOS/CBOSA niedostępne): LEX_POMIN="SAOS|CBOSA" pomija przypadki, których opis pasuje.
 const POMIN = process.env.LEX_POMIN ? new RegExp(process.env.LEX_POMIN) : null;
+// Odwrotnie: LEX_TYLKO="^KIO" uruchamia tylko przypadki, których opis pasuje (np. nowy konektor w CI).
+const TYLKO = process.env.LEX_TYLKO ? new RegExp(process.env.LEX_TYLKO) : null;
 let pominiete = 0;
 for (const [opis, kat, plik, narz, args, warunek] of PRZYPADKI) {
-  if (POMIN && POMIN.test(opis)) { pominiete++; console.log(`⏭️ POMINIĘTE  ${opis}`); continue; }
+  if ((POMIN && POMIN.test(opis)) || (TYLKO && !TYLKO.test(opis))) { pominiete++; console.log(`⏭️ POMINIĘTE  ${opis}`); continue; }
   let w, ok = false;
   let sch = [];
   try { w = await wywolaj(kat, plik, narz, args); ok = !!warunek(w); sch = schemat(w); ok = ok && sch.length === 0; }

@@ -1,5 +1,5 @@
 // Fixture: PRAWDZIWE odpisy aktualne KRS z 2026-09-28 (działy 1, 2, 6 + nagłówek). AUDYT-2026-09-27q.
-import { normalizujOdpowiedzKRS, normalizujReprezentacje, maskujPesel } from "./krs-mcp-server.js";
+import { normalizujOdpowiedzKRS, normalizujReprezentacje, maskujPesel, regonPoprawny, nipPoprawny, KRS_WYSZUKIWARKA } from "./krs-mcp-server.js";
 import assert from "node:assert";
 import { readFileSync } from "node:fs";
 const F = JSON.parse(readFileSync(new URL("./fixtures/krs_odpisy.json", import.meta.url)));
@@ -26,4 +26,10 @@ const F = JSON.parse(readFileSync(new URL("./fixtures/krs_odpisy.json", import.m
 { assert.strictEqual(maskujPesel("X (PESEL:82072702612) Y"), "X (PESEL:8**********) Y");
   assert.strictEqual(normalizujOdpowiedzKRS({ status: 404 }, "0000000001").status, "NOT_FOUND");
   console.log("OK: maskowanie PESEL; brak w P i S → NOT_FOUND"); }
+{ const w = normalizujOdpowiedzKRS(F.wosp_0000030897_rejestrS, "0000030897");
+  assert.strictEqual(w.result.url_zrodlowy, KRS_WYSZUKIWARKA);
+  assert.strictEqual(w.result.url_podgladu, "https://api-krs.ms.gov.pl/api/krs/OdpisAktualny/0000030897?rejestr=S&format=json");
+  assert.ok(regonPoprawny("610188201") && regonPoprawny("61018820100000") && !regonPoprawny("610188202"));
+  assert.ok(nipPoprawny("7740001454") && !nipPoprawny("7740001455"));
+  console.log("OK: wyszukiwarka KRS jako źródło, odpis aktualny (P/S) do podglądu, sumy NIP/REGON"); }
 console.log("\nWSZYSTKIE TESTY JEDNOSTKOWE (bez sieci) PRZESZŁY");

@@ -104,12 +104,19 @@ export function normalizujOdpowiedzCEIDG(raw, nipZapytania = null) {
   return wynik;
 }
 
+// API CEIDG odpowiada bywa po 20–40 s; 15 s dawało ERROR przy działającym API. Ponowienie tylko po
+// przekroczeniu czasu albo błędzie sieci (nigdy po 429 — limit liczony od ostatniego żądania).
+const CEIDG_TIMEOUT_MS = 45000;
+
 async function pobierzZCeidg(nip, apiKey) {
   const url = `${CEIDG_BASE_URL}/firmy?nip=${encodeURIComponent(nip)}`;
-  const resp = await fetch(url, {
+  const zapytanie = () => fetch(url, {
     headers: { Authorization: `Bearer ${apiKey}`, Accept: "application/json" },
-    signal: sygnal(15000),
+    signal: sygnal(CEIDG_TIMEOUT_MS),
   });
+  let resp;
+  try { resp = await zapytanie(); }
+  catch { resp = await zapytanie(); }
   if (resp.status === 204 || resp.status === 404) return null;   // brak wpisu — nie błąd
   const tekst = await resp.text();
   let json = null;

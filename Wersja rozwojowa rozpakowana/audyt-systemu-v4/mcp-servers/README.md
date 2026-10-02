@@ -29,7 +29,7 @@ uruchamia serwer z pliku na dysku, nie z archiwum.
 | `wspolne/budzet.mjs` | wspólny budżet czasu wywołania narzędzia (domyślnie 50 s, `LEX_BUDZET_MS`) — zawieszone źródło daje ERROR serwera zamiast `-32001 Request timed out` klienta (60 s) |
 | `test_na_zywo.mjs` | test TREŚCI na żywym API (29 przypadków; `LEX_POMIN="SAOS|CBOSA"` pomija niedostępne kanały); wymaga `npm ci` w tym katalogu |
 
-Serwery: `isap`, `saos`, `krs`, `nbp`, `eurlex`, `eureka`, `sudop`, `cbosa`, `uodo`, `wl` (biała lista VAT), `ceidg` (tylko z `CEIDG_API_KEY`).
+Serwery: `isap`, `saos`, `kio` (orzeczenia KIO i sądów zamówień — wyszukiwarka UZP), `krs`, `nbp`, `eurlex`, `eureka`, `sudop`, `cbosa`, `uodo`, `wl` (biała lista VAT), `ceidg` (tylko z `CEIDG_API_KEY`).
 
 ⚠️ `cbosa`: port 1:1 parsera `orzeczenia-sadowe-v2/tools/cbosa_parser.py` (równoważność:
 `cbosa-example/test_normalizacja.mjs`, 25 przypadków generowanych z Pythona + paginacja). Warstwa

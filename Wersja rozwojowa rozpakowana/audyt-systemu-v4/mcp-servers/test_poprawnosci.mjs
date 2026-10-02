@@ -19,7 +19,7 @@ const TU = path.dirname(fileURLToPath(import.meta.url));
 const SERW = { isap: ["isap-eli-example", "isap-eli-mcp-server.js"], krs: ["krs-example", "krs-mcp-server.js"],
   nbp: ["nbp-example", "nbp-mcp-server.js"], wl: ["wl-example", "wl-mcp-server.js"], eureka: ["eureka-example", "eureka-mcp-server.js"],
   saos: ["saos-example", "saos-mcp-server.js"], eurlex: ["eurlex-example", "eurlex-mcp-server.js"], uodo: ["uodo-example", "uodo-mcp-server.js"],
-  ceidg: ["ceidg-example", "ceidg-mcp-server.js"], cbosa: ["cbosa-example", "cbosa-mcp-server.js"] };
+  ceidg: ["ceidg-example", "ceidg-mcp-server.js"], cbosa: ["cbosa-example", "cbosa-mcp-server.js"], kio: ["kio-example", "kio-mcp-server.js"] };
 
 async function narzedzie(s, nazwa, args) {
   const [kat, plik] = SERW[s];
@@ -280,6 +280,26 @@ await przypadek("CBOSA: III OSK 1959/22 — sygnatura obecna w dokumencie źród
     const t = norm(await pobierz(w.result.url_zrodlowy, {}, "text"));
     ok(t.includes("iii osk 1959/22"), "sygnatura nie występuje w dokumencie źródłowym");
   }
+});
+
+// ── 11. KIO (wyszukiwarka UZP): sygnatura, data i rozstrzygnięcie == dokument źródłowy (treść HTML i metryka).
+await przypadek("KIO: KIO 82/18 — sygnatura i data z narzędzia występują w treści orzeczenia u źródła", async (ok) => {
+  const w = await narzedzie("kio", "kio_sprawdz_sygnature", { sygnatura: "KIO 82/18" });
+  ok(w.status === "FOUND", `status ${w.status} ${w.detail ?? ""}`);
+  const t = norm(await pobierz(`https://orzeczenia.uzp.gov.pl/Home/ContentHtml/${w.result.id_kio}?Kind=KIO`, { headers: { "User-Agent": "Mozilla/5.0" } }, "text"));
+  ok(t.includes("kio 82/18"), "sygnatura nie występuje w treści źródła");
+  const MIES = ["stycznia","lutego","marca","kwietnia","maja","czerwca","lipca","sierpnia","września","października","listopada","grudnia"];
+  const [r, m, d] = w.result.data_wyroku.split("-").map(Number);
+  ok(t.includes(`${d} ${MIES[m - 1]} ${r}`), `data ${w.result.data_wyroku} nie występuje w treści`);
+});
+await przypadek("KIO: kontrola sądowa KIO 44/12 — wyrok sądu naprawdę dotyczy tej sprawy i ją zmienia (treść wyroku)", async (ok) => {
+  const w = await narzedzie("kio", "kio_kontrola_sadowa", { sygnatura: "KIO 44/12" });
+  ok(w.status === "FOUND", `status ${w.status}`);
+  const o = (w.orzeczenia_sadu ?? [])[0];
+  const t = norm(await pobierz(`https://orzeczenia.uzp.gov.pl/Home/ContentHtml/${o.id_kio}?Kind=SO`, { headers: { "User-Agent": "Mozilla/5.0" } }, "text"));
+  ok(/kio 44\/12/.test(t), "sygnatura KIO nie występuje w treści wyroku sądu");
+  ok(/zmienia/.test(t), "treść wyroku sądu nie zawiera rozstrzygnięcia „zmienia”");
+  return `${o.identyfikator}: ${o.rozstrzygniecie}`;
 });
 
 const zle = wyniki.filter((x) => !x).length;

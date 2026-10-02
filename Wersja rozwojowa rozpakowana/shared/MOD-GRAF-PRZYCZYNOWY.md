@@ -1,6 +1,6 @@
 # MOD-GRAF-PRZYCZYNOWY — sieć zależności zdarzeń, wzajemny wpływ, skutki i scenariusze
 
-> **Wersja:** 1.0.0 (shared 3.99, AUDYT-2026-10-01b) | **Status:** PRODUKCJA — plik kanoniczny shared/
+> **Wersja:** 1.1.0 (shared 3.99.1, AUDYT-2026-10-02 — rewizja ekspercka: NESS, zaniechanie, przypisanie karne, model wykluczeniowy MET-ACH) | **Status:** PRODUKCJA — plik kanoniczny shared/
 > **Wywoływany z:**
 >   - `analizator-dowodow-v3` MP13 §13.2 (łańcuchy → graf, gdy ogniwa się rozgałęziają lub zbiegają)
 >   - `chronologia-sprawy-v1` TRYB C „graf” (zdarzenia z osi czasu jako węzły; widget `assets/widget-graf-przyczynowy.html`)
@@ -36,12 +36,15 @@ konfliktu, pogarszanie się zdrowia i zdolności do pracy). Graf pozwala:
       "strona": "powod | pozwany | poszkodowany | osoba_trzecia | osoba_trzecia_niezalezna | organ | sad",
       "pewnosc": "BEZSPORNE | PEWNE | WYDEDUKOWANE | SPORNE", "p": null,
       "brama": "I | LUB", "sprawca": false, "przyczynienie": false, "obowiazek_dzialania": null,
+      "alternatywy_zbadane": "null albo uzasadnienie, dlaczego nie ma innych wyjaśnień (gdy brak węzłów OSLABIA)",
       "fakt_m1": "F007", "dok_id": ["DOK-03"] }
   ],
   "krawedzie": [
     { "od": "Z-001", "do": "Z-002", "typ": "WYWOLUJE | WARUNKUJE | WZMACNIA | OSLABIA | PRZERYWA",
       "dowod": "BEZPOSREDNI | POSREDNI | KORELACJA", "p": null,
-      "csqn": "TAK | NIE | NIEUSTALONE", "adekwatnosc": "NORMALNE | NIETYPOWE | NIEUSTALONE",
+      "csqn": "TAK | NIE | NESS | NIEUSTALONE", "adekwatnosc": "NORMALNE | NIETYPOWE | NIEUSTALONE",
+      "dzialanie_hipotetyczne": "tylko dla krawędzi z ZANIECHANIA: jakie działanie zgodne z obowiązkiem",
+      "ryzyko": "STWORZONE | ZWIEKSZONE | BRAK (karne)", "realizacja_ryzyka": "TAK | NIE (karne)",
       "zrodla": ["DOK-03"], "uzasadnienie": "na czym opiera się to połączenie" }
   ],
   "scenariusze": [ { "nazwa": "świadek X niewiarygodny", "obalone": ["Z-002"], "udowodnione": [] } ]
@@ -71,6 +74,15 @@ w MP13, pole `fakt_m1` wiąże węzeł z faktem M1 (F-nnn) — jedna przestrzeń
    następstwo w czasie). Krawędź `KORELACJA` zawsze generuje ostrzeżenie *post hoc ergo propter hoc*.
 2. **Test warunku koniecznego (csqn):** czy bez A skutek B by nastąpił? `NIE` → krawędź nie jest przyczynowa
    (silnik ją zeruje i ostrzega). `NIEUSTALONE` → flaga do uzupełnienia materiału.
+   ⛔ **Granica csqn (rewizja 2026-10-02):** test zawodzi przy **przyczynowości kumulatywnej/nadmiarowej** — gdy dwa
+   zdarzenia, każde samo wystarczające, wywołują ten sam skutek (dwóch sprawców, dwa źródła szkody), dla każdego
+   z osobna odpowiedź brzmi „skutek i tak by nastąpił”, choć oba są przyczynami. Wtedy wpisz `csqn: "NESS"`
+   (A jest koniecznym elementem zbioru warunków wystarczającego do skutku) — krawędź jest liczona, a raport każe
+   ocenić przyczynowość kumulatywną/alternatywną (przy różnych sprawcach — art. 441 KC). `NIE` zostaw wyłącznie
+   dla zdarzeń, które nie należą do żadnego obecnego zbioru warunków wystarczających.
+   **Zaniechanie:** związek jest **hipotetyczny** — pytanie brzmi, czy działanie zgodne z obowiązkiem zapobiegłoby
+   skutkowi. Krawędź z węzła `ZANIECHANIE` wymaga pola `dzialanie_hipotetyczne`, a jej `p` oznacza
+   prawdopodobieństwo zapobieżenia skutkowi (nie pewność). Brak pola → ostrzeżenie.
 3. **Przypisanie prawne** (osobno od faktów):
    - prawo cywilne — art. 361 § 1 KC: zobowiązany odpowiada „tylko za normalne następstwa działania lub
      zaniechania, z którego szkoda wynikła” (brzmienie z ELI, t.j. Dz.U. 2026 poz. 795) → pole `adekwatnosc`;
@@ -84,7 +96,17 @@ w MP13, pole `fakt_m1` wiąże węzeł z faktem M1 (F-nnn) — jedna przestrzeń
    - prawo karne — art. 2 KK: za przestępstwo skutkowe popełnione przez zaniechanie odpowiada „ten tylko, na kim
      ciążył prawny, szczególny obowiązek zapobiegnięcia skutkowi” (t.j. Dz.U. 2025 poz. 383; nowelizacje po t.j.
      do 2026-10-01 nie zmieniają art. 2) → pole `obowiazek_dzialania` przy węźle `ZANIECHANIE`;
-   - przerwanie związku (zdarzenie nowe, niezależne, które samo wywołało skutek) → krawędź `PRZERYWA`.
+   - przerwanie związku (zdarzenie nowe, niezależne, które samo wywołało skutek) → krawędź `PRZERYWA`;
+   - prawo karne, **obiektywne przypisanie skutku** (doktryna; poza art. 2 KK): sprawca stworzył albo zwiększył
+     prawnie nieakceptowalne ryzyko, a skutek jest realizacją właśnie tego ryzyka → pola `ryzyko`
+     i `realizacja_ryzyka` na krawędziach ścieżki do tezy; braki → flaga;
+   - **standard dowodu i wątpliwości:** w sprawie karnej „niedające się usunąć wątpliwości rozstrzyga się na korzyść
+     oskarżonego” (art. 5 § 2 KPK, t.j. Dz.U. 2026 poz. 490; nowelizacje po t.j. sprawdzone 2026-10-02 — art. 5 bez
+     zmian) → krawędź ze ścieżki do tezy z `csqn` NIEUSTALONE albo tylko korelacją = flaga, nie domniemanie
+     związku; w sprawie cywilnej nieustalony związek obciąża tego, kto wywodzi z niego skutki prawne (art. 6 KC,
+     t.j. Dz.U. 2026 poz. 795), dowody wskazuje strona (art. 232 KPC), a sąd może wywnioskować fakt z innych
+     ustalonych faktów (art. 231 KPC — domniemanie faktyczne; t.j. Dz.U. 2026 poz. 468, nowelizacje po t.j.
+     sprawdzone — art. 231–232 bez zmian) → podstawa krawędzi `POSREDNI`.
    Doktrynalne testy (adekwatność, obiektywne przypisanie, przerwanie związku) i ich wykładnię potwierdzaj
    orzecznictwem pobranym przez MCP (`saos_search` z frazą, np. „normalne następstwa”; NSA/WSA: `cbosa_szukaj`,
    snapshot 🟨), nie z pamięci. Brak trafień = OUT_OF_SCOPE, bez dopowiadania tez.
@@ -121,6 +143,23 @@ rozstrzygnięcia (analiza-sadowa-v6 §9) może korzystać z wyniku grafu tylko z
 - **Skutki dalsze:** każdy węzeł potomny tezy (np. utrata zarobku → szkoda → odsetki) przelicza się tak samo —
   graf pokazuje, które roszczenia upadają razem z jednym faktem.
 
+## 5a. Model wykluczeniowy — przyczyny alternatywne i konkurujące hipotezy
+
+Związek wykazany pośrednio albo z samej kolejności zdarzeń jest wiarygodny dopiero wtedy, gdy **zbadano i odrzucono
+inne wyjaśnienia** tego samego skutku. Graf wymusza to na dwa sposoby:
+
+1. **Węzły alternatywne:** każde rozsądne alternatywne wyjaśnienie skutku = osobny węzeł z krawędzią `OSLABIA`
+   (lub `PRZERYWA`, gdy przejmuje rolę przyczyny). Gdy do skutku prowadzi krawędź `POSREDNI`/`KORELACJA`, a nie ma
+   ani jednej krawędzi alternatywnej ani pola `alternatywy_zbadane` z uzasadnieniem — silnik zgłasza
+   „WYKLUCZENIE: … bez zbadanych przyczyn alternatywnych”.
+2. **MET-ACH** (`shared/MOD-METODY-BADAWCZE.md`, silnik: `graf_przyczynowy.py plik.json --ach`) rozstrzyga, które
+   wyjaśnienie się utrzymuje: macierz hipoteza × dowód, ranking po **ważonej niespójności**, a nie po liczbie
+   potwierdzeń; dowody zgodne ze wszystkimi hipotezami są niediagnostyczne i nie wzmacniają żadnej. Wynik wraca do
+   grafu: hipoteza **wykluczona dowodem klasy A/B** → węzeł alternatywny z niskim `p` (z cytatem dowodu);
+   hipoteza niewykluczona → zostaje z `p` wynikającym z materiału.
+3. **Niezależność:** dwie przyczyny w bramie `LUB` oparte na tym samym źródle (np. ten sam dokument, ten sam
+   świadek) nie są niezależne — silnik ostrzega, bo wzór 1 − Π(1 − s·p) zawyżałby wsparcie; połącz je w jeden węzeł.
+
 ## 6. Wzajemny wpływ i sprzężenia zwrotne
 
 Cykl w grafie (A wpływa na B, B na A) jest dopuszczalny tylko między węzłami typu `STAN` albo jako eskalacja
@@ -145,7 +184,9 @@ ostrzeżenia (post hoc, csqn, sprzężenia) i zdanie o założeniach z §4.
 ## 8. Procedura (kolejność obowiązkowa)
 
 1. Węzły z chronologii (`Z-nnn`) lub z M1 (`fakt_m1`) — bez węzła bez źródła; hipoteza = `pewnosc: SPORNE` + `[H]`.
-2. Krawędzie: dla każdej trzy pytania z §3 i `zrodla`; połączenie bez źródła = `KORELACJA`.
+2. Krawędzie: dla każdej trzy pytania z §3 i `zrodla`; połączenie bez źródła = `KORELACJA`; przy dwóch
+   przyczynach wystarczających — `NESS`, nie `NIE`; przy zaniechaniu — `dzialanie_hipotetyczne`.
+2a. Model wykluczeniowy (§5a): przyczyny alternatywne jako węzły `OSLABIA`; spór o wersję → MET-ACH.
 3. Bramy: dla każdego węzła z ≥ 2 przyczynami rozstrzygnij I/LUB i zapisz dlaczego.
 4. Silnik (albo widget) → raport §7.
 5. Wersja przeciwnika (MP13 §13.5): osobne krawędzie OSLABIA/PRZERYWA dla alternatywnych wyjaśnień — graf
