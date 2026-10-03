@@ -4,6 +4,7 @@
 
 **Źródło weryfikacji:** KC art. 805–834 — Dz.U. 2026 poz. 795 t.j. | Ustawa o ubezpieczeniach obowiązkowych — Dz.U. 2026 poz. 783 t.j.
 **Data weryfikacji online:** 2026-06-05
+**Korekta 2026-10-03:** STRATEGIA, pkt 5 — usunięto błędny jednolity 3-letni termin „z art. 819 KC” dla pozwu poszkodowanego (sprzeczny z tabelą TERMIN PRZEDAWNIENIA tego modułu: roszczenie z OC podlega art. 819 § 3, nie § 1) oraz błędny moment rozpoczęcia biegu („zakończenie postępowania likwidacyjnego” — ustawa wiąże go z otrzymaniem pisemnego oświadczenia ubezpieczyciela, art. 819 § 4). ✅ [VER: api.sejm.gov.pl ELI DU/2026/795, 2026-10-03]
 **ZASADA:** Każde brzmienie przepisu przed powołaniem → isap.sejm.gov.pl
 
 ---
@@ -234,7 +235,11 @@ Wynik pracy modułu:
 2. Odwołaj się wewnętrznie zanim złożysz wniosek do Rzecznika Finansowego (warunek przed RF w sporach konsumenckich).
 3. Nie akceptuj propozycji wypłaty bez zastrzeżenia prawa do dochodzenia dalszych roszczeń.
 4. Zbierz wszystkie dowody szkody PRZED akceptacją ugody z ubezpieczycielem.
-5. Pozew: wnieść przed upływem 3-letniego terminu przedawnienia (art. 819 KC), liczył od ostatniej decyzji lub zakończenia postępowania likwidacyjnego.
+5. Pozew: wnieść przed upływem terminu przedawnienia właściwego dla RODZAJU roszczenia:
+   - **umowa własna** (AC, NNW, ubezpieczenie na życie) → 3 lata (art. 819 § 1 KC);
+   - **poszkodowany → ubezpieczyciel OC** → termin przewidziany dla roszczenia wobec sprawcy (art. 819 § 3 KC): przy czynie niedozwolonym art. 442¹ KC (3 lata od wiedzy, max 10 lat od zdarzenia; szkoda na osobie — nie wcześniej niż 3 lata od wiedzy, § 3; zbrodnia/występek — 20 lat, § 2), przy odpowiedzialności kontraktowej — termin ogólny (art. 118 KC); szczegóły: tabela TERMIN PRZEDAWNIENIA wyżej;
+   - ⛔ **zgłoszenie** roszczenia lub zdarzenia ubezpieczycielowi przerywa bieg; biegnie on na nowo od dnia, w którym zgłaszający **otrzymał na piśmie** oświadczenie ubezpieczyciela o przyznaniu lub odmowie świadczenia (art. 819 § 4 KC) — NIE od „zakończenia postępowania likwidacyjnego”. Po kolejnej pisemnej decyzji (np. po odwołaniu) — liczyć od jej otrzymania.
+   ✅ [VER: api.sejm.gov.pl ELI DU/2026/795 — art. 118, 442¹, 819, 2026-10-03]
 
 ## UBEZPIECZENIE NA ŻYCIE — PEŁNA ANALIZA (dodano 2026-07-27, na żądanie
 użytkownika, zweryfikowane: rankomat.pl, sn.pl [orzeczenia bezpośrednio],

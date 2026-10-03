@@ -69536,3 +69536,39 @@ Alternatywa rozważona i niepotrzebna: scalenie 13 raportów `references/raporty
 **Testy:** selftest silnika 20/20 (8 nowych przypadków), T42 PASS (parytet Python↔JS bez zmian), KIO offline (fragmenty prawdziwych odpowiedzi) + na żywo 7/7, poprawność 15/15, `orzeczenia-sadowe-v2` pytest 25/25 + port JS 26/26.
 
 **Wydanie (ZASADA 7):** `audyt-systemu-v4` 6.156, `shared` 3.99.1, `orzeczenia-sadowe-v2` 2.21 (+ bez zmian od poprzedniej tury: `chronologia-sprawy-v1` 1.13, `analizator-dowodow-v3` 5.16.18, `przesluchanie-swiadkow-v2-min90` 3.30). Wolny numer flagi: **F-218**.
+
+---
+
+## AUDYT-2026-10-03 — naprawa przedawnienia z OC (dr-02), podtabela ORA (dr-12), wydanie wg ZASADY 7, relikty nakładki (6.157)
+
+**Tryb:** TARGETED (`dr-02`, `dr-12`) + FAZA 7A/7C, na polecenie „wykonaj aktualizacje zgodnie z regułą 7 audytu systemu”.
+
+### 1. STATUS OGÓLNY
+Trzy pełne paczki: `dr-02-prawo-cywilne-rodzinne-gospodarcze` 3.60, `dr-12-sadownictwo-prokuratura-zawody-prawnicze` 4.20, `audyt-systemu-v4` 6.157. Każda przez `scripts/dostarcz_skill.sh` (oryginał = kopia = ZIP) i rozpakowanie kontrolne (`diff -rq` pusty).
+
+### 2. NAPRAWY WYKONANE (CRIT)
+- **ZASADA 7 — naruszenie w poprzedniej turze tej sesji (CRIT).** Naprawy F-218/F-219 dostarczono jako luźne `.md` + patch, bez wyraźnego potwierdzenia dewelopera, że chce tylko patcha. Dodatkowo edycje wykonano w `SKILL_SOURCE` (katalog zainstalowanych pluginów), nie w `WORK_COPY`. Naprawione tym wydaniem: edycje przeniesione do kopii roboczej, luźne pliki usunięte z katalogu wyjściowego, dostarczone wyłącznie pełne ZIP-y.
+- **F-218 (otwarta i zamknięta 2026-10-03).** `dr-02/modules/mod-KC-ubezpieczenia.md`, STRATEGIA pkt 5: „3-letni termin przedawnienia (art. 819 KC), liczony od ostatniej decyzji lub zakończenia postępowania likwidacyjnego” — sprzeczne z tabelą TERMIN PRZEDAWNIENIA tego samego modułu (art. 819 § 3 → art. 442¹ dla OC) i z art. 819 § 4 (bieg od otrzymania na piśmie oświadczenia ubezpieczyciela). Nowe brzmienie rozdziela umowę własną (§ 1) i OC (§ 3 → 442¹ / 118). ✅ [VER: api.sejm.gov.pl ELI DU/2026/795, 2026-10-03]; zero nowelizacji KC po t.j. (`/eli/acts/DU/1964/93/references`, 2026-10-03). Wykrycie: audyt cudzego tekstu (router kat. [11]) — moduł był powołany w poście jako źródło analizy.
+- **F-219 (otwarta i zamknięta 2026-10-03).** `dr-12/modules/mod-ustawa-odpowiedzialnosc-dyscyplinarna-zawodow.md`, podtabela ORA: brak Łodzi (izba nr 11 z 24 na liście NRA — `adwokatura.pl/izby-adwokackie/`, RZĄD 1) i licznik „9 z 24” przy 8 wymienionych izbach. Łódź sprawdzona bezpośrednio (`lodz.adwokatura.pl`: strona główna, mapa WordPress — 106 stron + wpisy, „Samorząd”): ❌, jedyny materiał to komunikat rzecznika z 9.12.2016 o wszczęciu (RD 84/16). Kielce: przesłanka polecenia („nowa ORA”) **nieprawdziwa** — poz. 7 listy NRA, w podtabeli od tury IX; wykonana rewalidacja (`ora.kielce.pl`: menu, mapa, „Władze ORA”, „Uchwały”, pełna paginacja „Komunikaty” 13 str., „Aktualności” 15 str., „Informacje”, „Z życia Izby”, wzorce „SD nr/rok”, „wydalenie”, „orzeczenie”) — ❌ potwierdzone; wiersz wydzielony z 👁 OBSERWACJĄ. Stan podtabeli: 16/24 sprawdzonych bezpośrednio, 15/16 negatywnie, 1/16 (Poznań) wybiórczo.
+- **F-222 (otwarta i zamknięta 2026-10-03).** Kopia `audyt-systemu-v4` zainstalowana w claude.ai: 223 pliki → **T41 FAIL**, `dostarcz_skill.sh` odmówiłby spakowania. Przyczyna: 36 reliktów wskrzeszonych instalacją „na nakładkę” — 6 plików `references/` usuniętych w 6.146 (mapa_dzu_2026-06-14, PRZETERMINOWANE-TJ-2026-09-10, F-135-cross-check…, F-187-dostep-maszynowy…, PRZEGLAD-MAP-ELI-2026-09-01i, AUDYT-PRZERWANYCH-ETAPOW-2026-08-28) i 30 plików `mcp-servers/*/{package.json,package-lock.json,test_protokol_mcp.mjs}` usuniętych w 6.153. Każdy sprawdzony w CHANGELOG (wymóg T21), zero aktywnych odwołań poza samymi reliktami. Usunięte: 223 → 187. To trzecie udokumentowane wskrzeszenie po 6.146 i 6.149 — instalacja nadal wykonywana nakładką, nie zastąpieniem katalogu.
+
+### 3. OSTRZEŻENIA (WARN)
+- **F-220 (nowa, otwarta)** — `shared/DISCLAIMER.md`: szablony bez „ze zm.” przy Prawie o adwokaturze (t.j. 2024/1564; po t.j.: 2025/1172, 2026/370, 2026/846) i ustawie o radcach prawnych (t.j. 2024/499; po t.j. także 2026/731) — ELI `/references`, 2026-10-03. Poza zakresem tej tury (wymaga wydania `shared`).
+- **F-221 (nowa, otwarta)** — T21 na kopii zainstalowanej: `SKILL.md` niezgodny z sumą w 32/32 skillach, reszta plików zgodna. Korekta poprzedniej tury tej sesji: rozjazd przedstawiono tam jako „wcześniej istniejący w dr-02 i dr-12” — w rzeczywistości jest systemowy. W trzech paczkach tego wydania sumy `SKILL.md` przeliczone dla treści dostarczanej.
+- `shared`: 197 plików (T41 WARN, zapas 2) — bez działania w tej turze.
+
+### 4. WERYFIKACJA Dz.U.
+Dz.U.: brak nowych t.j. w zakresie tej sesji (KC t.j. 2026/795, u.u.o. t.j. 2026/783 — zero nowelizacji po t.j.) — mapa bez zmian (ostatnia: `mapa_dzu_2026-09-22.md`).
+
+### 4C. TREŚĆ MERYTORYCZNA MODUŁÓW
+F-218 jak w § 2. Pozostała treść `mod-KC-ubezpieczenia` (tabela przedawnienia, actio directa) odczytana w ELI w tej sesji bez rozbieżności.
+
+### 5. STRUKTURA SYSTEMU — SNAPSHOT
+`dr-02` 94 pliki (bez zmian liczby), `dr-12` 22 (bez zmian), `audyt-systemu-v4` 187 (−36 reliktów). Suita `run_regression_suite.py` na kopii roboczej (32 skille): wszystkie testy PASS poza **T22** (⛔, stan zastany — ten sam zestaw 9 skilli przed i po wydaniu; 121 → 115 rozjazdów wyłącznie przez usunięcie reliktów F-222; dr-02 i dr-12 bez rozjazdów) oraz T4/T5 (ręczne). T21 dla trzech skilli wydania: komplet i zgodność. T41 PASS (`shared` 197 — WARN). T22 przypisany do F-221 (hipoteza normalizacji frontmatteru przez hosta).
+
+### 6. WNIOSKI I ZALECENIA
+1. Instalować paczki przez **zastąpienie** katalogów skilli, nie nałożenie (ZASADA 7, limit i relikty).
+2. F-221 rozstrzygnąć przed kolejnym wydaniem zbiorczym — inaczej T21 na kopii zainstalowanej jest trwale czerwony i traci wartość sygnałową.
+3. Bramka kompletności list per-izba (dr-12): zestawiać z aktualną listą NRA/KRRP przy każdym wniosku „N z 24/19”.
+
+Wolny numer flagi: **F-223**.
