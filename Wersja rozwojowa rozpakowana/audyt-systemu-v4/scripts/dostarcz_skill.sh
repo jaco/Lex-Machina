@@ -5,7 +5,8 @@
 #  - jeden skill = jeden osobny ZIP,
 #  - ZIP zawiera CAŁE drzewo skilla,
 #  - liczba plików przed kopiowaniem, po kopiowaniu i w ZIP musi być identyczna,
-#  - twardy limit: maksymalnie 200 plików w jednym skillu.
+#  - twardy limit: maksymalnie 200 plików w jednym skillu,
+#  - T22 (rejestr frontmatteru = dysk) musi przejść — F-223, od 6.158.
 #
 # Użycie:
 #   bash dostarcz_skill.sh audyt-systemu-v4
@@ -59,6 +60,21 @@ for SKILL in "$@"; do
   rm -rf "$DEST"
   cp -r "$SRC" "$DEST"
   find "$DEST" -name "__pycache__" -exec rm -rf {} + 2>/dev/null
+
+  # F-223 (6.158): wydanie z frontmatterem przepisanym przez hosta = ODMOWA.
+  # T22 na samej kopii roboczej tego skilla (katalog tymczasowy z jednym skillem).
+  T22="$SCRIPT_DIR/check_frontmatter_rejestracja.py"
+  if [ -f "$T22" ] && command -v python3 >/dev/null 2>&1; then
+    T22_DIR="$WORK_DIR/.t22_$SKILL"; rm -rf "$T22_DIR"; mkdir -p "$T22_DIR"
+    ln -s "$DEST" "$T22_DIR/$SKILL"
+    if ! PYTHONDONTWRITEBYTECODE=1 python3 "$T22" "$T22_DIR" > "$T22_DIR.log" 2>&1; then
+      echo "   WYNIK: T22 FAIL — rejestr frontmatteru ≠ dysk (log: $T22_DIR.log). ODMOWA spakowania $SKILL." >&2
+      grep '⛔' "$T22_DIR.log" | head -5 >&2
+      rm -rf "$T22_DIR"; OGOLNY_STATUS=1; continue
+    fi
+    rm -rf "$T22_DIR"
+    echo "   T22: PASS (frontmatter = dysk)"
+  fi
 
   PO=$(find "$DEST" -type f | wc -l | tr -d ' ')
   echo "   KROK 2 (kopia):    $PO plików"

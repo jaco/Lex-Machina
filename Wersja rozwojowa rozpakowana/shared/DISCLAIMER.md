@@ -1,8 +1,10 @@
 # DISCLAIMER — Moduł Zastrzeżenia Prawnego
 
 > **Plik kanoniczny:** `shared/DISCLAIMER.md`
-> **Wersja:** 2.1 | Aktualizacja: 2026-07-05b (R5 — klauzula profesjonalnej
->              weryfikacji dla pism kierowanych do sądu; NSA I FZ 104/26)
+> **Wersja:** 2.2 | Aktualizacja: 2026-10-03c (F-220 — „ze zm.” przy obu aktach;
+>              jednostki zawężone do art. 4 ust. 1 i art. 6 ust. 1)
+>              2.1 — 2026-07-05b (R5 — klauzula profesjonalnej weryfikacji
+>              dla pism kierowanych do sądu; NSA I FZ 104/26)
 
 ---
 
@@ -11,8 +13,25 @@
 **Każda odpowiedź systemu dotycząca prawa MUSI kończyć się disclaimerem.**
 
 Brak disclaimera = potencjalne naruszenie regulacji dotyczących świadczenia
-pomocy prawnej w Polsce (Prawo o adwokaturze, Dz.U. z 2024 r. poz. 1564 (t.j.);
-ustawa o radcach prawnych, Dz.U. z 2024 r. poz. 499 (t.j.)).
+pomocy prawnej w Polsce (Prawo o adwokaturze, t.j. Dz.U. z 2024 r. poz. 1564,
+ze zm.; ustawa o radcach prawnych, t.j. Dz.U. z 2024 r. poz. 499, ze zm.).
+
+> ⛔ **METRYKA CYTOWANYCH AKTÓW — utrzymanie (F-220).** Szablony niżej są
+> kopiowane do KAŻDEJ odpowiedzi prawnej, więc błąd formatu cytowania powtarza
+> się w 100% wyjść. Stan ELI na 2026-10-03 (`api.sejm.gov.pl/eli/acts/DU/1982/124/references`,
+> `.../DU/1982/145/references`):
+> - Prawo o adwokaturze — t.j. Dz.U. 2024 poz. 1564; po t.j.: 2025/1172, 2026/370, 2026/846;
+> - ustawa o radcach prawnych — t.j. Dz.U. 2024 poz. 499; po t.j.: 2025/1172, 2026/370, 2026/731, 2026/846.
+>
+> Definicje pomocy prawnej: art. 4 ust. 1 Pr. adw. i art. 6 ust. 1 u.r.p. — oba
+> ustępy w brzmieniu z t.j.; nowelizacja 2025/1172 dodała w tych artykułach
+> wyłącznie ust. 1c (Pr. adw.) i ust. 4 (u.r.p.) — poświadczanie dokumentów
+> elektronicznych — bez zmiany ust. 1. ✅ [VER: api.sejm.gov.pl ELI DU/2024/1564,
+> DU/2024/499, DU/2025/1172, 2026-10-03].
+> **Po ogłoszeniu nowego t.j. któregokolwiek z tych aktów:** zaktualizuj pozycję
+> Dz.U. w trzech miejscach tego pliku i oceń, czy „ze zm.” nadal obowiązuje
+> (T24 `check_nowelizacje_po_tj.py` liczy nowelizacje po t.j. dla aktów z MAPA-AKTOW,
+> w tym `dr-12`, gdzie oba akty są zmapowane).
 
 **Odpowiedzialność za dodanie disclaimera leży na routerze (KROK 7).**
 Skille dziedzinowe MOGĄ dodawać własny disclaimer jako element wyjściowy,
@@ -49,8 +68,8 @@ WYJĄTEK — pominąć gdy:
 ---
 ⚖️ **Ważna informacja:** Niniejsza analiza ma charakter wyłącznie informacyjny
 i edukacyjny. Nie stanowi porady prawnej ani opinii prawnej w rozumieniu
-Prawa o adwokaturze (Dz.U. z 2024 r. poz. 1564 (t.j.)) ani ustawy o radcach
-prawnych (Dz.U. z 2024 r. poz. 499 (t.j.)). W indywidualnej sprawie zalecam
+Prawa o adwokaturze (t.j. Dz.U. z 2024 r. poz. 1564, ze zm.) ani ustawy o radcach
+prawnych (t.j. Dz.U. z 2024 r. poz. 499, ze zm.). W indywidualnej sprawie zalecam
 skonsultowanie się z adwokatem lub radcą prawnym.
 ```
 
@@ -59,9 +78,9 @@ skonsultowanie się z adwokatem lub radcą prawnym.
 ```
 ---
 ⚖️ **Zastrzeżenie:** Niniejsza analiza ma charakter informacyjny. Nie stanowi
-porady prawnej ani opinii prawnej w rozumieniu art. 4 Prawa o adwokaturze
-(Dz.U. z 2024 r. poz. 1564 (t.j.)) ani art. 6 ustawy o radcach prawnych
-(Dz.U. z 2024 r. poz. 499 (t.j.)). Weryfikacja przepisów: ELI (RZĄD 1).
+porady prawnej ani opinii prawnej w rozumieniu art. 4 ust. 1 Prawa o adwokaturze
+(t.j. Dz.U. z 2024 r. poz. 1564, ze zm.) ani art. 6 ust. 1 ustawy o radcach prawnych
+(t.j. Dz.U. z 2024 r. poz. 499, ze zm.). Weryfikacja przepisów: ELI (RZĄD 1).
 Orzecznictwo: orzeczenia.ms.gov.pl / sn.pl. Każda analiza wymaga weryfikacji
 pod kątem aktualnego stanu prawnego i okoliczności konkretnej sprawy.
 ```

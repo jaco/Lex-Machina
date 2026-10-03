@@ -69572,3 +69572,62 @@ F-218 jak w § 2. Pozostała treść `mod-KC-ubezpieczenia` (tabela przedawnieni
 3. Bramka kompletności list per-izba (dr-12): zestawiać z aktualną listą NRA/KRRP przy każdym wniosku „N z 24/19”.
 
 Wolny numer flagi: **F-223**.
+
+---
+
+## AUDYT-2026-10-03b — T22: przyczyna ustalona; frontmatter odtworzony z main; F-221 zamknięta (6.158)
+
+**Tryb:** TARGETED (`audyt-systemu-v4`, `dr-02`, `dr-12`) + FAZA 7A/7C, na polecenie „zajmij się T22”. **Źródło prawdy tej sesji:** klon `main` repozytorium `michaleiatrak-star/Lex-Machina` (HEAD `9330d39`, commit użytkownika z paczkami 6.157/3.60/4.20), nie kopia zainstalowana.
+
+### 1. STATUS OGÓLNY
+T22 na drzewie wydania: **0 rozjazdów (PASS)**. Na `main` przed sesją: 113. Paczki: `audyt-systemu-v4` 6.158, `dr-02` 3.61, `dr-12` 4.21.
+
+### 2. NAPRAWY WYKONANE (CRIT)
+- **F-223 (otwarta i zamknięta 2026-10-03b) — regresja wprowadzona przez wydanie 6.157 tej samej sesji.** Wydania 6.157/3.60/4.20 zbudowano z kopii zainstalowanej w claude.ai (`/mnt/skills/plugins/...`). Host przepisuje frontmatter `SKILL.md` serializatorem YAML: komentarze usunięte, wcięcia list zdjęte, skalary blokowe → ciągi z literalnym `\n`. Skutki na `main` po commicie `9330d39`: frontmatter audytu 290 → 109 linii (cała dokumentacja w komentarzach YAML utracona), dr-02 i dr-12 — utrata komentarza z 2026-09-27e i wcięcia `dependencies.requires`. T22 na `main`: przed `9330d39` **6** rozjazdów (wyłącznie relikty), po — **113** (107 z list bez wcięcia — parser T22 wymaga `^\s+-`, więc widział puste rejestry — plus te same 6 reliktów).
+  **Błędna diagnoza poprzedniego wpisu (AUDYT-2026-10-03 §3, §5) — korekta:** T22 FAIL na kopii zainstalowanej opisano tam jako „stan zastany”, a F-221 jako hipotezę. Stan „zastany” był artefaktem hosta, a wydanie 6.157 przeniosło ten artefakt do repozytorium. Test zgłosił problem poprawnie; zawiodła interpretacja.
+  **Naprawa:** `SKILL.md` trzech skilli odtworzony z `main` sprzed `9330d39` (`git show 9330d39~1:…`) + wyłącznie zamierzone zmiany (`version:`, stopka audytu, wpis tury XII dr-12). Korpus `SKILL.md` audytu porównany: poza stopką identyczny.
+- **F-221 ZAMKNIĘTA.** Porównanie bajtowe 32 skilli kopii zainstalowanej z `main` (`9330d39~1`): poza `SKILL.md` (32/32 różne) wszystkie pliki zgodne; dwa wyjątki (CHECKSUMS dr-02, dr-12) to moje edycje w kopii zainstalowanej z wcześniejszej tury. Przyczyna potwierdzona wprost na routerze (diff frontmatteru: wcięcia, komentarze). Wniosek: T21 i T22 dla `SKILL.md` są miarodajne wyłącznie na repozytorium.
+- **Relikty (F-222 c.d.).** 36 reliktów nadal jest w `main` mimo 6.157 — commit `9330d39` nałożył paczkę na drzewo, a nałożenie nie usuwa plików (225 plików audytu na `main`; T41 i T21 na `main` FAIL). W drzewie wydania usunięte (187). W repozytorium wymagają jawnego `git rm`.
+
+### 3. OSTRZEŻENIA (WARN)
+F-220 bez zmian (otwarta). Wolny numer: **F-224**.
+
+### 4. WERYFIKACJA Dz.U.
+Bez zmian — sesja wyłącznie strukturalna. Mapa: `mapa_dzu_2026-09-22.md`.
+
+### 5. STRUKTURA SYSTEMU — SNAPSHOT
+`audyt-systemu-v4` 187 plików, `dr-02` 94, `dr-12` 22. Zmiany narzędzi: T22 — kontrola D (lista bez wcięcia → jeden błąd z przyczyną, zamiast setek „BRAK WPISU”) i `--selftest`; `dostarcz_skill.sh` — bramka T22 przed pakowaniem; ZASADA 7 — `SKILL_SOURCE` = repozytorium.
+
+### 6. WNIOSKI I ZALECENIA
+1. Instalacja w repozytorium: zastąpić katalogi trzech skilli zawartością paczek **i** usunąć relikty (`git rm`), nie rozpakowywać na istniejące drzewo.
+2. Przed każdym wydaniem z sesji claude.ai: `SKILL.md` brać z `main` (raw), nie z `/mnt/skills/plugins`.
+3. Przy FAIL testu, którego przyczyny nie ustalono, nie wolno oznaczać go jako „stan zastany” bez porównania z repozytorium.
+
+---
+
+## AUDYT-2026-10-03c — F-220 zamknięta (DISCLAIMER 2.2); F-221 dopełniona — tryb kopii zainstalowanej w T21/T22 (6.159, shared 3.99.2)
+
+**Tryb:** TARGETED (`shared`, `audyt-systemu-v4`) + FAZA 7A/7C, polecenie „dalej F-220 i F-221”. Drzewo bazowe: `main` (`9330d39`) + wydanie 6.158/3.61/4.21 z AUDYT-2026-10-03b (jeszcze niewgrane do `main`).
+
+### 1. STATUS OGÓLNY
+Paczki: `shared` 3.99.2, `audyt-systemu-v4` 6.159 (zawiera 6.158). `dr-02` 3.61 i `dr-12` 4.21 z AUDYT-2026-10-03b — bez zmian, nadal aktualne.
+
+### 2. NAPRAWY WYKONANE
+- **F-220 ZAMKNIĘTA.** `shared/DISCLAIMER.md` 2.1 → 2.2: w trzech miejscach (ZASADA GŁÓWNA, LAIK, PRAWNIK) „Dz.U. z 2024 r. poz. 1564 (t.j.)” / „poz. 499 (t.j.)” → „t.j. Dz.U. z 2024 r. poz. 1564, ze zm.” / „… poz. 499, ze zm.” (format PRAWO-HARDGATE). Podstawa: ELI `/references` 2026-10-03c — Pr. adw. po t.j.: 2025/1172, 2026/370, 2026/846; u.r.p.: te same + 2026/731. Jednostki zawężone do art. 4 ust. 1 Pr. adw. i art. 6 ust. 1 u.r.p. (definicje pomocy prawnej); odczyt t.j. 2024/1564 i 2024/499 oraz treści nowelizacji: 2025/1172 dodaje wyłącznie art. 4 ust. 1c i art. 6 ust. 4 (poświadczenia elektroniczne), 2026/846 zmienia art. 6 ust. 4 Pr. adw. (tajemnica), 2026/370 i 2026/731 nie dotykają tych jednostek → ust. 1 obu artykułów w brzmieniu z t.j. ✅ [VER: api.sejm.gov.pl ELI DU/2024/1564, DU/2024/499, DU/2025/1172, DU/2026/846, DU/2026/370, DU/2026/731 text.pdf, 2026-10-03]. W pliku dopisana metryka z datą odczytu i procedura po nowym t.j. Zakres sprawdzony: 16 skilli DR odsyła do wariantu („art. 4 Prawa o adwokaturze / art. 6 u.r.p.”) bez pozycji Dz.U. — bez zmian. Odnotowane bez flagi: `prawo-polskie-v2/ROUTING-MAP.md` w. 705 („Dz.U. 2024 poz. 1564 t.j.”) bez „ze zm.”, choć w. 779 tego samego pliku ma „ze zm.” — tabela routingu, nie szablon wyjścia.
+- **F-221 — dopełnienie (zamknięcie w 6.158 było przedwczesne).** Kryterium zamknięcia w WARN-OTWARTE wymagało, by T21 pomijał `SKILL.md` w trybie kopii zainstalowanej albo weryfikował korpus bez frontmatteru; 6.158 zmieniło tylko T22. Pomiar: 32/32 `SKILL.md` kopii zainstalowanej ≠ `main` (`9330d39~1`) bajtowo, 32/32 frontmatterów równoważnych semantycznie (PyYAML `safe_load`), 32/32 korpusów identycznych. Wdrożone:
+  - T21 — tryb kopii (autodetekcja `plugin:skill` / `--kopia-zainstalowana`; `--repozytorium` wymusza ścisły). Bez `--repo-ref`: ℹ️ „SKILL.md NIEZWERYFIKOWANY” (nie liczy się). Z `--repo-ref`: korpus bajtowo + frontmatter semantycznie, rozbieżność ⛔. `--selftest` 3/3.
+  - T22 — w trybie kopii forma hosta → ℹ️ z adnotacją „wynik nie zastępuje T22 na repozytorium”.
+  - Test na żywych danych (`/mnt/skills/plugins`, ref = `main~1`): 32 × ✅ „różnica wyłącznie formy”; realne rozjazdy widoczne — 36 reliktów audytu oraz ⛔ „korpus ≠ repozytorium” dla `dr-12/SKILL.md`, edytowanego w kopii zainstalowanej w AUDYT-2026-10-03 (poprawne wykrycie). T22 na kopii zainstalowanej: 0 rozjazdów + ℹ️; na repozytorium (tryb ścisły): 0.
+
+### 3. OSTRZEŻENIA (WARN)
+Brak nowych. Wolny numer: **F-224**.
+
+### 4. WERYFIKACJA Dz.U.
+Mapa bez zmian (`mapa_dzu_2026-09-22.md`); akty disclaimera — jak w § 2.
+
+### 5. STRUKTURA SYSTEMU — SNAPSHOT
+`shared` 197 plików (bez zmian liczby; T41 WARN), `audyt-systemu-v4` 187.
+
+### 6. WNIOSKI I ZALECENIA
+1. Wgrać do `main` najpierw relikty (`git rm`, AUDYT-2026-10-03b § 6), potem paczki 6.159, 3.99.2, 3.61, 4.21 przez zastąpienie katalogów.
+2. Zamykając flagę, sprawdzać jej zapisane kryterium zamknięcia punkt po punkcie — F-221 zamknięto w 6.158 na podstawie ustalenia przyczyny, bez części wykonawczej kryterium.

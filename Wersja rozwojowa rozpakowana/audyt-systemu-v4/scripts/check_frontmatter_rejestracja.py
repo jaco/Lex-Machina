@@ -28,7 +28,14 @@ CO SPRAWDZA
      bezpośrednia przyczyna źródłowa F-147, niewidoczna w renderze;
   C. dla KAŻDEGO klucza listowego (`modules`/`references`/`scripts`/`widgets`),
      który skill w ogóle deklaruje i któremu odpowiada istniejący katalog:
-     każdy plik z tego katalogu ma wpis, a każdy wpis ma plik na dysku.
+     każdy plik z tego katalogu ma wpis, a każdy wpis ma plik na dysku;
+  D. (od 6.158, F-223; tryb kopii od 6.159) lista zapisana BEZ WCIĘCIA (`- pozycja` w kolumnie 0)
+     — sygnatura frontmatteru przepisanego serializatorem YAML. Host claude.ai
+     robi to przy imporcie z marketplace (F-221: 32/32 `SKILL.md` kopii
+     zainstalowanej ≠ `main`; komentarze YAML usunięte, skalary blokowe zamienione
+     na ciągi z literalnym `\\n`). Zamiast ~100 fałszywych „BRAK WPISU” test
+     zgłasza wtedy JEDEN błąd na klucz i wskazuje przyczynę. Wydanie 6.157
+     zbudowano z takiej kopii: −181 linii frontmatteru, T22 na `main` 6 → 113.
 
 ZAKRES ŚWIADOMIE WĄSKI
   Skill, który danego klucza NIE deklaruje, nie jest sprawdzany pod tym kluczem.
@@ -93,6 +100,22 @@ def wpisy_klucza(fm, klucz):
     return out
 
 
+def lista_bez_wciecia(fm, klucz):
+    """Liczba pozycji `- x` w kolumnie 0 bezpośrednio pod `klucz:` (F-223)."""
+    m = re.search(r"^%s:[ \t]*$" % re.escape(klucz), fm, re.M)
+    if not m:
+        return 0
+    n = 0
+    for linia in fm[m.end():].splitlines():
+        if not linia.strip():
+            continue
+        if re.match(r"^-\s+\S", linia):
+            n += 1
+            continue
+        break
+    return n
+
+
 def pliki_katalogu(katalog):
     out = []
     for base, dirs, names in os.walk(katalog):
@@ -104,7 +127,7 @@ def pliki_katalogu(katalog):
     return sorted(out)
 
 
-def sprawdz_skill(root, nazwa):
+def sprawdz_skill(root, nazwa, kopia=False):
     sciezka = os.path.join(root, nazwa, "SKILL.md")
     with open(sciezka, encoding="utf-8") as fh:
         tresc = fh.read()
@@ -118,7 +141,11 @@ def sprawdz_skill(root, nazwa):
             print("  " + p)
         return len(problemy)
 
+    info = []
     for nr, linia in enumerate(fm.splitlines(), start=2):
+        if "\\n" in linia and kopia:
+            info.append("ℹ️ literalny `\\n`, linia {} — forma hosta (F-221), nie usterka repozytorium".format(nr))
+            continue
         if "\\n" in linia:
             problemy.append(
                 "⛔ LITERALNY `\\n` W YAML, linia {}: {}…  — sklejone wpisy listy; "
@@ -129,6 +156,18 @@ def sprawdz_skill(root, nazwa):
     for klucz in KLUCZE:
         wpisy = wpisy_klucza(fm, klucz)
         if wpisy is None:
+            continue
+        bez_wciecia = lista_bez_wciecia(fm, klucz)
+        if not wpisy and bez_wciecia and kopia:
+            info.append("ℹ️ lista `{}:` bez wcięcia ({} poz.) — forma hosta (F-221); "
+                        "rejestr sprawdź na repozytorium".format(klucz, bez_wciecia))
+            continue
+        if not wpisy and bez_wciecia:
+            problemy.append(
+                "⛔ LISTA `{}:` BEZ WCIĘCIA ({} poz. w kolumnie 0) — frontmatter przepisany "
+                "serializatorem YAML (kopia zainstalowana przez hosta? F-221/F-223); "
+                "NIE wydawaj z tego pliku — odtwórz SKILL.md z repozytorium".format(klucz, bez_wciecia)
+            )
             continue
         katalog = os.path.join(root, nazwa, klucz)
         if not os.path.isdir(katalog):
@@ -163,9 +202,9 @@ def sprawdz_skill(root, nazwa):
                 "⛔ BRAK PLIKU — wpis `{}:` wskazuje nieistniejący: {}".format(klucz, w)
             )
 
-    if problemy:
+    if problemy or info:
         print("--- {} ---".format(nazwa))
-        for p in problemy:
+        for p in problemy + info:
             print("  " + p)
     return len(problemy)
 
@@ -174,16 +213,34 @@ def main():
     ap = argparse.ArgumentParser(description="T22 — samo-rejestracja frontmatteru")
     ap.add_argument("repo_root", nargs="?", default=None)
     ap.add_argument("--repo-root", dest="repo_root_opt", default=None)
+    ap.add_argument("--selftest", action="store_true")
+    tryb = ap.add_mutually_exclusive_group()
+    tryb.add_argument("--kopia-zainstalowana", action="store_true",
+                      help="forma frontmatteru nadana przez hosta → ℹ️, nie ⛔ (F-221)")
+    tryb.add_argument("--repozytorium", action="store_true", help="tryb ścisły (domyślny poza układem plugin:skill)")
     args = ap.parse_args()
+    if args.selftest:
+        fm_ok = "\nmodules:\n  - modules/A.md   # opis\n"
+        fm_zle = "\nmodules:\n- modules/A.md\n"
+        ok = (wpisy_klucza(fm_ok, "modules") == ["modules/A.md"]
+              and lista_bez_wciecia(fm_ok, "modules") == 0
+              and wpisy_klucza(fm_zle, "modules") == []
+              and lista_bez_wciecia(fm_zle, "modules") == 1)
+        print("SELFTEST T22: {} (lista wcięta / bez wcięcia — F-223)".format("OK" if ok else "FAIL"))
+        return 0 if ok else 1
 
     root = args.repo_root or args.repo_root_opt \
         or os.environ.get("LEX_MACHINA_ROOT") or os.environ.get("REPO_ROOT") \
         or os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
     root = os.path.abspath(root)
+    kopia = args.kopia_zainstalowana or (not args.repozytorium and any(
+        ":" in d for d in os.listdir(root) if os.path.isdir(os.path.join(root, d))))
 
     print("=" * 72)
     print("TEST T22 — SAMO-REJESTRACJA FRONTMATTERU (modules/references/scripts/widgets)")
     print("Katalog: {}".format(root))
+    print("Tryb: {}".format("KOPIA ZAINSTALOWANA (F-221) — forma frontmatteru hosta raportowana jako ℹ️; "
+                             "WYNIK NIE ZASTĘPUJE T22 NA REPOZYTORIUM" if kopia else "REPOZYTORIUM (ścisły)"))
     print("=" * 72)
 
     skille = [n for n in sorted(os.listdir(root))
@@ -194,7 +251,7 @@ def main():
 
     total = 0
     for nazwa in skille:
-        total += sprawdz_skill(root, nazwa)
+        total += sprawdz_skill(root, nazwa, kopia)
 
     print("-" * 72)
     print("Skilli sprawdzonych: {}   rozjazdów łącznie: {}".format(len(skille), total))
