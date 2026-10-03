@@ -21,6 +21,23 @@ WYKLUCZENIA (świadome)
   sam CHECKSUMS.sha256, artefakty `__pycache__`/`.pyc`, pliki ukryte,
   archiwa `.zip` rejestrowane osobno w manifeście.
 
+TRYB KOPII ZAINSTALOWANEJ (F-221, od 6.159)
+  claude.ai przy imporcie z marketplace serializuje ponownie frontmatter
+  `SKILL.md` (komentarze YAML usunięte, wcięcia list zdjęte, skalary blokowe
+  → ciągi z `\\n`). Pomiar 2026-10-03c: 32/32 `SKILL.md` różne bajtowo od `main`,
+  32/32 frontmatterów RÓWNOWAŻNYCH semantycznie (PyYAML `safe_load`), 32/32
+  korpusów identycznych; wszystkie pozostałe pliki zgodne. Suma `SKILL.md`
+  w kopii zainstalowanej jest więc niemiarodajna z definicji.
+  Tryb włącza się sam, gdy katalog zawiera podkatalogi `plugin:skill`
+  (układ claude.ai), albo flagą `--kopia-zainstalowana`; `--repozytorium`
+  wymusza tryb ścisły. W trybie kopii:
+    • bez `--repo-ref` — niezgodność sumy `SKILL.md` to ℹ️ (nie liczy się),
+      z jawną informacją, że `SKILL.md` NIE został zweryfikowany;
+    • z `--repo-ref <katalog skilli repozytorium>` — `SKILL.md` porównywany
+      z repozytorium: korpus bajtowo + frontmatter semantycznie (PyYAML, jeśli
+      dostępny; bez niego — tylko korpus, z adnotacją). Rozbieżność = ⛔.
+  Pozostałe pliki — bez zmian, ściśle jak w repozytorium.
+
 ⛔ CZEGO NIE ROZSTRZYGA
   Zgodność sumy dowodzi, że plik nie zmienił się OD MOMENTU WPISANIA SUMY.
   Nie dowodzi, że treść jest poprawna ani że wpis powstał na właściwej wersji.
@@ -69,7 +86,35 @@ def skill_files(root):
     return sorted(out)
 
 
-def check_skill(root, name):
+def _podziel(tresc):
+    if not tresc.startswith("---"):
+        return None, tresc
+    cz = tresc.split("---", 2)
+    return (cz[1], cz[2]) if len(cz) == 3 else (None, tresc)
+
+
+def porownaj_skill_md(sciezka, ref_sciezka):
+    """(ok, opis) — korpus bajtowo, frontmatter semantycznie (F-221)."""
+    with open(sciezka, encoding="utf-8") as fh:
+        fa, ba = _podziel(fh.read())
+    with open(ref_sciezka, encoding="utf-8") as fh:
+        fb, bb = _podziel(fh.read())
+    if ba != bb:
+        return False, "korpus SKILL.md ≠ repozytorium"
+    try:
+        import yaml  # opcjonalnie — reszta T21 działa na bibliotece standardowej
+    except ImportError:
+        return True, "korpus = repozytorium; frontmatter NIEPORÓWNANY (brak PyYAML)"
+    try:
+        rowne = yaml.safe_load(fa or "") == yaml.safe_load(fb or "")
+    except yaml.YAMLError as e:
+        return False, "frontmatter nie parsuje się: {}".format(str(e).splitlines()[0])
+    if not rowne:
+        return False, "frontmatter ≠ repozytorium SEMANTYCZNIE (nie tylko forma)"
+    return True, "korpus = repozytorium, frontmatter równoważny (różnica wyłącznie formy — F-221)"
+
+
+def check_skill(root, name, kopia=False, ref_root=None):
     cpath = os.path.join(root, CHECKSUM_FILE)
     entries = {}
     with open(cpath, encoding="utf-8") as fh:
@@ -97,6 +142,19 @@ def check_skill(root, name):
 
     print("--- {} ---".format(name))
     print("  plików na dysku: {}   wpisów: {}".format(len(on_disk), len(entries)))
+    if kopia and "SKILL.md" in niezgodne:
+        niezgodne.remove("SKILL.md")
+        ref = os.path.join(ref_root, name.split(":")[-1], "SKILL.md") if ref_root else None
+        if ref and os.path.isfile(ref):
+            ok, opis = porownaj_skill_md(os.path.join(root, "SKILL.md"), ref)
+            if ok:
+                print("  ✅ SKILL.md: {}".format(opis))
+            else:
+                print("  ⛔ SKILL.md: {}".format(opis))
+                niezgodne.append("SKILL.md")
+        else:
+            print("  ℹ️ SKILL.md: suma niemiarodajna w kopii zainstalowanej (F-221) — "
+                  "SKILL.md NIEZWERYFIKOWANY; podaj --repo-ref, aby porównać z repozytorium")
     for label, items, mark in (
             ("BRAK WPISU (plik istnieje, sumy nie ma) — ⚠️ ZANIM dopiszesz sumę: sprawdź w CHANGELOG, czy plik nie został USUNIĘTY w poprzednim wydaniu (relikt instalacji „na nakładkę”, AUDYT-2026-09-29c)", brak_wpisu, "⛔"),
             ("BRAK PLIKU (wpis istnieje, pliku nie ma)", brak_pliku, "⛔"),
@@ -110,16 +168,54 @@ def check_skill(root, name):
     return len(brak_wpisu) + len(brak_pliku) + len(niezgodne)
 
 
+def selftest():
+    import tempfile
+    ok = 0
+    with tempfile.TemporaryDirectory() as t:
+        a, b = os.path.join(t, "a.md"), os.path.join(t, "b.md")
+        repo = '---\nname: x\nlista:\n  - p   # komentarz\n---\nKORPUS\n'
+        host = '---\nname: x\nlista:\n- p\n---\nKORPUS\n'
+        open(a, "w").write(host); open(b, "w").write(repo)
+        r1 = porownaj_skill_md(a, b)
+        open(a, "w").write(host.replace("KORPUS", "INNY"))
+        r2 = porownaj_skill_md(a, b)
+        open(a, "w").write(host.replace("- p", "- q"))
+        r3 = porownaj_skill_md(a, b)
+    for opis, war in [("forma hosta, ta sama treść → OK", r1[0]),
+                      ("inny korpus → ⛔", not r2[0]),
+                      ("inna wartość YAML → ⛔ (gdy PyYAML)", (not r3[0]) or "NIEPORÓWNANY" in r3[1])]:
+        print(("  OK   " if war else "  FAIL ") + opis); ok += war
+    print("SELFTEST T21: {}/3".format(ok))
+    return 0 if ok == 3 else 1
+
+
 def main():
     ap = argparse.ArgumentParser(description="T21 — sumy kontrolne skilli")
     ap.add_argument("repo_root", nargs="?", default=".",
                     help="katalog z podkatalogami skilli")
+    tryb = ap.add_mutually_exclusive_group()
+    tryb.add_argument("--kopia-zainstalowana", action="store_true",
+                      help="wymuś tryb kopii zainstalowanej w hoście (F-221)")
+    tryb.add_argument("--repozytorium", action="store_true",
+                      help="wymuś tryb ścisły (repozytorium)")
+    ap.add_argument("--repo-ref", default=None,
+                    help="katalog skilli repozytorium do porównania SKILL.md w trybie kopii")
+    ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
+    if args.selftest:
+        return selftest()
 
     root = os.path.abspath(args.repo_root)
+    kopia = args.kopia_zainstalowana or (not args.repozytorium and any(
+        ":" in d for d in os.listdir(root) if os.path.isdir(os.path.join(root, d))))
+    ref_root = os.path.abspath(args.repo_ref) if args.repo_ref else None
     print("=" * 72)
     print("TEST T21 — KOMPLETNOŚĆ I ZGODNOŚĆ CHECKSUMS.sha256")
     print("Katalog: {}".format(root))
+    print("Tryb: {}".format(
+        "KOPIA ZAINSTALOWANA (F-221) — SKILL.md {}".format(
+            "porównywany z {}".format(ref_root) if ref_root else "NIEZWERYFIKOWANY")
+        if kopia else "REPOZYTORIUM (ścisły)"))
     print("=" * 72)
 
     total = 0
@@ -127,7 +223,7 @@ def main():
     for name in sorted(os.listdir(root)):
         skill = os.path.join(root, name)
         if os.path.isdir(skill) and os.path.exists(os.path.join(skill, CHECKSUM_FILE)):
-            total += check_skill(skill, name)
+            total += check_skill(skill, name, kopia, ref_root)
             checked += 1
 
     print("-" * 72)
