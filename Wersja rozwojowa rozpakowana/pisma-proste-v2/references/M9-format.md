@@ -58,7 +58,7 @@ Przykłady:
 
 📋 HYBRID-VALIDATION            ← zawsze
 ────────────────────────────────────────────────────────
-[Raport z references/HYBRID-VALIDATION.md]
+[Raport z shared/HYBRID-VALIDATION.md]
 Pismo zawiera ⬛ [X] pól do uzupełnienia.
 ```
 

@@ -45,6 +45,8 @@ Pozwany / Uczestnik / Oskarżony / Podejrzany:
 
 ## SZ1 — POZEW CYWILNY
 
+> Szablon ekspercki (WPS, petitum, teoria sprawy, matryca przesłanek): `view references/templates/pozew-expert-template.md`
+
 ```
                                     [Miejscowość], dnia [DD miesiąc słownie RRRR] r.
 
@@ -121,6 +123,8 @@ doręczonego z uzasadnieniem dnia [data] r.
 ---
 
 ## SZ3 — ODPOWIEDŹ NA POZEW / PISMO PRZYGOTOWAWCZE
+
+> Szablon ekspercki (teoria obrony, matryca zaprzeczeń, zarzuty, audyt): `view references/templates/odpowiedz-na-pozew-expert-template.md`
 
 ```
                                     [Miejscowość], dnia [DD miesiąc słownie RRRR] r.

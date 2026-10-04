@@ -96,6 +96,12 @@ ORKA-META-02 — BRAK JEDNOLITOŚCI DEFINICJI NIE OZNACZA SPRZECZNOŚCI PRAWA
 | XVII | Brakujące z oryginału BAS v1.8 — uzupełnienie | ~298 | `czesc-07-priorytety-P2-bas-v18.md` |
 | XVIII | Kluczowe pojęcia praktyki prawniczej — audyt uzupełniający | ~345 | `czesc-08-praktyka-prawnicza.md` |
 
+**Dane maszynowe:** `shared/ORKA-BAS-001-125.json` — 125 rekordów BAS-001…BAS-125
+(`id`, `haslo`, `modul`, `definicja`); 41 z nich (od BAS-025) nie ma odpowiednika
+w częściach `.md` (pomiar shared 3.19). Przy haśle nieznalezionym w częściach
+sprawdź JSON. Rekord to definicja robocza — definicję LEGALNĄ weryfikuj w ELI
+(QUALITY GATE niżej).
+
 ⚠️ **UWAGA O NUMERACJI:** w oryginalnym pliku CZĘŚĆ XIX i XX występowały
 FIZYCZNIE PRZED CZĘŚCIĄ XVII i XVIII (kolejność dodawania w czasie, nie
 kolejność numeryczna) — ta sama, NIEZMIENIONA kolejność fizyczna

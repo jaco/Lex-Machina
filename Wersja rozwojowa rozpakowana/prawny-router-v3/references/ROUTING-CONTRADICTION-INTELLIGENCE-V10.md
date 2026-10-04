@@ -14,15 +14,16 @@ Użytkownik pyta o:
 
 ## MODUŁY OBOWIĄZKOWE
 
-- contradiction-intelligence-engine-v10
-- self-destructive-admissions-engine-v10
-- timeline-conflict-engine-v10
-- cross-pleading-consistency-engine-v10
-- strategic-theory-collapse-engine-v10
-- judicial-credibility-simulation-engine-v10
-- opponent-pleading-attack-engine-v9
-- core-burden-of-proof-v9
-- evidence-driven-matrix
+- `pisma-procesowe-v3/references/engines/contradiction-intelligence-engine-v10.md`
+- `pisma-procesowe-v3/references/engines/self-destructive-admissions-engine-v10.md`
+- `pisma-procesowe-v3/references/engines/timeline-conflict-engine-v10.md`
+- `pisma-procesowe-v3/references/engines/cross-pleading-consistency-engine-v10.md`
+- `pisma-procesowe-v3/references/engines/strategic-theory-collapse-engine-v10.md`
+- `pisma-procesowe-v3/references/engines/judicial-credibility-simulation-engine-v10.md`
+- `pisma-procesowe-v3/references/engines/opponent-pleading-attack-engine-v9.md`
+- `analizator-dowodow-v3/references/engines/evidence-driven-matrix.md`
+- `analizator-dowodow-v3/references/engines/contradictory-evidence-engine-v10.md` (sprzeczności w dowodach przeciwnika)
+- ⛔ `core-burden-of-proof-v9` — silnik NIE istnieje w systemie (AUDYT-2026-10-04b)
 
 ## HARD GATE
 

@@ -1,6 +1,6 @@
 ---
 name: dr-16-pisma-strategia-dowody-orzecznictwo
-version: "3.10"
+version: "3.11"
 description: "Pisma, strategia, dowody i orzecznictwo: routing narzędzi procesowych, analiza dowodowa, research orzeczeń, kalkulatory i wsparcie budowy strategii sprawy."
 dependencies:
   requires:
@@ -195,6 +195,15 @@ view dr-16-pisma-strategia-dowody-orzecznictwo/modules/[nazwa-modulu].md
 
 ```
 view dr-16-pisma-strategia-dowody-orzecznictwo/MAPA-AKTOW.md
+```
+
+## Mapa pokrycia treściowego (planowanie rozwoju skilla)
+
+Rejestr informacyjny — NIE krok obowiązkowy przy obsłudze konkretnej sprawy.
+Jedyne bieżące źródło statusu pokrycia DR-16 (por. `prawny-router-v3/references/pokrycie-dziedzinowe.md`):
+
+```
+view dr-16-pisma-strategia-dowody-orzecznictwo/MAPA-POKRYCIA.md
 ```
 
 ---

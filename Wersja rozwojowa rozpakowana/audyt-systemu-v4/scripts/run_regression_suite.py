@@ -175,6 +175,8 @@ def main():
         ("T41", "T41 KRYTYCZNY — liczba plików skilla < 200", "check_limit_plikow.py", ["--repo-root", str(root)]),
         # 2026-10-01b: MOD-GRAF-PRZYCZYNOWY — selftest silnika, parytet Python↔JS widgetu, regresja rachunku łańcucha.
         ("T42", "T42 KRYTYCZNY — graf przyczynowy: silnik, parytet widgetu, rachunek łańcucha", "check_graf_przyczynowy.py", ["--repo-root", str(root)]),
+        # 2026-10-04b: sieroty — plik bez ścieżki wywołania (F-225).
+        ("T43", "T43 KRYTYCZNY — sieroty: pliki bez ścieżki wywołania", "check_sieroty.py", ["--repo-root", str(root)]),
         ("MOCK", "MOCK — self-test sync_dzu_eli wobec lokalnego mock-ELI", "mock_eli_server_test.py", []),
     ]:
         sekcja(label)
@@ -196,7 +198,7 @@ def main():
     # T34–T36 dołączyły 2026-09-26 (F-196, F-200, F-201).
     # T38 dołączył 2026-09-27e (AUDYT-2026-09-27e).
     # T39 i T40 dołączyły 2026-09-29 (F-215, F-216/F-217); T41 — 2026-09-29c (limit plików).
-    BLOCKERY = ("T1", "T6_T7", "T18", "T19", "T19b", "T22", "T28", "T29", "T30", "T34", "T35", "T36", "T38", "T39", "T40", "T41")
+    BLOCKERY = ("T1", "T6_T7", "T18", "T19", "T19b", "T22", "T28", "T29", "T30", "T34", "T35", "T36", "T38", "T39", "T40", "T41", "T43")
     critical_fail = False
     for key, code in results.items():
         if code == "MANUAL":

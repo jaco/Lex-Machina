@@ -43,6 +43,11 @@ MOD-RED-TEAM-WLASNY    W1.6       gdy aktywny (wielopodmiotowość / ciągłoś�
 W2 — PROJEKT PISMA
 ─────────────────────────────────────────────────────────────────────────────
 MOD-SZABLONY           W2.1       zawsze gdy redagujesz pismo
+                                   (SZ1/SZ3 → szablony eksperckie w
+                                   references/templates/ — pozew, odpowiedź na pozew)
+MOD-ROUTE              —          WYŁĄCZNIE informacyjna matryca pytań TAK/NIE;
+                                   NIE jest routerem, NIE wczytuj jako krok;
+                                   view modules/MOD-ROUTE.md (tylko na żądanie)
 MOD-DOWODY             W2.1       gdy użytkownik dostarczył dowody/dokumenty
 MOD-OBAL               W2.1       gdy riposta / odpowiedź na pozew / obalanie
 MOD-OPLATY             W2.1       gdy pismo wszczynające postępowanie
@@ -98,6 +103,14 @@ MOD-REDAKCJA           Test A     gotowe pismo + prośba o styl/ton/długość;
 ─────────────────────────────────────────────────────────────────────────────
 ENGINES SPECJALISTYCZNE — MATRYCA AKTYWACJI
 ─────────────────────────────────────────────────────────────────────────────
+pleading-engine-v8     W1/W2      zawsze przy piśmie złożonym (pozew, odpowiedź,
+                                   replika, pismo dowodowe, zabezpieczenie) — matryca
+                                   roszczenia, audyt anty-polemika, konstrukcja pisma;
+                                   adresat zażalenia → shared/ZAZALENIE-ADRESAT-GATE.md;
+                                   silnik specjalistyczny typu pisma (appellate/
+                                   prosecution/admin) ma pierwszeństwo co do struktury;
+                                   view references/engines/pleading-engine-v8.md
+
 theory-of-case-engine  W1.2       aktywny gdy: pismo złożone (>2 roszczenia)
                                    LUB apelacja LUB sprawa wieloinstancyjna;
                                    buduje narrację PRZED mapą przesłanka→dowód;

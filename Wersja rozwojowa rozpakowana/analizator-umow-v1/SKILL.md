@@ -1,6 +1,6 @@
 ---
 name: analizator-umow-v1
-version: "1.44"
+version: "1.45"
 type: executive-umowy
 status: production
 description: "Analiza, redakcja, negocjacje i generowanie umów oraz dokumentów korporacyjnych, HR i RODO: ryzyka klauzul, B2B/B2C, praca, najem, IT/SaaS, IP, founders, finansowanie i PZP."
@@ -83,6 +83,8 @@ OBOWIĄZKOWA WERYFIKACJA ONLINE przed każdą odpowiedzią:
 
   Prawo PL       → isap.sejm.gov.pl → tekst jednolity → aktualny artykuł
   Klauzule UOKiK → rejestr.uokik.gov.pl → numer wpisu (zakaz cytowania numeru z pamięci)
+                   lokalne przeszukanie archiwum: references/szukaj_klauzul_uokik.py
+                   (wynik = analogia/wskazówka, nie podstawa; status adresu CSV — w nagłówku skryptu)
   Decyzje UOKiK  → uokik.gov.pl (decyzje administracyjne od 17.04.2016)
   RODO/UE        → eur-lex.europa.eu → GDPR 2016/679, dyrektywy
   Orzecznictwo   → sn.pl · orzeczenia.ms.gov.pl · saos.org.pl (zakaz cytowania sygnatur z pamięci)

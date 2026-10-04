@@ -1,6 +1,6 @@
 ---
 name: pisma-procesowe-v3
-version: "5.32"
+version: "5.33"
 type: executive-pisma
 status: production
 description: "Zaawansowane pisma procesowe: pozwy, odpowiedzi, apelacje, zażalenia i inne pisma wymagające strategii, faktów, dowodów, weryfikacji prawa i finalnej walidacji dokumentu."
@@ -146,6 +146,9 @@ KROK C — ST-FINAL (OBOWIĄZKOWY i BLOKUJĄCY przed KAŻDYM present_files pisma
   • Jeśli liczba = 0:
        STATUS PISMA = ✅ FINAL — GOTOWE DO ZŁOŻENIA.
        Dozwolone present_files bez dalszych pytań.
+       Tryb PRAWNIK/kancelaria lub żądanie użytkownika → po present_files:
+       `view shared/MOD-AUDIT-BUNDLE.md` (paczka audytowa AI Act art. 12 —
+       deliverable dla audytora, nigdy dla sądu ani kontrahenta).
 
   • Jeśli liczba ≥ 1  →  WARUNEK SPEŁNIONY → URUCHOM INFORMACJĘ WARUNKOWĄ:
        1) STATUS PISMA = ⚠️ DRAFT — NIEZWERYFIKOWANY (X krok(ów) pominięto/do zrobienia).
@@ -425,6 +428,7 @@ Przed zbudowaniem mapy przesłanka → dowód wykonaj weryfikację twierdzeń st
 
 > Engines specjalistyczne — wywołaj PRZED W1.2 gdy aktywne (patrz MODUŁY-MAPA):
 > ```
+> view references/engines/pleading-engine-v8.md          (każde pismo złożone — matryca roszczenia)
 > view references/engines/theory-of-case-engine.md      (≥2 roszczenia / apelacja)
 > view references/engines/appellate-engine-v8.md        (⛔ obowiązkowy przy apelacji)
 > view references/engines/rebuttal-drafting-engine-v9.md (riposta / odpowiedź)

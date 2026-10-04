@@ -1,6 +1,6 @@
 ---
 name: shared
-version: "3.99.3"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
+version: "3.99.4"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
                   # jako float 3.17, a 3.17 < 3.9 — porządek wersji odwraca się
                   # dla każdego narzędzia porównującego liczbowo. Wykryte
                   # testem T12 (check_wersje_changelog.py), 2026-08-20z.
@@ -44,14 +44,14 @@ limitations:
     opisane tu jawnie, żeby FAZA 2E w trybie deklarowanym go NIE zgubiła.
     Decyzja architektoniczna (uznać jako świadomy wzorzec 'plik-most' czy
     wydzielić poza shared/) pozostaje OTWARTA — do następnego audytu."
-  - rozmiar (197 plików, ~2,8 MB — stan 2026-10-01b, z .claude-plugin/plugin.json) — każda zmiana pliku kanonicznego ma
+  - rozmiar (190 plików — stan 2026-10-04b po usunięciu 7 reliktów, F-225; wcześniej 197 — stan 2026-10-01b, z .claude-plugin/plugin.json) — każda zmiana pliku kanonicznego ma
     potencjalnie systemowy promień rażenia; edytować tylko przez
     audyt-systemu-v4 z pełną weryfikacją CHECKLIST-DEDUP.md
 required_modules: []
   # nie ma zastosowania — shared jest wczytywany, nie wczytuje sam siebie
 changelog: |
-  Wersja bieżąca: 3.99.3 (2026-10-04, AUDYT-2026-10-04): ISAP-METRYKI-AKTOW — Prawo budowlane ze zm. 2026/1161 (status PO-TJ-ZMIANY) i stan rozp. WT budynków po 19.09.2026 (F-224).
-  Poprzednia: 3.99.2 (2026-10-03c, AUDYT-2026-10-03c, F-220): DISCLAIMER 2.2 — „ze zm.” przy Prawie o adwokaturze i ustawie o radcach prawnych (nowelizacje po t.j. w ELI), jednostki art. 4 ust. 1 / art. 6 ust. 1, metryka i procedura utrzymania w pliku.
+  Wersja bieżąca: 3.99.4 (2026-10-04b, AUDYT-2026-10-04b): F-225 — usunięte 7 reliktów (3.19/2.6) wskrzeszonych nakładką; powiązane ORKA-BAS-001-125.json i MOD-AUDIT-BUNDLE.md; 197 → 190 plików.
+  Poprzednia: 3.99.3 (2026-10-04, AUDYT-2026-10-04): ISAP-METRYKI-AKTOW — Prawo budowlane ze zm. 2026/1161 (status PO-TJ-ZMIANY) i stan rozp. WT budynków po 19.09.2026 (F-224).
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 
@@ -141,6 +141,8 @@ Wszystkie pliki są kanoniczne — nie istnieją stuby ani kopie w innych lokali
 | `tools/extract_api_verification_log.py` | Buduje `sesja.json` (log zdarzeń weryfikacji) z surowej konwersacji API; wejście dla `walidator_cytowan.py`. ✅ Przywrócony 2026-09-26d (F-206), `--self-test` PASS (2/2 zdarzenia poprawnie wydobyte) |
 | `tools/export_gate.py` | Łączy `extract_api_verification_log.py` + `walidator_cytowan.py` w jedną bramkę eksportu (exit 1 = zablokuj eksport). ✅ Przywrócony 2026-09-26d (F-206), `--self-test` PASS |
 | `tools/append_event.py` + `tools/hash_chain_verify.py` + `tools/router_event_parser.py` | Log audytowy hash-chain: zapis zdarzenia, weryfikacja integralności łańcucha, parsowanie znaczników. Referencyjne dla developera portalu (`shared/AUDIT-TRAIL-SPEC.md`). ✅ Przywrócone 2026-09-26d (F-206) — dodatkowo znalezione jako NIEOBECNE poza zakresem pierwotnego opisu F-206 w `WARN-OTWARTE.md` (ten sam commit usuwający, ta sama data). Zweryfikowane end-to-end: `append_event.py` zapisał 3-wpisowy łańcuch, `hash_chain_verify.py` potwierdził integralność, a po ręcznym spreparowaniu naruszenia (zmiana `payload` we wpisie seq=2) poprawnie wykrył pierwszy niezgodny wpis |
+| `MOD-AUDIT-BUNDLE.md` | Paczka audytowa outputu (AI Act art. 12) — składa wyniki WERYFIKACJA-SLAD, MOD-STEP-TRACKER i bramek walidacji w jeden artefakt z manifestem; deliverable dla audytora, nigdy dla sądu. Wołany przez `pisma-procesowe-v3` po ST-FINAL (tryb PRAWNIK / żądanie użytkownika) — podpięty 2026-10-04b (F-225; od 3.19 bez wywołania) |
+| `ORKA-BAS-001-125.json` | Dane maszynowe leksykonu ORKA (125 rekordów `id/haslo/modul/definicja`; 41 bez odpowiednika w `orka-bas-leksykon/*.md`) — wskazany z `ORKA-BAS-LEKSYKON.md` (2026-10-04b, F-225) |
 | `tools/test_mcp_protocol.py` + `tools/connector_health_check.py` | Klasyfikacja odpowiedzi connectora MCP (testy jednostkowe) + health-check dostępności connectorów. Referencyjne, poza LLM (`shared/MCP-INTEGRACJA.md`). ✅ Przywrócone 2026-09-26d (F-206) — jak wyżej, poza pierwotnym zakresem F-206. `test_mcp_protocol.py`: 6/6 testów PASS (`python3 -m unittest test_mcp_protocol`). `connector_health_check.py --self-test`: PASS |
 
 ## Jak korzystać

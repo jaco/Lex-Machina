@@ -1,5 +1,7 @@
 # CHANGELOG — pisma-procesowe-v3
 
+- 5.33 (2026-10-04b, AUDYT-2026-10-04b): **Sieroty (F-225).** Usunięty stub `modules/MOD-WALIDACJA.md` (deklarowany jako usunięty 2026-07-12 w DEDUPLICATION-POLICY). Powiązane: `references/engines/pleading-engine-v8.md` (SKILL.md W1.2 + MODULY-MAPA), szablony eksperckie `references/templates/` (MOD-SZABLONY SZ1/SZ3), `modules/MOD-ROUTE.md` (MODULY-MAPA — wyłącznie informacyjnie), `shared/MOD-AUDIT-BUNDLE.md` po ST-FINAL w trybie PRAWNIK. Pełny opis: `audyt-systemu-v4/references/AUDIT-JOURNAL.md`, AUDYT-2026-10-04b.
+
 - 5.32 (2026-09-27o, AUDYT-2026-09-27o): W3-WERYFIKACJA — nazwa narzędzia MCP do weryfikacji sygnatur: `verify_signature` (konektor obcy, nieobecny w systemie) → `saos_search` / `cbosa_sprawdz_sygnature` (Lex Machina), obce jako alternatywa.
 
 - 5.31 (2026-09-27e, AUDYT-2026-09-27e): claude.ai po dodaniu marketplace instalował wyłącznie 4 z 32 pluginów (shared, prawny-router-v3, analizator-dowodow-v3, przesluchanie-swiadkow-v2-min90); jedyna cecha wspólna tych 4, nieobecna w żadnym z 28 pozostałych, to klucz `dependencies` we frontmatterze SKILL.md. Dodano go (`requires: [shared]` — zgodnie ze stanem faktycznym) oraz jawny manifest pluginu (name, description = description z SKILL.md, author, repository, license) — host nie musi niczego wnioskować z SKILL.md. `version` w manifeście = `version:` z SKILL.md (pilnuje T38 w audyt-systemu-v4) — host rozpoznaje aktualizację po podbiciu wersji. Treść skilla bez zmian.

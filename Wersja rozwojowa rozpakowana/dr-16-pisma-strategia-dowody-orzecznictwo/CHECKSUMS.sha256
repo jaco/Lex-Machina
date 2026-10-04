@@ -1,8 +1,8 @@
-b81596275cc76235a130d89646f415d0fb1b37d2ae02e413e156d3126947454c  ./.claude-plugin/plugin.json
+29d1e4dedc9616b8c01d47ef83419c3542866cf49cf6e04004b5be81a52ee754  ./.claude-plugin/plugin.json
 b52b26ca1eff5100ca8e548e82e5c4ad3dd67c0cdde76801926fed6561b74af5  ./MAPA-AKTOW.md
 81971413c080cfe0d1e84390fe6652fa496f27e88d1fe2df11da8f35b40f2d6a  ./MAPA-POKRYCIA.md
 ff2f5c239252308e995668e5167cbeb05a4368b56c583d536c15e74390eb0cbc  ./PORTABILITY-MANIFEST.md
-eace250d67481e50511f20ad6859ba0ee73eb22d0b1fe5de94528578d1d5d5b0  ./SKILL.md
+e19bfc12e5931546e5edac0a9cf8b56fc81e04d2f63d42ca367f90550e44de9e  ./SKILL.md
 5b9edca7fc9b4da72a01f2540817b96534448face01f09eef1ab08ae4e24b529  ./agents/openai.yaml
 e9301497fa98ef56aaca7ede0857b9a18dc06c34040f0679c609a6bf49b1d38b  ./assets/icon.svg
 ea46fbb5b672c37b0dad3cbd0be4a04f65d4230598ce72408a5c72090495b577  ./modules/mod-KPC-arbitraz-sportowy-dyscyplinarny.md
@@ -16,4 +16,4 @@ be211990e6bd89456d8466f923311d4a1c1b6d21737ff5434b5afbf39faa561c  ./modules/mod-
 bb62924f335507528f4d8fd622d1b9126be54b819aee6f9ac12a223e7adcbfbf  ./modules/mod-ustawa-archiwa-dokumentacja.md
 fdcf9386944a4b6e057991743ce7cae2e3f1f6f28c6bced00f1664833854d4e3  ./modules/mod-ustawa-obywatelstwo-paszporty-ewidencja.md
 f319f911143f130280f86176fdfb741cd15057fc088536652f5c08fa742e40f1  ./modules/mod-ustawa-prawo-prasowe-media.md
-f8bc3d690eeca23f3cba1ca05d9548cf4f1f68cc775d8f7a4d77e054c2e55696  ./references/CHANGELOG.md
+fdb88fc8e96ac6294a42447124e1b65b60131cebcbc1aedc3034d121fbaecae1  ./references/CHANGELOG.md

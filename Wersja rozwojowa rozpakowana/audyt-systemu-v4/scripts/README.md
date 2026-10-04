@@ -60,3 +60,17 @@ Deterministyczny guard bieżącego benchmarku 52 aktów. Chroni rozdzielenie
 current-state modułów domykających F-108 oraz zestaw krytycznych korekt metryk
 Dz.U. z audytu 2026-08-28. Jest uruchamiany przez
 `run_regression_suite.py` i jego FAIL jest blockerem strukturalnym.
+
+## check_sieroty.py — T43 sieroty (pliki bez ścieżki wywołania)
+
+Dodany 2026-10-04b (AUDYT-2026-10-04b, F-225). Dla każdego pliku każdego skilla
+szuka odwołania z pliku, który nie jest zapisem historycznym. Nazwy nieunikalne
+w systemie wymagają ścieżki rozstrzygającej — skan po samej nazwie był ślepy na
+pary typu `prawny-router-v3/references/HYBRID-VALIDATION.md` / `shared/HYBRID-VALIDATION.md`.
+
+```
+python3 check_sieroty.py --repo-root "$LEX_MACHINA_SKILLS_ROOT"
+```
+
+FAIL = plik do powiązania (żywa treść) albo do usunięcia z wpisem w CHANGELOG
+(relikt wskrzeszony nakładką, duplikat). Allowlista z uzasadnieniem — w skrypcie.

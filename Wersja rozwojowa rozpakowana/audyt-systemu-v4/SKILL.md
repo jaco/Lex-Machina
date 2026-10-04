@@ -5,7 +5,7 @@ dependencies:
   requires:
     - shared
   # 2026-09-27e: jawna zależność (każdy skill systemu korzysta z `shared`); pole czytane przy imporcie z marketplace
-version: "6.160"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
+version: "6.161"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
                   # parsuje jako float 6.1 — czyli numer NIŻSZY niż 6.9, co cicho
                   # odwraca porządek wersji. Wykryte przy walidacji 2026-08-20z.
                   # Każda kolejna wersja z dwucyfrowym minor — też w cudzysłowie.
@@ -92,7 +92,7 @@ references:
                                           # do wpisania do mapy centralnej, po kwalifikacji numer GŁÓWNY vs POBOCZNY;
                                           # zawiera opis pułapki parsowania (mapa trzyma numer w DWÓCH formatach:
                                           # prozą `poz. N` i w kolumnach tabeli) — dodane 2026-08-21
-  - references/raporty-pokrycia-2026-08-13/   # 12 raportów + indeks = 13 plików; licznik potwierdzony ze stanem dysku 2026-08-26
+  - references/raporty-pokrycia-2026-08-13/   # 10 raportów + indeks = 11 plików (2026-10-04b: KPK i KRO — relikty F-81/F-73 usunięte); wcześniej 13
   - references/PLAN-POMIARU-BRAMEK-UNIWERSALNY.md   # F-167 (27f): projekt pomiaru DOWOLNEJ bramki;
                                           # uogólnia PLAN-TESTU-BRAMEK-F113 — REJESTROWANE 2026-09-27j (T22, plik-sierota od 27f)
   - references/REJESTR-BRAMEK-POMIAR.json # F-167 (27f): rejestr bramek i wycięć dla build_ramie_kontrolne.py — REJESTROWANE 27j (T22)
@@ -137,6 +137,8 @@ scripts:
                                           # parytet z silnikiem JS widgetu chronologii (±1e-6), regresja błędu
                                           # „× 0,9 = 0,27” w MOD-LANCUCH-DOWODOWY, podpięcia MP13/TRYB C/MET-PT.
                                           # Offline (Node opcjonalny: bez niego WARN); BLOKER od 2026-10-01b
+  - scripts/check_sieroty.py             # T43 — sieroty: plik bez ścieżki wywołania (ścieżkowo, odróżnia
+                                          # pliki o tej samej nazwie); allowlista z uzasadnieniem w skrypcie
   - scripts/check_limit_plikow.py         # T41 — każdy skill < 200 plików (reguła użytkownika), WARN od 190;
                                           # przed redukcją szukaj RELIKTÓW (pliki usunięte, a wskrzeszone przez
                                           # instalację „na nakładkę”). Offline, selftest; BLOKER od 2026-09-29c
@@ -1429,6 +1431,7 @@ z WARN-OTWARTE.md, dodaj pełny wpis do AUDIT-JOURNAL.md.
 > `dist/lex-mcp.mjs`, manifest rozszerzenia MCPB, instalator, skrypt budowy, README) — łącznie **192 pliki** (6.144: +`mcp-servers/LICENSE`). Drzewo niżej nie
 > rozpisuje `mcp-servers/` — opis w `mcp-servers/README.md`. Licznik w pierwszej linii drzewa jest
 > historyczny (stan 2026-09-09b).
+> ⚡ **2026-10-04b:** usunięte 40 reliktów (30 `mcp-servers/*-example/*`, 2 `.pyc`, 6 `references/` z 6.146, raporty pokrycia KPK/KRO), dodany `scripts/check_sieroty.py` (T43) — **187 plików**.
 > ⚡ **2026-09-27s:** `mcp-servers/` scalony — wspólne `package.json`/`package-lock.json` i jeden `test_protokol.mjs` zamiast 10 kopii; 11 serwerów (+`wl-example`). Liczba plików skilla: `find . -type f | wc -l` (limit wydania 200).
 
 ```
@@ -1484,7 +1487,7 @@ audyt-systemu-v4/                               ← 89 plików (stan 2026-09-09b
 
 ---
 
-*Wersja: 6.160 | Ostatnia aktualizacja: 2026-10-04 (TRYB DZU+TREŚĆ: nowelizacja Dz.U. 2026 poz. 1161 → dr-09 3.39, prawo-polskie-v2 6.33, shared 3.99.3; mapa Dz.U. 2026-10-04; F-224 otwarta; 36 reliktów usunięte z repozytorium). Poprzednio 6.159 — 2026-10-03c (F-221 dopełniona: T21/T22 — tryb kopii zainstalowanej, T21 `--repo-ref` porównuje korpus bajtowo i frontmatter semantycznie; F-220 zamknięta w `shared` 3.99.2 — DISCLAIMER 2.2)*
+*Wersja: 6.161 | Ostatnia aktualizacja: 2026-10-04b (TRYB STRUKTURA: sieroty i relikty w 9 skillach, nowy T43 `check_sieroty.py`; F-225 zamknięta, F-94 zamknięta, F-226/F-227 otwarte). Poprzednio 6.160 — 2026-10-04 (TRYB DZU+TREŚĆ: nowelizacja Dz.U. 2026 poz. 1161 → dr-09 3.39, prawo-polskie-v2 6.33, shared 3.99.3; mapa Dz.U. 2026-10-04; F-224 otwarta; 36 reliktów usunięte z repozytorium). Poprzednio 6.159 — 2026-10-03c (F-221 dopełniona: T21/T22 — tryb kopii zainstalowanej, T21 `--repo-ref` porównuje korpus bajtowo i frontmatter semantycznie; F-220 zamknięta w `shared` 3.99.2 — DISCLAIMER 2.2)*
 
 *(Stopka podawała „5.0 | 2026-07-04" przy `version: 6.8` w YAML — rozjazd
 9 wersji, naprawiony 2026-08-20y. **Stopkę aktualizuj razem z polem `version`**;

@@ -1375,3 +1375,14 @@ wartość co silnik Python na tych samych danych.
 ⚠️ **Ograniczenie jawne.** T42 sprawdza rachunek i spójność kodu, nie trafność ocen wprowadzonych do grafu
 (pewność węzłów, dowód połączenia, csqn) — te pochodzą z analizy materiału i podlegają MP13 §13.7.
 
+## T43 — sieroty: pliki bez ścieżki wywołania (dodany 2026-10-04b, AUDYT-2026-10-04b, F-225)
+
+| Test | Co sprawdza | Waga | Uruchomienie |
+|---|---|---|---|
+| T43 | Każdy plik każdego skilla (poza infrastrukturą: SKILL.md, CHECKSUMS, manifesty, README, CHANGELOG) ma odwołanie z innego pliku, który nie jest zapisem historycznym (dziennik, changelog, CHECKSUMS, mapy Dz.U., WARN-OTWARTE, DEDUPLICATION-POLICY, CHECKLIST-DEDUP). Nazwa unikalna w systemie → wystarczy nazwa lub rdzeń; nazwa NIEunikalna → wymagana ścieżka rozstrzygająca (`<skill>/<rel>`, `shared/<rel>`, `dr-NN/<rel>`). Rejestracja folderu w SKILL.md/MANIFEST.md rejestruje jego pliki; moduły wołane kodem (`MD2`, `MP7`, `MD-NARR`) liczone po kodzie w obrębie skilla | KRYTYCZNY (BLOKER) | `python3 scripts/check_sieroty.py --repo-root <katalog skilli>` |
+
+Wynik FAIL = plik do **powiązania** (żywa treść) albo **usunięcia** z wpisem w CHANGELOG (relikt, duplikat).
+Allowlista mieszka w skrypcie; każdy wpis wymaga uzasadnienia. ⚠️ **Ograniczenie jawne.** Test mierzy
+istnienie odwołania, nie to, czy odwołanie jest w ścieżce wykonania (wzmianka w tabeli rejestru liczy się
+tak samo jak `view`). Pierwszy przebieg (2026-10-04b): 65 sierot przed naprawą, 0 po (1 na allowliście).
+

@@ -1,6 +1,6 @@
 ---
 name: analizator-dowodow-v3
-version: "5.16.18"
+version: "5.16.19"
 type: executive-analiza
 status: production
 description: "Ocena dowodów, dokumentów, zeznań i akt: siła dowodowa, hierarchia A-D, pokrycie przesłanek, sprzeczności, terminy procesowe i analiza śledcza."
@@ -39,8 +39,8 @@ pipeline:
     - AD-KROK3-WYKONANIE
     - AD-KROK4-DASHBOARD
 changelog: |
-  Wersja bieżąca: 5.16.18 (2026-10-01b, AUDYT-2026-10-01b): MP13 §13.2a — graf przyczynowy (shared/MOD-GRAF-PRZYCZYNOWY.md); rachunek siły łańcucha doprecyzowany.
-  Poprzednia: 5.16.16 (2026-09-27e, AUDYT-2026-09-27e): jawny manifest `.claude-plugin/plugin.json` — import z marketplace w claude.ai. Treść skilla bez zmian.
+  Wersja bieżąca: 5.16.19 (2026-10-04b, AUDYT-2026-10-04b): F-225 — usunięte duplikaty MOD-NAZEWNICTWO-STRON i MD7 (gałąź 5.17.0); powiązany contradictory-evidence-engine-v10 i 3 szablony (KROK 3 pkt 4).
+  Poprzednia: 5.16.18 (2026-10-01b, AUDYT-2026-10-01b): MP13 §13.2a — graf przyczynowy (shared/MOD-GRAF-PRZYCZYNOWY.md); rachunek siły łańcucha doprecyzowany.
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 
@@ -670,6 +670,14 @@ Po ustaleniu listy modułów z KROK 2:
    - MP10 — koszty (203 linie)
    - MP9 — kontrola jakości (103 linie)
    - MD-NARR — raport narracyjny (tylko C4=TAK — alternatywny format wyjścia)
+
+4. Silnik pomocniczy i szablony wyjściowe (powiązane AUDYT-2026-10-04b — wcześniej bez ścieżki wywołania):
+   - `view references/engines/contradictory-evidence-engine-v10.md` — gdy MP5 perspektywa = TAK
+     (dowody przeciwnika przeczą sobie lub tezom przeciwnika); wynik zasila MP3 i BLOK-ATAK-NA-DOWOD
+   - `view templates/raport-koncowy.md` — wzór struktury raportu końcowego (MD6/MP7)
+   - `view templates/matryca-dowodowa.md` — wzór tabeli fakt → teza → dowód (MD4, macierz)
+   - `view templates/pytania-do-swiadka.md` — wzór listy pytań, gdy wynik wskazuje świadka
+     (pełna strategia przesłuchania: skill `przesluchanie-swiadkow-v2-min90`)
 
 ---
 

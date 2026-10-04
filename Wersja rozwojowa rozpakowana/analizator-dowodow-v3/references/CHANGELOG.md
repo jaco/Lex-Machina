@@ -1,5 +1,7 @@
 # CHANGELOG — analizator-dowodow-v3
 
+- 5.16.19 (2026-10-04b, AUDYT-2026-10-04b): **Sieroty (F-225).** Usunięte: `modules/MOD-NAZEWNICTWO-STRON.md` (bajtowo = `shared/NAZEWNICTWO-STRON.md`, deklarowany jako usunięty 2026-07-12) i `modules/MD7-bloki-strategiczne.md` (pozostałość porzuconej gałęzi 5.17.0, `2e6ef23`; 5 bloków żyje w SKILL.md w nowszym brzmieniu — 262/264 linii zgodne, różnica ISAP → ELI RZĄD 1). Powiązane w KROK 3 pkt 4: `references/engines/contradictory-evidence-engine-v10.md` i trzy szablony `templates/`. Pełny opis: `audyt-systemu-v4/references/AUDIT-JOURNAL.md`, AUDYT-2026-10-04b.
+
 - 5.16.18 (2026-10-01b, AUDYT-2026-10-01b): MP13 §13.2a — graf przyczynowy (`shared/MOD-GRAF-PRZYCZYNOWY.md`): ogniwa z wspólnym ID (`fakt_m1` / Z-nnn), trzy ustalenia na krawędź, wersja przeciwnika w tym samym grafie, ogniwa krytyczne i scenariusze. Rachunek siły łańcucha doprecyzowany (szereg słabszy niż ogniwo, redundancja wzmacnia). E1 wskazuje §13.2a.
 
 - 5.16.17 (2026-09-27p, AUDYT-2026-09-27p): Dodane agents/openai.yaml i assets/icon.svg — jedyny z 32 skilli bez metadanych OpenAI Codex.

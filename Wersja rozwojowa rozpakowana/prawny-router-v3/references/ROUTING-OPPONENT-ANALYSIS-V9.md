@@ -12,12 +12,14 @@ Zawsze gdy użytkownik:
 
 ## Moduły obowiązkowe
 
-- opponent-pleading-attack-engine-v9
-- rebuttal-drafting-engine-v9
-- opponent-evidence-weakness-engine-v9
-- core-burden-of-proof-v9
-- adversarial-litigation-analysis-v9
-- final-pleading-audit-v8
+- `pisma-procesowe-v3/references/engines/opponent-pleading-attack-engine-v9.md`
+- `pisma-procesowe-v3/references/engines/rebuttal-drafting-engine-v9.md`
+- `analizator-dowodow-v3/references/engines/opponent-evidence-weakness-engine-v9.md`
+- `analiza-sadowa-v6/references/engines/adversarial-litigation-analysis-v9.md`
+- audyt końcowy pisma: `shared/AUDYT-KONCOWY.md` (dawny `final-pleading-audit-v8` usunięty w shared 3.19 —
+  treść pokryta przez FORMAL-CHECK / QUALITY-CHECK / AUDYT-KONCOWY)
+- ⛔ `core-burden-of-proof-v9` — silnik NIE istnieje w systemie (AUDYT-2026-10-04b); ciężar dowodu
+  analizuj w `opponent-pleading-attack-engine-v9` i punkcie 3 HARD GATE niżej
 
 ## Hard gate
 

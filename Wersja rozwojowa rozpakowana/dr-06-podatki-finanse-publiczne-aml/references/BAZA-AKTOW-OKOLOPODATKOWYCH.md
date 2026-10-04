@@ -18,7 +18,7 @@ powiązane:
   - prawo-polskie-v2/ROUTING-MAP.md
   - dr-06-podatki-finanse-publiczne-aml/references/BAZA-AKTOW-OKOLOAKCYZOWYCH.md
   - shared/PRAWO-HARDGATE.md (KROK 2C)
-  - shared/AKTY-PRAWNE-MASTER.md (DEPRECATED — nie używać, patrz plik)
+  - (shared/AKTY-PRAWNE-MASTER.md — usunięty z shared w 3.19; rejestr Dz.U.: audyt-systemu-v4/references/mapa_dzu_*.md, metryki: shared/ISAP-METRYKI-AKTOW.md)
 ---
 
 # Baza aktów okołopodatkowych
@@ -44,8 +44,8 @@ ustawa o obligacjach, ustawa o usługach płatniczych, ustawa o biegłych
 rewidentach, ustawa o doradztwie podatkowym, ustawa o finansach
 publicznych (UFP). Priorytet do kolejnej tury: UFP i podatek od
 instytucji finansowych — oznaczone 🔴 (najwyższe ryzyko dezaktualizacji)
-w tabeli ryzyka `shared/AKTY-PRAWNE-MASTER.md` (plik DEPRECATED, tabela
-ryzyka nadal orientacyjnie użyteczna).
+w dawnej tabeli ryzyka `shared/AKTY-PRAWNE-MASTER.md` (plik usunięty
+z shared w 3.19; priorytety kontroli — `shared/ISAP-METRYKI-AKTOW.md`).
 
 ---
 
@@ -86,8 +86,8 @@ od przychodów ewidencjonowanych, podatki sektorowe (bankowy/gry/
 tonażowy/cukrowy/detaliczny), ustawa o obligacjach, usługi płatnicze,
 biegli rewidenci, doradztwo podatkowe, UFP. Do zrobienia w kolejnej
 turze, jeśli sprawa tego wymaga — priorytet wg ryzyka dezaktualizacji
-w `shared/AKTY-PRAWNE-MASTER.md` (plik DEPRECATED, ale tabela ryzyka
-w nim nadal orientacyjnie użyteczna: 🔴 KAS/podatki = najwyższy priorytet
+w dawnej tabeli `shared/AKTY-PRAWNE-MASTER.md` (plik usunięty z shared
+w 3.19; zapis historyczny: 🔴 KAS/podatki = najwyższy priorytet
 kontroli, co odpowiada temu, że to właśnie tu znaleziono rozbieżność).
 
 ---

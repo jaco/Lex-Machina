@@ -1,6 +1,6 @@
 ---
 name: dr-06-podatki-finanse-publiczne-aml
-version: "3.93"
+version: "3.94"
 description: "Podatki, finanse publiczne i AML: Ordynacja podatkowa, PIT, CIT, VAT, akcyza, cło, KAS, finanse publiczne i obowiązki przeciwdziałania praniu pieniędzy."
 dependencies:
   requires:
@@ -742,6 +742,14 @@ view dr-06-podatki-finanse-publiczne-aml/modules/[nazwa-modulu].md
 
 ```
 view dr-06-podatki-finanse-publiczne-aml/MAPA-AKTOW.md
+```
+
+Bazy aktów (rejestry pomocnicze — kierunek, nie weryfikacja; KROK 2C
+`shared/PRAWO-HARDGATE.md` obowiązuje przy każdym użyciu):
+
+```
+view dr-06-podatki-finanse-publiczne-aml/references/BAZA-AKTOW-OKOLOPODATKOWYCH.md   (akty podatkowe i okołopodatkowe)
+view dr-06-podatki-finanse-publiczne-aml/references/BAZA-AKTOW-OKOLOAKCYZOWYCH.md   (akcyza + mapa KKS wg czasownika czynu)
 ```
 
 ## Mapa pokrycia treściowego (planowanie rozwoju skilla)

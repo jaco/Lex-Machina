@@ -1,6 +1,6 @@
 ---
 name: pisma-proste-v2
-version: "2.24"
+version: "2.25"
 type: executive-pisma
 status: production
 description: "Proste pisma prawne i urzędowe: wezwania, wnioski, odpowiedzi i krótsze dokumenty; kompletność danych, aktualna weryfikacja prawa i walidacja przed wygenerowaniem pliku."
@@ -130,6 +130,8 @@ Nie cytuj przepisów ani orzeczeń z pamięci bez weryfikacji online.
 | **SPJ — Interpretacja ZUS** | `references/SPJ-interpretacja-zus.md` | Wniosek o interpretację indywidualną ZUS (art. 34 Prawa przedsiębiorców — obowiązek składkowy) |
 | **SPK — Skarga do UODO** | `references/SPK-skarga-do-UODO.md` | Skarga do Prezesa UODO na administratora naruszającego RODO (art. 77 RODO, po wyczerpaniu ścieżki bezpośredniej) |
 | **SPL — Skarga na komornika** | `references/SPL-skarga-komornik.md` | Skarga na czynności komornika / na zaniechanie (art. 767 KPC) — **UWAGA: wnosi się do komornika, nie bezpośrednio do sądu**, patrz sekcja "Adresat" w pliku |
+| **SPL-GIP — Interpretacja GIP** | `references/SPL-interpretacja-GIP.md` | Wniosek o interpretację indywidualną Głównego Inspektora Pracy (kwalifikacja modelu współpracy) — kod „SPL” zajęty przez skargę na komornika, stąd sufiks (AUDYT-2026-10-04b) |
+| **SPM-KIS — Interpretacja podatkowa** | `references/SPM-interpretacja-podatkowa.md` | Wniosek o interpretację indywidualną Dyrektora KIS — kod „SPM” zajęty przez oświadczenie SKD, stąd sufiks (AUDYT-2026-10-04b) |
 | **SPM — Oświadczenie SKD** | `references/SPM-skd-oswiadczenie.md` | Oświadczenie o skorzystaniu z sankcji kredytu darmowego (art. 45 u.k.k.) — **UWAGA: wczytaj najpierw** `dr-02-prawo-cywilne-rodzinne-gospodarcze/modules/mod-ustawa-kredyt-konsumencki-SKD.md` **dla podstawy prawnej i sporu o termin z art. 45 ust. 5**; jeśli sprawa wymaga od razu pozwu o zapłatę → `pisma-procesowe-v3` |
 
 ---

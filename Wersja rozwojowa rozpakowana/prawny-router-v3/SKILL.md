@@ -1,6 +1,6 @@
 ---
 name: prawny-router-v3
-version: "3.58"
+version: "3.59"
 type: orchestration
 status: production
 entrypoint: SKILL.md
@@ -120,7 +120,8 @@ required_modules:
   - shared/MOD-REM-GATE.md
   - dr-03-prawo-karne-wykroczenia-egzekucja/modules/mod-KK-kwalifikator-karnomaterialny.md
 changelog: |
-  Wersja bieżąca: 3.58 (2026-09-27e, AUDYT-2026-09-27e): jawny manifest `.claude-plugin/plugin.json` — import z marketplace w claude.ai. Treść skilla bez zmian.
+  Wersja bieżąca: 3.59 (2026-10-04b, AUDYT-2026-10-04b): F-225 — HARD-GATES-ORZECZNICTWO i pliki routingu przeciwnika podpięte (Reguły 15/17); rejestr mostów; usunięte 4 stuby.
+  Poprzednia: 3.58 (2026-09-27e, AUDYT-2026-09-27e): jawny manifest `.claude-plugin/plugin.json` — import z marketplace w claude.ai. Treść skilla bez zmian.
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 
@@ -528,13 +529,18 @@ została poprawnie zamknięta.
 - **Reguła 12d — próba przed znacznikiem (REM-0):** ⛔ ZANIM oznaczysz powołanie ⚠️ [NIEWERYFIKOWANE] — spróbuj je pobrać, DWUKANAŁOWO: `bash_tool`/`curl` ORAZ `web_search`→`web_fetch`. Kanały mają różne listy dozwolonych domen, więc HTTP 403 w jednym nie dowodzi niczego o drugim (`ohchr.org`: curl 403, web_fetch pełny tekst RZĘDU 1). Znacznik dopuszczalny wyłącznie po porażce w OBU kanałach, zapisanej z kanałem i kodem — „brak dostępu" bez kodu nie jest zapisem porażki, tylko zapisem, że nie wiadomo, czy próbowano. Trzecie wystąpienie tej klasy błędu w tym systemie (F-151, F-162, F-164).
 - **Reguła 14 — ślad weryfikacji:** wykonaj `shared/WERYFIKACJA-SLAD.md`.
 - **Reguła 14a — forma znacznika ✅ (AF-7):** znacznik `✅ [VER]` bez trzech pól — kanału odczytu, identyfikatora aktu lub orzeczenia oraz daty odczytu W TEJ turze — jest NIEWAŻNY i czyta się go jak `⚠️ [NIEWERYFIKOWANE]`. Reguła jest składniowa i sprawdzalna z zewnątrz bez dostępu do logów. Zmierzone: w arkuszu testowym 24 gołe „✅ [VER]", z pięciu sprawdzonych dwa fałszywe (F-169).
-- **Reguła 15 — sygnatury:** wykonaj `shared/SYGNATURY.md`.
+- **Reguła 15 — sygnatury:** wykonaj `shared/SYGNATURY.md` oraz standard istnienia orzeczenia
+  (statusy ✅ ISTNIEJE + TREŚĆ / 🟧 ISTNIEJE, TREŚĆ NIEODCZYTANA / ⚠️ NIEPOTWIERDZONE, zakaz łączenia
+  sygnatury i daty z różnych rekordów): `view prawny-router-v3/references/HARD-GATES-ORZECZNICTWO.md`.
 - **Reguła 16 — disclaimer:** wykonaj KROK 7.
 
 ### Reguły wykonawcze 17–27
 
 - **Reguła 17 — V10:** przy analizie pisma przeciwnika wczytaj
   `pisma-procesowe-v3/references/engines/contradiction-intelligence-engine-v10.md`.
+  Lista silników obowiązkowych i HARD GATE odpowiedzi na pismo przeciwnika:
+  `view prawny-router-v3/references/ROUTING-OPPONENT-ANALYSIS-V9.md` (słabości, riposta) oraz
+  `view prawny-router-v3/references/ROUTING-CONTRADICTION-INTELLIGENCE-V10.md` (sprzeczności, przyznania).
 - **Reguła 18 — PRE-W2:** przed W2 każdego pisma wczytaj
   `shared/PRE-W2-VERIFICATION-GATE.md`; zweryfikuj online sąd, organ i podmioty.
 - **Reguła 19 — strategia:** dla pisma z ≥2 ścieżkami lub anomalią podmiotową wczytaj
@@ -600,6 +606,9 @@ view prawny-router-v3/references/pokrycie-dziedzinowe.md
 ```
 
 Tylko gdy: pytanie o dostępność modułu, audyt systemu, budowanie kombinacji multi-skill.
+
+Mosty dziedzinowe (8 skrótów do kanonu DR/shared) i ARCHIWUM `references/legacy-material-router/`
+(nie wczytywać — F-226): rejestr w `references/pokrycie-dziedzinowe.md`, sekcja MOSTY.
 
 ## CHANGELOG
 

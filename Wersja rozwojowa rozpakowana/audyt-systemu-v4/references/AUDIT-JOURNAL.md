@@ -69674,3 +69674,50 @@ Jak w § 2B. Wszystkie twierdzenia o treści zmian — RZĄD 1 (ELI `text.pdf`);
 ### 6. WNIOSKI I ZALECENIA
 1. Po ogłoszeniu nowego rozp. WT — FAZA 3E na parametrach WT (F-224); do tego czasu każde powołanie WT wymaga ustalenia, czy inwestor złożył oświadczenie z art. 102a.
 2. Mapy w modułach podawały datę ogłoszenia jako datę obwieszczenia (2025/1783) — przy kolejnych t.j. odczytywać `announcementDate` z ELI, nie `promulgation`.
+
+---
+
+## AUDYT-2026-10-04b — TRYB STRUKTURA: sieroty i relikty w całym systemie; T43 `check_sieroty.py` (6.161)
+
+**Tryb:** STRUKTURA (FAZA 2E — zależności) + FAZA 7A/7B/7C + wydanie wg ZASADY 7, na polecenie: „zbadaj shared i powiązania skilli z poszczególnymi plikami, czy są osierocone; napraw i powiąż; zaudytuj ponownie; wydaj skille wg reguły 7”. **Źródło prawdy:** klon `main` (`f66715f`), nie kopia zainstalowana (F-223). Wersje 32 skilli na `main` = kopia w claude.ai.
+
+### 1. STATUS OGÓLNY
+Wydania: `shared` 3.99.4, `audyt-systemu-v4` 6.161, `analizator-dowodow-v3` 5.16.19, `analizator-umow-v1` 1.45, `pisma-procesowe-v3` 5.33, `pisma-proste-v2` 2.25, `prawny-router-v3` 3.59, `dr-06-podatki-finanse-publiczne-aml` 3.94, `dr-16-pisma-strategia-dowody-orzecznictwo` 3.11. Podbicia: `shared` 3.99.3 → **3.99.4**; `audyt-systemu-v4` 6.160 → **6.161**; `analizator-dowodow-v3` 5.16.18 → **5.16.19**; `analizator-umow-v1` 1.44 → **1.45**; `pisma-procesowe-v3` 5.32 → **5.33**; `pisma-proste-v2` 2.24 → **2.25**; `prawny-router-v3` 3.58 → **3.59**; `dr-06-podatki-finanse-publiczne-aml` 3.93 → **3.94**; `dr-16-pisma-strategia-dowody-orzecznictwo` 3.10 → **3.11**. Pozostałe 23 skille — bez zmian.
+
+### 2. NAPRAWY WYKONANE
+
+**2A. F-225 (otwarta i zamknięta) — relikty wskrzeszone nakładką.** ✅ [VER: `git show --stat`, `git log --diff-filter`, klon `main`, 2026-10-04b].
+- `shared`: 7 plików usuniętych w 3.19/2.6 (`ec3f530`, 2026-09-01) wróciło w `6dbe7a0` (2026-09-08) i `f0a5e67`/`b4ef0d7` (2026-09-27) i dostało sumy w CHECKSUMS — **legalizacja reliktów**: `STATUS.md`, `MOD-WALIDACJA.md`, `AKTY-PRAWNE-MASTER.md`, `checklists/final-pleading-audit-v8.md`, `checklists/contradiction-intelligence-checklist-v10.md`, `portale-branzowe-rzad-2b/czesc-05-changelog.md`, `MOD-DOKUMENT-ANOMALIE_v1.0.0.md`. REPRODUKCJA: `git show --stat ec3f530 6dbe7a0 -- "Wersja rozwojowa rozpakowana/shared/STATUS.md"`.
+- `audyt-systemu-v4`: AUDYT-2026-10-04 § 2C deklarował usunięcie 36 reliktów F-222 (223 → 188), a HEAD `f66715f` miał 226 plików, 38 bez sum — **zapis dziennika nie odpowiadał stanowi repozytorium**. Usunięte: 30 `mcp-servers/*-example/{package.json,package-lock.json,test_protokol_mcp.mjs}`, 2 `.pyc`, 6 `references/` z 6.146 (T22 FAIL wskazywał je wprost) oraz `raport-pokrycia-KPK.md` (usunięty 2026-08-15nn, F-81 — miał sumę) i `raport-pokrycia-KRO.md` (F-73). REPRODUKCJA: `comm -23 <(find . -type f ! -name CHECKSUMS.sha256 | sort) <(awk '{print $2}' CHECKSUMS.sha256 | sort)`.
+- Stuby zadeklarowane w `shared/DEDUPLICATION-POLICY.md` jako „FAKTYCZNIE usunięte 2026-07-12”, a obecne: `pisma-procesowe-v3/modules/MOD-WALIDACJA.md`, `prawny-router-v3/references/{MOD-WALIDACJA,HYBRID-VALIDATION,ISAP-AUDIT-PROTOCOL}.md`, `analizator-dowodow-v3/modules/MOD-NAZEWNICTWO-STRON.md` (bajtowo = `shared/NAZEWNICTWO-STRON.md`, `cmp`). Usunięte.
+- `analizator-dowodow-v3/modules/MD7-bloki-strategiczne.md` — pozostałość gałęzi 5.17.0 (`2e6ef23`, 2026-08-21); `13904c8` wrócił do linii 5.16.1 z blokami inline. Bieżący SKILL.md 5.16.18 zawiera te 5 bloków (264 linie, 262 zgodne; różnica: „ISAP” → „ELI RZĄD 1” — SKILL.md nowszy). Duplikat nieaktualny — usunięty, nie podpięty (podpięcie wprowadziłoby dryf). Ewentualne ponowne wydzielenie bloków z SKILL.md = osobna decyzja (ZASADA 13, SKILL.md orchestratorów „do rozstrzygnięcia”).
+- `prawny-router-v3/references/modules/ROUTING-TO-DOMAIN-SKILLS.md` (7 linii, bez treści) — usunięty.
+
+**2B. Sieroty z żywą treścią — powiązane.**
+- ⛔ `prawny-router-v3/references/HARD-GATES-ORZECZNICTWO.md` — standard istnienia orzeczenia (3.54: ✅ ISTNIEJE + TREŚĆ / 🟧 ISTNIEJE, TREŚĆ NIEODCZYTANA / ⚠️ NIEPOTWIERDZONE; zakaz łączenia sygnatury i daty z różnych rekordów) żył **wyłącznie** w tym pliku, bez ścieżki wywołania — reguła nie działała od 3.54. REPRODUKCJA: `grep -rln "TREŚĆ NIEODCZYTANA" --include=*.md .` → 1 plik. Podpięty w Regule 15.
+- Router Reguła 17: `ROUTING-OPPONENT-ANALYSIS-V9.md`, `ROUTING-CONTRADICTION-INTELLIGENCE-V10.md`; listy silników z pełnymi ścieżkami; `final-pleading-audit-v8` (usunięty w shared 3.19) → `shared/AUDYT-KONCOWY.md`; `core-burden-of-proof-v9` — silnik nie istnieje (oznaczony). Rejestr MOSTY DZIEDZINOWE I ARCHIWUM (`references/pokrycie-dziedzinowe.md`, odesłanie z SKILL.md — limit korpusu T17): 8 mostów; **zerwane cele** w `przesluchanie-swiadkow.md` (`dr-16/modules/mod-KPC-przesluchanie-swiadkow.md`) i `stalking-nekanie.md` (`mod-KK-stalking-szczegolowy.md`) — oba scalone do shared 2026-07-12 — poprawione.
+- `pisma-procesowe-v3`: `pleading-engine-v8` (SKILL.md W1.2 + MODULY-MAPA), szablony eksperckie (MOD-SZABLONY SZ1/SZ3), MOD-ROUTE (MODULY-MAPA, informacyjnie), `shared/MOD-AUDIT-BUNDLE.md` po ST-FINAL.
+- `analizator-dowodow-v3` KROK 3 pkt 4: `contradictory-evidence-engine-v10` + 3 szablony `templates/`.
+- `shared`: `ORKA-BAS-001-125.json` (z `ORKA-BAS-LEKSYKON.md`), `MOD-AUDIT-BUNDLE.md` (wiersz tabeli + wywołanie) — obie sieroty świadome z 3.19 rozstrzygnięte.
+- `pisma-proste-v2`: `SPL-interpretacja-GIP.md`, `SPM-interpretacja-podatkowa.md` — osierocone przez **kolizję kodów** (SPL/SPM przypisane później innym plikom) → wiersze SPL-GIP, SPM-KIS. M9-format: zerwane `references/HYBRID-VALIDATION.md` → `shared/`.
+- `dr-06`: obie BAZY-AKTÓW (wskazywały wyłącznie siebie nawzajem) — podpięte; odwołania do usuniętego AKTY-PRAWNE-MASTER przeredagowane. `dr-16`: `view MAPA-POKRYCIA.md`. `analizator-umow-v1`: `szukaj_klauzul_uokik.py`.
+
+**2C. Narzędzie.** `scripts/check_sieroty.py` = **T43** (BLOKER). Pierwszy skaner (po nazwie pliku) był ślepy na nazwy nieunikalne i zaniżył wynik z 65 do 43; T43 wymaga ścieżki rozstrzygającej, liczy rejestrację folderu i kody modułów. Rejestry deduplikacyjne (DEDUPLICATION-POLICY, CHECKLIST-DEDUP) nie liczą się jako odwołanie — wymieniają pliki usunięte.
+
+### 3. OSTRZEŻENIA (WARN)
+- **F-94 zamknięta:** duplikat checklisty contradiction-intelligence usunięty (relikt); `KONEKTORY-REKOMENDOWANE.md` osiągalny przez `shared/MCP-INTEGRACJA.md` (required_modules routera).
+- **F-226 (nowa):** archiwum `legacy-material-router/` — usunąć czy zachować.
+- **F-227 (nowa):** 9 DR bez `view MAPA-POKRYCIA.md` w SKILL.md.
+- Odnotowane bez flagi: `00-indeks-raportow-pokrycia.md` nadal wymienia raporty nieistniejące (KK, KP, KPW, KRO) — indeks to baseline historyczny (§ 7 WARN-OTWARTE), bez zmiany.
+- Wolny numer: **F-228**.
+
+### 4. WERYFIKACJA Dz.U.
+Nie dotyczy — tryb strukturalny, bez zmian treści prawa. Żaden przepis nie był cytowany w nowych treściach (odesłania wyłącznie do istniejących plików).
+
+### 5. STRUKTURA SYSTEMU — SNAPSHOT
+`shared` 197 → 190, `audyt-systemu-v4` 226 → 187, `analizator-dowodow-v3` 43 → 41, `pisma-procesowe-v3` 46 → 45, `prawny-router-v3` 44 → 40; `analizator-umow-v1`, `pisma-proste-v2`, `dr-06`, `dr-16` — bez zmiany liczby. T43: 65 → 0 (+1 allowlista: `chronologia-sprawy-v1/references/BLUEPRINT-SCHEMA.md` — archiwalny, nazwa nieunikalna). Wynik suity i dostarczenia — § 6.
+
+### 6. WNIOSKI I ZALECENIA
+1. **Wgrać do `main` przez zastąpienie katalogów 9 skilli i `git rm` usuniętych plików.** Trzecie wskrzeszenie tej samej klasy (6dbe7a0, f0a5e67/b4ef0d7, f66715f) — nakładka nie usuwa plików, a dopisanie sum je legalizuje.
+2. Zapis „usunięto” w dzienniku wolno złożyć dopiero po sprawdzeniu HEAD `main` (`find`), nie stanu kopii roboczej.
+3. Każdy test liczący trafienia po samej nazwie pliku jest ślepy na nazwy nieunikalne — wzorzec do przeglądu w T1/T3.

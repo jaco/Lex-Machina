@@ -1,9 +1,9 @@
-5890e77a078adf39f4b12c19427172ce965c5697bd29b89834efe270713cffed  ./.claude-plugin/plugin.json
+a27807ddafdea0c928f013111d520a8df14d6b19555d517596a579fe7c570c44  ./.claude-plugin/plugin.json
 49eca7b24319ac4a396f2e3ff07b4f2971ca7f70f749c47b18a8ffdfc0546969  ./PORTABILITY-MANIFEST.md
-0d185b7cfbb525dc4b3b64bf6ddb7fd8657fcaf23e8b1648b4130af2e8484d3a  ./SKILL.md
+8faa1a5922ef193b351b91253ccb0011b709ca651d1becdbfac6909eb4c9931c  ./SKILL.md
 7838c9ee5368ea708512d2c10455cd0b85db0707af3c0f1ef0c44d63480b4d85  ./agents/openai.yaml
 49315dda7125ec5fc77ef5f2b96126d8b2121c6e72944b4702972e90f321d3ee  ./assets/icon.svg
-9d1d959afe7863399de5826d8c0b786b47b31680d46bd39e6203bc042ea21b1a  ./references/CHANGELOG.md
+2bceb1d044f0c44d703986c6bb2d0c5c363f6781b42ffa48c322a682de4dfa1d  ./references/CHANGELOG.md
 a9e075075bbc7a4cf60e633ae397d1b23f88e6ade6feecc6adfed3b4f720647f  ./references/M1-zasady.md
 61daeb1ef49dcb7ec76e94e19a4a8a21927b1125e2e5bd2434f7125ff19093e9  ./references/M2-intake.md
 5d649e13b28b6ce715c3de796f3ce0d46a6467254a20e721fa9213f2e9ab954e  ./references/M3-weryfikacja.md
@@ -11,7 +11,7 @@ a9e075075bbc7a4cf60e633ae397d1b23f88e6ade6feecc6adfed3b4f720647f  ./references/M
 c311c9a316f999a37e9dbe8eaa4843c6f5cf1d70a7b971440320a297de6bb034  ./references/M6-oplaty.md
 1e0e7e224912d8f378fec55e7f155be5c3dd9338167bd7ccb4b981634d926bb8  ./references/M7-eskalacja.md
 813ff8098d494344b6de2c292a32ae0823f663667303e29c7e5c104ffae8dfe4  ./references/M8-checklista.md
-4bb775b5b6412066c53797d54e573f4a4071045a3903effc4b26d2cdf7d0feb0  ./references/M9-format.md
+92e5d28a510abec3e3b626d34562249a981e0230158d0f71b766f3f3831af3fd  ./references/M9-format.md
 e07cc667d67e7e8f20779423a360a4d248c5dd77a6ba1bd0e0ce17cfa660ad6a  ./references/SPA-sprzeciw.md
 d4ebe88ae828c795301dd559965d2ba0299a9d1500b804693f0a4e12558a61a2  ./references/SPB-zarzuty.md
 ec5dad722c70d30725b86b043f419ebf9a1b2ca8c96c2b16590bd1e66f026f12  ./references/SPC-SPD-SPE.md
