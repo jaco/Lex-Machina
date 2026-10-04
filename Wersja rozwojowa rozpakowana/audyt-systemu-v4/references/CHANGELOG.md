@@ -1,5 +1,7 @@
 # CHANGELOG — audyt-systemu-v4
 
+- 6.166 (2026-10-04-PrUp): Rejestr audytu rozszerzenia PrUp, źródła, wykryte błędy i jawny zakres dalszego pogłębiania.
+
 - 6.166 (2026-10-04g, AUDYT-2026-10-04g): Dziennik AUDYT-2026-10-04g — dwie rozbieżności MAPA-AKTOW wykryte mechanicznie przez aplikację (kontrola: moduł wskazany numerem Dz.U. lub nazwą musi wymieniać akt; zakres artykułów z nagłówka modułu): DR-03 KK art. 270–310 → 270–277d, 310; DR-09 elektromobilność → moduł transportu.
 
 - 6.165 (2026-10-04f, AUDYT-2026-10-04f): **Przegląd stawek mandatów DR-03 wobec rozporządzenia (AUDYT-2026-10-04f) + T11 zsynchronizowany.** `mapa_dzu_2026-10-04.md` — uzupełnienie generacji o 5 wierszy RZĘDU 1 (2026/1243, 2025/1490, 2013/1624, 2021/2484, 2023/1256). T11: 12 pozycji → 0. Pełny opis: `audyt-systemu-v4/references/AUDIT-JOURNAL.md`, AUDYT-2026-10-04f.

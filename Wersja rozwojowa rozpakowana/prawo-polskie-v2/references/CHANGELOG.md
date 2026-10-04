@@ -1,5 +1,7 @@
 # CHANGELOG — prawo-polskie-v2
 
+- 6.36 (2026-10-04-PrUp): Routing źródła i czterech nowych procedur PrUp; rozdzielenie pełnego źródła od pełnego komentarza.
+
 - 6.36 (2026-10-04g, AUDYT-2026-10-04g): ROUTING-MAP — wiersz KK fałszerstw zawężony do „art. 270-277d, 310” (wg nagłówka modułu DR-03; synchronizacja z DR-03 3.51).
 
 - 6.35 (2026-10-04f, AUDYT-2026-10-04f): ROUTING-MAP (synchronizacja T11): transport drogowy — t.j. Dz.U. 2025 poz. 1490 (było 2024/1539 — nieaktualny t.j.); nowe wiersze: taryfikator mandatów (rozp. PRM z 24.11.2003, t.j. 2013/1624 ze zm.) i ustawa o państwowej kompensacie (t.j. 2016/325); opłaty w sprawach karnych — zakres t.j. 2023/123. Pełny opis: `audyt-systemu-v4/references/AUDIT-JOURNAL.md`, AUDYT-2026-10-04f.

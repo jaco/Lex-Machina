@@ -1,0 +1,604 @@
+artykul,strona_pdf,status_zrodla,moduly,status_komentarza,ustepy_wykryte
+1,3,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+2,3,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 2"
+3,4,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+4,4,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+4a,4,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+5,4,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+6,4,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+7,4,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+8,4,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+9,4,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+9a,4,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,2
+9b,5,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+10,5,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+11,5,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 2, 3, 4, 4a, 4b, 5, 6, 7"
+11a,6,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+12,6,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+12a,6,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+13,6,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 2a, 3, 4, 5, 6, 7"
+14,7,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+15,7,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+16,7,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+17,7,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+18,7,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+19,7,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 1b, 1c, 2, 3, 4, 5"
+20,8,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+21,8,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 2a, 3, 3a, 4, 5"
+22,8,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 2a, 3, 4"
+22a,9,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+23,9,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+24,10,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+24a,10,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+25,10,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+25a,10,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+26,10,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+26^1,10,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+27,10,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+28,10,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+29,11,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+29a,11,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+30,11,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+30a,11,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+31,11,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+32,11,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5, 6"
+33,11,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 2, 3"
+34,11,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+35,12,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+36,12,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+37,12,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+38,12,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 1b, 1c, 1d, 2, 3"
+38a,12,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+39,12,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+40,13,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+41,13,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+42,13,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+43,13,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+51,13,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 2a, 3"
+52,14,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+53,14,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5, 6"
+54,14,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+54a,14,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+54b,14,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+55,14,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+56,14,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+56a,15,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 2a, 2aa, 2ab, 2b, 3, 4, 5, 6"
+56aa,15,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+56ab,15,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+56b,15,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+56c,16,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+56ca,16,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+56d,16,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 3a, 4"
+56e,16,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 2a, 3"
+56f,17,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 2, 3, 4"
+56g,17,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+56h,17,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+57,17,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5"
+58,18,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+59,18,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+60,18,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+60^1,18,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+61,18,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+62,18,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+63,18,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 1b, 1c, 1d, 2"
+63a,19,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+64,19,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+65,19,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+65a,19,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"2, 3"
+66,19,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+67,19,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+67a,20,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+68,20,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+69,20,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 1b, 1c, 1ca, 1d, 1e, 1f, 2, 3"
+70,21,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+70^1,21,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+71,21,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+72,21,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+73,21,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5, 6"
+74,21,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+75,21,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+76,22,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+77,22,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+78,22,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+79,22,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+80,22,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+81,22,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 2"
+82,22,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+83,23,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+84,23,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+85,23,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 2a, 3, 4, 5"
+85a,23,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+86,23,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+87,23,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+88,23,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+89,23,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+90,23,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+91,24,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+92,24,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+93,24,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+94,24,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+95,24,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+96,24,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+97,24,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+98,24,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 1b, 1c, 2, 3"
+99,24,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+100,25,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+101,25,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+102,25,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+103,25,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+104,25,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+105,25,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+106,25,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+107,25,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+108,25,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+109,25,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+110,25,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5, 6"
+110a,26,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+111,26,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+112,26,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+113,26,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+114,26,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+115,26,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+116,26,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+117,26,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+118,26,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+119,27,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+120,27,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+121,27,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+122,27,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+123,27,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+124,27,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5"
+125,27,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+126,28,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+127,28,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+128,28,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 2, 3"
+128a,28,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+129,28,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+130,29,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+130a,29,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+131,29,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+131a,29,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+132,29,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+133,29,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+134,29,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 1b, 2"
+135,30,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+136,30,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+137,30,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+144,30,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+145,30,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+146,31,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 2a, 3, 4"
+147,31,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+147a,31,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+148,31,UCHYLONY,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+149,31,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+150,31,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+151,32,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 1b, 1c, 1d, 1e, 2, 3, 4, 5, 6"
+152,32,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+153,32,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+154,32,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+155,32,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+156,33,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5"
+156^1,33,UCHYLONY,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,
+157,33,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 2a, 3, 4, 5, 6"
+157^1,33,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+157a,34,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 2a, 3, 4"
+158,34,UCHYLONY,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,
+159,34,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+160,34,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+160a,34,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,
+161,34,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+162,34,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+163,36,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4"
+164,36,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+165,36,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+166,36,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5, 6, 7"
+167,37,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4"
+167a,37,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,
+167b,37,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+168,37,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5, 5a, 5b, 5c, 5d, 6, 7, 8"
+169,38,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4"
+169a,38,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+170,38,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 1a, 2, 3, 4, 5, 6, 7"
+171,39,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+172,39,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+173,39,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,
+174,39,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4"
+175,39,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,
+176,39,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 1a, 1b, 2, 2a, 3, 4"
+177,40,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+178,40,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4"
+179,40,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+185,40,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+186,41,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+187,41,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+188,41,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+189,41,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+190,41,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+191,41,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+192,42,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+193,42,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+194,42,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+195,42,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+196,42,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+197,42,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+198,42,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+199,42,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+200,42,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+201,43,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+202,43,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 2, 3, 4"
+202a,43,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+203,44,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+204,44,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+205,44,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+206,44,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5"
+207,44,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 1b, 2, 3, 4"
+207a,45,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+208,45,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+209,45,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+210,45,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5"
+211,45,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+212,46,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+213,46,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+214,46,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+215,46,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5"
+216,46,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+216a,46,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 1a, 1b, 1c, 1d, 1e, 2, 3, 4, 5"
+216aa,47,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5"
+216ab,47,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+216ac,47,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+216b,47,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+217,47,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+218,47,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+218a,48,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+219,48,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 1b, 1c, 1d, 1e, 2, 2a, 3, 4"
+219a,48,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+220,49,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 2a, 3, 4, 5, 6, 7"
+220a,49,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+221,49,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5"
+222,49,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 2, 3, 3a, 4, 5"
+223,50,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+224,50,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5"
+225,50,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+226,50,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+227,50,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+228,50,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 2, 3"
+228a,50,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5, 6, 7"
+229,51,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,2
+230,51,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+231,51,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3"
+232,51,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+233,51,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+234,52,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+235,52,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2"
+236,52,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4"
+237,52,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+238,52,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2"
+239,52,UCHYLONY,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+239a,52,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+240,52,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+240a,53,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+241,53,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+242,53,UCHYLONY,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+242a,53,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5, 6, 7"
+243,53,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+244,54,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+245,54,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 1a, 2, 3, 4, 5"
+245a,54,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+246,54,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+247,54,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2"
+248,55,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2"
+249,55,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4"
+250,55,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+251,55,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+252,55,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2"
+253,55,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+254,55,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2"
+255,55,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2"
+256,56,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2"
+257,56,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+258,56,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2"
+258a,56,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+259,56,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 1a, 1b, 2, 3"
+260,56,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4"
+261,57,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+262,57,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2, 2a, 3"
+263,57,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+264,57,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4"
+265,57,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,"1, 2"
+266,57,TEKST_W_TJ,mod-PrUpad-wierzytelnosci-235-266.md,WORKFLOW_CZESCIOWY,
+266a,57,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2"
+266b,58,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5, 6"
+266c,58,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2, 3"
+266d,58,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,
+266e,58,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,
+266f,58,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,
+306,58,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,
+307,58,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+308,59,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+309,59,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,
+310,59,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+311,59,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 1a, 1aa, 1ab, 1ac, 1ad, 1b, 1c, 2, 3"
+312,59,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+313,60,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5, 6"
+314,60,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+315,60,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,
+316,60,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4"
+317,60,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 2a, 3"
+318,61,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+319,61,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5, 6"
+320,61,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+321,61,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+322,61,UCHYLONY,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,
+323,61,UCHYLONY,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,
+324,61,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+325,62,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,
+326,62,UCHYLONY,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,
+327,62,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+328,62,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+329,62,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,
+330,62,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+330a,62,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5"
+331,62,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+332,63,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,
+333,63,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2"
+334,63,TEKST_W_TJ,mod-PrUpad-syndyk-likwidacja.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5"
+335,63,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,
+336,63,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+337,63,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 1a, 2"
+338,63,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,
+339,64,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,
+340,64,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2"
+341,64,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,
+342,64,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5, 6, 7"
+342a,65,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+343,65,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 1a, 2"
+344,65,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2"
+345,66,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+346,66,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2"
+347,66,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 1a, 2"
+348,66,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2"
+349,67,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+350,67,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+351,67,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+352,67,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2"
+353,67,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+354,67,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2"
+355,67,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,
+356,67,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+357,67,UCHYLONY,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,
+358,67,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,
+359,67,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2"
+360,68,TEKST_W_TJ,mod-PrUpad-podzial-335-360.md,WORKFLOW_CZESCIOWY,"1, 2"
+361,68,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2, 3"
+362,68,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2"
+363,68,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,
+364,68,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2"
+365,68,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+366,69,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2, 3"
+367,69,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2"
+368,69,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2, 3"
+369,69,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 1a, 1b, 2, 2a, 2b, 2c, 2d, 2e, 2f, 2g, 2h, 3"
+370,70,UCHYLONY,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,
+370a,70,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11"
+370b,71,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+370c,71,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+370d,71,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 1a, 2, 3, 4"
+370e,72,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+370ea,72,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,
+370f,72,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2, 3, 3a, 4"
+371,72,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2, 3"
+372,72,TEKST_W_TJ,mod-PrUpad-uklad-likwidacja-zakonczenie.md,DO_POGLEBIENIA,"1, 2"
+373,73,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 1a, 2, 3"
+374,73,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+375,73,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+376,73,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5"
+377,74,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+378,74,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2"
+379,74,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+380,74,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+381,75,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+382,75,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3"
+383,75,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+384,75,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+385,75,UCHYLONY,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+386,75,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5, 6"
+387,76,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+388,76,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+389,76,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+390,76,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2"
+391,76,UCHYLONY,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+392,76,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+393,76,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 1a, 2, 3, 4, 5"
+393a,77,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+394,77,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3"
+395,77,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 1a, 2, 3"
+396,77,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2"
+397,78,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2"
+398,78,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+399,78,UCHYLONY,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+400,78,UCHYLONY,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+400a,78,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+401,78,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5, 6"
+402,78,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+403,78,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2"
+404,79,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3"
+405,79,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3"
+406,79,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2"
+407,79,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+408,79,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+409,79,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+410,79,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+410a,79,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3"
+410b,80,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2"
+411,80,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+412,80,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+413,80,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+414,80,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+415,80,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2"
+416,80,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+417,80,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2"
+418,80,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+419,80,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3"
+420,81,UCHYLONY,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+421,81,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+422,81,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+423,81,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+424,81,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+425,81,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+425a,81,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+425b,81,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+425c,81,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+425d,81,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+425e,82,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 2a, 2b, 3, 4"
+425f,82,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2"
+425g,82,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+425h,82,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+425i,83,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+425j,83,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+425ja,83,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+425k,83,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+425l,83,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5, 6, 7"
+425m,83,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3"
+425n,84,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,
+425o,84,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2"
+425p,84,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3"
+425q,84,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2"
+425r,84,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+425s,84,TEKST_W_TJ,mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5, 6, 7"
+426,85,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 1a, 2, 2a, 3"
+427,85,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 1a, 2, 3, 4"
+428,86,UCHYLONY,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+429,86,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+430,86,UCHYLONY,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+431,86,UCHYLONY,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+432,86,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+433,86,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+434,86,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+434a,86,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+435,86,UCHYLONY,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+436,86,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2"
+437,86,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+438,87,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 1a, 1b, 2"
+439,87,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+440,87,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 2a, 2b, 3, 4, 5, 6"
+441,89,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+441a,89,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 1a, 2, 3, 4"
+442,89,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+442a,89,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+443,90,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+444,90,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+445,90,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2"
+445a,90,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+445b,90,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5"
+446,90,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+446a,91,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5, 6, 7, 8"
+446b,91,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5, 6, 7"
+446c,92,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+446d,92,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+447,92,UCHYLONY,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+448,92,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+449,92,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+450,92,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+450a,92,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+451,93,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+452,93,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 1a, 2"
+453,93,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+454,93,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+455,93,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+456,94,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+457,94,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 1a, 2"
+458,94,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2"
+459,94,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+459^1,94,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+460,95,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+461,95,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+462,95,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+463,95,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+464,95,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+465,95,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+466,95,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+467,95,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+467^1,95,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+468,96,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+469,96,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+470,96,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+471,96,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2"
+472,96,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+473,96,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+474,96,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3, 4"
+475,96,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+476,96,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+477,97,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+477^1,97,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2"
+478,97,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+478^1,97,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+479,97,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+480,97,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+481,97,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+482,98,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+483,98,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2"
+484,98,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2"
+485,98,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+486,99,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+487,99,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2"
+488,99,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+489,99,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+490,99,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+491,99,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+491^1,99,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4"
+491^2,99,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 1a, 2, 3, 3a, 4, 5, 5a, 5b, 5c, 6"
+491^3,100,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,
+491^4,100,UCHYLONY,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,
+491^5,100,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4"
+491^6,101,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2"
+491^6a,101,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2"
+491^7,101,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5"
+491^8,101,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2"
+491^9,102,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4"
+491^10,102,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 2a, 3, 4, 5"
+491^11,102,UCHYLONY,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,
+491^11a,102,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5"
+491^12,102,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,
+491^12a,102,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5, 6, 7, 8, 9"
+491^13,103,UCHYLONY,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,
+491^14,103,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5, 6, 7, 8"
+491^14a,104,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+491^15,104,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 1a, 1b, 1c, 1d, 2, 3, 4, 5, 6, 7"
+491^16,105,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 1a, 2, 2a, 2b, 2c, 2d, 2e, 2f, 2g, 2h, 2i, 3"
+491^17,106,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4"
+491^18,106,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 3"
+491^19,107,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5"
+491^20,107,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4"
+491^20a,107,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,
+491^21,107,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 2a, 3"
+491^22,108,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5"
+491^23,108,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,
+491^24,108,TEKST_W_TJ,mod-PrUpad-konsument-workflow.md,WORKFLOW_CZESCIOWY,"1, 2, 3, 4, 5, 6, 7"
+491^25,108,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5, 6"
+491^26,109,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2"
+491^27,109,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2"
+491^28,109,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+491^29,109,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+491^30,109,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+491^31,109,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+491^32,109,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+491^33,110,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3"
+491^34,110,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+491^35,110,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5"
+491^36,110,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2"
+491^37,110,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,"1, 2, 3, 4, 5, 6, 7"
+491^38,110,TEKST_W_TJ,mod-PrUpad-postepowania-odrebne-426-491-38.md,DO_POGLEBIENIA,
+522,111,TEKST_W_TJ,,DO_POGLEBIENIA,"1, 2"
+523,111,TEKST_W_TJ,,DO_POGLEBIENIA,"1, 2"
+524–535,111,POMINIETE_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+536,111,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+537,111,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+538,111,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,"1, 2"
+539,111,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+540,112,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+541,112,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+542,112,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+543,112,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+544,112,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+545,112,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,
+546,112,TEKST_W_TJ,mod-PrUpad-upadlosc-restrukturyzacja.md,DO_POGLEBIENIA,

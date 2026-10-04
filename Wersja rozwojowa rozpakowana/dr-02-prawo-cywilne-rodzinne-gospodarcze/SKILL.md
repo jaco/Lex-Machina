@@ -1,6 +1,6 @@
 ---
 name: dr-02-prawo-cywilne-rodzinne-gospodarcze
-version: "3.61"
+version: "3.62"
 description: "Prawo cywilne, rodzinne i gospodarcze: KC, KPC, spadki, rodzina, spółki, upadłość, restrukturyzacja, windykacja i odpowiedzialność kontraktowa/deliktowa."
 dependencies:
   requires:
@@ -60,6 +60,12 @@ Ta sekcja zmienia wyłącznie wykonanie operacji technicznych. Merytoryka dziedz
 
 ---
 
+## Prawo upadłościowe — wejście operacyjne
+
+Przy każdej sprawie upadłościowej wczytaj `modules/mod-PrUpad-zrodla-i-wersje.md`.
+Dobierz procedurę do zadania i trybu z postanowienia. Pełny PDF i indeks są
+w `references/prup/`; obecność tekstu nie oznacza pełnego komentarza.
+
 ## Zasada architektoniczna
 - Jeden moduł = jeden akt prawny (tekst jednolity Dz.U.)
 - Wyjątek: wydzielone rozdziały jednej ustawy mogą mieć osobny moduł (z adnotacją)
@@ -103,7 +109,7 @@ Przy sprawach z tej dziedziny rozważ doładowanie (`view`) definicji:
 - BAS-W34 Odsetki: kapitałowe vs za opóźnienie vs handlowe (różne stopy!)
 - BAS-W35 Nakaz zapłaty: sprzeciw vs zarzuty vs EPU (różne terminy/skutki)
 
-## Moduły (69 łącznie — ✓ 69 OK, ☐ 0 STUB)
+## Moduły (74 łącznie — rejestracja w SKILL.md; głębokość w MAPA-POKRYCIA)
 
   [✓] OK    mod-KC-current-state-COV
   [✓] OK    mod-KPC-current-state-COV
@@ -444,6 +450,16 @@ nieobecnej art. 184). Rozgraniczenie od kuratora sądowego
                poleceń zarządowi [art. 219 §2], rozszerzenie uprawnień
                i zawieszenie członka zarządu [art. 220]. ⚠️
                [NIEWERYFIKOWANE RZĄD 1] większość treści)
+  [✓] NOWY  mod-PrUpad-zrodla-i-wersje
+              (Pełny tekst PrUp, wersje czasowe, indeks artykułów i odczyt ELI)
+  [✓] NOWY  mod-PrUpad-wierzytelnosci-235-266
+              (Zgłoszenia, braki, zwrot, sprawdzanie, lista i sprzeciw)
+  [✓] NOWY  mod-PrUpad-podzial-335-360
+              (Fundusze masy, kategorie, zabezpieczenia i plan podziału)
+  [✓] NOWY  mod-PrUpad-syndyk-likwidacja
+              (Czynności syndyka, wynagrodzenie, sprawozdania, plan i sprzedaż)
+  [✓] NOWY  mod-PrUpad-konsument-workflow
+              (Tryby konsumenckie, wyłączenia części pierwszej i plan spłaty)
   [✓] OK    mod-PrUpad-upadlosc-restrukturyzacja
               (⭐ PODZIELONY 2026-08-21, ZASADA 13 — plik zachowuje nazwę
                jako indeksator; Tytuł Va + Tytuł VII Dział I + Tytuł IX

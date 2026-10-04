@@ -8,6 +8,13 @@
 
 ---
 
+## Dostęp do całej ustawy i procedur
+
+Wczytaj `mod-PrUpad-zrodla-i-wersje.md` dla tekstu każdego artykułu, metryki
+i nowelizacji. Zgłoszenia/lista: `mod-PrUpad-wierzytelnosci-235-266.md`;
+podział: `mod-PrUpad-podzial-335-360.md`; czynności syndyka:
+`mod-PrUpad-syndyk-likwidacja.md`.
+
 ## FAZA 0 — INTAKE
 
 ```
@@ -112,7 +119,8 @@ Syndyk (powołany przez sąd) — przejęcie zarządu masą upadłości
 Zgłoszenie wierzytelności SYNDYKOWI, przez system teleinformatyczny (art. 236 ust. 1)
   (termin wskazany w postanowieniu — PILNE!)
   ↓
-Lista wierzytelności → możliwy sprzeciw do sędziego-komisarza
+Tryb ogólny: lista wierzytelności → możliwy sprzeciw do sędziego-komisarza
+Tryb konsumencki: najpierw art. 491^2 i mod-PrUpad-konsument-workflow
   ↓
 Likwidacja masy → plan spłaty wierzycieli
   ↓
@@ -129,84 +137,50 @@ Likwidacja masy → plan spłaty wierzycieli
 □ Sprawdź czy ogłoszono upadłość / otwarto restrukturyzację
 □ Zgłoś wierzytelność w terminie (wskazanym w obwieszczeniu w KRZ)
 □ Zabezpiecz dokumenty długu (umowa, faktury, potwierdzenia wpłat)
-□ Sprawdź listę wierzytelności po jej sporządzeniu
-□ Złóż sprzeciw do sędziego-komisarza jeśli wierzytelność pominięta / zaniżona
+□ Ustal tryb; sprawdź listę wierzytelności, jeśli właściwa procedura ją przewiduje
+□ Dobierz środek ochrony do trybu i etapu; sprzeciw z art. 256 nie jest uniwersalny
 □ Oceń roszczenie wobec zarządu (art. 299 KSH) jeśli sp. z o.o.
 □ Sprawdź czynności bezskuteczne (fraudulent transfers — art. 127 i n. PrUp)
 ```
 
 ---
 
-## UPADŁOŚĆ KONSUMENCKA (osoba fizyczna nieprowadząca działalności)
+## UPADŁOŚĆ KONSUMENCKA
 
-```
-Uproszczona procedura:
-  Wniosek dłużnika → ogłoszenie upadłości → syndyk
-  → plan spłaty (standardowo do 36 mies.) lub umorzenie bez planu
-  → umorzenie pozostałych długów
+Procedura i rozgraniczenie trybów: `mod-PrUpad-konsument-workflow.md`.
+✅ [VER] RZĄD 1 2026-10-04 — PrUp 2026/913, art. 491^1–491^24,
+[PDF s. 99–108](https://api.sejm.gov.pl/eli/acts/DU/2026/913/text.pdf).
 
-Cel: "nowy start" (fresh start) — uwolnienie od długów niemożliwych do spłaty
-```
-
-⛔ **KOREKTA 2026-08-21 (zbadane na sygnał użytkownika — inne narzędzie AI
-wykryło nadmierne uproszczenie w poprzedniej wersji tego wiersza):**
-poprzedni zapis "Warunek: brak celowego doprowadzenia do upadłości / brak
-rażącego niedbalstwa" przedstawiał sprawę jako binarny warunek
-dopuszczalności całej procedury — to stan sprzed nowelizacji z 1.01.2020.
-**Od 1.01.2020 r. rażące niedbalstwo NIE dyskwalifikuje z ogłoszenia
-upadłości** — sąd może ją ogłosić nawet przy jego stwierdzeniu. System
-jest obecnie TRÓJSTOPNIOWY, nie binarny:
-
-```
-1) BRAK winy (brak umyślności i rażącego niedbalstwa) — standardowa
-   sytuacja: plan spłaty do 36 miesięcy, możliwe umorzenie bez planu
-   przy trwałej niezdolności do spłat (art. 491¹⁴a — ciężka choroba,
-   podeszły wiek, świadczenia socjalne) lub umorzenie warunkowe na 5 lat
-   przy niezdolności czasowej
-
-2) RAŻĄCE NIEDBALSTWO przy doprowadzeniu/istotnym zwiększeniu stopnia
-   niewypłacalności — SANKCJA: plan spłaty WYDŁUŻONY, od 36 DO 84
-   miesięcy (3-7 lat) — art. 491¹⁵ PrUp — ale oddłużenie NADAL następuje
-   po wykonaniu planu. Rażące niedbalstwo = skrajny brak ostrożności
-   (np. wielokrotne zaciąganie pożyczek bez realnej zdolności spłaty),
-   ocena zależy od okoliczności, wiedzy dłużnika i reakcji na narastające
-   problemy — nie każdy błąd finansowy to rażące niedbalstwo
-
-3) UMYŚLNOŚĆ (celowe doprowadzenie do niewypłacalności lub istotne
-   zwiększenie jej stopnia) — SUROWSZA konsekwencja niż wydłużony plan:
-   art. 491¹⁴a ust. 1 pkt 1 PrUp przewiduje możliwą CAŁKOWITĄ ODMOWĘ
-   ODDŁUŻENIA (nie tylko dłuższy plan — brak umorzenia w ogóle),
-   w szczególności przy roztrwonieniu majątku lub celowym nieregulowaniu
-   długów w terminie. To NAJSUROWSZY z trzech poziomów.
-
-Skrócenie planu (niezależnie od poziomu winy): spłata ≥70% zobowiązań
-→ plan max 1 rok; spłata ≥50% → plan max 2 lata.
-```
-
-Zweryfikowane 8 zgodnych źródeł (wszystkie 2025-2026): syndyk.katowice.pl,
-szalanskikancelaria.pl ×2, upadlosckonsumenckawarszawa.pl, ryzynski.eu,
-nowackagornicki.pl ×2, kalkulatorxxl.pl — zgodne co do progów (36/84
-miesięcy), mechanizmu (sankcyjny, nie dyskwalifikujący od 2020) i
-rozróżnienia rażące niedbalstwo (dłuższy plan) vs umyślność (możliwa
-odmowa oddłużenia w ogóle).
-
-⚠️ Weryfikuj aktualne przepisy — ustawa wielokrotnie nowelizowana.
+Najpierw odczytaj tryb z postanowienia i wyłączenia z art. 491^2. Podstawowy
+tryb konsumencki nie stosuje całej procedury listy i sprzeciwów części pierwszej.
+Rozróżnij plan spłaty, odmowę oddłużenia, umorzenie bez planu i umorzenie warunkowe.
+Trwałą niezdolność do spłat reguluje art. 491^16, nie art. 491^14a.
+Celowość z art. 491^14a nie jest automatycznie tożsama z każdą umyślnością
+z art. 491^15 ust. 1a. Zbieg reguł długości planu oceniaj na pełnym przepisie.
+Przed użyciem ponów fresh gate i kontrolę wersji właściwej dla sprawy.
 
 ---
 
-## CZYNNOŚCI BEZSKUTECZNE (art. 127 i n. PrUp)
+## CZYNNOŚCI BEZSKUTECZNE (art. 127–134 PrUp)
 
-```
-Bezskuteczne z mocy prawa (art. 127):
-  → Czynności rozporządzające majątkiem nieodpłatnie LUB za rażąco niską cenę
-    wykonane w ciągu 1 roku przed złożeniem wniosku o upadłość
+✅ [VER] RZĄD 1 2026-10-04 — PrUp 2026/913,
+[art. 127–131a, PDF s. 28–29](https://api.sejm.gov.pl/eli/acts/DU/2026/913/text.pdf).
 
-Bezskuteczne na wniosek syndyka (art. 128):
-  → Czynności z osobami bliskimi — 6 miesięcy przed złożeniem wniosku
-  → Inne czynności — gdy kontrahent wiedział o podstawie upadłości
+- Art. 127 ust. 1–2: rozporządzenia nieodpłatne albo o rażącej dysproporcji
+  świadczeń w ciągu roku przed wnioskiem; odpowiednie stosowanie do wskazanych
+  czynności procesowych. Ust. 3 dotyczy zapłaty/zabezpieczenia długu niewymagalnego
+  w ciągu sześciu miesięcy, z możliwością obrony otrzymującego. Sprawdź ust. 4.
+- Art. 128: odpłatna czynność z ustawowo określoną osobą powiązaną w ciągu
+  sześciu miesięcy; sędzia-komisarz działa z urzędu albo na wniosek syndyka.
+  Druga strona może wykazać brak pokrzywdzenia. Odczytaj pełne ust. 1–3;
+  sama wiedza dowolnego kontrahenta o niewypłacalności nie zastępuje tych przesłanek.
+- Art. 128a–130a: osobno przelew przyszły, wynagrodzenia, zabezpieczenie cudzego
+  długu i kary umowne. Art. 131 wiąże pozostałe przypadki z ochroną pauliańską KC.
+- Art. 131a może zmienić datę odniesienia przy uprzedniej restrukturyzacji.
+  Przed roszczeniem o zwrot odczytaj też art. 132–134 i właściwe przepisy KC.
 
-⚠️ Terminy i przesłanki — weryfikuj aktualne przepisy PrUp w ELI (RZĄD 1).
-```
+Zapisz czynność, strony/powiązania, daty, wartości obu świadczeń, dowód zapłaty,
+reżim i obronę kontrahenta. Nie utożsamiaj bezskuteczności wobec masy z nieważnością.
 
 ---
 
@@ -552,47 +526,83 @@ Zaliczki do 75% wynagrodzenia wstępnego w 4 ratach (art. 164):
 
 ---
 
-## ELEMENTY POZWU / WNIOSKU — ZGŁOSZENIE WIERZYTELNOŚCI
+## ELEMENTY ZGŁOSZENIA WIERZYTELNOŚCI
 
-```
-Obowiązkowe elementy zgłoszenia wierzytelności (weryfikuj art. 239 PrUp w ELI (RZĄD 1)):
-  □ Imię i nazwisko / firma wierzyciela
-  □ Oznaczenie wierzytelności (tytuł, kwota, waluta)
-  □ Dowody uzasadniające zgłoszenie (umowa, faktury, wezwania)
-  □ Kategoria wierzytelności (I–IV + kategoria odrębna)
-  □ Zabezpieczenia (jeśli są)
-  □ Czy wierzytelność jest sporna?
+Źródło sprawdzone 2026-10-04: [urzędowy tekst PrUp, Dz.U. 2026 poz. 913,
+s. 52–53](https://api.sejm.gov.pl/eli/acts/DU/2026/913/text.pdf).
+Poniżej checklista, nie cytat. Przed zastosowaniem ustal właściwą wersję
+czasową i wykonaj fresh gate. Art. 239 jest uchylony; wymagania zgłoszenia
+wynikają z art. 240, a identyfikację uzupełnia art. 240a.
 
-ADRESAT I FORMA (art. 236 ust. 1 PrUp): zgłoszenie kieruje się do SYNDYKA,
-  za pośrednictwem SYSTEMU TELEINFORMATYCZNEGO obsługującego postępowanie
-  sądowe. ⛔ Nie do sędziego-komisarza i nie pismem papierowym (stan sprzed
-  reformy — nawyk nadal powszechny).
-TERMIN: oznaczony w postanowieniu o ogłoszeniu upadłości.
-⛔ SPÓŹNIENIE (art. 235 ust. 1 PrUp): wierzyciel ponosi ZRYCZAŁTOWANE KOSZTY
-  = 15 % przeciętnego miesięcznego wynagrodzenia w sektorze przedsiębiorstw
-  bez wypłat nagród z zysku w III kwartale roku poprzedniego (ogłoszenie
-  Prezesa GUS) — NAWET gdy opóźnienie powstało bez jego winy (wyjątek:
-  zgłoszenie po korekcie deklaracji przez syndyka). To nie „dodatkowa opłata";
-  wskaźnik — `shared/oplaty/04-wartosci-powtarzalne-kotwice.md` sekcja 4g.
-✅ [VER] RZĄD 1 2026-09-16 — `Dz.U. 2026 poz. 913`.
-```
+- Imię i nazwisko albo nazwa, PESEL/KRS lub inne dane jednoznacznie
+  identyfikujące; firma przedsiębiorcy, miejsce zamieszkania/siedziba,
+  adres oraz NIP, jeżeli wierzyciel go posiada.
+- Wierzytelność wraz z należnościami ubocznymi; wartość wierzytelności
+  niepieniężnej, jeżeli taka jest zgłaszana.
+- Dowody istnienia wierzytelności. Przy uznaniu w spisie wierzytelności
+  w restrukturyzacji wystarcza powołanie tej okoliczności.
+- Kategoria zaspokojenia i zabezpieczenia związane z wierzytelnością.
+- Przedmiot zabezpieczenia, jeśli upadły nie jest dłużnikiem osobistym.
+- Stan toczącego się postępowania sądowego, administracyjnego,
+  sądowoadministracyjnego albo przed sądem polubownym, jeśli dotyczy.
+- Numer rachunku bankowego, jeżeli wierzyciel posiada taki rachunek.
+
+Nie zamieniaj danych warunkowych w bezwzględnie wymagane. Brak rachunku
+u wierzyciela, który go nie posiada, nie jest sam w sobie brakiem z art. 240 pkt 9.
+
+**Adresat i kanał:** art. 236 ust. 1 przewiduje zgłoszenie syndykowi przez
+system teleinformatyczny. Przy ocenie kanału uwzględnij art. 216aa
+(uprawnione grupy wierzycieli mogą wnosić pisma i dokumenty poza systemem)
+oraz zakres art. 216ab. Nie odrzucaj automatycznie dokumentu papierowego.
+Źródło: ten sam PDF, s. 45–46 i 52.
+
+**Najpierw obowiązek zgłoszenia:** art. 236 ust. 2–3 przewiduje określone
+wierzytelności zabezpieczone ujmowane z urzędu, a art. 237 — należności
+ze stosunku pracy niewymagające zgłoszenia. Sprawdź również art. 238.
+
+**Termin i spóźnienie:** odczytaj termin z postanowienia. Art. 235 ust. 1
+przewiduje zryczałtowane koszty równe 15% przeciętnego miesięcznego
+wynagrodzenia w sektorze przedsiębiorstw bez wypłat nagród z zysku
+w III kwartale poprzedniego roku, również przy niezawinionym spóźnieniu,
+z wyjątkiem zgłoszenia wynikającego z korekty deklaracji lub analogicznego
+dokumentu rozliczeniowego dokonanej przez syndyka. Pobierz właściwy
+wskaźnik GUS i sprawdź obowiązek oraz termin wpłaty z art. 235 ust. 2.
+Źródło: PDF s. 52; wskaźnik: `shared/oplaty/04-wartosci-powtarzalne-kotwice.md`.
+
+**Braki i kontrola merytoryczna:** rozdziel procedurę z art. 241–242a
+od sprawdzenia wierzytelności z art. 243. Przed czynnością odczytaj
+pełny przepis i właściwe odesłania; ta checklista nie zastępuje procedury
+zwrotu, skargi ani ustalania listy wierzytelności.
 
 ---
 
-## KATEGORIE ZASPOKOJENIA WIERZYCIELI (PrUp)
+## KATEGORIE ZASPOKOJENIA WIERZYCIELI
 
-> ⚠️ Weryfikuj aktualną kolejność w PrUp w ELI (RZĄD 1).
+Źródło sprawdzone 2026-10-04: [PrUp, Dz.U. 2026 poz. 913, art. 342–344,
+s. 64–65](https://api.sejm.gov.pl/eli/acts/DU/2026/913/text.pdf).
+Poniżej mapa, nie pełny katalog ani cytat. Każdą kwalifikację poprzedź
+odczytem właściwej jednostki i kontrolą wersji czasowej.
 
-```
-Wierzytelności zaspokajane z masy w kolejności:
-  Kategoria I: alimenty, renty, wynagrodzenia pracownicze (bieżące)
-  Kategoria II: należności ZUS/US (w ograniczonym zakresie)
-  Kategoria III/IV: pozostałe wierzytelności
-  
-Wierzytelności z zabezpieczeniem rzeczowym (zastaw, hipoteka):
-  Zaspokajane z przedmiotu zabezpieczenia poza kolejnością (art. 336 PrUp)
-```
-
+1. Oddziel koszty postępowania i zobowiązania masy (art. 230, 343–344)
+   od należności klasyfikowanych według art. 342. Nie przypisuj bieżących
+   wynagrodzeń automatycznie do kategorii I.
+2. Kategoria I obejmuje ustawowy katalog uprzywilejowanych należności,
+   m.in. określone należności pracownicze sprzed upadłości, alimentacyjne,
+   renty, należności rolników, składki społeczne za wskazany w przepisie
+   okres oraz określone należności związane z restrukturyzacją.
+   Zastosuj pełne warunki i wyłączenia z art. 342 ust. 1 pkt 1.
+3. Kategoria II to pozostałe należności, jeśli nie należą do innej kategorii,
+   w tym podatki, inne daniny publiczne i pozostałe składki społeczne.
+   Zwykły niezabezpieczony dług handlowy nie trafia automatycznie do III/IV.
+4. Kategoria III: odsetki od należności z wyższych kategorii w ustawowej
+   kolejności, sądowe i administracyjne grzywny, darowizny i zapisy.
+5. Kategoria IV: określone pożyczki i podobne finansowanie udzielone
+   upadłej spółce kapitałowej przez wspólników/akcjonariuszy w okresie
+   pięciu lat przed upadłością, wraz z odsetkami. Sprawdź wyjątki
+   i rozszerzenia z art. 342 ust. 5–6.
+6. Dla podmiotów szczególnych sprawdź odrębny reżim, w tym art. 342 ust. 7.
+   Zabezpieczenia rzeczowe analizuj osobno według właściwych przepisów
+   art. 336 i 345–346; nie opisuj ich jako dodatkowej zwykłej kategorii.
 
 ---
 

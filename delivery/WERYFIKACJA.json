@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-04",
+  "repository": "/Users/jaco/workspace/Lex-Machina",
+  "branch": "main",
+  "baseline": "f66715f290fe998b091eb577ffbc61384c56a9c2",
+  "versions": {
+    "dr-02": "3.62",
+    "prawo-polskie-v2": "6.36",
+    "audyt-systemu-v4": "6.166"
+  },
+  "delivery": "Pełny korpus źródłowy PrUp + pięć modułów (źródła i cztery procedury); lokalna linia rozwojowa.",
+  "reader_tests": {
+    "passed": 18,
+    "failed": 0,
+    "scope": "integralność, granice, identyfikacja i kontrola źródeł; nie test decyzji prawnych"
+  },
+  "repository_checks": [
+    {
+      "check": "test_module_registration.py",
+      "returncode": 0,
+      "output": ""
+    },
+    {
+      "check": "test_module_count.py",
+      "returncode": 0,
+      "output": ""
+    },
+    {
+      "check": "check_plugin_manifest.py",
+      "returncode": 0,
+      "output": "T38: skille: 32; marketplace.json: TAK\nWYNIK: PASS\n"
+    },
+    {
+      "check": "check_coverage_coherence.py",
+      "returncode": 0,
+      "output": "DR checked: 16; modules: 456\nWYNIK: OK — 16 map bieżących, routing i moduły spójne, brak warstwy baseline/delta w runtime.\n"
+    },
+    {
+      "check": "check_dlugosc_modulow.py",
+      "returncode": 0,
+      "output": "check_dlugosc_modulow.py — T13 (próg długości, ZASADA 13)\n  przeskanowano modułów `modules/mod-*.md`: 74\n  zasobów kanonicznych `shared/**/*.md`: 0 (w tym satelity w podkatalogach)\n  próg CRIT: >1000 linii | strefa WARN: 800-1000\n\n✅ Żaden moduł nie przekracza progu 1000 linii.\n\n⚠️  STREFA OSTRZEGAWCZA 800-1000 — podziel PRZY OKAZJI najbliższej edycji, nie hurtem: 1\n       861  modules/mod-KSH-spolki-handlowe.md\n\n====================================================================\nWYNIK T13: ✅ OK — brak modułów powyżej progu.\n   1 plik(ów) w strefie ostrzegawczej — bez działania dzisiaj.\n"
+    }
+  ],
+  "archives": {
+    "packages": 32,
+    "errors": []
+  },
+  "online_check": {
+    "checked_at": "2026-10-04T15:47:35.286625+00:00",
+    "result": "ZGODNOSC_SNAPSHOTU_Z_ELI",
+    "scope": "PDF i relacje ELI; nie ocena prawa właściwego dla dat sprawy"
+  },
+  "generic_codex_validator": {
+    "result": "INCOMPATIBLE_INHERITED_SCHEMA",
+    "detail": "Minimalny quick_validate odrzuca zastane klucze dependencies/version zarówno przed, jak i po zmianie. Walidator manifestów repozytorium przechodzi. Nie zmieniano formatu całego projektu."
+  },
+  "limits": [
+    "Komentarz i niezależny audyt merytoryczny wszystkich jednostek pozostają częściowe; szczegóły F-230 i coverage.json.",
+    "Nie zainstalowano w konfiguracji użytkownika ani nie włączono do produkcyjnych workflow system kancelarii.",
+    "Stabilny snapshot repozytorium pozostaje historyczny; nie utworzono PR do projektu źródłowego."
+  ],
+  "private_repository": "https://github.com/jaco/Lex-Machina"
+}

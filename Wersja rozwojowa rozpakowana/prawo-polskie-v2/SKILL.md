@@ -10,8 +10,9 @@ dependencies:
     - shared
   # 2026-09-27e: jawna zależność (każdy skill systemu korzysta z `shared`); pole czytane przy imporcie z marketplace
 changelog: |
-  Wersja bieżąca: 6.36 (2026-10-04g, AUDYT-2026-10-04g): 
+  Wersja bieżąca: 6.36 (2026-10-04-PrUp): pełny korpus PrUp i routing czterech procedur syndyka po aktualizacji upstream.
   Poprzednia: 6.35 (2026-10-04f, AUDYT-2026-10-04f): 
+  Poprzednia: 6.34 (2026-10-04e, AUDYT-2026-10-04e): 
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 

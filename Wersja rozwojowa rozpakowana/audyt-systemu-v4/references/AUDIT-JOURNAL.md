@@ -1,5 +1,41 @@
 # AUDIT-JOURNAL — Dziennik Audytów Systemu Prawnego AI
 
+
+## AUDYT-2026-10-04-PrUp — pełny korpus i procedury syndyka
+
+Zakres: lokalne rozszerzenie linii rozwojowej; punkt wyjścia
+`f66715f290fe998b091eb577ffbc61384c56a9c2`. Bez publikacji upstream i bez zmian
+w produkcyjnych sprawach. Wersje: DR-02 3.62, prawo-polskie-v2 6.36,
+audyt-systemu-v4 6.166.
+
+Źródła RZĄD 1 odczytane 04.10.2026: ELI DU/2026/913 (metryka, pełny PDF),
+relacje DU/2003/535 oraz nowelizacja DU/2026/1206 (art. 7 i 57). KPC 2026/468
+art. 130 odczytany pomocniczo; użycie w sprawie wymaga osobnej kontroli zmian KPC.
+
+Wykonano:
+- zastosowanie korekt art. 239/240, kategorii zaspokojenia i wyjątków od KRZ;
+- usunięcie konfliktujących opisów konsumenta (491^14a vs 491^16;
+  celowość vs umyślność) oraz nadmiernie szerokiego opisu art. 128;
+- zachowanie pełnego PDF i ekstrakcji, indeks 603 jawnych nagłówków i mapa
+  70 węzłów struktury; uchylone/pominięte części jawne;
+- pięć modułów: źródło i wersje, zgłoszenia/lista, podział funduszów,
+  syndyk/likwidacja, konsument; routing w czterech rejestrach;
+- czytnik Python z identyfikacją indeksów górnych, granic artykułów,
+  kontrolą integralności i porównaniem źródła/relacji online;
+- rejestr źródła i częściowego opracowania per artykuł; wykryte ustępy
+  pozostają ekstrakcją pomocniczą, nie deklaracją audytu wszystkich ustępów;
+- odnotowanie zmiany art. 452 ust. 1 i 456 ust. 1 od 11.01.2027.
+
+Testy czytnika: 18 przypadków offline obejmujących odczyt, numery indeksowane,
+nieznane przepisy, integralność, nowe nowelizacje i awarię ELI. Rzeczywisty odczyt
+art. 240 z --verify-online potwierdził zgodność PDF i relacji. To nie jest
+benchmark jakości rozstrzygnięć prawnych. Wyniki walidatorów rejestracji,
+routingu, wersji i paczek są dołączone do raportu dostawy.
+
+Otwarte: F-230 — pogłębianie komentarza i niezależna walidacja przypadków,
+wersje historyczne i przepisy wykonawcze dobierane do konkretnej sprawy.
+Dostęp do całej ustawy nie jest deklaracją komentarza FULL ani wdrożenia produkcyjnego.
+
 > ⛔ **F-198 ZAMKNIĘTA JAKO ADNOTACJA (2026-09-26, wariant „zostaw z adnotacją" z
 > WARN-OTWARTE.md) — trzy wpisy poniżej (23c, 23b, 23) stoją tu WBREW FAZIE 7A.**
 > Zostały dopisane na POCZĄTKU pliku zamiast na końcu (reguła kanoniczna od

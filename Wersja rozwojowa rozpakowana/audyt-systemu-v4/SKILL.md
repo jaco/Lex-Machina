@@ -1494,7 +1494,7 @@ audyt-systemu-v4/                               ← 89 plików (stan 2026-09-09b
 
 ---
 
-*Wersja: 6.166 | Ostatnia aktualizacja: 2026-10-04g (rozbieżności MAPA-AKTOW wykryte mechanicznie przez aplikację — DR-03 3.51, DR-09 3.43, prawo-polskie-v2 6.36); poprzednio 2026-10-04f (przegląd stawek mandatów DR-03 wobec rozp. PRM z 24.11.2003 i art. 96 KPW — DR-03 3.50; T11 zsynchronizowany: ROUTING-MAP 6.35, mapa Dz.U.). Poprzednio 6.164 — 2026-10-04e (F-229, T45).*
+*Wersja: 6.166 | Ostatnia aktualizacja: 2026-10-04f (przegląd stawek mandatów DR-03 wobec rozp. PRM z 24.11.2003 i art. 96 KPW — DR-03 3.50; T11 zsynchronizowany: ROUTING-MAP 6.35, mapa Dz.U.). Poprzednio 6.164 — 2026-10-04e (F-229, T45).*
 
 *(Stopka podawała „5.0 | 2026-07-04" przy `version: 6.8` w YAML — rozjazd
 9 wersji, naprawiony 2026-08-20y. **Stopkę aktualizuj razem z polem `version`**;

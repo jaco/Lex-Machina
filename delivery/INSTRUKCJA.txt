@@ -1,0 +1,33 @@
+Lex-Machina — rozszerzenie Prawa upadłościowego, 04.10.2026
+
+Paczka zawiera 32 skille linii rozwojowej. W DR-02 3.62 dodano pełny urzędowy
+tekst PrUp (Dz.U. 2026 poz. 913), indeks 603 nagłówków, metrykę i nowelizację
+2026/1206, czytnik oraz cztery procedury dla pracy syndyka. Router 6.36 wskazuje
+nowe moduły; audyt 6.166 zawiera wyniki i jawne ograniczenia.
+
+Rozpakuj potrzebne ZIP-y z katalogu skills. Zachowaj zależności zgodnie
+z README oryginalnego projektu: shared, prawny-router-v3, prawo-polskie-v2,
+DR-02 i skille wykonawcze odpowiednie do zadania. Ta dostawa nie instaluje
+ich automatycznie ani nie zmienia żadnej sprawy w system kancelarii.
+
+W katalogu dr-02-prawo-cywilne-rodzinne-gospodarcze:
+  python3 scripts/prup.py article 240 --verify-online
+  python3 scripts/prup.py article '491^14' --verify-online
+  python3 scripts/prup.py search 'rachunku bankowego'
+  python3 scripts/test_prup.py
+
+Punkt wejścia: modules/mod-PrUpad-zrodla-i-wersje.md.
+Procedury: wierzytelności, podział funduszów, syndyk/likwidacja, konsument.
+Źródła i rejestr pokrycia: references/prup/.
+
+Pełny tekst ustawy nie oznacza kompletnego komentarza ani weryfikacji każdego
+ustępu. Przy użyciu w sprawie konieczny jest odczyt źródła, sprawdzenie zmian,
+wersji historycznej i przepisów przejściowych. Korpus nie scala automatycznie
+nowelizacji. Ogólny minimalny walidator Codex nie obsługuje zastanych pól
+frontmatter projektu; szczegóły w WERYFIKACJA.json.
+
+Lokalne źródła: /Users/jaco/workspace/Lex-Machina
+Gałąź: main.
+Repozytorium publiczne: https://github.com/jaco/Lex-Machina
+Oryginalny projekt: https://github.com/michaleiatrak-star/Lex-Machina
+Licencja: GPL-3.0-only; zachowano oznaczenia autorstwa oryginału.

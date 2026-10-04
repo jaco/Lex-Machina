@@ -8,11 +8,11 @@
 
 | Kategoria | Liczba | Pozycje |
 |---|---:|---|
-| Wykonalne sesją audytową | 4 | **F-212**, F-167 (aparatura gotowa, pilot wykonany — brak oceny O-1), **F-208**, **F-209** |
+| Wykonalne sesją audytową | 5 | **F-230**, **F-212**, F-167 (aparatura gotowa, pilot wykonany — brak oceny O-1), **F-208**, **F-209** |
 | Reaktywne | 2 | F-5, **F-224** |
 | Zależne od środowiska/dewelopera | 20 | **F-217(b)**, **F-213**, **F-210**, **F-197** (tylko potwierdzenie na `main`), F-203(b), **F-194** (tylko CBOSA), F-8, F-9, F-11, F-113, F-133, F-137, F-143, F-144, **F-157b**, F-158(c), F-171, **F-183a**, **F-184**, **F-185** |
 | Odnotowane bez działania | 1 | O-8 (ograniczenie strukturalne aparatu) |
-| **Razem** | **27** | — |
+| **Razem** | **28** | — |
 
 > **F-198 ZAMKNIĘTA 2026-09-26b** (wariant adnotacji — patrz `AUDIT-JOURNAL.md`,
 > AUDYT-2026-09-26b §2) i **F-204 ZAMKNIĘTA 2026-09-26b** (`shared/tools/adapter_krs_vat.py`
@@ -485,3 +485,16 @@
 
 | F-217(b) | Prawdziwe numery PESEL (8, wolny tekst odpisu KRS) usunięte z `audyt-systemu-v4/mcp-servers/krs-example/fixtures/krs_odpisy.json` w drzewie (2026-09-29), ale obecne w historii gita repozytorium publicznego. Decyzja dewelopera: przepisanie historii (`git filter-repo`) albo świadome przyjęcie (dane z jawnego rejestru). Zamknięcie: decyzja zapisana w AUDIT-JOURNAL. |
 
+
+
+## F-230 — PrUp: głębokość komentarza i walidacja na aktach
+
+Pełny korpus źródłowy i routing są dostępne; dalszy zakres obejmuje:
+- merytoryczny audyt każdej jednostki/ustępu, poza opracowanymi workflow;
+- komentarz do pozostałych wyjątków i powiązanych aktów wykonawczych;
+- historyczne wersje dobrane do dat konkretnych postępowań;
+- niezależne przebiegi na zanonimizowanych aktach i porównanie z decyzjami syndyka.
+
+Nie podnosić `references/prup/coverage.json` do FULL na podstawie samej obecności
+źródła, mapy zakresów lub testów skryptu. Szczegóły wykonanych zmian wyłącznie
+w AUDYT-2026-10-04-PrUp.

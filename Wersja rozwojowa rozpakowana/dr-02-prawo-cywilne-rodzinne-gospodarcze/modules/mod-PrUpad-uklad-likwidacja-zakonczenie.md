@@ -263,7 +263,7 @@ postępowania — upadły będący OSOBĄ FIZYCZNĄ może złożyć:
      TRWAŁĄ niezdolność do jakichkolwiek spłat
 
 ⭐⭐⭐ POWIĄZANIE Z SEKCJĄ "UPADŁOŚĆ KONSUMENCKA" (wyżej w tym pliku,
-trójstopniowy system wina/niedbalstwo/umyślność) — TEN artykuł (369) to
+odrębne przesłanki art. 491^14a–491^16) — TEN artykuł (369) to
 formalny mechanizm URUCHAMIAJĄCY etap oddłużenia PO zakończeniu
 likwidacji masy, w trybie zwykłego postępowania upadłościowego (nie
 uproszczonego konsumenckiego) — dwie różne ścieżki dojścia do tego
