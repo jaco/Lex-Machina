@@ -69711,6 +69711,21 @@ Jak w § 2B. Wszystkie twierdzenia o treści zmian — RZĄD 1 (ELI `text.pdf`);
 1. Po ogłoszeniu nowego rozp. WT — FAZA 3E na parametrach WT (F-224); do tego czasu każde powołanie WT wymaga ustalenia, czy inwestor złożył oświadczenie z art. 102a.
 2. Mapy w modułach podawały datę ogłoszenia jako datę obwieszczenia (2025/1783) — przy kolejnych t.j. odczytywać `announcementDate` z ELI, nie `promulgation`.
 
+## AUDYT-2026-10-04-PrUp-PrRestr
+
+Zakres: pełne korpusy i procedury obu ustaw. PrUp 603, PrRestr 407 jawnych
+nagłówków, bez nieprzypisanych jednostek. Przepisy pominięte w t.j. zachowano
+w pełnych pierwotnych PDF-ach. Dodano 11 źródeł pomocniczych i 11 modułów.
+Naprawy: zabezpieczenia i zgody po reformie, uchylone 181/186 PrRestr,
+nowe większości grupowe, 211b/218a PZU, przyszłe 156 ust. 5 pkt 4 PrRestr,
+266f PrUp (odesłanie zamiast domniemanego wynagrodzenia), usunięcie dawnego
+rozróżnienia trybów upadłości i utożsamienia miesiąca z 30 dniami.
+Czytnik odmawia znanej niewłaściwej wersji przy jawnej dacie i nie oznacza
+offline jako świeżej weryfikacji. Źródło i routing nie są dowodem pełnej
+wykładni wszystkich wyjątków; F-230 pozostaje jawna dla niezależnej walidacji.
+Wyniki automatyczne i sprawdzenia scenariuszy: delivery/WERYFIKACJA.json
+oraz references/insolvency/scenariusze-weryfikacji.md.
+
 ---
 
 ## AUDYT-2026-10-04b — TRYB STRUKTURA: sieroty i relikty w całym systemie; T43 `check_sieroty.py` (6.161)
@@ -69925,4 +69940,3 @@ Bez nowych numerów; Dz.U. 2026 poz. 1243 — ✅ [VER] RZĄD 1 2026-10-04 (już
 
 ### 5. STRUKTURA SYSTEMU — SNAPSHOT
 Liczby plików bez zmian. Podbicia: DR-03 3.50 → **3.51**, DR-09 3.42 → **3.43**, prawo-polskie-v2 6.35 → **6.36**, audyt 6.165 → **6.166**.
-

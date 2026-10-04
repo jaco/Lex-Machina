@@ -34,3 +34,10 @@ zewnętrznych i pięć modułów. Odczyt PDF/JSON/Markdown działa również bez
 brak Pythona nie upoważnia do pominięcia weryfikacji online. Aktualna integralność
 plików jest w CHECKSUMS.sha256. Nowa treść nie jest deklaracją niezmienności
 merytorycznej z historycznej sekcji „Zakres zmian”.
+
+## Pełne oba korpusy — 2026-10-04
+
+Python 3 (biblioteka standardowa): `scripts/prup.py`, `scripts/prrestr.py`,
+`scripts/insolvency.py`. Bez Pythona czytaj pełne PDF-y i moduły, a świeżość
+sprawdź przez oficjalne ELI narzędziem hosta. Wszystkie ścieżki są względne
+wobec katalogu skilla; aktualny katalog roboczy nie wpływa na odczyt.

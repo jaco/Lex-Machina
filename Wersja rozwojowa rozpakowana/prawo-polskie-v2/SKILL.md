@@ -1,6 +1,6 @@
 ---
 name: prawo-polskie-v2
-version: "6.36"
+version: "6.38"
 type: domain-router
 status: production
 compatibility: "live_web_lookup, cross_skill_file_read"
@@ -10,9 +10,9 @@ dependencies:
     - shared
   # 2026-09-27e: jawna zależność (każdy skill systemu korzysta z `shared`); pole czytane przy imporcie z marketplace
 changelog: |
-  Wersja bieżąca: 6.36 (2026-10-04-PrUp): pełny korpus PrUp i routing czterech procedur syndyka po aktualizacji upstream.
-  Poprzednia: 6.35 (2026-10-04f, AUDYT-2026-10-04f): 
-  Poprzednia: 6.34 (2026-10-04e, AUDYT-2026-10-04e): 
+  Wersja bieżąca: 6.38 (2026-10-04-PrUp-PrRestr): pełne korpusy PrUp i PrRestr oraz routing procedur po aktualizacji upstream.
+  Poprzednia: 6.36 (2026-10-04g, AUDYT-2026-10-04g):
+  Poprzednia: 6.35 (2026-10-04f, AUDYT-2026-10-04f):
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 

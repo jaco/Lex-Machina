@@ -487,14 +487,17 @@
 
 
 
-## F-230 — PrUp: głębokość komentarza i walidacja na aktach
+## F-230 — PrUp/PrRestr: niezależna walidacja wykładni na aktach
 
-Pełny korpus źródłowy i routing są dostępne; dalszy zakres obejmuje:
-- merytoryczny audyt każdej jednostki/ustępu, poza opracowanymi workflow;
-- komentarz do pozostałych wyjątków i powiązanych aktów wykonawczych;
-- historyczne wersje dobrane do dat konkretnych postępowań;
-- niezależne przebiegi na zanonimizowanych aktach i porównanie z decyzjami syndyka.
+Pełne źródła obu ustaw, routing wszystkich jawnych nagłówków i procedury
+wszystkich działów są dostępne. W ramach dostawy rozbudowano brakujące tryby,
+skorygowano stare reguły układu i dołączono źródła przejściowe/historyczne.
+Dalszy zakres jakościowy (nie brak tekstu ustawy):
+- niezależny audyt interpretacji wszystkich wyjątków i odesłań;
+- walidacja na zanonimizowanych aktach z porównaniem decyzji praktyka;
+- rekonstrukcja wersji historycznej dla dat konkretnej sprawy;
+- aktualne orzecznictwo i doktryna dla spornych zbiegów norm.
 
-Nie podnosić `references/prup/coverage.json` do FULL na podstawie samej obecności
-źródła, mapy zakresów lub testów skryptu. Szczegóły wykonanych zmian wyłącznie
-w AUDYT-2026-10-04-PrUp.
+Nie oznaczać indeksów jako FULL komentarza na podstawie samych testów kodu.
+Wynik dostawy: AUDYT-2026-10-04-PrUp-PrRestr, rejestr
+`dr-02-prawo-cywilne-rodzinne-gospodarcze/references/insolvency/coverage-summary.json`.

@@ -1,6 +1,8 @@
 # CHANGELOG — audyt-systemu-v4
 
-- 6.166 (2026-10-04-PrUp): Rejestr audytu rozszerzenia PrUp, źródła, wykryte błędy i jawny zakres dalszego pogłębiania.
+- 6.168 (2026-10-04-PrUp-PrRestr): Pełne źródła i routing obu ustaw; zachowane aktualizacje upstream, scalone rejestry i odbudowane paczki. Szczegóły w sekcji „pełny korpus PrUp + PrRestr” poniżej.
+
+- 6.167 (2026-10-04-PrUp): Rejestr audytu rozszerzenia PrUp, źródła, wykryte błędy i jawny zakres dalszego pogłębiania.
 
 - 6.166 (2026-10-04g, AUDYT-2026-10-04g): Dziennik AUDYT-2026-10-04g — dwie rozbieżności MAPA-AKTOW wykryte mechanicznie przez aplikację (kontrola: moduł wskazany numerem Dz.U. lub nazwą musi wymieniać akt; zakres artykułów z nagłówka modułu): DR-03 KK art. 270–310 → 270–277d, 310; DR-09 elektromobilność → moduł transportu.
 
@@ -2024,3 +2026,12 @@
 
 **4.3:** PRAWO-HARDGATE KROK 2B/5B (NOTA-5, TK 2024-2026), AKTY-PRAWNE-MASTER
 deprecated (WARN-7), WARN-8 zamknięty 16/16 (TRYB DZU), WARN-9 zamknięty.
+
+## 2026-10-04 — pełny korpus PrUp + PrRestr
+
+Pełne źródła obu ustaw (603 + 407 nagłówków), metryki, 11 aktów pomocniczych,
+czytniki, kontrola dat, rejestr jednostek i routing. Dodano 11 modułów;
+przepisano nieaktualne moduły układu, układu częściowego, organów i wierzycieli.
+Skorygowano reguły reformy 2025/1085, przyszłe brzmienie art. 156 PrRestr,
+odesłanie art. 266f PrUp i pozostałości dawnej upadłości układowej.
+Testy techniczne nie stanowią niezależnego audytu każdej wykładni.

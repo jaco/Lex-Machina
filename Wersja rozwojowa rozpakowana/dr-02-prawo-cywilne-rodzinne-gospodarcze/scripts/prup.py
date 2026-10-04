@@ -6,6 +6,7 @@ snapshot. --verify-online porównuje PDF i relacje ELI, nie rozstrzyga temporaln
 konkretnej sprawy. Nie generuje prawa ani ocen wierzytelności.
 """
 import argparse
+from bisect import bisect_left
 import hashlib
 import json
 from pathlib import Path
@@ -16,6 +17,8 @@ from urllib.request import urlopen, Request
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / 'references/prup'
 SOURCE = DATA / 'sources'
+STEM = 'prup'
+START_MARKER = 'CZĘŚĆ PIERWSZA'
 PATTERN = re.compile(r'^[ \t]*Art\.[ \t]+(\d+(?:\[[0-9a-z]+\])?[a-z]*(?:–\d+)?)\.[ \t]*', re.M)
 SUPERSCRIPT = str.maketrans('⁰¹²³⁴⁵⁶⁷⁸⁹', '0123456789')
 
@@ -32,9 +35,10 @@ def sha(data):
 
 
 def parse_articles(text):
-    start = text.index('CZĘŚĆ PIERWSZA')
+    start = text.index(START_MARKER)
     matches = list(PATTERN.finditer(text, start))
     result = []
+    page_breaks = [m.start() for m in re.finditer('\\f', text)]
     for i, match in enumerate(matches):
         end = matches[i+1].start() if i+1 < len(matches) else len(text)
         body = text[match.end():end]
@@ -42,7 +46,7 @@ def parse_articles(text):
                  'POMINIETE_W_TJ' if body.lstrip().startswith('(pominięte)') else 'TEKST_W_TJ')
         result.append({'id': normalize(match[1]), 'label': match[1],
                        'start': match.start(), 'end': end,
-                       'page': text[:match.start()].count('\f') + 1,
+                       'page': bisect_left(page_breaks, match.start()) + 1,
                        'source_status': state})
     ids = [r['id'] for r in result]
     if not result or len(ids) != len(set(ids)):
@@ -52,10 +56,10 @@ def parse_articles(text):
 
 def build():
     metadata = json.loads((DATA/'metadata.json').read_text())
-    raw = (SOURCE/'prup.txt').read_text()
-    if sha((SOURCE/'prup.pdf').read_bytes()) != metadata['pdf_sha256']:
+    raw = (SOURCE/(STEM+'.txt')).read_text()
+    if sha((SOURCE/(STEM+'.pdf')).read_bytes()) != metadata['pdf_sha256']:
         raise ValueError('PDF niezgodny z metryką; wymagany nowy audyt źródła')
-    if sha((SOURCE/'prup.txt').read_bytes()) != metadata['text_sha256']:
+    if sha((SOURCE/(STEM+'.txt')).read_bytes()) != metadata['text_sha256']:
         raise ValueError('Ekstrakcja niezgodna z metryką; wymagany nowy audyt źródła')
     articles = parse_articles(raw)
     expected = metadata['expected_article_headings']
@@ -69,7 +73,7 @@ def build():
 def load():
     metadata = json.loads((DATA/'metadata.json').read_text())
     data = json.loads((DATA/'index.json').read_text())
-    text_bytes = (SOURCE/'prup.txt').read_bytes()
+    text_bytes = (SOURCE/(STEM+'.txt')).read_bytes()
     if sha(text_bytes) != data['source_sha256'] or sha(text_bytes) != metadata['text_sha256']:
         raise ValueError('Naruszona integralność ekstrakcji; odczyt zablokowany')
     # Odtworzenie zapobiega podmianie offsetów/identyfikatorów w indeksie.
@@ -80,7 +84,7 @@ def load():
 
 
 def relations(value):
-    return {k: v for k,v in value.items() if k in ('Akty zmieniające', 'Inf. o tekście jednolitym', 'Orzeczenie TK')}
+    return {k: v for k,v in value.items() if k in ('Akty zmieniające', 'Akty uchylające', 'Akty uznające za uchylone', 'Inf. o tekście jednolitym', 'Orzeczenie TK')}
 
 
 def download(url):
@@ -103,6 +107,26 @@ def verify(metadata):
             'scope': 'PDF i relacje ELI; nie ocena prawa właściwego dla dat sprawy'}
 
 
+def temporal_status(metadata, as_of=None, article=None):
+    """Refuse known wrong snapshots; never infer a case's transition regime."""
+    from datetime import date
+    target = date.fromisoformat(as_of) if as_of else date.today()
+    day = target.isoformat()
+    changes = [{**a, 'state': 'WESZLA_W_ZYCIE' if a['effective_from'] <= day else 'PRZYSZLA'}
+               for a in metadata['later_amendments']
+               if article is None or article in a['articles']]
+    blocked = False
+    reason = 'WYMAGA_USTALENIA_PRZEPISOW_PRZEJSCIOWYCH_DLA_SPRAWY'
+    if day < metadata['legal_status_date']:
+        blocked, reason = True, 'WERSJA_HISTORYCZNA: data wcześniejsza niż stan prawny snapshotu; użyj tekstu historycznego i nowelizacji'
+    elif as_of and day > date.today().isoformat():
+        blocked, reason = True, 'DATA_PRZYSZLA: nie można potwierdzić przyszłego stanu prawnego'
+    elif any(a['state'] == 'WESZLA_W_ZYCIE' for a in changes):
+        blocked, reason = True, 'WYMAGANA_ZMIANA_WERSJI: weszła znana nowelizacja; snapshot wymaga wyboru/scalenia właściwego wariantu'
+    return {'as_of': day, 'explicit_date': as_of is not None, 'blocked': blocked,
+            'reason': reason, 'changes': changes, 'case_applicability_verified': False}
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest='command', required=True)
@@ -111,6 +135,10 @@ def main():
     article = sub.add_parser('article')
     article.add_argument('id', help='np. 240, 216aa, 491^14, 491[14], 491¹⁴')
     article.add_argument('--verify-online', action='store_true')
+    article.add_argument('--as-of', help='YYYY-MM-DD; kontrola daty prawa, nie automatyczny wybór przepisów przejściowych')
+    temporal = sub.add_parser('temporal')
+    temporal.add_argument('--as-of', required=True)
+    sub.add_parser('verify')
     search = sub.add_parser('search')
     search.add_argument('query')
     search.add_argument('--limit', type=int, default=20)
@@ -120,7 +148,11 @@ def main():
             out = {'articles': len(build()['articles'])}
         else:
             meta, articles, raw = load()
-            if args.command == 'summary':
+            if args.command == 'verify':
+                out = verify(meta)
+            elif args.command == 'temporal':
+                out = temporal_status(meta, args.as_of)
+            elif args.command == 'summary':
                 out = {'metadata': meta, 'articles':len(articles), 'statuses':{
                     s:sum(a['source_status']==s for a in articles)
                     for s in sorted({a['source_status'] for a in articles})}}
@@ -129,9 +161,14 @@ def main():
                 found = next((a for a in articles if a['id']==wanted), None)
                 if found is None:
                     raise ValueError('BRAK_W_SNAPSHOCIE: nie zgaduj numeru ani treści; sprawdź uchylone/pominięte części PDF')
+                if args.as_of:
+                    status = temporal_status(meta, args.as_of, wanted)
+                    if status['blocked']:
+                        raise ValueError(status['reason'])
                 freshness = verify(meta) if args.verify_online else {'result':'SNAPSHOT_OFFLINE_NIE_JEST_FRESH_GATE'}
                 out = {**found, 'source':meta['pdf_url']+'#page='+str(found['page']),
                        'snapshot_verified_on':meta['verified_on'], 'freshness':freshness,
+                       'temporal':temporal_status(meta, args.as_of, wanted),
                        'temporal_warning':'Przed użyciem ustal daty sprawy i przepisy przejściowe. Snapshot nie jest automatycznie właściwą wersją historyczną ani przyszłą.',
                        'amendments':[x for x in meta['later_amendments'] if wanted in x['articles']],
                        'extraction_warning':'Ekstrakcja zawiera nagłówki stron, przypisy i etykiety kolejnych działów. Cytat porównaj z PDF; zapis [n] oznacza indeks górny.',

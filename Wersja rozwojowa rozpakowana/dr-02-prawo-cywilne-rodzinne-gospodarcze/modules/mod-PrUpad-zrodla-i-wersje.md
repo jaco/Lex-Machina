@@ -63,6 +63,16 @@ Odczyt offline jest jawnie oznaczony jako snapshot; nie spełnia fresh gate.
 5. Zapisz dowód: URL, data odczytu, artykuł/ustęp, strona, reguła przejściowa
    i uzasadnienie, dlaczego ta wersja ma zastosowanie.
 
+## Pełne pokrycie obu ustaw
+
+Katalog wszystkich jawnych nagłówków obu t.j.: `references/insolvency/katalog.md`.
+Sprawdzenie: `python3 scripts/insolvency.py coverage`; odczyt z procedurą:
+`python3 scripts/insolvency.py route prup 127`. Pismo dotyczące restrukturyzacji
+uruchamia również `mod-PrRestr-zrodla-i-wersje.md` i czytnik `scripts/prrestr.py`.
+Pełne teksty pierwotne, poprzednie t.j. i nowelizacje w `references/insolvency/sources/`.
+Wybór reżimu: `references/insolvency/wersje-i-przepisy-przejsciowe.md`.
+Instrukcja dalszej rozbudowy: `references/insolvency/dodawanie-ustawy.md`.
+
 ## Routing pracy syndyka
 
 | Zadanie | Moduł |
@@ -71,7 +81,10 @@ Odczyt offline jest jawnie oznaczony jako snapshot; nie spełnia fresh gate.
 | Fundusze masy, kategorie, zabezpieczenia, plan podziału | `mod-PrUpad-podzial-335-360.md` |
 | Objęcie masy, sprawozdawczość, wynagrodzenie, plan i sprzedaż | `mod-PrUpad-syndyk-likwidacja.md` |
 | Konsument: wybór trybu, wyłączenia, projekt planu spłaty | `mod-PrUpad-konsument-workflow.md` |
-| Niewypłacalność, zabezpieczenie, pre-pack, bezskuteczność, zakaz | `mod-PrUpad-upadlosc-restrukturyzacja.md` |
+| Wniosek, niewypłacalność, zabezpieczenie, pre-pack | `mod-PrUpad-wniosek-ogloszenie.md` |
+| Masa, umowy, małżeństwo, bezskuteczność, procesy | `mod-PrUpad-skutki-masa-bezskutecznosc.md` |
+| Organy, rada i zgromadzenie, KRZ i doręczenia | `mod-PrUpad-organy-procedura.md` |
+| Zakończenie, zakaz, karne i przejściowe | `mod-PrUpad-zakonczenie-zakaz-karne.md` |
 | Układ, zakończenie, umorzenie | `mod-PrUpad-uklad-likwidacja-zakonczenie.md` |
 | Międzynarodowe, deweloperzy, po śmierci dłużnika | `mod-PrUpad-likwidacja-miedzynarodowe-szczegolne.md` |
 | Banki/SKOK, ubezpieczyciele, obligacje, układ konsumencki | `mod-PrUpad-postepowania-odrebne-426-491-38.md` |

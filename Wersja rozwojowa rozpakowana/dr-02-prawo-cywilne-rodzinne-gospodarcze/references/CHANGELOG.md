@@ -1,5 +1,7 @@
 # CHANGELOG — dr-02-prawo-cywilne-rodzinne-gospodarcze
 
+- 3.63 (2026-10-04-PrUp-PrRestr): Pełne źródła i procedury PrUp oraz PrRestr, 1010 nagłówków z routingiem i 11 aktów pomocniczych. Szczegóły w sekcji „pełny korpus PrUp + PrRestr” poniżej.
+
 - 3.62 (2026-10-04-PrUp): Pełny urzędowy korpus PrUp, 603 nagłówki, odczyt z kontrolą ELI i rejestr pokrycia; pięć nowych modułów (źródła + cztery workflow). Korekty art. 239/240, kategorii, kanałów, konsumenta i art. 128. Nowelizacja 2026/1206 od 11.01.2027. Komentarz pozostaje częściowy.
 
 - 3.61 (2026-10-03b, AUDYT-2026-10-03b, F-223): `SKILL.md` odtworzony z `main` sprzed 3.60 (wydanie 3.60 zbudowano z kopii zainstalowanej w claude.ai — host zdjął wcięcie listy `dependencies.requires` i usunął komentarz YAML z 2026-09-27e). Treść 3.60 (F-218, `mod-KC-ubezpieczenia`) bez zmian; jedyna różnica `SKILL.md` względem 3.59 to `version:`.
@@ -39,3 +41,12 @@
 - 3.37 (2026-08-26): poprawiono i zsynchronizowano metryki tekstów jednolitych
   w modułach cywilnych, rodzinnych, konsumenckich, nieruchomościowych,
   upadłościowych i korporacyjnych.
+
+## 2026-10-04 — pełny korpus PrUp + PrRestr
+
+Pełne źródła obu ustaw (603 + 407 nagłówków), metryki, 11 aktów pomocniczych,
+czytniki, kontrola dat, rejestr jednostek i routing. Dodano 11 modułów;
+przepisano nieaktualne moduły układu, układu częściowego, organów i wierzycieli.
+Skorygowano reguły reformy 2025/1085, przyszłe brzmienie art. 156 PrRestr,
+odesłanie art. 266f PrUp i pozostałości dawnej upadłości układowej.
+Testy techniczne nie stanowią niezależnego audytu każdej wykładni.

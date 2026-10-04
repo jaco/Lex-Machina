@@ -1,6 +1,8 @@
 # CHANGELOG — prawo-polskie-v2
 
-- 6.36 (2026-10-04-PrUp): Routing źródła i czterech nowych procedur PrUp; rozdzielenie pełnego źródła od pełnego komentarza.
+- 6.38 (2026-10-04-PrUp-PrRestr): Pełne źródła i routing obu ustaw; zachowane aktualizacje upstream, scalone rejestry i odbudowane paczki. Szczegóły w sekcji „pełny korpus PrUp + PrRestr” poniżej.
+
+- 6.37 (2026-10-04-PrUp): Routing źródła i czterech nowych procedur PrUp; rozdzielenie pełnego źródła od pełnego komentarza.
 
 - 6.36 (2026-10-04g, AUDYT-2026-10-04g): ROUTING-MAP — wiersz KK fałszerstw zawężony do „art. 270-277d, 310” (wg nagłówka modułu DR-03; synchronizacja z DR-03 3.51).
 
@@ -83,3 +85,12 @@
   zgodnie z decyzją generalną F-102(C); `version` ujęty w cudzysłów
   (profilaktyka pułapki float, F-102(B)). Pełny opis:
   `audyt-systemu-v4/references/AUDIT-JOURNAL.md`, wpis AUDYT-2026-08-23g.
+
+## 2026-10-04 — pełny korpus PrUp + PrRestr
+
+Pełne źródła obu ustaw (603 + 407 nagłówków), metryki, 11 aktów pomocniczych,
+czytniki, kontrola dat, rejestr jednostek i routing. Dodano 11 modułów;
+przepisano nieaktualne moduły układu, układu częściowego, organów i wierzycieli.
+Skorygowano reguły reformy 2025/1085, przyszłe brzmienie art. 156 PrRestr,
+odesłanie art. 266f PrUp i pozostałości dawnej upadłości układowej.
+Testy techniczne nie stanowią niezależnego audytu każdej wykładni.
