@@ -1,6 +1,6 @@
 ---
 name: dr-09-budownictwo-srodowisko-energia-transport
-version: "3.39"
+version: "3.40"
 description: "Budownictwo, środowisko, energia i transport: prawo budowlane, planowanie, odpady, ochrona środowiska, energetyka, drogi i regulacje transportowe."
 dependencies:
   requires:
@@ -532,6 +532,16 @@ view dr-09-budownictwo-srodowisko-energia-transport/modules/[nazwa-modulu].md
 
 ```
 view dr-09-budownictwo-srodowisko-energia-transport/MAPA-AKTOW.md
+```
+
+## Mapa pokrycia treściowego (planowanie rozwoju skilla)
+
+Rejestr informacyjny — NIE krok obowiązkowy przy obsłudze konkretnej sprawy.
+Jedyne bieżące źródło statusu pokrycia tego DR (por. `prawny-router-v3/references/pokrycie-dziedzinowe.md`);
+przy nowelizacji pokazuje, czy dotknięty fragment ma treść do zaktualizowania:
+
+```
+view dr-09-budownictwo-srodowisko-energia-transport/MAPA-POKRYCIA.md
 ```
 
 ---

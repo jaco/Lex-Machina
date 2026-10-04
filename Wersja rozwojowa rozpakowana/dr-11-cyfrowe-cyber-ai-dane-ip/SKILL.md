@@ -1,6 +1,6 @@
 ---
 name: dr-11-cyfrowe-cyber-ai-dane-ip
-version: "3.20"
+version: "3.21"
 description: "Prawo cyfrowe, cyber, AI, dane i IP: RODO, KSC/NIS2, AI Act, usługi cyfrowe, prywatność, cyberbezpieczeństwo, prawo autorskie i własność intelektualna."
 dependencies:
   requires:
@@ -189,6 +189,16 @@ view dr-11-cyfrowe-cyber-ai-dane-ip/modules/[nazwa-modulu].md
 
 ```
 view dr-11-cyfrowe-cyber-ai-dane-ip/MAPA-AKTOW.md
+```
+
+## Mapa pokrycia treściowego (planowanie rozwoju skilla)
+
+Rejestr informacyjny — NIE krok obowiązkowy przy obsłudze konkretnej sprawy.
+Jedyne bieżące źródło statusu pokrycia tego DR (por. `prawny-router-v3/references/pokrycie-dziedzinowe.md`);
+przy nowelizacji pokazuje, czy dotknięty fragment ma treść do zaktualizowania:
+
+```
+view dr-11-cyfrowe-cyber-ai-dane-ip/MAPA-POKRYCIA.md
 ```
 
 ---

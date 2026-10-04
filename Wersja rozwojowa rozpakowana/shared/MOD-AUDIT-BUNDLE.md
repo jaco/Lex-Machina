@@ -38,6 +38,8 @@ ani kontrahenta (STRIP-VER-GATE stosuje się do dokumentu głównego bez zmian).
 | Raport kroków | output MOD-STEP-TRACKER (wykonane / pominięte kroki i bramki) | TAK dla wysokiej stawki |
 | Raport walidacji | wyniki bramek: LEGAL-QUALITY-GATE, AUDYT-KONCOWY, PEER-REVIEW / POST-VALIDATION | jeśli uruchomione |
 | Metadane | model, data, tryb (PRAWNIK/LAIK), użyte skille/moduły, źródła, kto zatwierdza | TAK |
+| Log zdarzeń hash-chain | prowadzi portal wg `shared/AUDIT-TRAIL-SPEC.md` (`tools/append_event.py`, weryfikacja `tools/hash_chain_verify.py`) | jeśli host prowadzi log |
+| Wynik bramki eksportu | `shared/tools/export_gate.py` (log z `tools/extract_api_verification_log.py` + `tools/walidator_cytowan.py`; opis `shared/tools/README.md`) | jeśli host ma log sesji API |
 | Disclaimer | wariant użyty z DISCLAIMER.md | TAK |
 
 ⛔ **NIGDY w paczce:** mapa anonimizacji / pseudonimizacji (KROK 0A routera) —

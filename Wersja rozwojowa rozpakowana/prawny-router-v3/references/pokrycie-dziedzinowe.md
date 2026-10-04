@@ -66,7 +66,7 @@
 4. Historia zmian nie bierze udziału w routingu ani w ocenie bieżącego pokrycia.
 5. Żaden status strukturalny nie zwalnia z fresh hard gate do ELI/ISAP/EUR-Lex przed użyciem przepisu.
 
-## MOSTY DZIEDZINOWE I ARCHIWUM MATERIAŁU (rejestr — AUDYT-2026-10-04b; przeniesiony z SKILL.md, limit korpusu T17)
+## MOSTY DZIEDZINOWE (rejestr — AUDYT-2026-10-04b; przeniesiony z SKILL.md, limit korpusu T17)
 
 Mosty nie zawierają prawa — wskazują kanoniczny moduł DR/shared. Wczytaj most tylko,
 gdy KROK 1 wskazał jedną z tych dziedzin, a `prawo-polskie-v2/ROUTING-MAP.md` nie jest
@@ -83,9 +83,8 @@ view prawny-router-v3/references/tryby-scigania.md              → dr-03 tryby 
 view prawny-router-v3/references/wykroczenia.md                 → dr-03 KW/KPW
 ```
 
-⛔ `references/legacy-material-router/` (8 plików) = ARCHIWUM treści sprzed przeniesienia
-do DR (merge `d3385b9`, 2026-08-27). NIE wczytuj w obsłudze sprawy, NIE poprawiaj
-merytorycznie — źródłem prawa jest moduł DR wskazany przez most. T28 pomija ten katalog
-z założenia. Decyzja „usunąć czy zachować" — flaga F-226 w `audyt-systemu-v4/references/WARN-OTWARTE.md`.
-Pliki: cyberprzestepstwa.md, kwalifikator-karnomaterialny.md, mobbing-dyskryminacja.md,
-przemoc-domowa.md, przesluchanie-swiadkow.md, stalking-nekanie.md, tryby-scigania.md, wykroczenia.md.
+Archiwum `references/legacy-material-router/` (8 plików, treść sprzed przeniesienia do DR,
+merge `d3385b9`) **usunięte w 3.60 (AUDYT-2026-10-04c, F-226)** — porównanie z modułami
+wskazanymi przez mosty: kanon obejmuje treść archiwum (kwalifikator: archiwum v1.0 wobec
+v3.0 w DR-03); 4 tematy bez odpowiednika w DR przekazane do FAZY 3E jako F-228 (nie
+przeniesione — treść archiwum nie przechodziła T28). Historia: git `main` do `f66715f`.

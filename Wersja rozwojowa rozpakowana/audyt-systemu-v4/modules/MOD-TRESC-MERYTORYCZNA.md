@@ -107,6 +107,10 @@ dotyczy tej nowelizacji).
    dostarczany jest jako część **całego skilla DR-XX** (wszystkie pliki),
    nie jako pojedynczy plik `mod-*.md` wyrwany z kontekstu — patrz sekcja
    "Dostarczanie" w SKILL.md nadrzędnym oraz `scripts/dostarcz_skill.sh`.
+6. Gdy wynikiem nie jest korekta fragmentu, lecz BRAK modułu dla aktu albo luka
+   rozdziałowa — nie dopisuj treści ad hoc: `view shared/MOD-GENERATOR-AKTU.md`
+   (G-1…G-8, budowa od spisu treści aktu); strukturę gotowego modułu wyznacza
+   `shared/MODULE-STANDARD-POLISH-LAW.md` (powiązane AUDYT-2026-10-04c).
 
 ---
 

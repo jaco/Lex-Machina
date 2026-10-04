@@ -53,3 +53,6 @@ Każdy moduł ma generować odpowiedź w kolejności:
 
 ## Kontrola porównawcza z modułem wzorcowym
 Jeżeli moduł nie posiada poziomu szczegółowości analogicznego do prawa pracy albo karnego, należy automatycznie zastosować `STANDARDOWE UZUPEŁNIENIE MODUŁU` z końca właściwego pliku modułu.
+
+## Budowa nowego modułu lub uzupełnienie luki rozdziałowej
+Ten plik mówi, JAK MA WYGLĄDAĆ gotowy moduł. Kolejność budowy (od spisu treści aktu, bramki G-1…G-8): `shared/MOD-GENERATOR-AKTU.md`.

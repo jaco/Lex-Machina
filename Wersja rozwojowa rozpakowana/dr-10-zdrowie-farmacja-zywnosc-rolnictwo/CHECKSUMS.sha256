@@ -1,8 +1,8 @@
-24df0881879417202cf2dcc48d0e9394d9f528ff2b3dd1cfcd9df630f9ce44fb  ./.claude-plugin/plugin.json
+5b64b9520045c80d19a9b50b6cc97ccfb7d9a86d908ef3acb614f19753a1a7a7  ./.claude-plugin/plugin.json
 76730c922f88ba1b85921211139cb3462f1eaab007ae92952b1df5475da982b4  ./MAPA-AKTOW.md
 f3c655f9bc61cc2cecafbcc16bf7571959f1edb09906586b463ae86872825298  ./MAPA-POKRYCIA.md
 93c70aa27ded8dd55a23051bde455f08453fa3d966b2b0d6bfde845a27df6de1  ./PORTABILITY-MANIFEST.md
-5e56f06e95bd664feabb95dd18bc76b809397bac3a5d3e3716b6f33c34cf7839  ./SKILL.md
+542549686ac60e26e9706df0e3b683b316785e02c9f220c69672515e6b8b1f5e  ./SKILL.md
 ee2f304c7b47b9ae45e7c4a708348f6be9a5d29f60faa1b3f15124ea502375ea  ./agents/openai.yaml
 e9301497fa98ef56aaca7ede0857b9a18dc06c34040f0679c609a6bf49b1d38b  ./assets/icon.svg
 c7f2b5a906dfcf2b2580864a7417383d877bf96492a6a18a4f6f0f58c1de8673  ./modules/mod-GIF-GIS-nadzor-farmaceutyczny-sanitarny.md
@@ -36,4 +36,4 @@ d8a25a7a75dba1be5492134b91d4e665d2a1be807c9db72cf813c7305043153e  ./modules/mod-
 c63e7a0c19e10c769891a2ddd614a35138b7b9fcbef3f8806912c34fc47edc3f  ./modules/mod-ustawa-zawody-prawnicze-pokrewne.md
 2591a3e26e7ee36990e1cf6faef05a87ed8ae4846c3e5569d44293e5ef9c1647  ./modules/mod-ustawa-zdrowie-psychiczne.md
 da02497d2dc03ec7b23a81e5312b7fd2878f74fa70b5e0823f548ad1998eed5e  ./modules/mod-wyroby-medyczne.md
-890c01d362345c2be383a1b814ece51bdf4092ae8350ab86b222777791413626  ./references/CHANGELOG.md
+6005aaa057624d3eb0be867097265e41f99c69d02f54287cc16bc12484db7845  ./references/CHANGELOG.md

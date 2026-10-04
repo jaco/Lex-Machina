@@ -1,6 +1,6 @@
 ---
 name: dr-01-ustroj-konstytucyjny-i-zrodla-prawa
-version: "3.13"
+version: "3.14"
 description: "Prawo konstytucyjne i ustrojowe: Konstytucja, organy państwa, TK, źródła prawa, legislacja i skarga konstytucyjna; analiza z aktualną weryfikacją źródeł."
 dependencies:
   requires:
@@ -127,6 +127,16 @@ view dr-01-ustroj-konstytucyjny-i-zrodla-prawa/modules/[nazwa-modulu].md
 
 ```
 view dr-01-ustroj-konstytucyjny-i-zrodla-prawa/MAPA-AKTOW.md
+```
+
+## Mapa pokrycia treściowego (planowanie rozwoju skilla)
+
+Rejestr informacyjny — NIE krok obowiązkowy przy obsłudze konkretnej sprawy.
+Jedyne bieżące źródło statusu pokrycia tego DR (por. `prawny-router-v3/references/pokrycie-dziedzinowe.md`);
+przy nowelizacji pokazuje, czy dotknięty fragment ma treść do zaktualizowania:
+
+```
+view dr-01-ustroj-konstytucyjny-i-zrodla-prawa/MAPA-POKRYCIA.md
 ```
 
 ## Powiązania zewnętrzne

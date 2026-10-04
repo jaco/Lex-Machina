@@ -1,6 +1,6 @@
 ---
 name: dr-12-sadownictwo-prokuratura-zawody-prawnicze
-version: "4.21"
+version: "4.22"
 description: "Sądownictwo, prokuratura i zawody prawnicze: ustrój sądów, prokuratura, adwokaci, radcowie, notariusze, komornicy, koszty i odpowiedzialność zawodowa."
 dependencies:
   requires:
@@ -344,6 +344,16 @@ view dr-12-sadownictwo-prokuratura-zawody-prawnicze/modules/[nazwa-modulu].md
 
 ```
 view dr-12-sadownictwo-prokuratura-zawody-prawnicze/MAPA-AKTOW.md
+```
+
+## Mapa pokrycia treściowego (planowanie rozwoju skilla)
+
+Rejestr informacyjny — NIE krok obowiązkowy przy obsłudze konkretnej sprawy.
+Jedyne bieżące źródło statusu pokrycia tego DR (por. `prawny-router-v3/references/pokrycie-dziedzinowe.md`);
+przy nowelizacji pokazuje, czy dotknięty fragment ma treść do zaktualizowania:
+
+```
+view dr-12-sadownictwo-prokuratura-zawody-prawnicze/MAPA-POKRYCIA.md
 ```
 
 ## Powiązania zewnętrzne

@@ -1,6 +1,6 @@
 ---
 name: dr-14-prawo-ue-miedzynarodowe-prawa-czlowieka
-version: "3.9"
+version: "3.10"
 description: "Prawo UE, międzynarodowe i prawa człowieka: prawo pierwotne i wtórne UE, TSUE, EKPC/ETPC, traktaty, kolizje jurysdykcji i standardy praw człowieka."
 dependencies:
   requires:
@@ -242,6 +242,16 @@ view dr-14-prawo-ue-miedzynarodowe-prawa-czlowieka/modules/[nazwa-modulu].md
 
 ```
 view dr-14-prawo-ue-miedzynarodowe-prawa-czlowieka/MAPA-AKTOW.md
+```
+
+## Mapa pokrycia treściowego (planowanie rozwoju skilla)
+
+Rejestr informacyjny — NIE krok obowiązkowy przy obsłudze konkretnej sprawy.
+Jedyne bieżące źródło statusu pokrycia tego DR (por. `prawny-router-v3/references/pokrycie-dziedzinowe.md`);
+przy nowelizacji pokazuje, czy dotknięty fragment ma treść do zaktualizowania:
+
+```
+view dr-14-prawo-ue-miedzynarodowe-prawa-czlowieka/MAPA-POKRYCIA.md
 ```
 
 ---

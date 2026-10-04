@@ -1,6 +1,6 @@
 ---
 name: dr-13-sluzby-bezpieczenstwo-informacje-niejawne
-version: "3.13"
+version: "3.14"
 description: "Służby, bezpieczeństwo i informacje niejawne: Policja, ABW/AW i inne służby, obrona, ochrona informacji niejawnych oraz publicznoprawne ramy bezpieczeństwa."
 dependencies:
   requires:
@@ -183,6 +183,16 @@ view dr-13-sluzby-bezpieczenstwo-informacje-niejawne/modules/[nazwa-modulu].md
 
 ```
 view dr-13-sluzby-bezpieczenstwo-informacje-niejawne/MAPA-AKTOW.md
+```
+
+## Mapa pokrycia treściowego (planowanie rozwoju skilla)
+
+Rejestr informacyjny — NIE krok obowiązkowy przy obsłudze konkretnej sprawy.
+Jedyne bieżące źródło statusu pokrycia tego DR (por. `prawny-router-v3/references/pokrycie-dziedzinowe.md`);
+przy nowelizacji pokazuje, czy dotknięty fragment ma treść do zaktualizowania:
+
+```
+view dr-13-sluzby-bezpieczenstwo-informacje-niejawne/MAPA-POKRYCIA.md
 ```
 
 ---

@@ -1,6 +1,6 @@
 ---
 name: dr-08-samorzad-terytorialny-prawo-lokalne
-version: "3.14"
+version: "3.15"
 description: "Samorząd terytorialny i prawo lokalne: gmina, powiat, województwo, uchwały, akty prawa miejscowego, nadzór, kompetencje JST i lokalne planowanie."
 dependencies:
   requires:
@@ -134,6 +134,16 @@ view dr-08-samorzad-terytorialny-prawo-lokalne/modules/[nazwa-modulu].md
 
 ```
 view dr-08-samorzad-terytorialny-prawo-lokalne/MAPA-AKTOW.md
+```
+
+## Mapa pokrycia treściowego (planowanie rozwoju skilla)
+
+Rejestr informacyjny — NIE krok obowiązkowy przy obsłudze konkretnej sprawy.
+Jedyne bieżące źródło statusu pokrycia tego DR (por. `prawny-router-v3/references/pokrycie-dziedzinowe.md`);
+przy nowelizacji pokazuje, czy dotknięty fragment ma treść do zaktualizowania:
+
+```
+view dr-08-samorzad-terytorialny-prawo-lokalne/MAPA-POKRYCIA.md
 ```
 
 ## Powiązania zewnętrzne

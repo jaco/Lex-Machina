@@ -1,6 +1,6 @@
 ---
 name: dr-10-zdrowie-farmacja-zywnosc-rolnictwo
-version: "3.48"
+version: "3.49"
 description: "Zdrowie, farmacja, żywność i rolnictwo: działalność lecznicza, prawa pacjenta, produkty lecznicze, żywność, weterynaria i regulacje sektora rolnego."
 dependencies:
   requires:
@@ -235,6 +235,16 @@ view dr-10-zdrowie-farmacja-zywnosc-rolnictwo/modules/[nazwa-modulu].md
 
 ```
 view dr-10-zdrowie-farmacja-zywnosc-rolnictwo/MAPA-AKTOW.md
+```
+
+## Mapa pokrycia treściowego (planowanie rozwoju skilla)
+
+Rejestr informacyjny — NIE krok obowiązkowy przy obsłudze konkretnej sprawy.
+Jedyne bieżące źródło statusu pokrycia tego DR (por. `prawny-router-v3/references/pokrycie-dziedzinowe.md`);
+przy nowelizacji pokazuje, czy dotknięty fragment ma treść do zaktualizowania:
+
+```
+view dr-10-zdrowie-farmacja-zywnosc-rolnictwo/MAPA-POKRYCIA.md
 ```
 
 ---

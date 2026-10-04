@@ -5,7 +5,7 @@ dependencies:
   requires:
     - shared
   # 2026-09-27e: jawna zależność (każdy skill systemu korzysta z `shared`); pole czytane przy imporcie z marketplace
-version: "6.161"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
+version: "6.162"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
                   # parsuje jako float 6.1 — czyli numer NIŻSZY niż 6.9, co cicho
                   # odwraca porządek wersji. Wykryte przy walidacji 2026-08-20z.
                   # Każda kolejna wersja z dwucyfrowym minor — też w cudzysłowie.
@@ -1289,7 +1289,8 @@ z WARN-OTWARTE.md, dodaj pełny wpis do AUDIT-JOURNAL.md.
     użytkownika) — moduł przekraczający 1000 linii MUSI zostać
     podzielony wg rozdziałów aktu, który opisuje.**
 
-    **Kiedy sprawdzać:** (a) po KAŻDYM utworzeniu nowego modułu — `wc -l`
+    **Kiedy sprawdzać:** (a) po KAŻDYM utworzeniu nowego modułu (budowa wg
+    `shared/MOD-GENERATOR-AKTU.md` G-1…G-8) — `wc -l`
     na plik zaraz po `create_file`, PRZED rejestracją w SKILL.md/mapie/
     ROUTING-MAP; (b) po KAŻDYM rozbudowaniu istniejącego modułu (kolejna
     sesja FAZA 3E, dopisanie nowego rozdziału/artykułów) — sprawdzić
@@ -1487,7 +1488,7 @@ audyt-systemu-v4/                               ← 89 plików (stan 2026-09-09b
 
 ---
 
-*Wersja: 6.161 | Ostatnia aktualizacja: 2026-10-04b (TRYB STRUKTURA: sieroty i relikty w 9 skillach, nowy T43 `check_sieroty.py`; F-225 zamknięta, F-94 zamknięta, F-226/F-227 otwarte). Poprzednio 6.160 — 2026-10-04 (TRYB DZU+TREŚĆ: nowelizacja Dz.U. 2026 poz. 1161 → dr-09 3.39, prawo-polskie-v2 6.33, shared 3.99.3; mapa Dz.U. 2026-10-04; F-224 otwarta; 36 reliktów usunięte z repozytorium). Poprzednio 6.159 — 2026-10-03c (F-221 dopełniona: T21/T22 — tryb kopii zainstalowanej, T21 `--repo-ref` porównuje korpus bajtowo i frontmatter semantycznie; F-220 zamknięta w `shared` 3.99.2 — DISCLAIMER 2.2)*
+*Wersja: 6.162 | Ostatnia aktualizacja: 2026-10-04c (F-226 i F-227 zamknięte; pomiar osiągalności `shared` ze skilli produkcyjnych; F-228 otwarta). Poprzednio 6.161 — 2026-10-04b (TRYB STRUKTURA: sieroty i relikty, T43).*
 
 *(Stopka podawała „5.0 | 2026-07-04" przy `version: 6.8` w YAML — rozjazd
 9 wersji, naprawiony 2026-08-20y. **Stopkę aktualizuj razem z polem `version`**;

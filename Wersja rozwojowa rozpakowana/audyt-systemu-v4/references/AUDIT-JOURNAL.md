@@ -69721,3 +69721,32 @@ Nie dotyczy — tryb strukturalny, bez zmian treści prawa. Żaden przepis nie b
 1. **Wgrać do `main` przez zastąpienie katalogów 9 skilli i `git rm` usuniętych plików.** Trzecie wskrzeszenie tej samej klasy (6dbe7a0, f0a5e67/b4ef0d7, f66715f) — nakładka nie usuwa plików, a dopisanie sum je legalizuje.
 2. Zapis „usunięto” w dzienniku wolno złożyć dopiero po sprawdzeniu HEAD `main` (`find`), nie stanu kopii roboczej.
 3. Każdy test liczący trafienia po samej nazwie pliku jest ślepy na nazwy nieunikalne — wzorzec do przeglądu w T1/T3.
+
+---
+
+## AUDYT-2026-10-04c — F-226 i F-227 zamknięte; osiągalność plików `shared` ze skilli zewnętrznych (6.162)
+
+**Tryb:** STRUKTURA + FAZA 7A/7B/7C + wydanie wg ZASADY 7, na polecenie: „napraw F-226 i F-227; sprawdź, czy wszystkie pliki z shared są powiązane z zewnętrznymi skillami”. Źródło: kopia robocza z wydania 2026-10-04b (`main` `f66715f` + zmiany AUDYT-2026-10-04b).
+
+### 1. STATUS OGÓLNY
+Podbicia: `prawny-router-v3` 3.59 → **3.60**; `shared` 3.99.4 → **3.99.5**; `audyt-systemu-v4` 6.161 → **6.162**; `dr-01-ustroj-konstytucyjny-i-zrodla-prawa` 3.13 → **3.14**; `dr-08-samorzad-terytorialny-prawo-lokalne` 3.14 → **3.15**; `dr-09-budownictwo-srodowisko-energia-transport` 3.39 → **3.40**; `dr-10-zdrowie-farmacja-zywnosc-rolnictwo` 3.48 → **3.49**; `dr-11-cyfrowe-cyber-ai-dane-ip` 3.20 → **3.21**; `dr-12-sadownictwo-prokuratura-zawody-prawnicze` 4.21 → **4.22**; `dr-13-sluzby-bezpieczenstwo-informacje-niejawne` 3.13 → **3.14**; `dr-14-prawo-ue-miedzynarodowe-prawa-czlowieka` 3.9 → **3.10**; `dr-15-compliance-iso-governance-audyt` 3.16 → **3.17**.
+
+### 2. NAPRAWY WYKONANE
+**2A. F-226 — archiwum `legacy-material-router/` usunięte (8 plików, 1 722 linie).** Decyzja oparta na pomiarze, nie na założeniu: dla każdego pliku archiwum porównano (a) linie znormalizowane z modułem wskazanym przez most, (b) kotwice prawne (`art. N § M`, `Dz.U. RRRR poz. N`) z CAŁYM skillem docelowym. Wynik: zgodność linii 87% (cyber), 94% (przemoc), 98% (przesłuchanie), 100% (stalking — bajtowo = `shared/STALKING-NEKANIE.md`), 97% (tryby); kwalifikator 4% linii, bo archiwum to v1.0 (589 l.), a DR-03 ma v3.0 (indeks + 8 części) — 55/56 kotwic obecne w DR-03; mobbing 11% linii, 6/6 kotwic obecne w DR-04; wykroczenia 40% linii, 23/25 kotwic. **Kotwice bez odpowiednika w całym DR: 4** → F-228. Treści NIE przeniesiono: archiwum było wyłączone z T28 (wartości i cytaty), więc przeniesienie wprowadziłoby do modułów DR niezweryfikowane brzmienia. ✅ [VER: skrypt porównawczy na kopii roboczej, 2026-10-04c]. REPRODUKCJA: dla pliku X — `grep -oE "art\. ?[0-9]+[a-z]*( ?§ ?[0-9]+)?" X | sort -u` wobec tej samej komendy na `dr-03-…/**/*.md`.
+**2A-bis. T30 po F-226.** Usunięcie archiwum zabrało z routera jedyne wystąpienie `Dz.U. 2026 poz. 490` (KPK), które wiersz L63390 dziennika przypisuje `prawny-router-v3` — T30 zgłosił FAIL („jest 2026/490 (obecne: False)”). Treść żyje w DR-03 (`mod-KPK-current-state-COV.md`, `mod-KPK-srodki-zapobiegawcze-…`). Naprawa: `check_utrata_tresci.py` — jawna mapa `PRZENIESIENIA` (skill, numer) → skill-następca, z komentarzem decyzji; wiersz sprawdzany w następcy. Nie wpisano metryki KPK do routera (most nie zawiera prawa). T30 PASS, selftest PASS.
+**2B. F-227** — sekcja „Mapa pokrycia treściowego” z `view <dr>/MAPA-POKRYCIA.md` w DR-01, 08–15 (wzór DR-02). Pętla z WARN-OTWARTE zwraca teraz pusty wynik.
+**2C. Osiągalność `shared` (żądanie użytkownika).** Graf odwołań (ścieżkowy, jak T43) od SKILL.md 30 skilli produkcyjnych; wyłączone krawędzie z audytu i z rejestrów (`shared/SKILL.md`, `DEPENDENCY-GRAPH.md`, `PORTABILITY-MANIFEST.md`, `tools/README.md`), bo rejestr wymienia plik, ale go nie wczytuje. Przed naprawą: 137 bezpośrednio, 33 pośrednio, **19 nieosiągalnych**. Istotne ustalenie: ⛔ `MOD-GENERATOR-AKTU.md` nosi status „KANONICZNY — obowiązkowa ścieżka tworzenia KAŻDEGO nowego modułu”, a nie wskazywał go żaden skill, także audyt (wyłącznie rejestry i PLAN-TESTU-BRAMEK-F113) — procedura obowiązkowa bez wywołania. Powiązania: MODULE-STANDARD-POLISH-LAW → MOD-GENERATOR-AKTU; audyt ZASADA 13 (a) i MOD-TRESC-MERYTORYCZNA Krok 5 pkt 6; MOD-AUDIT-BUNDLE → AUDIT-TRAIL-SPEC, `export_gate.py` (+ extract, walidator); MCP-INTEGRACJA → `tools/przyklad-adapter-normalizujacy.md`. Po naprawie: 137 / 42 / **10** nieosiągalnych, z czego 5 to metadane hosta (`plugin.json`, `openai.yaml`, `icon.svg`, `CHECKSUMS.sha256`, `PORTABILITY-MANIFEST.md`), 1 rejestr audytowy (`DEPENDENCY-GRAPH.md`, czytany przez audyt), 4 fikstury `tools/przyklady/` (wskazane z `tools/README.md` jako dane self-testu walidatora). Żaden plik z treścią prawa ani bramką nie jest nieosiągalny.
+
+### 3. OSTRZEŻENIA (WARN)
+- **F-226, F-227 — zamknięte.** **F-228 (nowa):** art. 287 § 4 KK, art. 43a § 1 KK, art. 92a § 1 KW, art. 8a Prawa o miarach — obecne wyłącznie w usuniętym archiwum; potrzeba uzupełnienia DR-03 ⚠️ [NIEWERYFIKOWANE — HIPOTEZA] (brak kotwicy ≠ brak treści). Wolny numer: **F-229**.
+- Odnotowane bez flagi: `DEPENDENCY-GRAPH.md` nadal bez wierszy dla modułów po 2026-07 (zastrzeżenie w nagłówku pliku, od 2026-08-23).
+
+### 4. WERYFIKACJA Dz.U.
+Nie dotyczy — żadna treść prawa nie została dodana ani zmieniona.
+
+### 5. STRUKTURA SYSTEMU — SNAPSHOT
+`prawny-router-v3` 40 → 32; pozostałe skille bez zmiany liczby plików. T43, suita i dostarczenie — wynik w odpowiedzi sesji (dostarcz_skill.sh: oryginał = kopia = ZIP dla 12 skilli).
+
+### 6. WNIOSKI I ZALECENIA
+1. Status „KANONICZNY / obowiązkowy” w nagłówku pliku nie dowodzi wywołania — T43 mierzy istnienie odwołania, a pomiar osiągalności (graf od skilli produkcyjnych) wykrył procedurę obowiązkową bez wywołania. Kandydat na test T44 (osiągalność `shared` z wyłączeniem rejestrów) — odnotowane, nie wdrożone.
+2. Instalacja: zastąpienie katalogów 12 skilli + `git rm -r prawny-router-v3/references/legacy-material-router`.

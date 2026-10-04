@@ -247,7 +247,7 @@ POMIJANE_NAZWY = {
 }
 POMIJANE_FRAGMENTY_SCIEZKI = (
     "/references/mapa_dzu_", "/references/raporty-pokrycia",
-    "/scripts/", "/legacy-material-router/",
+    "/scripts/",  # "/legacy-material-router/" — katalog usunięty 2026-10-04c (F-226)
 )
 
 # Marker świadomego odstępstwa. Działa TYLKO w tej samej linii i musi podawać

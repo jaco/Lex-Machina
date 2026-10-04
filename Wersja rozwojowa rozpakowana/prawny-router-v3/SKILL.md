@@ -1,6 +1,6 @@
 ---
 name: prawny-router-v3
-version: "3.59"
+version: "3.60"
 type: orchestration
 status: production
 entrypoint: SKILL.md
@@ -120,8 +120,8 @@ required_modules:
   - shared/MOD-REM-GATE.md
   - dr-03-prawo-karne-wykroczenia-egzekucja/modules/mod-KK-kwalifikator-karnomaterialny.md
 changelog: |
-  Wersja bieżąca: 3.59 (2026-10-04b, AUDYT-2026-10-04b): F-225 — HARD-GATES-ORZECZNICTWO i pliki routingu przeciwnika podpięte (Reguły 15/17); rejestr mostów; usunięte 4 stuby.
-  Poprzednia: 3.58 (2026-09-27e, AUDYT-2026-09-27e): jawny manifest `.claude-plugin/plugin.json` — import z marketplace w claude.ai. Treść skilla bez zmian.
+  Wersja bieżąca: 3.60 (2026-10-04c, AUDYT-2026-10-04c): F-226 — usunięte archiwum legacy-material-router (8 plików); 4 tematy bez odpowiednika w DR → F-228 (FAZA 3E).
+  Poprzednia: 3.59 (2026-10-04b, AUDYT-2026-10-04b): F-225 — HARD-GATES-ORZECZNICTWO i pliki routingu przeciwnika podpięte (Reguły 15/17); rejestr mostów; usunięte 4 stuby.
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 
@@ -607,8 +607,8 @@ view prawny-router-v3/references/pokrycie-dziedzinowe.md
 
 Tylko gdy: pytanie o dostępność modułu, audyt systemu, budowanie kombinacji multi-skill.
 
-Mosty dziedzinowe (8 skrótów do kanonu DR/shared) i ARCHIWUM `references/legacy-material-router/`
-(nie wczytywać — F-226): rejestr w `references/pokrycie-dziedzinowe.md`, sekcja MOSTY.
+Mosty dziedzinowe (8 skrótów do kanonu DR/shared): rejestr w `references/pokrycie-dziedzinowe.md`,
+sekcja MOSTY.
 
 ## CHANGELOG
 

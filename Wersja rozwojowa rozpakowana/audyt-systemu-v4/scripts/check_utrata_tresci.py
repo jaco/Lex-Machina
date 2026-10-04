@@ -25,6 +25,15 @@ POMIN = ("CHANGELOG", "AUDIT-JOURNAL", "mapa_dzu", "PRZETERMINOWANE", "raporty-p
          "WARN-OTWARTE", "REGRESSION-TEST-PLAN")
 OD_DATY = "AUDYT-2026-08-24"
 
+# Przeniesienia świadome: plik nośny w skillu z wiersza dziennika USUNIĘTO, a treść
+# żyje w skillu-następcy. Wiersz sprawdzany jest wtedy w następcy. Każdy wpis = decyzja
+# odnotowana w dzienniku (nie wolno nim wyciszać utraty treści).
+PRZENIESIENIA = {
+    # AUDYT-2026-10-04c, F-226: usunięte archiwum prawny-router-v3/references/legacy-material-router/
+    # (tryby-scigania.md nosił KPK 2026/490); kanon: DR-03 (mod-KPK-*).
+    ("prawny-router-v3", "2026/490"): "dr-03-prawo-karne-wykroczenia-egzekucja",
+}
+
 
 def _skille(root):
     return sorted((d for d in os.listdir(root) if os.path.isfile(os.path.join(root, d, "SKILL.md"))),
@@ -62,6 +71,7 @@ def kontrola_a(root, dziennik):
             continue
         kto = {s for s in skills if s in c[2]} | {alias[k] for k in alias
                                                   if re.search(rf"`?{k}`?(?![\d-])", c[2])}
+        kto = {PRZENIESIENIA.get((s, f"{b.group(1)}/{b.group(2)}"), s) for s in kto}
         for s in sorted(kto):
             nowy = stary = False
             for f in _pliki(root, s):

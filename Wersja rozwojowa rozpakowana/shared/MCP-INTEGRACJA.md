@@ -120,7 +120,8 @@ realnie, źródło danych: api.sejm.gov.pl/eli — ten sam publikator, co RZĄD 
 
 **Serwer własny repozytorium** (`audyt-systemu-v4/mcp-servers/isap-eli-example/`,
 zmierzony 2026-09-27h): jedno narzędzie `isap_lookup` (arg `query`), zwraca schemat
-FOUND / NOT_FOUND / AMBIGUOUS / ERROR wg `SCHEMAT-ODPOWIEDZI-MCP.md`. W hoście:
+FOUND / NOT_FOUND / AMBIGUOUS / ERROR wg `SCHEMAT-ODPOWIEDZI-MCP.md` (wzorzec cienkiej warstwy
+normalizującej dla dewelopera: `shared/tools/przyklad-adapter-normalizujacy.md` — ilustracja, nie serwer). W hoście:
 `mcp__<nazwa-serwera-z-konfiguracji>__isap_lookup`.
 
 ⚠️ Tabela jest **przykładem zmierzonym**, nie kontraktem: inny serwer ELI wystawi

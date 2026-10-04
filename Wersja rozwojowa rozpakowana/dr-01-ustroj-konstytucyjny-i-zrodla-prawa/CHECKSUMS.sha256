@@ -1,8 +1,8 @@
-5e042f927fa82d89d439149ffe05f62bb9f2515f04226e8f4d5dfc66dfa3345d  ./.claude-plugin/plugin.json
+02060e2889c487e41740dfa907e59771d3f0046ead838f9d96420e04844c2be7  ./.claude-plugin/plugin.json
 ca79bd627d16cbdee8656b896551171f61134730ae42d02ed3443fdcd2d9819c  ./MAPA-AKTOW.md
 c35b91f427df91d599dc4d467c2a6a0d4744fccecd15548acd67ced109d96b91  ./MAPA-POKRYCIA.md
 c3c0e8ed344a6c2b92568f11ca27beb5578fe25b56904efede551fb4ca05cd06  ./PORTABILITY-MANIFEST.md
-1d3aeea3e086b0c8d4353f5357965c7c4ff75a9ccf2ef68143b7cc1579fa6795  ./SKILL.md
+c36073274cc37c773174adde55d1d8b5735c2f85bbaf450dd98d3bfff6889fdb  ./SKILL.md
 9422acfeb4a236fb0929cb502f7748b182c9c3e8290c93223fe29bafef1e1abb  ./agents/openai.yaml
 e9301497fa98ef56aaca7ede0857b9a18dc06c34040f0679c609a6bf49b1d38b  ./assets/icon.svg
 a8e32fb7a5c3ce4a08339a5ac7f9586a2736272e49d41d096a413c9f4cbdb909  ./modules/mod-KRS-current-state-COV.md
@@ -20,4 +20,4 @@ e437cdf4cdf5746855d9848def26392103b00e286ddf3e293fba2219d3872123  ./modules/mod-
 cb58b30370f9fb947d23a12487801260d25eecfd9361105f8b1dae26060067f3  ./modules/mod-ustawa-KRS-i-ustroj-wladzy.md
 f597ae23a63a9bec63ede5645b220d621be8fa9b6d3d955523f30ec99b091d29  ./modules/mod-ustawa-SN-sad-najwyzszy.md
 56475c0513058326051a6684d3f482fa9b8c847538923634863bc90669e9cf10  ./modules/mod-ustawa-partie-polityczne-referendum.md
-f20775300cfa0ceba915bcf1ed0df4df640bcfa4fe462e0be43d95d77ca63a90  ./references/CHANGELOG.md
+c393a29a54071e722c304f0c64dd88d5b8069c16b88eed664104166b01c68ff6  ./references/CHANGELOG.md

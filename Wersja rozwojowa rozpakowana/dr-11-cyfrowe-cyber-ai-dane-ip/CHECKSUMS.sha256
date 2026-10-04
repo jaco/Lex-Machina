@@ -1,8 +1,8 @@
-aac1dc2542315b0984c92165c102a57b6e9b4988a402a6409ab0494762c2a865  ./.claude-plugin/plugin.json
+a0d5286772598c71036c3e367d21212edf2a4bde40794d75c4c70a68d0faa13f  ./.claude-plugin/plugin.json
 52b9198de275424ba0b94f70653f8f81748bd23c8d7e369d48523b9b3de6bb35  ./MAPA-AKTOW.md
 35b3a4d5e748e47ee80ca3c8e89c39da077b03045fc0fbddb3a60862f55554d6  ./MAPA-POKRYCIA.md
 6c3d025cebaf55649c653846e434164faad4a8ed618f3489bcc72a53f0447ddc  ./PORTABILITY-MANIFEST.md
-30f6fd9d06f33a134195f50f335d21bfddea9df070ce1501b02da87b8f440655  ./SKILL.md
+7e0f9e49246f54e867e68dcb5957946c1ce33880d18c42260d46ea7b9bfcecb4  ./SKILL.md
 d27a6bc6669c2682e6f6b034bae8e340e317cacdd03d8bb5411ab000182eebd0  ./agents/openai.yaml
 e9301497fa98ef56aaca7ede0857b9a18dc06c34040f0679c609a6bf49b1d38b  ./assets/icon.svg
 379c038ace0a42bd49321d6f0c8fe01cc6d56d31641c751c6d869e09600b65b7  ./modules/mod-AI-Act-framework.md
@@ -27,4 +27,4 @@ a8373b44f42a620f1a6e8129859b026a7402b303daef9a5813752cc8b55d1fdb  ./modules/mod-
 aff4384416951db74063a36b73e12ddfdf3b3262d3075696e03597a1274233bb  ./modules/mod-ustawa-podpis-elektroniczny.md
 0bba80f38aaa77ace308d59347302ec2797f48cb15021051a06ad810cf181f50  ./modules/mod-ustawa-prawo-wlasnosci-przemyslowej.md
 c22bcf61b355c3f64a3c87935e57bc691afdbe7fc9449d4fd05daf9d5120a047  ./modules/mod-ustawa-uslugi-elektroniczne.md
-3d6c0a5fdc91fc4a7cb3b8a2bd6f169d08e742fa65ad344c6e292d4f5d36ac68  ./references/CHANGELOG.md
+21a9bac0693d1e5d2817623348207d15450ce8d02f1cf93116f9e843f40c5c4f  ./references/CHANGELOG.md
