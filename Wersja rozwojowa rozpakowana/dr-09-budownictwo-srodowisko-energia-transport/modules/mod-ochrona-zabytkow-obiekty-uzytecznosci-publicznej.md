@@ -1,6 +1,14 @@
 # Ochrona zabytków, obiekty użyteczności publicznej, kategorie budowlane — INDEKS (podzielony 2026-08-20, naprawa F-78)
 v2.0.0 — struktura indeksatora, treść bez zmian merytorycznych
 
+> ⛔ **STAN WT OD 20.09.2026 (dodano 2026-10-04, RZĄD 1 ELI):** rozp. MI
+> z 12.04.2002 ws. warunków technicznych budynków (Dz.U. 2002 nr 75 poz. 690),
+> na którym opierają się części 1, 3, 5 i 6, utraciło moc z upływem 19.09.2026
+> (art. 66 ustawy o zapewnianiu dostępności, t.j. Dz.U. 2024 poz. 1411 — 84 mies.). Nowe
+> rozp. — brak w ELI na 2026-10-04 (F-224). Dawne WT stosowalne przejściowo
+> (18 mies., oświadczenie inwestora) — art. 102a–102c PrBud dodane ustawą
+> Dz.U. 2026 poz. 1161 → `mod-PrBud-uzupelnienie-pokrycia-2026` § 9a.
+
 > ⚡ **ZMIANA STRUKTURALNA 2026-08-20 (F-78, priorytet 10 — OSTATNI Z
 > LISTY):** ten plik był 1008 linii. Treść 15 sekcji PODZIELONA na 6
 > plików w podkatalogu `ochrona-zabytkow/`. TEN plik pozostaje pod

@@ -93,7 +93,10 @@ BUDOWA SZAMBA (zbiornika bezodpływowego) — WYMOGI FORMALNE:
     ZGŁOSZENIE do organu architektoniczno-budowlanego (starostwo/urząd
     miasta na prawach powiatu) — art. 29 ust. 1 pkt 3 w zw. z art. 30
     ust. 1 PrBud
-  → ODLEGŁOŚCI (rozporządzenie ws. warunków technicznych budynków):
+  → ODLEGŁOŚCI (rozporządzenie ws. warunków technicznych budynków —
+    ⛔ rozp. z 12.04.2002 nie obowiązuje od 20.09.2026; nowe — brak
+    w ELI na 2026-10-04 (F-224); przejściowo art. 102a–102b PrBud,
+    Dz.U. 2026 poz. 1161 → `mod-PrBud-uzupelnienie-pokrycia-2026` § 9a):
     min. **5 M** od okien/drzwi zewnętrznych budynków przeznaczonych
     na pobyt ludzi; min. **2 M** od granicy działki sąsiedniej
 

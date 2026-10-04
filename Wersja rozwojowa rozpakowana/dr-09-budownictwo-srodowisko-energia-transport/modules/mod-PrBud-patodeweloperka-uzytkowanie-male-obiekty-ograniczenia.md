@@ -91,6 +91,18 @@ Organ WNOSI sprzeciw, jeżeli zmiana:
 
 ## CZĘŚĆ B — "PATODEWELOPERKA" — REFORMA WARUNKÓW TECHNICZNYCH (2024)
 
+> ⛔ **STAN PRAWNY WT OD 20.09.2026 (dodano 2026-10-04)** — ✅ [VER: api.sejm.gov.pl/eli
+> DU/2002/690 (NOT_IN_FORCE), DU/2019/1696 art. 66 w brzmieniu DU/2024/1081, DU/2026/1161, 2026-10-04]
+> Rozporządzenie MI z 12.04.2002 w sprawie warunków technicznych, jakim powinny odpowiadać
+> budynki i ich usytuowanie (Dz.U. 2002 nr 75 poz. 690; t.j. 2022 poz. 1225 ze zm., w tym
+> zmiana z 27.10.2023 opisana niżej) **utraciło moc z upływem 19.09.2026** (art. 66 ustawy
+> o zapewnianiu dostępności — 84 miesiące). 🟨 Nowe rozporządzenie WT: brak publikacji w ELI
+> na 2026-10-04 (F-224). Do decyzji/zgłoszeń od 20.09.2026 dawne WT (z parametrami opisanymi
+> w tej części) stosuje się WYŁĄCZNIE w reżimie przejściowym art. 102a–102c PrBud (Dz.U. 2026
+> poz. 1161 — 18 miesięcy od 20.09.2026, po oświadczeniu inwestora) →
+> `mod-PrBud-uzupelnienie-pokrycia-2026` § 9a. Parametry niżej opisują dawne WT — NIE
+> przedstawiaj ich jako stanu bieżącego bez tego zastrzeżenia.
+
 ### 5. Co to jest — zjawisko, nie termin prawny
 
 **"Patodeweloperka"** — POTOCZNE określenie (NIE termin ustawowy) praktyk
@@ -302,6 +314,9 @@ teren może być OSZP nawet jeśli plan tego wprost nie precyzuje.
 □ PATODEWELOPERKA: czy inwestycja WIELORODZINNA >4 kondygnacje spełnia
   NOWE wymogi odległości (5 m, nie 3-4 m) i terenu biologicznie
   czynnego (25%/20%)?
+□ WT PO 19.09.2026: które WT stosuje projekt — dawne (art. 102a–102c
+  PrBud, oświadczenie inwestora, 18 mies.) czy nowe rozporządzenie
+  (sprawdź świeżo w ELI, czy zostało ogłoszone — F-224)?
 □ MAŁE OBIEKTY: czy zwolnienie z pozwolenia obejmuje TAKŻE zwolnienie
   z projektu/kierownika budowy (zwykle NIE) — sprawdź pełny katalog
   art. 29-30
@@ -351,6 +366,11 @@ teren może być OSZP nawet jeśli plan tego wprost nie precyzuje.
 ---
 
 ## CHANGELOG
+
+**1.1 (2026-10-04):** Część B — alert o utracie mocy rozp. WT z 2002 r.
+z upływem 19.09.2026 (art. 66 ustawy o dostępności, 84 mies.) i o
+reżimie przejściowym art. 102a–102c PrBud dodanym ustawą Dz.U. 2026
+poz. 1161; pozycja w checkliście. RZĄD 1 (ELI), 2026-10-04.
 
 **1.0 (2026-07-18):** Utworzenie modułu na wyraźne żądanie użytkownika
 (nielegalna budowa, zmiana przeznaczenia budynku, patodeweloperka,

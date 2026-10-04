@@ -16,6 +16,12 @@ PODSTAWA: § 18 rozp. MI z 12.04.2002 ws. warunków technicznych
   budynków (Dz.U. 2002 nr 75 poz. 690, rozdział 3) + ustawa Prawo o
   ruchu drogowym (oznakowanie) + rozp. ws. znaków drogowych (D-18,
   D-18a, D-18b + T-29)
+  ⛔ [2026-10-04] Rozp. WT z 12.04.2002 NIE OBOWIĄZUJE od 20.09.2026
+  (art. 66 ustawy o dostępności, 84 mies.; ELI DU/2002/690 NOT_IN_FORCE);
+  nowe rozp. — brak w ELI na 2026-10-04 (F-224); dawne WT tylko w trybie
+  art. 102a–102c PrBud (Dz.U. 2026 poz. 1161, 18 mies., oświadczenie
+  inwestora) → `mod-PrBud-uzupelnienie-pokrycia-2026` § 9a. Numery §
+  niżej dotyczą rozp. z 2002 r.
 
 ⚠️ DWIE RÓŻNE SKALE — STARA vs NOWA (nowelizacja 2024), NIE MYLIĆ:
 

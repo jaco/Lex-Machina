@@ -85,6 +85,12 @@ przepisy.gofin.pl).
 PODSTAWA: art. 5 ust. 1 pkt 4 + art. 9 ust. 1 Prawa budowlanego +
   Rozp. Ministra Infrastruktury z 12.04.2002 ws. warunków
   technicznych, jakim powinny odpowiadać budynki i ich usytuowanie
+  ⛔ [2026-10-04] Rozp. WT z 12.04.2002 NIE OBOWIĄZUJE od 20.09.2026
+  (art. 66 ustawy o dostępności, 84 mies.; ELI DU/2002/690 NOT_IN_FORCE);
+  nowe rozp. — brak w ELI na 2026-10-04 (F-224); dawne WT tylko w trybie
+  art. 102a–102c PrBud (Dz.U. 2026 poz. 1161, 18 mies., oświadczenie
+  inwestora) → `mod-PrBud-uzupelnienie-pokrycia-2026` § 9a. Numery §
+  niżej dotyczą rozp. z 2002 r.
 
 ⚠️ ZASADA ABSOLUTNA (art. 9 ust. 1 PrBud): w przeciwieństwie do
   INNYCH wymogów techniczno-budowlanych (od których MOŻNA uzyskać

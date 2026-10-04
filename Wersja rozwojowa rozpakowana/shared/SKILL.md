@@ -1,6 +1,6 @@
 ---
 name: shared
-version: "3.99.2"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
+version: "3.99.3"   # ⛔ CUDZYSŁÓW OBOWIĄZKOWY: niecytowane `3.17` YAML parsuje
                   # jako float 3.17, a 3.17 < 3.9 — porządek wersji odwraca się
                   # dla każdego narzędzia porównującego liczbowo. Wykryte
                   # testem T12 (check_wersje_changelog.py), 2026-08-20z.
@@ -50,7 +50,8 @@ limitations:
 required_modules: []
   # nie ma zastosowania — shared jest wczytywany, nie wczytuje sam siebie
 changelog: |
-  Wersja bieżąca: 3.99.2 (2026-10-03c, AUDYT-2026-10-03c, F-220): DISCLAIMER 2.2 — „ze zm.” przy Prawie o adwokaturze i ustawie o radcach prawnych (nowelizacje po t.j. w ELI), jednostki art. 4 ust. 1 / art. 6 ust. 1, metryka i procedura utrzymania w pliku.
+  Wersja bieżąca: 3.99.3 (2026-10-04, AUDYT-2026-10-04): ISAP-METRYKI-AKTOW — Prawo budowlane ze zm. 2026/1161 (status PO-TJ-ZMIANY) i stan rozp. WT budynków po 19.09.2026 (F-224).
+  Poprzednia: 3.99.2 (2026-10-03c, AUDYT-2026-10-03c, F-220): DISCLAIMER 2.2 — „ze zm.” przy Prawie o adwokaturze i ustawie o radcach prawnych (nowelizacje po t.j. w ELI), jednostki art. 4 ust. 1 / art. 6 ust. 1, metryka i procedura utrzymania w pliku.
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 

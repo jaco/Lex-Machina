@@ -1,6 +1,6 @@
 ---
 name: prawo-polskie-v2
-version: "6.32"
+version: "6.33"
 type: domain-router
 status: production
 compatibility: "live_web_lookup, cross_skill_file_read"
@@ -10,8 +10,8 @@ dependencies:
     - shared
   # 2026-09-27e: jawna zależność (każdy skill systemu korzysta z `shared`); pole czytane przy imporcie z marketplace
 changelog: |
-  Wersja bieżąca: 6.32 (2026-09-27p): ROUTING-MAP wskazuje bieżącą mapę Dz.U. 2026-09-22 zamiast 07-15 (AUDYT-2026-09-27p).
-  Poprzednia: 6.31 (2026-09-27e, AUDYT-2026-09-27e): jawny manifest `.claude-plugin/plugin.json` oraz `dependencies.requires: [shared]` we frontmatterze — import z marketplace w claude.ai. Treść skilla bez zmian.
+  Wersja bieżąca: 6.33 (2026-10-04): ROUTING-MAP — Dz.U. 2026 poz. 1161 (PrBud, samorządy architektów/inżynierów), stan WT po 19.09.2026, mapa Dz.U. 2026-10-04 (AUDYT-2026-10-04).
+  Poprzednia: 6.32 (2026-09-27p): ROUTING-MAP wskazuje bieżącą mapę Dz.U. 2026-09-22 zamiast 07-15 (AUDYT-2026-09-27p).
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 

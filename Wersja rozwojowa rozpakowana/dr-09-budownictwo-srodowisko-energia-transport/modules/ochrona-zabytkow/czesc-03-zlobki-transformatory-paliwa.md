@@ -19,6 +19,8 @@ typu obiektu z odrębnymi, szczegółowymi wymogami)
   poz. 72, dostępny na isap.sejm.gov.pl; DLA PRZEDSZKOLI: Prawo
   budowlane + rozp. ws. warunków technicznych budynków + rozp. MEN
   ws. bezpieczeństwa i higieny w szkołach/placówkach (31.12.2022)
+  (rozp. WT budynków — stan od 20.09.2026: patrz alert w sekcji 7
+  niżej)
 
 POTRÓJNA KONTROLA PRZED OTWARCIEM (silniejsza niż zwykły obiekt
   użyteczności publicznej): lokal MUSI uzyskać OPINIE od:
@@ -78,6 +80,12 @@ prawo.pl — dosłowny tekst rozporządzenia).
   z 12.04.2002 ws. warunków technicznych, jakim powinny odpowiadać
   budynki i ich usytuowanie — TEN SAM akt co dla dostępności
   niepełnosprawnych (sekcja 2) i wymogów apteki (sekcja 4)
+  ⛔ [2026-10-04] Rozp. WT z 12.04.2002 NIE OBOWIĄZUJE od 20.09.2026
+  (art. 66 ustawy o dostępności, 84 mies.; ELI DU/2002/690 NOT_IN_FORCE);
+  nowe rozp. — brak w ELI na 2026-10-04 (F-224); dawne WT tylko w trybie
+  art. 102a–102c PrBud (Dz.U. 2026 poz. 1161, 18 mies., oświadczenie
+  inwestora) → `mod-PrBud-uzupelnienie-pokrycia-2026` § 9a. Numery §
+  niżej dotyczą rozp. z 2002 r.
 
 ⚠️ ROZBIEŻNOŚĆ ŹRÓDEŁ WYKRYTA I ROZSTRZYGNIĘTA: liczne popularne
   strony (blogi, portale poradnikowe) podają LUŹNE, NIEPRECYZYJNE

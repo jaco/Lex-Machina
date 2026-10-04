@@ -1,6 +1,6 @@
 ---
 name: dr-09-budownictwo-srodowisko-energia-transport
-version: "3.38"
+version: "3.39"
 description: "Budownictwo, środowisko, energia i transport: prawo budowlane, planowanie, odpady, ochrona środowiska, energetyka, drogi i regulacje transportowe."
 dependencies:
   requires:
@@ -108,7 +108,8 @@ BUDOWNICTWO:
                transformatorowe → część 3])
   [✓] OK    mod-PrBud-prawo-budowlane
   [✓] NOWY  mod-PrBud-uzupelnienie-pokrycia-2026
-              (funkcje techniczne, roboty, EDB/c-KOB, katastrofa, e-Budownictwo, organy i odpowiedzialność zawodowa)
+              (funkcje techniczne, roboty, EDB/c-KOB, katastrofa, e-Budownictwo, organy i odpowiedzialność zawodowa;
+               § 9a: WT po 19.09.2026 — art. 102a–102c PrBud, Dz.U. 2026 poz. 1161)
               (samowola, PINB/WINB, pozwolenie, zgłoszenie, WZ/MPZP, umowa z wykonawcą,
                uchwała NSA 7 sędziów luty 2026 — art. 49f i wcześniejszy nakaz rozbiórki)
   [✓] OK    mod-UGN-gospodarka-nieruchomosciami
@@ -118,7 +119,7 @@ BUDOWNICTWO:
   [✓] OK    mod-ustawa-planowanie-przestrzenne
               (Plan Ogólny Gminy, MPZP, WZ, ZPI — reforma 2023)
   [✓] NOWY  mod-ustawa-architekci-inzynierowie-budownictwa-zawod
-              (Dz.U. 2025 poz. 1783 t.j.; zawody zaufania publicznego —
+              (Dz.U. 2025 poz. 1783 t.j. ze zm. — 2026/1161 w mocy 2.10.2026; zawody zaufania publicznego —
                samorządy IARP/PIIB; uprawnienia budowlane art. 14 PrBud,
                tytuł rzeczoznawcy budowlanego; ⚠️ URBANISTA — samorząd
                zniesiony 2014, obecnie tylko dobrowolne stowarzyszenia)

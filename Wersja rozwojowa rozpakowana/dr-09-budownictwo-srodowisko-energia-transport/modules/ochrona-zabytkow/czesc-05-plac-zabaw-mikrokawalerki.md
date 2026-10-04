@@ -155,10 +155,20 @@ KLASYFIKACJĘ "LOKAL UŻYTKOWY" (dodano 2026-07-30, na żądanie
 użytkownika — analogiczne zbadanie mechanizmu obejścia)
 
 ```
-⚡ NAJWAŻNIEJSZE: luka ZAMYKANA WŁAŚNIE TERAZ — nowelizacja
-rozporządzenia ws. warunków technicznych budynków wchodzi w życie
-**WE WRZEŚNIU 2026 R.** — DOSŁOWNIE ZA MIESIĄC od dnia tej weryfikacji
-(30.07.2026)!
+⛔ KOREKTA 2026-10-04 (stan RZĄD 1): zapowiadane na wrzesień 2026 r.
+NOWE rozporządzenie WT budynków NIE zostało ogłoszone (brak w ELI na
+2026-10-04 — F-224), a dotychczasowe rozp. z 12.04.2002 utraciło moc
+z upływem 19.09.2026 (art. 66 ustawy o zapewnianiu dostępności, t.j.
+Dz.U. 2024 poz. 1411 — 84 mies.; ELI DU/2002/690 NOT_IN_FORCE).
+Ustawa Dz.U. 2026 poz. 1161 dodała okres przejściowy: przez 18 mies.
+od 20.09.2026 inwestor może — po oświadczeniu — projektować wg dawnych
+WT (art. 102a–102c PrBud; `mod-PrBud-uzupelnienie-pokrycia-2026` § 9a).
+Opis niżej (stan z 30.07.2026) dotyczy PROJEKTU — nie przedstawiaj
+progu 25 m² dla lokali użytkowych jako obowiązującego.
+
+(Pierwotny zapis 2026-07-30: „nowelizacja rozporządzenia ws. warunków
+technicznych budynków wchodzi w życie WE WRZEŚNIU 2026 R.” — nie
+ziściło się.)
 
 MECHANIZM OBEJŚCIA (funkcjonujący od 8 LAT, od 2018 r.):
   → OD 1.01.2018: lokal MIESZKALNY w nowym budynku musi mieć MIN.
@@ -181,9 +191,10 @@ MECHANIZM OBEJŚCIA (funkcjonujący od 8 LAT, od 2018 r.):
     — SPORNE, "na pograniczu legalności" wg cytowanych źródeł
     prawniczych, NIE rozstrzygnięte jednoznacznie w orzecznictwie
 
-⭐ ZAMYKANA LUKA (nowelizacja rozp. ws. warunków technicznych,
-  ⚡ WEJŚCIE W ŻYCIE: WRZESIEŃ 2026): KAŻDY nowo projektowany lokal
-  UŻYTKOWY w budynku WIELORODZINNYM będzie musiał SPEŁNIAĆ TEN SAM
+⭐ ZAMYKANA LUKA — WG PROJEKTU nowego rozp. ws. warunków technicznych
+  (⛔ stan 2026-10-04: NIEOGŁOSZONE — patrz korekta wyżej; termin
+  „wrzesień 2026” nie ziścił się): KAŻDY nowo projektowany lokal
+  UŻYTKOWY w budynku WIELORODZINNYM miałby SPEŁNIAĆ TEN SAM
   próg 25 m² co mieszkanie — koniec różnicy klasyfikacyjnej jako
   sposobu na obejście
 

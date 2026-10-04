@@ -5,7 +5,7 @@ dependencies:
   requires:
     - shared
   # 2026-09-27e: jawna zależność (każdy skill systemu korzysta z `shared`); pole czytane przy imporcie z marketplace
-version: "6.159"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
+version: "6.160"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
                   # parsuje jako float 6.1 — czyli numer NIŻSZY niż 6.9, co cicho
                   # odwraca porządek wersji. Wykryte przy walidacji 2026-08-20z.
                   # Każda kolejna wersja z dwucyfrowym minor — też w cudzysłowie.
@@ -49,7 +49,9 @@ references:
   - references/WARN-OTWARTE.md   # rejestr żywy TYLKO otwartych flag (WARN + strukturalne) — dodane 2026-07-07, ZASADA 10; ⚡ od 2026-08-15w zaczyna się TABLICĄ STERUJĄCĄ (indeks wszystkich flag + następny krok w jednym zdaniu) — czytaj ją PIERWSZĄ przy pytaniu „co jest do zrobienia"
   - references/SPROSTOWANIE-LM-2026-08-23.md   # dokument do wysłania autorowi raportów TEST1-3 — realizacja F-116 część 3/3, bez treści proceduralnej systemu — dodane 2026-08-23f
   - references/CHECKLIST-DEDUP.md   # mapa pojęć → lokalizacje (5 not, NOTA-6 ORPHAN dodana 06-14g)
-  - references/mapa_dzu_2026-09-22.md      # ⭐ GENERACJA BIEŻĄCA (F-193) — wiersz 2026/26 z etapami
+  - references/mapa_dzu_2026-10-04.md      # ⭐ GENERACJA BIEŻĄCA (AUDYT-2026-10-04) — 2026/1161 (samorządy
+                                          # architektów/inżynierów + PrBud), 2002/690 rozp. WT — UCH od 20.09.2026 (F-224)
+  - references/mapa_dzu_2026-09-22.md      # generacja POPRZEDNIA (F-193) — wiersz 2026/26 z etapami
                                           # + MONITORING etapów 1.10.2026 i 1.01.2027 (sesja TARGETED)
   - references/mapa_dzu_2026-09-10.md      # generacja POPRZEDNIA (F-148a) — +5 pozycji, w tym trzy
                                           # wchodzące jako skutek DWÓCH błędów podmiany aktu
@@ -1470,7 +1472,8 @@ audyt-systemu-v4/                               ← 89 plików (stan 2026-09-09b
     ├── F-108-verification-2026-08-28.md         ← raport źródłowy re-audytu F-108
     ├── F-104-lista-robocza-mapa-dzu.md         ← lista robocza F-104, rocznik 2026
     ├── F-104-lista-robocza-roczniki-starsze.md ← lista robocza F-104, roczniki 2013-2025 (F-124)
-    ├── mapa_dzu_2026-09-22.md                  ← mapa Dz.U. AKTUALNA (F-193)
+    ├── mapa_dzu_2026-10-04.md                  ← mapa Dz.U. AKTUALNA (AUDYT-2026-10-04, 2026/1161)
+    ├── mapa_dzu_2026-09-22.md                  ← generacja poprzednia (F-193)
     ├── mapa_dzu_2026-09-10.md                  ← generacja poprzednia (F-148a)
     ├── mapa_dzu_2026-09-09.md                  ← generacja poprzednia (F-172)
     ├── mapa_dzu_2026-08-28.md                  ← POPRZEDNIA generacja
@@ -1481,7 +1484,7 @@ audyt-systemu-v4/                               ← 89 plików (stan 2026-09-09b
 
 ---
 
-*Wersja: 6.159 | Ostatnia aktualizacja: 2026-10-03c (F-221 dopełniona: T21/T22 — tryb kopii zainstalowanej, T21 `--repo-ref` porównuje korpus bajtowo i frontmatter semantycznie; F-220 zamknięta w `shared` 3.99.2 — DISCLAIMER 2.2)*
+*Wersja: 6.160 | Ostatnia aktualizacja: 2026-10-04 (TRYB DZU+TREŚĆ: nowelizacja Dz.U. 2026 poz. 1161 → dr-09 3.39, prawo-polskie-v2 6.33, shared 3.99.3; mapa Dz.U. 2026-10-04; F-224 otwarta; 36 reliktów usunięte z repozytorium). Poprzednio 6.159 — 2026-10-03c (F-221 dopełniona: T21/T22 — tryb kopii zainstalowanej, T21 `--repo-ref` porównuje korpus bajtowo i frontmatter semantycznie; F-220 zamknięta w `shared` 3.99.2 — DISCLAIMER 2.2)*
 
 *(Stopka podawała „5.0 | 2026-07-04" przy `version: 6.8` w YAML — rozjazd
 9 wersji, naprawiony 2026-08-20y. **Stopkę aktualizuj razem z polem `version`**;

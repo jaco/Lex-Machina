@@ -256,14 +256,17 @@ NIE SĄ małą architekturą: wolnostojące reklamy, tymczasowe obiekty
 
 | Akt | Aktualna sygnatura | Uwagi |
 |---|---|---|
-| **Prawo budowlane (PrBud)** | **Dz.U. 2026 poz. 524 t.j.** (obwieszczenie Marszałka Sejmu z 27.03.2026 r.) | Weryfikuj w ELI (RZĄD 1) przed każdym cytowaniem — kluczowy akt |
+| **Prawo budowlane (PrBud)** | **Dz.U. 2026 poz. 524 t.j., ze zm.** (obwieszczenie Marszałka Sejmu z 27.03.2026 r.); zmiany po t.j.: 2026/605, 2026/646, **2026/1161** (art. 12 ust. 7b, art. 96 ust. 6, art. 99 ust. 1a — od 2.10.2026; rozdz. 10a art. 102a–102c — od 2.09.2026) ✅ [VER: ELI DU/1994/414/references, 2026-10-04] | Weryfikuj w ELI (RZĄD 1) przed każdym cytowaniem — kluczowy akt; szczegóły 2026/1161 → `mod-PrBud-uzupelnienie-pokrycia-2026` § 2, § 9, § 9a |
 | Ustawa o planowaniu i zagospodarowaniu przestrzennym | **Dz.U. 2026 poz. 538 t.j.** + zmiany (poz. 1907, 1940; Dz.U. 2025 poz. 527, 680) — zawsze weryfikuj aktualny t.j. w ELI (RZĄD 1) | MPZP, WZ, decyzje lokalizacyjne |
 | Kodeks cywilny art. 647–658 | **Dz.U. 2026 poz. 795 t.j.; późniejsze zmiany — fresh gate** | Umowa o roboty budowlane |
-| Rozporządzenie w sprawie warunków technicznych (WT) | Weryfikuj aktualną wersję w isap | Wymagania techniczne obiektów |
+| Rozporządzenie w sprawie warunków technicznych budynków (WT) | ⛔ Rozp. MI z 12.04.2002 (Dz.U. 2002 nr 75 poz. 690; t.j. 2022 poz. 1225 ze zm.) — **NIE OBOWIĄZUJE od 20.09.2026** (art. 66 ustawy o zapewnianiu dostępności, t.j. Dz.U. 2024 poz. 1411 — 84 mies. od 20.09.2019; ELI: NOT_IN_FORCE). 🟨 Nowe rozp. WT — brak publikacji w ELI na 2026-10-04 (F-224). Okres przejściowy 18 mies.: art. 102a–102c PrBud (Dz.U. 2026 poz. 1161) | Wymagania techniczne obiektów — przed powołaniem ustal: datę wniosku/zgłoszenia, oświadczenie inwestora z art. 102a, stan publikacji nowego rozp. (świeżo w ELI) |
 | KPA | **Dz.U. 2025 poz. 1691** | Postępowanie adm. przed PINB/WINB |
 
-⚠️ Prawo budowlane jest **bardzo często nowelizowane** — poprzedni t.j. to Dz.U. 2026 poz. 524
-(obwieszczenie 06.03.2025), a przed nim Dz.U. 2024 poz. 725.
+⚠️ Prawo budowlane jest **bardzo często nowelizowane** — aktualny t.j. to Dz.U. 2026 poz. 524
+(obwieszczenie 27.03.2026); poprzednie: Dz.U. 2025 poz. 418, a przed nim Dz.U. 2024 poz. 725
+✅ [VER: ELI DU/1994/414/references — „Inf. o tekście jednolitym”, 2026-10-04].
+*(Korekta 2026-10-04: dotychczasowy zapis „poprzedni t.j. to Dz.U. 2026 poz. 524 (obwieszczenie
+06.03.2025)” był błędny — 2026/524 jest t.j. AKTUALNYM, a data 06.03.2025 dotyczyła t.j. 2025/418.)*
 **Zawsze weryfikuj aktualny tekst jednolity przed powołaniem przepisu.**
 
 ---
@@ -631,7 +634,7 @@ Sprawdź stan postępowań PRZED złożeniem wniosku o uproszczoną legalizację
 
 *⚠️ Moduł strategiczny — wszystkie przepisy i orzecznictwo wymagają weryfikacji
 online w ISAP / orzeczenia.nsa.gov.pl / sn.pl przed powołaniem.*
-*Weryfikacja: 22.05.2026 | PrBud: Dz.U. 2026 poz. 524 t.j. (obwieszczenie 27.03.2026)*
+*Weryfikacja: 22.05.2026; tabela aktów i WT — 04.10.2026 | PrBud: Dz.U. 2026 poz. 524 t.j. (obwieszczenie 27.03.2026), ze zm. (m.in. 2026/1161)*
 *Zakaz cytowania przepisów z pamięci — każdy artykuł weryfikuj w ELI (RZĄD 1)*
 
 ---

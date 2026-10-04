@@ -1,5 +1,7 @@
 # CHANGELOG — prawo-polskie-v2
 
+- 6.33 (2026-10-04, AUDYT-2026-10-04): ROUTING-MAP — nowelizacja Dz.U. 2026 poz. 1161 (RZĄD 1 ELI): wiersz Prawa budowlanego (zmiany po t.j. 605/646/1161; usunięta nieaktualna adnotacja „⚡ pozostaje art. 1 pkt 1 i 3 → wchodzi 20.09.2026” — w mocy), wiersz uzupełnienia PrBud (§ 9a), wiersz samorządów architektów/inżynierów (ze zm. 2026/1161, art. 3–4), wiersz patodeweloperki (rozp. WT z 2002 r. nie obowiązuje od 20.09.2026, F-224); źródło centralne → `mapa_dzu_2026-10-04.md`.
+
 - 6.32 (2026-09-27p, AUDYT-2026-09-27p): ROUTING-MAP: „źródło centralne” wskazywało mapę Dz.U. z 2026-07-15 (nieaktualna); teraz bieżąca generacja audyt-systemu-v4/references/mapa_dzu_2026-09-22.md.
 
 - 6.31 (2026-09-27e, AUDYT-2026-09-27e): claude.ai po dodaniu marketplace instalował wyłącznie 4 z 32 pluginów (shared, prawny-router-v3, analizator-dowodow-v3, przesluchanie-swiadkow-v2-min90); jedyna cecha wspólna tych 4, nieobecna w żadnym z 28 pozostałych, to klucz `dependencies` we frontmatterze SKILL.md. Dodano go (`requires: [shared]` — zgodnie ze stanem faktycznym) oraz jawny manifest pluginu (name, description = description z SKILL.md, author, repository, license) — host nie musi niczego wnioskować z SKILL.md. `version` w manifeście = `version:` z SKILL.md (pilnuje T38 w audyt-systemu-v4) — host rozpoznaje aktualizację po podbiciu wersji. Treść skilla bez zmian.

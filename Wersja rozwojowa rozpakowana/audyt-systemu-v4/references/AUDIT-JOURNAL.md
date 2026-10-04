@@ -69631,3 +69631,46 @@ Mapa bez zmian (`mapa_dzu_2026-09-22.md`); akty disclaimera — jak w § 2.
 ### 6. WNIOSKI I ZALECENIA
 1. Wgrać do `main` najpierw relikty (`git rm`, AUDYT-2026-10-03b § 6), potem paczki 6.159, 3.99.2, 3.61, 4.21 przez zastąpienie katalogów.
 2. Zamykając flagę, sprawdzać jej zapisane kryterium zamknięcia punkt po punkcie — F-221 zamknięto w 6.158 na podstawie ustalenia przyczyny, bez części wykonawczej kryterium.
+
+---
+
+## AUDYT-2026-10-04 — TRYB DZU + TREŚĆ: nowelizacja Dz.U. 2026 poz. 1161 (samorządy architektów/inżynierów + Prawo budowlane); rozp. WT budynków po 19.09.2026; relikty F-222 usunięte z repozytorium (6.160)
+
+**Tryb:** DZU (FAZA 3-PULL/3A/3D) + FAZA 3E (MOD-TRESC-MERYTORYCZNA, MOD-PROPAGACJA-NOWELIZACJI) + FAZA 7A/7B/7C, na polecenie: zbadać mapy aktów w modułach DR i `prawo-polskie-v2` pod kątem nowelizacji DU/2026/1161 (wpis z 2026-10-02 podany dwukrotnie — jedna nowelizacja), wprowadzić korekty, wydać skille wg ZASADY 7, wypchnąć wersję rozpakowaną i ZIP-y, zaktualizować sumy kontrolne. **Źródło prawdy:** klon `main` (`94b5e37`), nie kopia zainstalowana (F-223).
+
+### 1. STATUS OGÓLNY
+Wydania: `dr-09` 3.39, `prawo-polskie-v2` 6.33, `shared` 3.99.3, `audyt-systemu-v4` 6.160. Pozostałe skille — bez zmian (dr-12 sprawdzony: wyłącznie routing do DR-09, bez treści dotkniętej nowelizacją).
+
+### 2. NAPRAWY WYKONANE
+**2A. Ustalenia RZĄD 1** (ELI, odczyt 2026-10-04):
+- DU/2026/1161 — ustawa z 31.07.2026, ogł. 1.09.2026, `entryIntoForce` 2026-10-02; art. 5: 30 dni od ogłoszenia, art. 2 pkt 4 (rozdz. 10a PrBud) — od dnia następnego po ogłoszeniu (2.09.2026). `/references`: zmienia DU/2001/42 i DU/1994/414 (data 2026-10-02). ✅ [VER: api.sejm.gov.pl/eli/acts/DU/2026/1161 + text.pdf, 2026-10-04]. REPRODUKCJA: `curl api.sejm.gov.pl/eli/acts/DU/2026/1161/text.pdf | pdftotext`.
+- Ustawa o samorządach: jedyny akt zmieniający po t.j. 2025/1783 = 2026/1161 (`/references` DU/2001/42). Prawo budowlane po t.j. 2026/524: 605, 646, 1161 (+ odroczone przepisy 2025/1847 i 2025/1673) (`/references` DU/1994/414).
+- Treść zmian odczytana z `text.pdf` i porównana z t.j. 2025/1783 (art. 42, 43, 54) i 2026/524 (art. 7, 96 ust. 6, 99): art. 13a (zwolnienie od pracy bez wynagrodzenia), art. 19 ust. 2 (terminy 30 dni) i nowe ust. 2a–2b (czynność przewodniczącego po prawomocnym orzeczeniu SD), art. 42 (skreślenie przy utracie WSZYSTKICH uprawnień; składki — rok / >6 mies.), art. 43 (zawieszony członek; odesłanie do art. 12 ust. 1 pkt 1–5 PrBud zamiast wadliwego art. 14), art. 55 ust. 1; PrBud art. 12 ust. 7b, art. 96 ust. 6 (OKK wyznacza termin, OSD stwierdza utratę uprawnień w specjalności i zakresie), art. 99 ust. 1a, rozdz. 10a art. 102a–102c; art. 3–4 — sprawy w toku i wykonanie orzeczeń sprzed 2.10.2026 wg przepisów dotychczasowych.
+- **Warunki techniczne budynków:** DU/2002/690 — `status: uznany za uchylony`, `inForce: NOT_IN_FORCE`. Podstawa utraty mocy: art. 66 ustawy o zapewnianiu dostępności (DU/2019/1696; brzmienie 36 → 60 mies. — DU/2022/975 → 84 mies. — DU/2024/1081; tekst w t.j. DU/2024/1411) — przepisy wykonawcze z art. 7 ust. 2 i 3 PrBud zachowywały moc najdłużej 84 mies. od 20.09.2019, tj. do 19.09.2026; spójne z art. 102a („obowiązującymi do dnia 19 września 2026 r.”). ✅ [VER: ELI DU/2019/1696, DU/2022/975, DU/2024/1081, DU/2024/1411 text.pdf, 2026-10-04]. Nowe rozp. WT budynków: 🟨 brak w ELI (wyszukiwanie tytułów 2025/2026: „warunków technicznych”, „budynki i ich usytuowanie”, „budynk”, słowo kluczowe „budowlane prawo”) — zbieżnie Rząd 3: muratordom.pl (28.09.2026: „rozporządzenie nie zostało jeszcze podpisane… i opublikowane”), list otwarty PIIB/IARP (inzynierbudownictwa.pl, 14.09.2026). → **F-224**.
+
+**2B. CRIT-TREŚĆ naprawione (FAZA 3E):**
+- `dr-09/mod-ustawa-architekci-inzynierowie-budownictwa-zawod`: brak zmian 2026/1161 (art. 42/43 opisywane pośrednio w pkt 7 jako reżimy rozdzielne — od 2.10.2026 sprzężone) → sekcja NOWELIZACJA 2026/1161 + intake/warunki/QG; **błąd daty**: „obwieszczenie z 15.12.2025” → obwieszczenie 24.11.2025, ogł. 15.12.2025 (ELI `announcementDate`).
+- `dr-09/mod-PrBud-uzupelnienie-pokrycia-2026` 1.1: art. 12 ust. 7b, art. 96 ust. 6, art. 99 ust. 1a, nowy § 9a (art. 102a–102c).
+- `dr-09/mod-PrBud-prawo-budowlane`: wiersz WT „Weryfikuj aktualną wersję w isap” przy akcie, który przestał obowiązywać → stan faktyczny + reżim przejściowy; **błąd**: „poprzedni t.j. to Dz.U. 2026 poz. 524 (obwieszczenie 06.03.2025)” — 2026/524 jest t.j. aktualnym, poprzedni 2025/418 (ELI „Inf. o tekście jednolitym”).
+- **Propagacja (MOD-PROPAGACJA-NOWELIZACJI):** rozp. WT z 2002 r. cytowane jako obowiązujące także w `mod-PrBud-patodeweloperka-…` (cz. B), indeksie i częściach 1, 3, 5, 6 `ochrona-zabytkow/`, `mod-PrWodne-…` — alerty dodane. W cz. 5 zapis „nowelizacja WT wchodzi w życie WE WRZEŚNIU 2026” (stan 30.07.2026) — nie ziścił się; skorygowany, próg 25 m² dla lokali użytkowych oznaczony jako projekt.
+- `dr-09/MAPA-AKTOW`, `prawo-polskie-v2/ROUTING-MAP` (4 wiersze + źródło centralne; usunięta nieaktualna adnotacja „⚡ pozostaje art. 1 pkt 1 i 3 → wchodzi 20.09.2026”), `shared/ISAP-METRYKI-AKTOW` (2 wiersze; tabela zbiorcza `AKTUALNY-ISAP` → `PO-TJ-ZMIANY`).
+
+**2C. Strukturalne:** relikty F-222 (36 plików, opisane w AUDYT-2026-10-03b § 6 jako wymagające `git rm`) usunięte z repozytorium — każdy bez wpisu w CHECKSUMS, opisany w CHANGELOG 6.157 jako usunięty w 6.146/6.153, zero aktywnych odwołań (grep poza dziennikiem/changelogiem: tylko wzmianki historyczne w `mcp-servers/README.md` i `test_protokol.mjs`); 2 pliki `scripts/__pycache__/*.pyc` (śledzone w git, nieobecne w ZIP — `verify_development_archives.py` zgłaszał je jako `extra`). `audyt-systemu-v4`: 223 → 188 plików.
+
+### 3. OSTRZEŻENIA (WARN)
+- **F-224 (nowa, reaktywna)** — nowe rozp. WT budynków nieogłoszone; pełny opis z polami STATUS/ŹRÓDŁO/REPRODUKCJA w `WARN-OTWARTE.md`.
+- Odnotowane bez flagi: T11 w pierwszym przebiegu zgłosił `Dz.U. 2019 poz. 1696` w MAPA-AKTOW dr-09 bez wiersza w ROUTING-MAP/mapie — cytowania przestawione na t.j. `Dz.U. 2024 poz. 1411` (obecny w obu rejestrach; art. 66 w t.j. odczytany); T11 PASS.
+- Wolny numer: **F-225**.
+
+### 4. WERYFIKACJA Dz.U.
+Nowa generacja `mapa_dzu_2026-10-04.md` (z 09-22): +2026/1161 (NW), +2002/690 (UCH/PREV), adnotacje 2026/524 i 2025/1783. MONITORING: bez nowych pozycji (2026/1161 w mocy; nieogłoszone rozp. nie wchodzi do MONITORING — F-224).
+
+### 4C. TREŚĆ MERYTORYCZNA MODUŁÓW
+Jak w § 2B. Wszystkie twierdzenia o treści zmian — RZĄD 1 (ELI `text.pdf`); stan „brak nowego rozp. WT” — 🟨 wynik negatywny RZĘDU 1 + 2 źródła Rządu 3 zbieżne (ZASADA 14 pkt 3 — nie ✅).
+
+### 5. STRUKTURA SYSTEMU — SNAPSHOT
+`dr-09` 51 plików (bez zmiany liczby), `prawo-polskie-v2` 8, `shared` 197, `audyt-systemu-v4` 188. Sumy `CHECKSUMS.sha256` przeliczone w 4 skillach; ZIP-y `WERSJA ROZWOJOWA/` przebudowane `scripts/repack_development_archives.py` i zweryfikowane `verify_development_archives.py` (32 paczki, 0 błędów; przebudowane wyłącznie 4 ZIP-y skilli zmienionych — pozostałe 28 bez zmian bajtowych). `run_regression_suite.py` na drzewie wydania: ✅ PASS STRUKTURALNY (wszystkie testy PASS; T4/T5 ręczne); T21: 32 skille, 0 rozjazdów; `dostarcz_skill.sh` dla 4 skilli: T22 PASS, liczba plików oryginał = kopia = ZIP (51/8/197/188).
+
+### 6. WNIOSKI I ZALECENIA
+1. Po ogłoszeniu nowego rozp. WT — FAZA 3E na parametrach WT (F-224); do tego czasu każde powołanie WT wymaga ustalenia, czy inwestor złożył oświadczenie z art. 102a.
+2. Mapy w modułach podawały datę ogłoszenia jako datę obwieszczenia (2025/1783) — przy kolejnych t.j. odczytywać `announcementDate` z ELI, nie `promulgation`.
