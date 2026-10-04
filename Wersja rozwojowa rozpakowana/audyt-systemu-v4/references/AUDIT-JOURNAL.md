@@ -69871,3 +69871,22 @@ Liczby plików bez zmian (dr-03 87, dr-09 51, prawo-polskie-v2 8, audyt 189).
 ### 6. WNIOSKI I ZALECENIA
 1. Stawki mandatów w modułach pochodziły ze źródeł wtórnych (portale, „7+ zgodnych źródeł”) — zgodność wielu źródeł wtórnych nie zastąpiła odczytu rozporządzenia: 3 z 3 przeglądanych modułów miały błędne granice.
 2. Przy każdej nowelizacji KW zmieniającej dolną granicę grzywny sprawdzać tabelę B taryfikatora (wzorzec 2D).
+
+## AUDYT-2026-10-04g — rozbieżności MAPA-AKTOW wykryte mechanicznie przez aplikację (6.166)
+
+### 1. ŹRÓDŁO
+Aplikacja (resolver map aktów, wskazanie mechaniczne: numer Dz.U., artykuł kodeksu, nazwa aktu) z kontrolą spójności wiersz ↔ moduł.
+
+### 2. ROZBIEŻNOŚCI I NAPRAWY
+1. DR-03 `MAPA-AKTOW.md`: „KK art. 270–310 — fałszerstwa dokumentów” — nagłówek modułu deklaruje „art. 270-277d, 310 KK”; zakres mapy obejmował art. 278–309 (m.in. kradzież). Wiersz zawężony; ROUTING-MAP zsynchronizowana. Moduł przestępstw przeciwko mieniu (art. 278–295 KK) w DR-03 nie istnieje — pytanie o te artykuły trafia do indeksu `mod-KK-current-state-COV` (luka pokrycia, nie błąd mapy).
+2. DR-09 `MAPA-AKTOW.md`: wiersz elektromobilności (Dz.U. 2026 poz. 1243) wskazywał `mod-ustawa-charakterystyka-energetyczna` — moduł nie wymienia ustawy. Właściwy: `mod-ustawa-transport-drogowy-kolejowy-lotniczy-morski` § 7.
+
+### 3. OSTRZEŻENIA (WARN)
+- Luka pokrycia: brak modułu DR-03 dla art. 278–295 KK (przestępstwa przeciwko mieniu). Wolny numer: **F-230**.
+
+### 4. WERYFIKACJA Dz.U.
+Bez nowych numerów; Dz.U. 2026 poz. 1243 — ✅ [VER] RZĄD 1 2026-10-04 (już w module transportu).
+
+### 5. STRUKTURA SYSTEMU — SNAPSHOT
+Liczby plików bez zmian. Podbicia: DR-03 3.50 → **3.51**, DR-09 3.42 → **3.43**, prawo-polskie-v2 6.35 → **6.36**, audyt 6.165 → **6.166**.
+

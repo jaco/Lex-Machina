@@ -1,5 +1,7 @@
 # CHANGELOG — audyt-systemu-v4
 
+- 6.166 (2026-10-04g, AUDYT-2026-10-04g): Dziennik AUDYT-2026-10-04g — dwie rozbieżności MAPA-AKTOW wykryte mechanicznie przez aplikację (kontrola: moduł wskazany numerem Dz.U. lub nazwą musi wymieniać akt; zakres artykułów z nagłówka modułu): DR-03 KK art. 270–310 → 270–277d, 310; DR-09 elektromobilność → moduł transportu.
+
 - 6.165 (2026-10-04f, AUDYT-2026-10-04f): **Przegląd stawek mandatów DR-03 wobec rozporządzenia (AUDYT-2026-10-04f) + T11 zsynchronizowany.** `mapa_dzu_2026-10-04.md` — uzupełnienie generacji o 5 wierszy RZĘDU 1 (2026/1243, 2025/1490, 2013/1624, 2021/2484, 2023/1256). T11: 12 pozycji → 0. Pełny opis: `audyt-systemu-v4/references/AUDIT-JOURNAL.md`, AUDYT-2026-10-04f.
 
 - 6.164 (2026-10-04e, AUDYT-2026-10-04e): **F-229 otwarta i zamknięta; nowy T45 `scripts/check_mapy_aktow.py` (BLOKER).** Zgłoszenie z aplikacji: DR-09 — 26 modułów, DR-03 — 2 „bez wiersza w MAPA-AKTOW”. Przyczyna nie była merytoryczna (wiersze istniały), lecz strukturalna — tabele nieczytelne dla parsera GFM. T45: struktura tabel map i ROUTING-MAP, pokrycie modułów w kolumnie „Moduł”, rozwiązywalność odesłań (8 międzydziedzinowych — informacyjnie). Stan `main`: 191 błędów; po naprawie 0. Ponadto taryfikator mandatów z ELI (DR-03 3.49) i nowy t.j. elektromobilności (DR-09 3.41). Pełny opis: `audyt-systemu-v4/references/AUDIT-JOURNAL.md`, AUDYT-2026-10-04e.

@@ -41,7 +41,7 @@ Brzmienie każdego powoływanego artykułu KPK czytać u źródła; tekst jednol
 | KK art. 255b — patostreaming | `mod-KK-art255b-patostreaming` | ✅ aktywny; temporal/fresh gate |
 | KK art. 263 — broń | `mod-KK-art263-bron-nielegalna` | ✅ aktywny; fresh gate ustaw administracyjnych |
 | KK art. 267–269c — cyberprzestępstwa | `mod-KK-art267-269c-cyberprzestepstwa` + `mod-KK-cyberprzestepstwa-szczegolowy` | ✅ aktywny |
-| KK art. 270–310 — fałszerstwa dokumentów | `mod-KK-art270-310-falszerstwa-dokumentow` | ✅ aktywny |
+| KK art. 270–277d, 310 — fałszerstwa dokumentów, pieniędzy i papierów wartościowych | `mod-KK-art270-310-falszerstwa-dokumentow` | ✅ aktywny |
 | KK art. 291–299 — paserstwo / pranie pieniędzy | `mod-KK-art291-pranie-pieniedzy` | ✅ aktywny |
 | KK art. 296 — nadużycie zaufania | `mod-KK-art296-naduzycie-zaufania` | ✅ aktywny |
 | KK art. 296a — korupcja prywatna | `mod-KK-art296a-korupcja-sektor-prywatny` | ✅ aktywny |

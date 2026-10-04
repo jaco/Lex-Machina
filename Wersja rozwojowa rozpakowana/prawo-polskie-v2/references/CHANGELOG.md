@@ -1,5 +1,7 @@
 # CHANGELOG — prawo-polskie-v2
 
+- 6.36 (2026-10-04g, AUDYT-2026-10-04g): ROUTING-MAP — wiersz KK fałszerstw zawężony do „art. 270-277d, 310” (wg nagłówka modułu DR-03; synchronizacja z DR-03 3.51).
+
 - 6.35 (2026-10-04f, AUDYT-2026-10-04f): ROUTING-MAP (synchronizacja T11): transport drogowy — t.j. Dz.U. 2025 poz. 1490 (było 2024/1539 — nieaktualny t.j.); nowe wiersze: taryfikator mandatów (rozp. PRM z 24.11.2003, t.j. 2013/1624 ze zm.) i ustawa o państwowej kompensacie (t.j. 2016/325); opłaty w sprawach karnych — zakres t.j. 2023/123. Pełny opis: `audyt-systemu-v4/references/AUDIT-JOURNAL.md`, AUDYT-2026-10-04f.
 
 - 6.34 (2026-10-04e, AUDYT-2026-10-04e): **ROUTING-MAP czytelna maszynowo (F-229).** 129 wierszy w 20 segmentach tabel bez nagłówka (oddzielone pustą linią lub `---` od tabeli macierzystej) scalone z tabelami o tej samej liczbie kolumn; 1 wiersz bez wiodącego `|`; 5 wierszy z nadmiarowymi komórkami (komentarz scalony z ostatnią kolumną; 3 komórki Dz.U. w wierszu rolnictwa scalone w jedną) i 1 z brakującą komórką (KPK — kolumna daty). Zbiór odwołań do modułów bez zmian (porównanie przed/po). Elektromobilność: Dz.U. 2026 poz. 1243 t.j. Pełny opis: `audyt-systemu-v4/references/AUDIT-JOURNAL.md`, AUDYT-2026-10-04e.
