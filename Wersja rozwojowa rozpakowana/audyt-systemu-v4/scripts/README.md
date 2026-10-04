@@ -74,3 +74,13 @@ python3 check_sieroty.py --repo-root "$LEX_MACHINA_SKILLS_ROOT"
 
 FAIL = plik do powiązania (żywa treść) albo do usunięcia z wpisem w CHANGELOG
 (relikt wskrzeszony nakładką, duplikat). Allowlista z uzasadnieniem — w skrypcie.
+
+## check_osiagalnosc_shared.py — T44 osiągalność `shared`
+
+Dodany 2026-10-04d. Graf odwołań od SKILL.md skilli produkcyjnych (bez audytu i rejestrów);
+każdy plik `shared` musi być osiągalny. Uzupełnia T43: T43 łapie plik bez żadnego odwołania,
+T44 — plik wymieniony wyłącznie w rejestrze.
+
+```
+python3 check_osiagalnosc_shared.py --repo-root "$LEX_MACHINA_SKILLS_ROOT"
+```

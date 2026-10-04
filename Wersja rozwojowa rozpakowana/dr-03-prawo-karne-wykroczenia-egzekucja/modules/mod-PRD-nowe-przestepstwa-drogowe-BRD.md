@@ -56,7 +56,7 @@ OD 29.01.2026 — NOWE PRZESTĘPSTWA KK i WYKROCZENIA KW:
      z nawierzchnią" na drodze publicznej, strefie ruchu/zamieszkania
     → Grzywna min. 1 500 zł
   → Organizowanie nielegalnych spotkań motoryzacyjnych (≥10 pojazdów bez zgłoszenia):
-    → Grzywna do 2 000 zł dla organizatora I uczestników
+    → art. 52aa KW (od 29.01.2026): organizator/przewodniczący — ograniczenie wolności albo grzywna NIE NIŻSZA niż 2 000 zł; umyślny uczestnik — grzywna (korekta AUDYT-2026-10-04c; ✅ [VER: ELI DU/2025/1872 art. 1 pkt 3, odczyt 2026-10-04])
   → Przygotowanie do wyścigu (blokowanie drogi, organizacja infrastruktury):
     → Kara do 3 lat pozbawienia wolności — nawet bez przeprowadzenia wyścigu
   → Obligatoryjny przepadek pojazdu: gdy alkohol ≥ 1,5‰ (art. 178a KK)
@@ -150,7 +150,7 @@ DRIFT I CELOWY POŚLIZG (art. 86c KW — nowy):
 
 SPOTY I ZLOTY BEZ ZGŁOSZENIA (≥10 pojazdów):
   → Obowiązek zgłoszenia organowi gminy
-  → Brak zgłoszenia: grzywna do 2 000 zł (organizator I uczestnicy)
+  → Brak zgłoszenia: art. 52aa KW (od 29.01.2026): organizator/przewodniczący — ograniczenie wolności albo grzywna NIE NIŻSZA niż 2 000 zł; umyślny uczestnik — grzywna (korekta AUDYT-2026-10-04c; ✅ [VER: ELI DU/2025/1872 art. 1 pkt 3, odczyt 2026-10-04])
 
 OBLIGATORYJNY PRZEPADEK POJAZDU:
   → Alkohol ≥1,5‰: sąd orzeka przepadek OBOWIĄZKOWO

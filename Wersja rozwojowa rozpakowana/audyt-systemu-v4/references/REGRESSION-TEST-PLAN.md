@@ -1386,3 +1386,15 @@ Allowlista mieszka w skrypcie; każdy wpis wymaga uzasadnienia. ⚠️ **Ogranic
 istnienie odwołania, nie to, czy odwołanie jest w ścieżce wykonania (wzmianka w tabeli rejestru liczy się
 tak samo jak `view`). Pierwszy przebieg (2026-10-04b): 65 sierot przed naprawą, 0 po (1 na allowliście).
 
+## T44 — osiągalność `shared` ze skilli produkcyjnych (dodany 2026-10-04d, AUDYT-2026-10-04d)
+
+| Test | Co sprawdza | Waga | Uruchomienie |
+|---|---|---|---|
+| T44 | Każdy plik `shared` jest osiągalny w grafie odwołań (ścieżkowym, jak T43) od SKILL.md 30 skilli produkcyjnych — bezpośrednio albo łańcuchem plików `shared`. Krawędzie z `audyt-systemu-v4` i z rejestrów (`shared/SKILL.md`, `DEPENDENCY-GRAPH.md`, `PORTABILITY-MANIFEST.md`, `tools/README.md`) NIE liczą się: rejestr wymienia plik, ale go nie wczytuje | KRYTYCZNY (BLOKER) | `python3 scripts/check_osiagalnosc_shared.py --repo-root <katalog skilli>` |
+
+Allowlista (10 pozycji, w skrypcie): metadane hosta, CHECKSUMS, PORTABILITY-MANIFEST, DEPENDENCY-GRAPH (rejestr audytu),
+4 fikstury self-testu `tools/przyklady/`. Wpis allowlisty, który przestał być potrzebny, jest raportowany jako ⚠️.
+Test negatywny 2026-10-04d: odpięcie `MOD-GENERATOR-AKTU` w `MODULE-STANDARD-POLISH-LAW.md` → FAIL z nazwą pliku.
+⚠️ **Ograniczenie jawne.** Osiągalność ≠ wczytanie w każdej sprawie: łańcuch może prowadzić przez gałąź warunkową.
+T44 wykrywa plik, którego NIE wczyta żadna ścieżka; nie mierzy, jak często ścieżka jest używana.
+

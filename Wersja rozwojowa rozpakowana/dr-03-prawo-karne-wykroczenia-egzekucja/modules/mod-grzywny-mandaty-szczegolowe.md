@@ -124,32 +124,38 @@ ZASADY MANDATÓW KARNYCH (KPSW — weryfikuj aktualny art. 96 §1–4):
     05.2026 — "recydywa wykroczeniowa" potwierdzona dla najpoważniejszych
     naruszeń prędkości)
 
-STAWKI ORIENTACYJNE — DROGOWE (weryfikuj aktualne przed powołaniem):
+STAWKI ORIENTACYJNE — DROGOWE (kolumna „Mandat” = taryfikator rozporządzeniowy,
+NIEWERYFIKOWANY w AUDYT-2026-10-04c — sprawdź obowiązujące rozporządzenie przed powołaniem;
+kolumna „Sąd max” = art. 24 § 1 / § 1a KW):
 ┌──────────────────────────────────────────────────────────────────────┐
 │ Art.   │ Naruszenie                    │ Mandat     │ Sąd max       │
 ├────────┼───────────────────────────────┼────────────┼───────────────┤
-│ 92a    │ Prędkość: do 10 km/h          │ 50–100 zł  │ 5 000 zł      │
-│        │ Prędkość: 11–20 km/h          │ 200–300 zł │               │
-│        │ Prędkość: 21–30 km/h          │ 300–400 zł │               │
-│        │ Prędkość: 31–40 km/h          │ 800 zł     │               │
-│        │ Prędkość: 41–50 km/h          │ 1 000 zł   │               │
-│        │ Prędkość: >50 km/h            │ 1 500–2 500│ (5 000 w recyd.)│
-│ 86 §1  │ Kolizja (nieostrożność)       │ 500–1 500  │ 5 000 zł      │
-│ 87 §1  │ Alkohol 0,2–0,5‰             │ 2 500 zł   │ 5 000 zł      │
-│ ⚠️86c  │ "Drift/celowy poślizg" — NIE  │ —          │ —             │
-│        │ ZNALEZIONO POTWIERDZENIA tego │            │               │
-│        │ artykułu w wyszukiwaniu       │            │               │
-│        │ online 2026-06-13. Może być   │            │               │
-│        │ błędny numer art. lub zmylenie│            │               │
-│        │ z BRD I/II (nowe ustawy       │            │               │
-│        │ drogowe z 06.2026 — patrz     │            │               │
-│        │ mod-PRD). PRZED UŻYCIEM:      │            │               │
-│        │ web_search "art 86c kodeks    │            │               │
-│        │ wykroczeń drift" + isap       │            │               │
-│ 94 §1  │ Jazda bez uprawnień           │ 1 500 zł   │ 5 000 zł      │
-│ 96 §3  │ Nieujawnienie kierowcy        │ 2 500 zł   │ 5 000 zł      │
+│ 92a §1 │ Prędkość: do 10 km/h          │ 50–100 zł  │ 5 000 zł      │
+│ 92a §1 │ Prędkość: 11–20 km/h          │ 200–300 zł │ 5 000 zł      │
+│ 92a §1 │ Prędkość: 21–30 km/h          │ 300–400 zł │ 5 000 zł      │
+│ 92a §2 │ Prędkość: 31–40 km/h          │ 800 zł     │ 30 000 zł     │
+│ 92a §2 │ Prędkość: 41–50 km/h          │ 1 000 zł   │ 30 000 zł     │
+│ 92a §2 │ Prędkość: >50 km/h            │ 1 500–2 500│ 30 000 zł     │
+│ 86 §1  │ Kolizja (nieostrożność)       │ 500–1 500  │ 30 000 zł     │
+│ 86c §1 │ Celowy poślizg/drift (droga   │ —          │ 30 000 zł     │
+│        │ publiczna, strefa zam./ruchu) │            │ min. 1 500 zł │
+│ 86c §2 │ j.w. + zagrożenie bezp. ruchu │ —          │ 30 000 zł     │
+│        │                               │            │ min. 2 500 zł │
+│ 87 §1  │ Alkohol 0,2–0,5‰             │ 2 500 zł   │ 30 000 zł     │
+│ 94 §1  │ Jazda bez uprawnień           │ 1 500 zł   │ 30 000 zł     │
+│ 96 §3  │ Nieujawnienie kierowcy        │ 2 500 zł   │ 30 000 zł     │
 └────────┴───────────────────────────────┴────────────┴───────────────┘
-⚠️ Max grzywna sądowa: weryfikuj aktualny art. 24 §1 KW w ELI (RZĄD 1)
+⛔ Granice grzywny sądowej (KW): art. 24 § 1 — od 20 do 5 000 zł, chyba że ustawa stanowi
+   inaczej; art. 24 § 1a — do 30 000 zł m.in. za art. 82 § 1–3, 4 i 5 (od 2.01.2026,
+   Dz.U. 2025 poz. 1814 art. 1 pkt 1 — ✅ [VER: ELI text.pdf, 2026-10-04]), art. 86 § 1, 1a i 2, art. 86b § 1, art. 86c
+   (od 29.01.2026), art. 87 § 1, art. 92 § 1 i 2, art. 92a § 2, art. 92b, art. 93 § 1,
+   art. 94 § 1, art. 96 § 3, art. 97a. Art. 92a § 1 (przekroczenie do 30 km/h) NIE jest
+   w § 1a → górna granica 5 000 zł; art. 92a § 2 (ponad 30 km/h) — grzywna nie niższa
+   niż 800 zł. Art. 86c — nowy od 29.01.2026 (§ 1: nie niższa niż 1 500 zł; § 2: nie niższa
+   niż 2 500 zł). Wcześniejszy wpis „86c — NIE ZNALEZIONO POTWIERDZENIA (2026-06-13)” był
+   nieaktualny. Recydywa sądowa (art. 38 § 2 KW) — m.in. art. 86c, 87 § 1, 92a § 2, 94 § 1:
+   grzywna nie niższa niż dwukrotność dolnej granicy ustawowego zagrożenia.
+   ✅ [VER: ELI RZĄD 1 — DU/2025/734 (t.j. KW) text.pdf + DU/2025/1872 text.pdf (art. 1; wejście w życie art. 9: 30 dni od ogłoszenia 29.12.2025 → 29.01.2026, ELI entryIntoForce 2026-01-29); odczyt 2026-10-04]
 ⚠️ Minimalne kwoty 2026 (gazetaprawna.pl 05.2026, dla "nieujawnienie
    kierującego" art.96§3): postępowanie o przestępstwo → min 4000 zł,
    zagrożenie bezpieczeństwa → min 2000 zł, przekroczenie prędkości →

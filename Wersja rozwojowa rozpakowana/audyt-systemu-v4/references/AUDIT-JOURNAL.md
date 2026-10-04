@@ -69750,3 +69750,45 @@ Nie dotyczy — żadna treść prawa nie została dodana ani zmieniona.
 ### 6. WNIOSKI I ZALECENIA
 1. Status „KANONICZNY / obowiązkowy” w nagłówku pliku nie dowodzi wywołania — T43 mierzy istnienie odwołania, a pomiar osiągalności (graf od skilli produkcyjnych) wykrył procedurę obowiązkową bez wywołania. Kandydat na test T44 (osiągalność `shared` z wyłączeniem rejestrów) — odnotowane, nie wdrożone.
 2. Instalacja: zastąpienie katalogów 12 skilli + `git rm -r prawny-router-v3/references/legacy-material-router`.
+
+---
+
+## AUDYT-2026-10-04d — F-228: odczyt ELI czterech jednostek + propagacja w DR-03; nowy T44 (6.163)
+
+**Tryb:** TREŚĆ (FAZA 3E, MOD-TRESC-MERYTORYCZNA + MOD-PROPAGACJA-NOWELIZACJI) + STRUKTURA + FAZA 7A/7B/7C + wydanie wg ZASADY 7, na polecenie „zrób to” (F-228 i propozycja T44 z AUDYT-2026-10-04c).
+
+### 1. STATUS OGÓLNY
+Podbicia: `dr-03-prawo-karne-wykroczenia-egzekucja` 3.47 → **3.48**; `audyt-systemu-v4` 6.162 → **6.163**. Pozostałe skille bez zmian.
+
+### 2. NAPRAWY WYKONANE
+**2A. Odczyty RZĘDU 1** (ELI `api.sejm.gov.pl`, `text.pdf` → `pdftotext`, 2026-10-04):
+- KK: t.j. DU/2025/383; nowelizacje po t.j. (z MAPA-AKTOW DR-03): 2025/1818, 2025/1872, 2026/902, 2026/988 — art. 287 i art. 43a przeszukane w każdej. Art. 287: § 1–3, **§ 4 nie istnieje**; § 3 — szkoda osoby najbliższej → ściganie na wniosek. Bez zmian po t.j. Art. 43a: § 1 — może orzec, górna granica 60 000 zł; § 2 — orzeka, co najmniej 5 000 zł (katalog); § 3 — co najmniej 10 000 zł; § 4 — bójka/pobicie: orzeka co najmniej 5 000 zł, a przy obowiązku/nawiązce z art. 46 § 1–2 — może. 2025/1872 art. 2 pkt 2 nadaje nowe brzmienie § 2 i § 3 (dodane: art. 177 § 2a, 178c § 1, 178d w § 2; art. 244 warunkowo w § 3); wejście w życie art. 9 — 30 dni od ogłoszenia (29.12.2025), ELI `entryIntoForce` 2026-01-29. ✅ [VER: DU/2025/383, DU/2025/1872 text.pdf, 2026-10-04]. REPRODUKCJA: `curl -s https://api.sejm.gov.pl/eli/acts/DU/2025/383/text.pdf | pdftotext -layout - - | grep -A12 "Art. 43a\."`.
+- KW: t.j. DU/2025/734; akty zmieniające wg ELI `/references` DU/1971/114: 2025/1676, 1814, 1818, 1872. Art. 92a: § 1 grzywna; § 2 — ponad 30 km/h, grzywna nie niższa niż 800 zł; bez zmian po t.j. Art. 24 § 1: 20–5 000 zł; § 1a: do 30 000 zł dla katalogu (art. 92a § 2, nie § 1); 2025/1814 art. 1 pkt 1 dodał art. 82 § 1–3, 4 i 5; 2025/1872 art. 1 pkt 1 dodał art. 86c. Art. 86c (2025/1872 art. 1 pkt 4): § 1 nie niższa niż 1 500 zł, § 2 nie niższa niż 2 500 zł. Art. 52aa (pkt 3): organizator — ograniczenie wolności albo grzywna nie niższa niż 2 000 zł; uczestnik — grzywna. Art. 38 § 2 (pkt 2) — recydywa. ✅ [VER: DU/2025/734, 1676, 1814, 1818, 1872 text.pdf, 2026-10-04].
+- Prawo o miarach: t.j. DU/2022/2063 (obowiązujący); ELI `/references` DU/2001/636 — ostatni akt zmieniający 2022/1117 (przed t.j.). Art. 8a ust. 1 — użytkowanie przyrządu podlegającego prawnej kontroli metrologicznej tylko z ważną decyzją zatwierdzenia typu lub ważną legalizacją. ✅ [VER: DU/2022/2063 text.pdf, 2026-10-04].
+
+**2B. Ustalenie: archiwum routera zawierało błędy, a nie unikalną treść.** Wszystkie 4 „tematy bez odpowiednika” z F-228 to błędne jednostki w archiwum (287 § 4, 43a § 1 jako minimum, taryfikator przypisany do art. 92a). Decyzja z F-226 (nie przenosić treści archiwum) potwierdzona.
+
+**2C. CRIT-TREŚĆ w DR-03 (wykryte przy propagacji, MOD-PROPAGACJA-NOWELIZACJI):**
+1. `mod-KW-KPW-framework-szczegolowy` — wiersz „21–30 km/h” przypisany do art. 92a § 2 i „Kara sądowa max 30 000 zł” dla § 1 → § 1, 5 000 zł.
+2. `mod-grzywny-mandaty-szczegolowe` — „Sąd max 5 000 zł” przy art. 86 § 1, 87 § 1, 94 § 1, 96 § 3 → 30 000 zł; wpis „art. 86c — NIE ZNALEZIONO POTWIERDZENIA (2026-06-13)” → art. 86c obowiązuje od 29.01.2026.
+3. Art. 52aa KW w `mod-KW-KPW-framework-szczegolowy` i `mod-PRD-nowe-przestepstwa-drogowe-BRD` (2 miejsca): „grzywna do 2 000 zł (organizator i uczestnicy)” → minimum 2 000 zł dla organizatora, grzywna dla uczestnika.
+Ponadto: `kwalifikator/part-02` (art. 43a § 4 — reguła obligatoryjna), `part-04` (katalog § 2–3 po 2025/1872), `mod-KW-art1-48` (86c dodał 2025/1872, nie 2025/1676), `mod-KK-art267-269c` (ślad VER art. 287 § 3), `mod-PRD-prawo-jazdy-punkty-karne` (kotwica art. 8a ust. 1 Prawa o miarach). Kolumna stawek mandatów (rozporządzenie) — oznaczona jako NIEWERYFIKOWANA, nie zmieniana.
+
+**2D. T44 `scripts/check_osiagalnosc_shared.py` (BLOKER).** Graf odwołań od SKILL.md 30 skilli produkcyjnych, bez krawędzi z audytu i rejestrów; allowlista 10 pozycji z uzasadnieniem; nieużywany wpis allowlisty → ⚠️. Wynik: 137 bezpośrednio / 42 pośrednio / 10 na allowliście → PASS. Test negatywny: odpięcie `MOD-GENERATOR-AKTU` w `MODULE-STANDARD-POLISH-LAW.md` → FAIL z nazwą pliku; przywrócone (`cmp` zgodny).
+
+### 3. OSTRZEŻENIA (WARN)
+- **F-228 — zamknięta.** Wolny numer: **F-229**.
+- Odnotowane bez flagi: tabela taryfikatora mandatów w DR-03 opiera się na rozporządzeniu, którego w tej sesji nie odczytano (w `mod-KW-KPW-framework-szczegolowy` wskazane „Dz.U. 2026 poz. 724” — niezweryfikowane); stawki oznaczone w module jako NIEWERYFIKOWANE.
+
+### 4. WERYFIKACJA Dz.U.
+Bez nowych pozycji w mapie Dz.U.: wszystkie odczytane akty (2025/383, 2025/734, 2025/1676, 1814, 1818, 1872, 2026/902, 988, 2022/2063) — status zgodny z ELI. MONITORING bez zmian.
+
+### 4C. TREŚĆ MERYTORYCZNA MODUŁÓW
+Jak w § 2C — 3 CRIT-TREŚĆ naprawione, 6 korekt uzupełniających; każda z adnotacją ✅ [VER: ELI …, 2026-10-04].
+
+### 5. STRUKTURA SYSTEMU — SNAPSHOT
+`dr-03` 87 plików (bez zmiany liczby), `audyt-systemu-v4` 188 (+T44). Wynik suity i dostarczenia — w odpowiedzi sesji.
+
+### 6. WNIOSKI I ZALECENIA
+1. Treść przenoszona z archiwum lub z wcześniejszych generacji wymaga odczytu RZĘDU 1 — tu 4/4 „unikalne tematy” okazały się błędami archiwum.
+2. Tabele kwot w DR-03 mieszały granice ustawowe (KW) z taryfikatorem (rozporządzenie) w jednej kolumnie — przyczyna błędów 1–2 z § 2C. Zalecenie: przy kolejnej sesji odczytać rozporządzenie taryfikatorowe w ELI i rozdzielić kolumny w obu tabelach.

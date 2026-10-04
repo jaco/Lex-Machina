@@ -24,6 +24,7 @@ online), naruszenie wizerunku, fałszywe profile, procedury dowodowe dla cyberpr
    - Art. 269a KK (zakłócenie systemu — DDoS) → **Z URZĘDU**
    - Art. 269b KK (narzędzia hakerskie) → **Z URZĘDU**
    - Art. 287 KK (oszustwo komputerowe) → **Z URZĘDU**; wyjątek: osoba najbliższa → **na wniosek** (§3)
+     ✅ [VER: ELI DU/2025/383 text.pdf; art. 287 ma § 1–3 — „§ 4” nie istnieje; nowelizacje po t.j. bez zmian art. 287; odczyt 2026-10-04]
 4. **JURYSDYKCJA** → cyberprzestępstwo może być popełnione z zagranicy → MLAT (pomoc prawna
    międzynarodowa) przez prokuraturę. Efekty bardzo powolne.
 5. **PLATFORMY ZAGRANICZNE** → zgłoszenie do platformy (Facebook, Google, X) nie zastępuje

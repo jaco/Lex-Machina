@@ -312,7 +312,14 @@ OD DECYZJI STAROSTY (zatrzymanie/cofnięcie uprawnień):
   1. Błędy formalne decyzji (brak uzasadnienia, zły organ, naruszenie KPA)
   2. Punkty już skasowane / błędnie naliczone → wniosek o aktualizację CEPiK
   3. Zdarzenie na drodze niepublicznej (droga wewnętrzna ≠ droga publiczna)
-  4. Wadliwość pomiaru prędkości (brak aktualnego świadectwa legalizacji radaru)
+  4. Wadliwość pomiaru prędkości (brak aktualnego świadectwa legalizacji radaru) —
+     art. 8a ust. 1 ustawy Prawo o miarach (t.j. Dz.U. 2022 poz. 2063): przyrządy
+     pomiarowe podlegające prawnej kontroli metrologicznej mogą być użytkowane tylko,
+     jeżeli posiadają ważną decyzję zatwierdzenia typu lub ważną legalizację.
+     ✅ [VER: ELI DU/2022/2063 text.pdf; ELI /references DU/2001/636 — brak aktów
+     zmieniających po t.j.; odczyt 2026-10-04]. Czy dany przyrząd podlega prawnej
+     kontroli metrologicznej — przepisy wykonawcze do ustawy; odczytaj w ELI przed
+     powołaniem w piśmie.
   5. Zastosowanie nowych wyłączeń automatycznego kasowania → weryfikuj datę i kod naruszenia
 
 Strategie dla: drift/wyścig/zakaz sądowy/brawurowa jazda →

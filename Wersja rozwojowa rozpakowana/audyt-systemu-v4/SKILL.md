@@ -5,7 +5,7 @@ dependencies:
   requires:
     - shared
   # 2026-09-27e: jawna zależność (każdy skill systemu korzysta z `shared`); pole czytane przy imporcie z marketplace
-version: "6.162"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
+version: "6.163"   # ⛔ CUDZYSŁOWY OBOWIĄZKOWE od 6.10: niecytowane `6.10` YAML
                   # parsuje jako float 6.1 — czyli numer NIŻSZY niż 6.9, co cicho
                   # odwraca porządek wersji. Wykryte przy walidacji 2026-08-20z.
                   # Każda kolejna wersja z dwucyfrowym minor — też w cudzysłowie.
@@ -137,6 +137,8 @@ scripts:
                                           # parytet z silnikiem JS widgetu chronologii (±1e-6), regresja błędu
                                           # „× 0,9 = 0,27” w MOD-LANCUCH-DOWODOWY, podpięcia MP13/TRYB C/MET-PT.
                                           # Offline (Node opcjonalny: bez niego WARN); BLOKER od 2026-10-01b
+  - scripts/check_osiagalnosc_shared.py  # T44 — każdy plik shared osiągalny z SKILL.md skilli produkcyjnych
+                                          # (bez krawędzi z audytu i rejestrów); allowlista z uzasadnieniem
   - scripts/check_sieroty.py             # T43 — sieroty: plik bez ścieżki wywołania (ścieżkowo, odróżnia
                                           # pliki o tej samej nazwie); allowlista z uzasadnieniem w skrypcie
   - scripts/check_limit_plikow.py         # T41 — każdy skill < 200 plików (reguła użytkownika), WARN od 190;
@@ -1432,6 +1434,7 @@ z WARN-OTWARTE.md, dodaj pełny wpis do AUDIT-JOURNAL.md.
 > `dist/lex-mcp.mjs`, manifest rozszerzenia MCPB, instalator, skrypt budowy, README) — łącznie **192 pliki** (6.144: +`mcp-servers/LICENSE`). Drzewo niżej nie
 > rozpisuje `mcp-servers/` — opis w `mcp-servers/README.md`. Licznik w pierwszej linii drzewa jest
 > historyczny (stan 2026-09-09b).
+> ⚡ **2026-10-04d:** +`scripts/check_osiagalnosc_shared.py` (T44) — **188 plików**.
 > ⚡ **2026-10-04b:** usunięte 40 reliktów (30 `mcp-servers/*-example/*`, 2 `.pyc`, 6 `references/` z 6.146, raporty pokrycia KPK/KRO), dodany `scripts/check_sieroty.py` (T43) — **187 plików**.
 > ⚡ **2026-09-27s:** `mcp-servers/` scalony — wspólne `package.json`/`package-lock.json` i jeden `test_protokol.mjs` zamiast 10 kopii; 11 serwerów (+`wl-example`). Liczba plików skilla: `find . -type f | wc -l` (limit wydania 200).
 
@@ -1488,7 +1491,7 @@ audyt-systemu-v4/                               ← 89 plików (stan 2026-09-09b
 
 ---
 
-*Wersja: 6.162 | Ostatnia aktualizacja: 2026-10-04c (F-226 i F-227 zamknięte; pomiar osiągalności `shared` ze skilli produkcyjnych; F-228 otwarta). Poprzednio 6.161 — 2026-10-04b (TRYB STRUKTURA: sieroty i relikty, T43).*
+*Wersja: 6.163 | Ostatnia aktualizacja: 2026-10-04d (F-228 zamknięta po odczycie ELI — DR-03 3.48, 3 CRIT-TREŚĆ; nowy T44 `check_osiagalnosc_shared.py`). Poprzednio 6.162 — 2026-10-04c (F-226, F-227 zamknięte; pomiar osiągalności shared).*
 
 *(Stopka podawała „5.0 | 2026-07-04" przy `version: 6.8` w YAML — rozjazd
 9 wersji, naprawiony 2026-08-20y. **Stopkę aktualizuj razem z polem `version`**;

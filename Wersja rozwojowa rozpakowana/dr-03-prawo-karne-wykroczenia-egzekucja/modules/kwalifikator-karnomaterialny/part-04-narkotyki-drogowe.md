@@ -94,6 +94,11 @@ CZY KIEROWCA BYŁ POD WPŁYWEM SUBSTANCJI?
 │          informacyjna.
 │       + zakaz prowadzenia pojazdów obowiązkowy (min. 3 lata — art. 42 §2 KK)
 │       + świadczenie pieniężne obowiązkowe (min. 5 000 zł — art. 43a § 2 KK)
+│         ✅ [VER: ELI DU/2025/383 + DU/2025/1872 art. 2 pkt 2, odczyt 2026-10-04]:
+│         od 29.01.2026 katalog § 2 obejmuje także art. 177 § 2a, 178c § 1,
+│         178d; § 3 (min. 10 000 zł) — także art. 244, jeżeli czyn polegał na
+│         niezastosowaniu się do zakazu prowadzenia pojazdów mechanicznych;
+│         górna granica obu — art. 43a § 1: 60 000 zł
 │       + PRZEPADEK POJAZDU — art. 44b KK; ⚠️ STAN PO NOWELIZACJI z 4.12.2025
 │         (Dz.U. 2025 poz. 1872), obowiązującej od 29.01.2026:
 │           ─ art. 44b §1 — przepadek FAKULTATYWNY („sąd MOŻE orzec") m.in.

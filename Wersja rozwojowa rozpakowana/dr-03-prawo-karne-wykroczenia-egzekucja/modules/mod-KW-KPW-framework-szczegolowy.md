@@ -76,9 +76,9 @@ Inne granice (art. 124 KW):
 |---|---|---|---|
 | 86 §1 | Kolizja (niezachowanie ostrożności) | 500–1.500 zł | 30.000 zł |
 | 87 §1 | Jazda po alkoholu (0,2–0,5‰) | 2.500 zł | 30.000 zł + zakaz |
-| 92a §1 | Przekroczenie prędkości do 10 km/h | 100 zł | 30.000 zł |
-| 92a §1 | Przekroczenie o 11–20 km/h | 200–300 zł | 30.000 zł |
-| 92a §2 | Przekroczenie o 21–30 km/h | 300–400 zł | 30.000 zł |
+| 92a §1 | Przekroczenie prędkości do 10 km/h | 100 zł | 5.000 zł |
+| 92a §1 | Przekroczenie o 11–20 km/h | 200–300 zł | 5.000 zł |
+| 92a §1 | Przekroczenie o 21–30 km/h | 300–400 zł | 5.000 zł |
 | 92a §2 | Przekroczenie o 31–40 km/h | 800 zł (1.600 recyd.) | 30.000 zł |
 | 92a §2 | Przekroczenie o 41–50 km/h | 1.000 zł (2.000 recyd.) | 30.000 zł |
 | 92a §2 | Przekroczenie o > 50 km/h | 1.500–2.500 zł (do 5.000) | 30.000 zł |
@@ -87,6 +87,7 @@ Inne granice (art. 124 KW):
 
 *Mandaty w recydywie (ten sam typ w ciągu 24 m-cy): podwojona kwota, max 5.000 zł.*
 *Taryfikator rozporządzeniowy — weryfikuj aktualne stawki w obowiązującym rozporządzeniu.*
+*Korekta AUDYT-2026-10-04c: art. 92a § 2 KW obejmuje przekroczenie o PONAD 30 km/h (grzywna nie niższa niż 800 zł, do 30 000 zł z art. 24 § 1a); przekroczenie do 30 km/h = art. 92a § 1, górna granica 5 000 zł (art. 24 § 1 — § 1a wymienia wyłącznie § 2). ✅ [VER: ELI RZĄD 1 — DU/2025/734 (t.j. KW) text.pdf + DU/2025/1872 text.pdf (art. 1; wejście w życie art. 9: 30 dni od ogłoszenia 29.12.2025 → 29.01.2026, ELI entryIntoForce 2026-01-29); odczyt 2026-10-04]*
 
 ## 5 LINII OBRONY NA ROZPRAWIE
 ```
@@ -178,13 +179,19 @@ REKOMENDACJA: □ Sprzeciw od wyroku nakazowego  □ Rozprawa  □ Przyjąć man
 ART. 86c KW (NOWY — od 29.01.2026) — CELOWY DRIFT / POŚLIZG:
   → "Celowe wprowadzenie pojazdu w poślizg lub utrata styczności choćby jednego koła
     z nawierzchnią na drodze publicznej, w strefie ruchu lub zamieszkania"
-  → Kara: grzywna min. 1 500 zł
+  → Kara: grzywna nie niższa niż 1 500 zł (§ 1); gdy następstwem jest zagrożenie
+    bezpieczeństwa w ruchu drogowym — nie niższa niż 2 500 zł (§ 2); górna granica
+    30 000 zł (art. 24 § 1a — od 29.01.2026). ✅ [VER: ELI RZĄD 1 — DU/2025/734 (t.j. KW) text.pdf + DU/2025/1872 text.pdf (art. 1; wejście w życie art. 9: 30 dni od ogłoszenia 29.12.2025 → 29.01.2026, ELI entryIntoForce 2026-01-29); odczyt 2026-10-04]
   → Od 30.03.2026: ZATRZYMANIE PJ na 3 miesiące (administracyjne — niezależnie od wypadku)
   ⚠️ KLUCZOWY ELEMENT ZNAMION: CELOWOŚĆ — niezamierzony poślizg ≠ wykroczenie z art. 86c
 
 ORGANIZOWANIE SPOTKAŃ MOTORYZACYJNYCH BEZ ZGŁOSZENIA:
   → ≥10 pojazdów = obowiązek zgłoszenia organowi gminy
-  → Brak zgłoszenia: grzywna do 2 000 zł (organizator I uczestnicy)
+  → Art. 52aa KW (od 29.01.2026): organizator / przewodniczący spotkania bez wymaganego
+    zawiadomienia (art. 65ja PRD) — kara ograniczenia wolności albo grzywny NIE NIŻSZEJ
+    niż 2 000 zł (§ 1); umyślny uczestnik — grzywna (§ 2); nie-kierujący uczestnik
+    nielegalnego wyścigu i widz — ta sama kara (§ 3–4). Poprzedni zapis „grzywna do
+    2 000 zł (organizator i uczestnicy)” był błędny. ✅ [VER: ELI RZĄD 1 — DU/2025/734 (t.j. KW) text.pdf + DU/2025/1872 text.pdf (art. 1; wejście w życie art. 9: 30 dni od ogłoszenia 29.12.2025 → 29.01.2026, ELI entryIntoForce 2026-01-29); odczyt 2026-10-04]
 
 TARYFIKATOR MANDATÓW — AKTUALIZACJA:
   → Rozporządzenie Dz.U. 2026 poz. 724 (MSWiA 29.05.2026) — weryfikuj aktualne stawki

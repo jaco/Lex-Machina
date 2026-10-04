@@ -208,7 +208,8 @@ do **30 000 zł**. Przy wymiarze bierze się pod uwagę dochody sprawcy,
 warunki osobiste i rodzinne, stosunki majątkowe, możliwości zarobkowe.
 ⚠️ [F-67, 2026-08-14] Katalog wykroczeń objętych podwyższonym progiem
 30 000 zł jest ROZBUDOWYWANY kolejnymi nowelizacjami (ostatnio Dz.U.
-2025.1676 dodał odesłanie do nowego art. 86c — drift) — WERYFIKUJ
+Dz.U. 2025 poz. 1872, art. 1 pkt 1, od 29.01.2026 dodał w § 1a art. 86c — drift;
+✅ [VER: ELI RZĄD 1 — DU/2025/734 (t.j. KW) text.pdf + DU/2025/1872 text.pdf (art. 1; wejście w życie art. 9: 30 dni od ogłoszenia 29.12.2025 → 29.01.2026, ELI entryIntoForce 2026-01-29); odczyt 2026-10-04]) — WERYFIKUJ
 aktualny katalog w §1a na ISAP przed każdym wymiarem grzywny w sprawie
 komunikacyjnej.
 

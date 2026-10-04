@@ -172,9 +172,13 @@ osoby wzajemnie się atakowały bez podziału na ofiarę/napastnika?
 ⚠️ Obrona konieczna (art. 25 KK): co do zasady NIE przysługuje przy
 UDZIALE w bójce (obie strony atakują), ale MOŻE przysługiwać osobie
 broniącej się przy POBICIU — ocena zależy od okoliczności konkretnej sprawy.
-⚠️ Świadczenie na Fundusz Pomocy Pokrzywdzonym: przy skazaniu z art. 158/159
-sąd MOŻE orzec dodatkowe świadczenie pieniężne (≥5000 zł), jeśli jednocześnie
-orzeka nawiązkę/obowiązek naprawienia szkody z art. 46 §1-2 KK.
+⚠️ Świadczenie na Fundusz Pomocy Pokrzywdzonym (art. 43a § 4 KK): przy skazaniu
+za udział w bójce lub pobiciu (art. 158/159) sąd ORZEKA świadczenie pieniężne
+co najmniej 5 000 zł; jeżeli jednocześnie orzeka obowiązek lub nawiązkę z art. 46
+§ 1 lub 2 — MOŻE je orzec. (Korekta AUDYT-2026-10-04c: wcześniej opisana była
+wyłącznie gałąź fakultatywna.) Górna granica świadczenia — art. 43a § 1: 60 000 zł.
+✅ [VER: ELI RZĄD 1 — DU/2025/383 (t.j. KK) text.pdf; nowelizacje po t.j. 2025/1818,
+2025/1872, 2026/902, 2026/988 — § 1 i § 4 bez zmian; odczyt 2026-10-04]
 ```
 
 ---
