@@ -69792,3 +69792,82 @@ Jak w § 2C — 3 CRIT-TREŚĆ naprawione, 6 korekt uzupełniających; każda z 
 ### 6. WNIOSKI I ZALECENIA
 1. Treść przenoszona z archiwum lub z wcześniejszych generacji wymaga odczytu RZĘDU 1 — tu 4/4 „unikalne tematy” okazały się błędami archiwum.
 2. Tabele kwot w DR-03 mieszały granice ustawowe (KW) z taryfikatorem (rozporządzenie) w jednej kolumnie — przyczyna błędów 1–2 z § 2C. Zalecenie: przy kolejnej sesji odczytać rozporządzenie taryfikatorowe w ELI i rozdzielić kolumny w obu tabelach.
+
+---
+
+## AUDYT-2026-10-04e — F-229: mapy aktów czytelne maszynowo; taryfikator mandatów z ELI; T45 (6.164)
+
+**Tryb:** STRUKTURA + DZU (FAZA 3A dla map DR-03/DR-09) + TREŚĆ (DR-03 taryfikator) + FAZA 7A/7B/7C + wydanie wg ZASADY 7. Polecenie: (1) dokończyć punkt „do decyzji” z AUDYT-2026-10-04d — odczyt rozporządzenia taryfikatorowego; (2) zgłoszenie z aplikacji korzystającej ze skilli: „W DR-09 26 z 37 modułów nie ma w MAPA-AKTOW.md, w DR-03 dwa (Fundusz Pomocy Pokrzywdzonym, opłaty w sprawach karnych)”, propozycja osobnej flagi.
+
+### 1. STATUS OGÓLNY
+Podbicia: `dr-03-prawo-karne-wykroczenia-egzekucja` 3.48 → **3.49**; `dr-09-budownictwo-srodowisko-energia-transport` 3.40 → **3.41**; `prawo-polskie-v2` 6.33 → **6.34**; `audyt-systemu-v4` 6.163 → **6.164**.
+
+### 2. NAPRAWY WYKONANE
+**2A. F-229 (otwarta i zamknięta) — przyczyna zgłoszenia była strukturalna, nie merytoryczna.** Wszystkie 28 modułów miały wiersze w mapach (grep), ale parser GFM ich nie widział:
+- DR-09: cytat `> ⛔ Dwie różne ustawy o przekształceniu…` w środku tabeli; 28 wierszy za nim bez nagłówka i separatora = tekst, nie tabela (26 modułów — dokładnie liczba ze zgłoszenia). Cytat przeniesiony pod tabelę.
+- DR-03: wiersze Fundusz i opłaty — 4 komórki w tabeli 3-kolumnowej (sekcja KKW); GFM odrzuca nadmiar, więc kolumna „Moduł” zawierała podstawę prawną. Wiersze przeniesione do 4-kolumnowej tabeli „KKS, narkomania i inne akty karne”.
+- Przy okazji: `prawo-polskie-v2/ROUTING-MAP.md` — 129 wierszy w 20 segmentach bez nagłówka (pusta linia lub `---` po tabeli macierzystej), 1 wiersz bez wiodącego `|`, 5 z nadmiarowymi i 1 z brakującą komórką. Scalone; zbiór odwołań `mod-…` przed/po identyczny.
+- 8 odesłań międzydziedzinowych (DR-03 → DR-12 komornicy, DR-04 → DR-05 KPA itd.) — zgodnie ze zgłoszeniem celowe; T45 raportuje je informacyjnie.
+REPRODUKCJA: `python3 scripts/check_mapy_aktow.py --repo-root <klon main f66715f>` → 191 błędów; na drzewie wydania → 0.
+
+**2B. Numery Dz.U. w mapach z odczytu ELI (RZĄD 1, 2026-10-04).** DR-03: KKW art. 43 (t.j. 2025/911; po t.j. 2025/1423 — art. 43 bez zmian), rozp. MS w sprawie Funduszu (t.j. 2025/1298; brak zmian po t.j.), ustawa o państwowej kompensacie (t.j. 2016/325; brak zmian po t.j.), opłaty w sprawach karnych (t.j. 2023/123 — obejmuje 2022/2600; brak zmian po t.j.). DR-09: wszystkie 25 numerów mapy sprawdzone (status + najnowszy t.j. z `/references` aktu bazowego); wiersze „jw.” i „właściwe ustawy sektorowe” dostały jawne numery (7 ustaw transportowych: 2025/1490, 2025/889, 2024/311, 2025/1234, 2025/1431, 2023/1309, 2026/1243). ⛔ **Ustalenie:** elektromobilność — t.j. 2024/1289 ma status „wygaśnięcie aktu”; obowiązuje **t.j. Dz.U. 2026 poz. 1243** (obwieszczenie 1.09.2026, ogłoszone 23.09.2026). Poprawione w mapie DR-09, ROUTING-MAP i module transportu. ✅ [VER: api.sejm.gov.pl/eli/acts/DU/2026/1243, 2026-10-04].
+
+**2C. Taryfikator mandatów (DR-03) — punkt „do decyzji” z AUDYT-2026-10-04d.** Rozp. PRM z 24.11.2003 (DU/2003/2023; t.j. DU/2013/1624; akty zmieniające wg `/references`: 2015/506, 2017/1436, 2021/556, 2021/2484 — nowa tabela B od 1.01.2022, 2023/1256 — ostatnia). Odczytane wiersze tabeli B: lp. 72–81 (art. 92a), 297/299 (art. 86 § 1/§ 1a), 230 (art. 94 § 1a), 232–233 (art. 87 § 1a/§ 2), 239–241 (art. 96 § 3). Brak wierszy dla art. 86c, 87 § 1, 94 § 1. **CRIT-TREŚĆ:** stawki przybliżone lub błędne w obu tabelach (m.in. do 10 km/h: 50–100 / 100 zł → 50 zł; art. 86 § 1 „500–1 500” → kwota bazowa + 1 000 zł; mandaty dla 87 § 1 i 94 § 1 bez podstawy w taryfikatorze). **Nawrót błędu z 2026-06-13:** Dz.U. 2026 poz. 724 (rozp. MSWiA — ewidencja kierujących, punkty karne; ✅ ELI tytuł i status) ponownie podawany jako taryfikator mandatów w 4 miejscach — poprawione. Kolumny mandat / grzywna sądowa rozdzielone. ✅ [VER: DU/2021/2484, DU/2023/1256 text.pdf, 2026-10-04].
+
+**2D. T45 `scripts/check_mapy_aktow.py` (BLOKER)** — struktura tabel (A), pokrycie modułów DR w kolumnie „Moduł” (B), rozwiązywalność `mod-…` (C). T43 tego nie wykrywał: moduły są wymienione w SKILL.md i w tekście mapy.
+
+### 3. OSTRZEŻENIA (WARN)
+- F-229 — otwarta i zamknięta w tej sesji (bez wiersza w WARN-OTWARTE). Wolny numer: **F-230**.
+- Odnotowane bez flagi: listy „aktów zmieniających po t.j.” liczone z `/references` (data wejścia w życie > data obwieszczenia) są przybliżeniem KROKU 2C — nie wpisano ich do map jako faktu; mapy zachowują „ze zm.”.
+- `mapa_dzu` (audyt) bez nowej generacji: t.j. 2026/1243 jest zmianą metryki, nie nowym aktem — do ujęcia przy najbliższym TRYBIE DZU.
+
+### 4. WERYFIKACJA Dz.U.
+Jak w § 2B–2C. Jedna zmiana metryki: elektromobilność 2024/1289 → 2026/1243.
+
+### 5. STRUKTURA SYSTEMU — SNAPSHOT
+`dr-03` 87, `dr-09` 51, `prawo-polskie-v2` 8 (bez zmiany liczby), `audyt-systemu-v4` 189 (+T45).
+
+### 6. WNIOSKI I ZALECENIA
+1. Mapy aktów mają dwóch czytelników — model i parser. Wtrącenia (`>`, `---`, pusta linia) w środku tabeli są dla modelu nieszkodliwe, dla parsera zamykają tabelę. T45 pilnuje tego od tej wersji.
+2. Błąd 2026/724 = „taryfikator mandatów” wrócił mimo naprawy z 2026-06-13 (inne pliki tej samej rodziny). Przy korekcie metryki aktu przeszukiwać cały skill (MOD-PROPAGACJA-NOWELIZACJI), nie tylko plik zgłoszony.
+
+---
+
+## AUDYT-2026-10-04f — stawki mandatów w DR-03 wobec rozporządzenia taryfikatorowego; T11 zsynchronizowany (6.165)
+
+**Tryb:** TREŚĆ (FAZA 3E, MOD-PROPAGACJA-NOWELIZACJI) + DZU (synchronizacja rejestrów) + FAZA 7 + wydanie wg ZASADY 7. Polecenie: „zbadaj stawki mandatów w dr-03 zgodnie z tym rozporządzeniem” (rozp. PRM z 24.11.2003, ustalone w AUDYT-2026-10-04e).
+
+### 1. STATUS OGÓLNY
+Podbicia: `dr-03-prawo-karne-wykroczenia-egzekucja` 3.49 → **3.50**; `dr-09-budownictwo-srodowisko-energia-transport` 3.41 → **3.42**; `prawo-polskie-v2` 6.34 → **6.35**; `audyt-systemu-v4` 6.164 → **6.165**. (Wersje 3.49 / 3.41 / 6.34 / 6.164 z AUDYT-2026-10-04e nie zostały osobno wydane — wydanie tej sesji obejmuje obie.)
+
+### 2. NAPRAWY WYKONANE
+**2A. Źródła RZĘDU 1 (ELI, `text.pdf`, 2026-10-04).** Taryfikator: t.j. DU/2013/1624 + DU/2015/506, 2017/1436, 2021/556 (tabela A), **DU/2021/2484 (cała tabela B od 1.01.2022)**, DU/2023/1256 (lp. 101a, 154a). Przypis „*” tabeli B: kwota po ukośniku = mandat w trybie art. 38 § 2 KW (od 17.09.2022). Granice mandatu: KPW t.j. DU/2025/860 art. 96 + zmiany po t.j.: 2025/1814 (§ 1ad — dodany art. 82 KW), 2025/1818 (§ 1ag), 2025/1872 (§ 1e), 2026/473 (§ 1a — PIP 5 000 zł; § 1b–1bc — 10 000 zł; od 8.07.2026). KW t.j. DU/2025/734: art. 94, 96, 97; 2025/1872 art. 1 pkt 6 — art. 96 § 1 KW: ograniczenie wolności albo grzywna nie niższa niż 1 000 zł (od 29.01.2026). REPRODUKCJA: `curl -s https://api.sejm.gov.pl/eli/acts/DU/2021/2484/text.pdf | pdftotext -layout - - | grep -n "art. 92a"`.
+
+**2B. Inwentarz.** 115 wzmianek o mandatach z kwotami w DR-03 (grep `mandat` + kwota); wartości przypisane taryfikatorowi lub granicom mandatu — w 3 modułach. Pozostałe kwoty w modułach KW to ustawowe zagrożenia (grzywna sądowa), nie stawki mandatów — poza zakresem.
+
+**2C. CRIT-TREŚĆ (3) i korekty:**
+1. `mod-grzywny-mandaty-szczegolowe` + `mod-KW-KPW-framework-szczegolowy`: „mandat max 2 500 zł / recydywa max 5 000 zł” — błędne; obowiązuje § 1ad KPW: rozdz. XI KW i art. 82 KW do 5 000 zł, zbieg 6 000 zł; recydywa = kwota po ukośniku (art. 38 § 2 KW). We frameworku dodatkowo „sąd art. 24 § 1 do 30 000 zł” — § 1 to 20–5 000 zł, 30 000 zł wynika z § 1a.
+2. `mod-grzywny-mandaty-szczegolowe`: „art. 96 § 3 KW (dopuszczenie do prowadzenia pojazdu wbrew przepisom): do 8 000 zł” — kwota zgodna z § 1d KPW, opis błędny: § 3 = niewskazanie kierującego.
+3. `mod-przerobki-modyfikacje-pojazdow` (hulajnogi): „nieustąpienie pierwszeństwa pieszemu / przewożenie drugiej osoby — 300 zł” — na drodze dla rowerów i pieszych 100 zł (lp. 128), na chodniku 300 zł (lp. 137); dla przewożenia drugiej osoby brak wiersza. Szyby: tabela B nie ma wiersza; „20–500 zł” (źródła wtórne) usunięte jako wartość główna; art. 97 KW — do 3 000 zł.
+Ponadto: katalog § 1a–1e KPW w module grzywien, tachograf (2 000 zł = granica § 1a pkt 2), motocykl A2 (art. 94 § 1 KW, min. 1 500 zł), DR-09 — mandat ITD 2 000 zł vs rozdz. XI 5 000 zł.
+
+**2D. ⚠️ Rozbieżność w samym prawie (do obserwacji):** od 29.01.2026 art. 96 § 1 KW przewiduje grzywnę nie niższą niż 1 000 zł, a tabela B nadal podaje dla czynów z art. 96 § 1 pkt 2, 4, 5 stawki 300 zł (lp. 236), 50 zł (lp. 238), 50–200 zł (lp. 237); ELI nie wykazuje zmiany rozporządzenia po 2023/1256. Skutek dla praktyki — ⚠️ [NIEWERYFIKOWANE — HIPOTEZA], opisany w module jako rozbieżność, bez rozstrzygnięcia.
+
+**2E. T11 zsynchronizowany.** ROUTING-MAP: transport drogowy 2024/1539 → **t.j. 2025/1490** (2024/1539 nieaktualny; potwierdzenie także w metryce 2026/473), wiersze taryfikatora i kompensaty; `mapa_dzu_2026-10-04.md` — 5 wierszy. T11: 12 → 0.
+
+### 3. OSTRZEŻENIA (WARN)
+- Bez nowych flag. Rozbieżność 2D — w module (nie flaga: dotyczy treści prawa, nie systemu). Wolny numer: **F-230**.
+- Tabela A taryfikatora (wykroczenia pozadrogowe) — DR-03 nie podaje stawek mandatów z tej tabeli; nieprzeglądana.
+
+### 4. WERYFIKACJA Dz.U.
+Jak w § 2A i § 2E; jedna zmiana metryki (transport drogowy 2025/1490).
+
+### 4C. TREŚĆ MERYTORYCZNA MODUŁÓW
+§ 2C — 3 CRIT-TREŚĆ, korekty z adnotacją ✅ [VER: ELI …, 2026-10-04].
+
+### 5. STRUKTURA SYSTEMU — SNAPSHOT
+Liczby plików bez zmian (dr-03 87, dr-09 51, prawo-polskie-v2 8, audyt 189).
+
+### 6. WNIOSKI I ZALECENIA
+1. Stawki mandatów w modułach pochodziły ze źródeł wtórnych (portale, „7+ zgodnych źródeł”) — zgodność wielu źródeł wtórnych nie zastąpiła odczytu rozporządzenia: 3 z 3 przeglądanych modułów miały błędne granice.
+2. Przy każdej nowelizacji KW zmieniającej dolną granicę grzywny sprawdzać tabelę B taryfikatora (wzorzec 2D).

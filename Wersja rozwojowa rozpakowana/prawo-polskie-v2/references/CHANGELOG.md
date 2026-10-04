@@ -1,5 +1,9 @@
 # CHANGELOG — prawo-polskie-v2
 
+- 6.35 (2026-10-04f, AUDYT-2026-10-04f): ROUTING-MAP (synchronizacja T11): transport drogowy — t.j. Dz.U. 2025 poz. 1490 (było 2024/1539 — nieaktualny t.j.); nowe wiersze: taryfikator mandatów (rozp. PRM z 24.11.2003, t.j. 2013/1624 ze zm.) i ustawa o państwowej kompensacie (t.j. 2016/325); opłaty w sprawach karnych — zakres t.j. 2023/123. Pełny opis: `audyt-systemu-v4/references/AUDIT-JOURNAL.md`, AUDYT-2026-10-04f.
+
+- 6.34 (2026-10-04e, AUDYT-2026-10-04e): **ROUTING-MAP czytelna maszynowo (F-229).** 129 wierszy w 20 segmentach tabel bez nagłówka (oddzielone pustą linią lub `---` od tabeli macierzystej) scalone z tabelami o tej samej liczbie kolumn; 1 wiersz bez wiodącego `|`; 5 wierszy z nadmiarowymi komórkami (komentarz scalony z ostatnią kolumną; 3 komórki Dz.U. w wierszu rolnictwa scalone w jedną) i 1 z brakującą komórką (KPK — kolumna daty). Zbiór odwołań do modułów bez zmian (porównanie przed/po). Elektromobilność: Dz.U. 2026 poz. 1243 t.j. Pełny opis: `audyt-systemu-v4/references/AUDIT-JOURNAL.md`, AUDYT-2026-10-04e.
+
 - 6.33 (2026-10-04, AUDYT-2026-10-04): ROUTING-MAP — nowelizacja Dz.U. 2026 poz. 1161 (RZĄD 1 ELI): wiersz Prawa budowlanego (zmiany po t.j. 605/646/1161; usunięta nieaktualna adnotacja „⚡ pozostaje art. 1 pkt 1 i 3 → wchodzi 20.09.2026” — w mocy), wiersz uzupełnienia PrBud (§ 9a), wiersz samorządów architektów/inżynierów (ze zm. 2026/1161, art. 3–4), wiersz patodeweloperki (rozp. WT z 2002 r. nie obowiązuje od 20.09.2026, F-224); źródło centralne → `mapa_dzu_2026-10-04.md`.
 
 - 6.32 (2026-09-27p, AUDYT-2026-09-27p): ROUTING-MAP: „źródło centralne” wskazywało mapę Dz.U. z 2026-07-15 (nieaktualna); teraz bieżąca generacja audyt-systemu-v4/references/mapa_dzu_2026-09-22.md.

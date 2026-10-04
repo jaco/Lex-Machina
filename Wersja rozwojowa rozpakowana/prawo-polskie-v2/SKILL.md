@@ -1,6 +1,6 @@
 ---
 name: prawo-polskie-v2
-version: "6.33"
+version: "6.35"
 type: domain-router
 status: production
 compatibility: "live_web_lookup, cross_skill_file_read"
@@ -10,8 +10,8 @@ dependencies:
     - shared
   # 2026-09-27e: jawna zależność (każdy skill systemu korzysta z `shared`); pole czytane przy imporcie z marketplace
 changelog: |
-  Wersja bieżąca: 6.33 (2026-10-04): ROUTING-MAP — Dz.U. 2026 poz. 1161 (PrBud, samorządy architektów/inżynierów), stan WT po 19.09.2026, mapa Dz.U. 2026-10-04 (AUDYT-2026-10-04).
-  Poprzednia: 6.32 (2026-09-27p): ROUTING-MAP wskazuje bieżącą mapę Dz.U. 2026-09-22 zamiast 07-15 (AUDYT-2026-09-27p).
+  Wersja bieżąca: 6.35 (2026-10-04f, AUDYT-2026-10-04f): 
+  Poprzednia: 6.34 (2026-10-04e, AUDYT-2026-10-04e): 
   Pełna historia: references/CHANGELOG.md (ZASADA 15).
 ---
 

@@ -1,8 +1,8 @@
-7ade910ef8c147a18d7ed4fc596fb6518c7f2abf45c2451e8482ee5d1e9ede8f  ./.claude-plugin/plugin.json
-1752725ede73abe6e59bcaf8aba9427e46277db90653ce699fa2d28751fba9c4  ./MAPA-AKTOW.md
+17a74e868e4ec5422bc7bef19f28f460d78fa98adee6a286ca8e83b38825b021  ./.claude-plugin/plugin.json
+f1a2e031795fd0176b07b3e8ee6433ba5e80fd4b7207eda0a6dc10bb63402015  ./MAPA-AKTOW.md
 83afde5b91959f4ea4969efc140eba5f4e52d255c6cfee1892bb96db1c77ca89  ./MAPA-POKRYCIA.md
 b98cd207fee28b302956c1019e3235e74c558cdb35e87764a20020e630672fdb  ./PORTABILITY-MANIFEST.md
-18adf96cbbe23756342eb9344d11652103e43014e12f43f3a4b7e22a803b1c09  ./SKILL.md
+0035195b9367f1cf70e621af50038a2c8f8006bbd76e059a05a76414649683b6  ./SKILL.md
 a26e0ecdd82d926b5fbc5fdb70950895a2b41c69d18c97724274c1394341fae4  ./agents/openai.yaml
 e9301497fa98ef56aaca7ede0857b9a18dc06c34040f0679c609a6bf49b1d38b  ./assets/icon.svg
 5d235810ace18d3468f7130347e232d86ed0a555122093c708ff08ba035550c7  ./modules/mod-GDDKiA-specustawa-drogowa-ZRID.md
@@ -40,11 +40,11 @@ f59080847d6ed2e45d816ded7c2b10a40d76791a7bd16498c2cfdfd589c75e5c  ./modules/mod-
 26ae639ac1ee820307048134f24a837ba772624f4054b9b7c0667d4fd6c022c3  ./modules/mod-ustawa-odpadach-gospodarka-komunalna.md
 7cda1dedfa7e4d12da1eb804c0d404db813b3d794263ff56d4a1430cbb804878  ./modules/mod-ustawa-planowanie-przestrzenne.md
 8fa88f604981675688e8f3bb24c43a27673ee1e2b98f4f307e0eeda736cd5b6e  ./modules/mod-ustawa-prawo-gazowe.md
-d8836c8a1ad03d6536f6e4e788be2dd94dedead5b8507e5d09525720706046c4  ./modules/mod-ustawa-transport-drogowy-kolejowy-lotniczy-morski.md
+30a1d4c8ed2c234a17de626d0325740d9af4023b3469950204859e5e92c7e6ac  ./modules/mod-ustawa-transport-drogowy-kolejowy-lotniczy-morski.md
 adc58b3639ad5d06e0796a347783ae14cf6dd8d2b1bf3c948fd4c74f4cd83373  ./modules/ochrona-zabytkow/czesc-01-zabytki-dostepnosc.md
 523e2ae8729b291f383a9f98175cfa959e15d5aa19f8efdf21939e5036e35275  ./modules/ochrona-zabytkow/czesc-02-kategorie-apteka-zaklady.md
 50a6eb43f6ab349d49e35965cb5695cc0f0577a2777cbe79f1d7a2e799b22727  ./modules/ochrona-zabytkow/czesc-03-zlobki-transformatory-paliwa.md
 73b3f563521ce316ef090929d79a34cb3840b9c91b8c4bd000dd9d0dc2553287  ./modules/ochrona-zabytkow/czesc-04-dps-linie-napowietrzne.md
 4828d9f448834cc7f294608adc90329c1569bc4e8e89d5f7cf6ae8c13505c0b3  ./modules/ochrona-zabytkow/czesc-05-plac-zabaw-mikrokawalerki.md
 c4746a4f940f85d463e9290f5dd6295121ae24769e0765dd05bb70a289290960  ./modules/ochrona-zabytkow/czesc-06-parking-przeksztalcenie-cross.md
-2569f90a0204d7a1a1f1a2c19f92f645f65a7148a078883794644af3dc9b3057  ./references/CHANGELOG.md
+07212a2dd766abc402e65d9cd4823dc41aa7f7634f642d33fd0d84538d3aea26  ./references/CHANGELOG.md

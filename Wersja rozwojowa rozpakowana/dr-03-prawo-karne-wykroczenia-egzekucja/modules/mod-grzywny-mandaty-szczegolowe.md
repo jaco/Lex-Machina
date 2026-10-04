@@ -34,21 +34,35 @@ TYP B — MANDAT KARNY (KPSW art. 95–102):
     • kwoty 2 500 zł / 5 000 zł podawane niżej NIE wynikają z art. 96 § 1,
       lecz z przepisów SZCZEGÓLNYCH (taryfikator drogowy, recydywa
       w wykroczeniach drogowych) — nie mylić poziomów regulacji
-  → KWOTY SZCZEGÓLNE w samym art. 96 KPSW (katalog, stan 2026-08-15):
-    • § 1a — sprawy PIP oraz naruszenia z ustawy o transporcie drogowym:
-      ⭐ **ZMIANA OD 8.07.2026 (Dz.U. 2026 poz. 473):** dla spraw, w których
-      oskarżycielem publicznym jest PIP — **do 5 000 zł** (było: do 2 000 zł);
-      dodany pkt dot. art. 84 ustawy z 20.03.2025 o warunkach dopuszczalności
-      powierzania pracy cudzoziemcom
-    • § 1aa — bezpieczeństwo imprez masowych (art. 54–56, 57a): 2 000 zł
+  → KWOTY SZCZEGÓLNE — art. 96 KPW (mandat; NIE taryfikator):
+    • § 1a — sprawy, w których oskarżycielem jest PIP: do 5 000 zł (od 8.07.2026,
+      Dz.U. 2026 poz. 473; wcześniej do 2 000 zł); naruszenia z art. 92f ust. 1
+      i zał. nr 1 ustawy o transporcie drogowym (ITD, Policja, KAS, SG): do 2 000 zł
+    • § 1b–1bc — PIP, ukarany co najmniej dwukrotnie w ciągu 2 lat (prawa
+      pracownika w KP, praca tymczasowa, minimalne wynagrodzenie, handel
+      w niedziele): do 10 000 zł (od 8.07.2026; wcześniej do 5 000 zł)
+    • § 1aa — imprezy masowe (art. 54–56, 57a): 2 000 zł
     • § 1ab — monitorowanie przewozu towarów (art. 32 ust. 1): 5 000–7 500 zł
-    • drogi publiczne (art. 13na ust. 1, 13naa ust. 1 UDP): 1 500 zł
-    • art. 96 § 3 KW (dopuszczenie do prowadzenia pojazdu wbrew przepisom):
-      do 8 000 zł
-  → STAWKI DROGOWE (weryfikuj aktualny taryfikator — Dz.U. 2026 poz. 724
-    lub wcześniejsze):
-    • Standardowy: max 2 500 zł
-    • Recydywa (ten sam typ w ciągu 24 mies.): max 5 000 zł
+    • § 1ac — drogi publiczne (art. 13na ust. 1, 13naa ust. 1 UDP): 1 500 zł
+    • § 1ad — ROZDZIAŁ XI KW (wykroczenia drogowe) oraz art. 82 § 1–3, 4 i 5 KW:
+      do 5 000 zł, przy zbiegu (art. 9 § 1 KW) do 6 000 zł
+    • § 1ae — Prawo wodne (wskazane przepisy): 1 000–7 500 zł
+    • § 1af — art. 84 ustawy o powierzaniu pracy cudzoziemcom (PIP/SG), art. 465
+      ust. 1a ustawy o cudzoziemcach (SG): do 10 000 zł
+    • § 1ag — art. 51 § 2 lub 2a KW: 1 000 zł (od 2.01.2026)
+    • § 1bd — art. 116 § 1 KW: do 1 000 zł
+    • § 1c — art. 93 pkt 12 Prawa budowlanego: do 2 000 zł
+    • § 1d — art. 96 § 3 KW (NIEWSKAZANIE, komu powierzono pojazd): do 8 000 zł
+    • § 1e — art. 52aa § 1 KW (organizator zlotu bez zawiadomienia): do 5 000 zł
+      (od 29.01.2026)
+  → STAWKI DROGOWE — taryfikator: rozp. PRM z 24.11.2003, t.j. Dz.U. 2013 poz. 1624,
+    ostatnia zmiana Dz.U. 2023 poz. 1256 (NIE Dz.U. 2026 poz. 724 — punkty karne;
+    nawrót błędu z 2026-06-13, korekta AUDYT-2026-10-04e). Kwota po ukośniku
+    w tabeli B = mandat w trybie art. 38 § 2 KW (recydywa, od 17.09.2022);
+    górna granica wszystkich mandatów drogowych — § 1ad wyżej (5 000 / 6 000 zł).
+    ⛔ Poprzedni zapis „standardowy max 2 500 zł / recydywa max 5 000 zł” oraz
+    „art. 96 § 3 KW — dopuszczenie do prowadzenia” były błędne (korekta
+    AUDYT-2026-10-04f). ✅ [VER: ELI RZĄD 1 — KPW t.j. DU/2025/860 art. 96 + zmiany po t.j.: DU/2025/1814 (§ 1ad, od 2.01.2026), DU/2025/1818 (§ 1ag, od 2.01.2026), DU/2025/1872 (§ 1e, od 29.01.2026), DU/2026/473 (§ 1a, od 8.07.2026); odczyt 2026-10-04]
   → Mandat gotówkowy: zapłata na miejscu = natychmiastowe uprawomocnienie
   → Mandat bezgotówkowy: karta/instrument płatniczy, o ile funkcjonariusz
     ma terminal (art. 98 § 3a-3c KPSW); ⛔ koszty autoryzacji i przekazu
@@ -119,32 +133,60 @@ ZASADY MANDATÓW KARNYCH (KPSW — weryfikuj aktualny art. 96 §1–4):
   → Uprawnieni do wystawiania: policja, ITD, straż gminna/miejska, inne upoważnione organy
   → Mandat = jedyny tryb szybkiego zakończenia sprawy
   → Odmowa = obliguje organ do złożenia wniosku o ukaranie do SR
-  → RECYDYWA: ten sam typ naruszenia w ciągu 2 lat (24 miesięcy) →
-    podwyższona/podwójna kwota, max 5 000 zł (ZWERYFIKOWANO: gazetaprawna.pl
-    05.2026 — "recydywa wykroczeniowa" potwierdzona dla najpoważniejszych
-    naruszeń prędkości)
+  → RECYDYWA: art. 38 § 2 KW — dla art. 86 § 1a i 2, 86b § 1, 86c, 87 § 1,
+    92 § 2, 92a § 2, 92b, 94 § 1, 97a, ponowne wykroczenie w ciągu 2 lat od
+    prawomocnego ukarania: grzywna nie niższa niż dwukrotność dolnej granicy
+    zagrożenia; w taryfikatorze — kwota po ukośniku (np. 92a § 2: 800/1600 …
+    2500/5000). ✅ [VER: ELI DU/2025/1872 art. 1 pkt 2 + tabela B DU/2021/2484, 2026-10-04]
 
-STAWKI ORIENTACYJNE — DROGOWE (kolumna „Mandat” = taryfikator rozporządzeniowy,
-NIEWERYFIKOWANY w AUDYT-2026-10-04c — sprawdź obowiązujące rozporządzenie przed powołaniem;
-kolumna „Sąd max” = art. 24 § 1 / § 1a KW):
+STAWKI — DROGOWE (dwie odrębne podstawy: „Mandat” = taryfikator, rozporządzenie PRM
+z 24.11.2003, tabela B; „Sąd max” = art. 24 § 1 / § 1a KW; „a / b” = kwota / recydywa):
 ┌──────────────────────────────────────────────────────────────────────┐
 │ Art.   │ Naruszenie                    │ Mandat     │ Sąd max       │
 ├────────┼───────────────────────────────┼────────────┼───────────────┤
-│ 92a §1 │ Prędkość: do 10 km/h          │ 50–100 zł  │ 5 000 zł      │
-│ 92a §1 │ Prędkość: 11–20 km/h          │ 200–300 zł │ 5 000 zł      │
-│ 92a §1 │ Prędkość: 21–30 km/h          │ 300–400 zł │ 5 000 zł      │
-│ 92a §2 │ Prędkość: 31–40 km/h          │ 800 zł     │ 30 000 zł     │
-│ 92a §2 │ Prędkość: 41–50 km/h          │ 1 000 zł   │ 30 000 zł     │
-│ 92a §2 │ Prędkość: >50 km/h            │ 1 500–2 500│ 30 000 zł     │
-│ 86 §1  │ Kolizja (nieostrożność)       │ 500–1 500  │ 30 000 zł     │
-│ 86c §1 │ Celowy poślizg/drift (droga   │ —          │ 30 000 zł     │
-│        │ publiczna, strefa zam./ruchu) │            │ min. 1 500 zł │
-│ 86c §2 │ j.w. + zagrożenie bezp. ruchu │ —          │ 30 000 zł     │
-│        │                               │            │ min. 2 500 zł │
-│ 87 §1  │ Alkohol 0,2–0,5‰             │ 2 500 zł   │ 30 000 zł     │
-│ 94 §1  │ Jazda bez uprawnień           │ 1 500 zł   │ 30 000 zł     │
-│ 96 §3  │ Nieujawnienie kierowcy        │ 2 500 zł   │ 30 000 zł     │
+│ 92a §1 │ Prędkość: do 10 km/h (lp. 72) │ 50 zł      │ 5 000 zł      │
+│ 92a §1 │ 11–15 km/h (lp. 73)           │ 100 zł     │ 5 000 zł      │
+│ 92a §1 │ 16–20 km/h (lp. 74)           │ 200 zł     │ 5 000 zł      │
+│ 92a §1 │ 21–25 km/h (lp. 75)           │ 300 zł     │ 5 000 zł      │
+│ 92a §1 │ 26–30 km/h (lp. 76)           │ 400 zł     │ 5 000 zł      │
+│ 92a §2 │ 31–40 km/h (lp. 77)           │ 800 / 1600 │ 30 000 zł     │
+│ 92a §2 │ 41–50 km/h (lp. 78)           │ 1000 / 2000│ 30 000 zł     │
+│ 92a §2 │ 51–60 km/h (lp. 79)           │ 1500 / 3000│ 30 000 zł     │
+│ 92a §2 │ 61–70 km/h (lp. 80)           │ 2000 / 4000│ 30 000 zł     │
+│ 92a §2 │ 71 km/h i więcej (lp. 81)     │ 2500 / 5000│ 30 000 zł     │
+│ 86 §1  │ Zagrożenie bezp. — kierujący  │ kwota za   │ 30 000 zł     │
+│        │ poj. mechanicznym (lp. 297)   │ naruszenie │               │
+│        │                               │ bazowe +1000│              │
+│ 86 §1a │ j.w. + uszczerbek (lp. 299)   │ 1500 / 3000│ 30 000 zł     │
+│ 86c    │ Celowy poślizg/drift          │ brak wiersza│ 30 000 zł;   │
+│        │                               │ w taryfik. │ min. 1 500 /  │
+│        │                               │            │ 2 500 (§ 2)   │
+│ 87 §1  │ Pojazd mechaniczny po użyciu  │ brak wiersza│ 30 000 zł     │
+│        │ alkoholu                      │ (tylko §1a,│               │
+│        │                               │ §2 — inne) │               │
+│ 94 §1  │ Pojazd mechaniczny bez upr.   │ brak wiersza│ 30 000 zł    │
+│        │                               │ (tylko §1a)│               │
+│ 96 §3  │ Niewskazanie kierującego —    │ min. 4000  │ 30 000 zł     │
+│        │ sprawa o przestępstwo (lp.239)│            │               │
+│ 96 §3  │ j.w. — zagrożenie bezp. (240) │ min. 2000  │ 30 000 zł     │
+│ 96 §3  │ j.w. — prędkość (lp. 241)     │ 2× grzywna │ 30 000 zł     │
+│        │                               │ za naruszen.│              │
 └────────┴───────────────────────────────┴────────────┴───────────────┘
+„Brak wiersza” = taryfikator nie przewiduje stawki dla tej jednostki; czy i w jakiej
+wysokości mandat jest dopuszczalny — KPW (art. 96), odczytaj w ELI przed odpowiedzią.
+✅ [VER: ELI RZĄD 1 — rozp. PRM z 24.11.2003 (DU/2003/2023; t.j. DU/2013/1624; akty zmieniające wg /references: 2015/506, 2017/1436, 2021/556, 2021/2484 — nowa tabela B, 2023/1256 — ostatnia zmiana) text.pdf, odczyt 2026-10-04]
+⚠️ Rozbieżność do obserwacji: art. 96 § 1 KW (dopuszczenie do jazdy osoby bez uprawnień,
+pojazdu bez dokumentów lub nienależycie wyposażonego) od 29.01.2026 przewiduje karę
+ograniczenia wolności albo grzywny NIE NIŻSZEJ niż 1 000 zł (Dz.U. 2025 poz. 1872, art. 1
+pkt 6), a tabela B nadal podaje dla tych czynów 300 zł (lp. 236), 50–200 zł (lp. 237)
+i 50 zł (lp. 238) — rozporządzenia nie zmieniono (ELI: ostatnia zmiana 2023/1256).
+⚠️ [NIEWERYFIKOWANE — HIPOTEZA] co do skutku: stawka poniżej ustawowego minimum nie
+powinna być stosowana; przed odpowiedzią sprawdź stanowisko praktyki i ewentualną
+nowelizację rozporządzenia w ELI.
+
+⛔ Poprzednia wersja tabeli (do 3.47) podawała stawki przybliżone („50–100”, „200–300”,
+„1 500–2 500”) i mandaty dla 87 § 1 / 94 § 1, których taryfikator nie zawiera — korekta
+AUDYT-2026-10-04e.
 ⛔ Granice grzywny sądowej (KW): art. 24 § 1 — od 20 do 5 000 zł, chyba że ustawa stanowi
    inaczej; art. 24 § 1a — do 30 000 zł m.in. za art. 82 § 1–3, 4 i 5 (od 2.01.2026,
    Dz.U. 2025 poz. 1814 art. 1 pkt 1 — ✅ [VER: ELI text.pdf, 2026-10-04]), art. 86 § 1, 1a i 2, art. 86b § 1, art. 86c
@@ -351,7 +393,7 @@ NSA (linia):
 □ Termin zarzutów egzekucyjnych (7 dni od TW) — czy nie upłynął?
 □ Czy to kara adm. (KPA Dz. IVa) → sprawdź termin przedawnienia 5 lat
 □ Czy opłata parkingowa → obrona TYLKO w egzekucji
-□ Taryfikator mandatów zweryfikowany online (Dz.U. 2026 poz. 724)?
+□ Taryfikator mandatów zweryfikowany w ELI (rozp. PRM 24.11.2003, t.j. Dz.U. 2013 poz. 1624 ze zm.; Dz.U. 2026 poz. 724 = punkty karne, nie mandaty)?
 □ Kwota grzywny sądowej — weryfikuj art. 24 KW w ELI (RZĄD 1) (zmieniane)
 ```
 

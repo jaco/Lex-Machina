@@ -84,3 +84,12 @@ T44 — plik wymieniony wyłącznie w rejestrze.
 ```
 python3 check_osiagalnosc_shared.py --repo-root "$LEX_MACHINA_SKILLS_ROOT"
 ```
+
+## check_mapy_aktow.py — T45 mapy aktów czytelne maszynowo
+
+Dodany 2026-10-04e (F-229). Mapy aktów są czytane nie tylko przez model, ale i przez aplikacje
+parsujące Markdown — tabela bez nagłówka albo wiersz z nadmiarową komórką „gubi” moduł.
+
+```
+python3 check_mapy_aktow.py --repo-root "$LEX_MACHINA_SKILLS_ROOT"
+```

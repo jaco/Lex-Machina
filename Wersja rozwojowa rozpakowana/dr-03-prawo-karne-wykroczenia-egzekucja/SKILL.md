@@ -1,6 +1,6 @@
 ---
 name: dr-03-prawo-karne-wykroczenia-egzekucja
-version: "3.48"
+version: "3.50"
 description: "Prawo karne, wykroczenia i egzekucja: KK, KPK, KKW, KW, KPW, KKS, kwalifikacja karnomaterialna, tryby ścigania i wykonanie orzeczeń."
 dependencies:
   requires:
@@ -396,7 +396,8 @@ AUDIT-JOURNAL.md`.
   [✓] OK    mod-grzywny-mandaty-szczegolowe
               (systematyka: grzywna sądowa/mandat/kara adm./grzywna porządkowa/UPEA;
                uchylenie mandatu art.101 KPSW; KPA Dział IVa kary adm.; egzekucja UPEA;
-               taryfikator mandatów Dz.U. 2026 poz. 724; przedawnienie; orzecznictwo SN)
+               taryfikator mandatów: rozp. PRM 24.11.2003, t.j. Dz.U. 2013 poz. 1624 ze zm.;
+               przedawnienie; orzecznictwo SN)
   [✓] OK    mod-PRD-prawo-jazdy-punkty-karne
               (PRD + u.k.p. + rozp. ewidencji Dz.U. 2026 poz. 724; punkty karne,
                limity, taryfikator, zatrzymanie/cofnięcie uprawnień przez starostę)

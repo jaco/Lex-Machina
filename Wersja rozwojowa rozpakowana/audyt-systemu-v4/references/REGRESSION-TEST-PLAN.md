@@ -1398,3 +1398,14 @@ Test negatywny 2026-10-04d: odpięcie `MOD-GENERATOR-AKTU` w `MODULE-STANDARD-PO
 ⚠️ **Ograniczenie jawne.** Osiągalność ≠ wczytanie w każdej sprawie: łańcuch może prowadzić przez gałąź warunkową.
 T44 wykrywa plik, którego NIE wczyta żadna ścieżka; nie mierzy, jak często ścieżka jest używana.
 
+## T45 — mapy aktów: struktura tabel, pokrycie modułów, odesłania (dodany 2026-10-04e, AUDYT-2026-10-04e, F-229)
+
+| Test | Co sprawdza | Waga | Uruchomienie |
+|---|---|---|---|
+| T45 | (A) każdy wiersz `|…|` w `dr-*/MAPA-AKTOW.md` i `prawo-polskie-v2/ROUTING-MAP.md` należy do tabeli z nagłówkiem i separatorem, a liczba komórek = liczba komórek nagłówka; (B) każdy `dr-*/modules/mod-*.md` występuje w kolumnie „Moduł” mapy swojego DR; (C) każdy `mod-…` z kolumny „Moduł” istnieje w tym DR albo w innym skillu (odesłanie międzydziedzinowe — informacyjnie) | KRYTYCZNY (BLOKER) | `python3 scripts/check_mapy_aktow.py --repo-root <katalog skilli>` |
+
+Przesłanka: aplikacja korzystająca ze skilli nie widziała 26 modułów DR-09 i 2 modułów DR-03, choć oba pliki map je
+wymieniały — tabela przerwana cytatem (DR-09) i wiersze 4-kolumnowe w tabeli 3-kolumnowej (DR-03). Parser GFM traktuje
+pierwsze jako tekst, w drugich odrzuca nadmiarowe komórki. Test negatywny: stan `main` `f66715f` → FAIL, 191 błędów (DR-03: 4, DR-09: 54 — w tym 26 modułów bez wiersza, ROUTING-MAP: 133).
+⚠️ **Ograniczenie jawne.** T45 nie sprawdza aktualności numerów Dz.U. — to robi FAZA 3/T11 i odczyt ELI.
+

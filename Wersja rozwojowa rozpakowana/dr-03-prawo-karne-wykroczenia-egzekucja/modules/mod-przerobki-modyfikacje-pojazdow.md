@@ -72,17 +72,28 @@ STAN OBECNIE OBOWIĄZUJĄCY (od maja 2021): max **20 KM/H** dla
   → Podniesienie MINIMALNEGO WIEKU na hulajnogę elektryczną: z 10
     do 13 lat
 
-TARYFIKATOR MANDATÓW (aktualnie obowiązujący, dla naruszeń zasad
-  ruchu — NIEZALEŻNY od kar za samo odblokowanie):
-  → Jazda po niedozwolonej jezdni / niekorzystanie z dostępnej drogi
-    rowerowej: **100 zł**
-  → Zbyt szybka jazda po chodniku / nieustąpienie pierwszeństwa
-    pieszemu / przewożenie drugiej osoby: **300 zł**
-  → Alkohol 0,2-0,5 promila: **1000 zł**
-  → Alkohol powyżej 0,5 promila (nietrzeźwość): **2500 zł**
-  → Zakazane BEZWZGLĘDNIE: przewożenie zwierząt/ładunków, czepianie
-    się innych pojazdów, holowanie, jazda bez trzymania min. jednej
-    ręki na kierownicy
+TARYFIKATOR MANDATÓW (rozp. PRM z 24.11.2003, tabela B w brzmieniu Dz.U. 2021
+  poz. 2484, cz. III lit. I — rowery, hulajnogi elektryczne, UTO; NIEZALEŻNY od
+  kar za samo odblokowanie):
+  → Niekorzystanie z drogi / pasa dla rowerów (rower, hulajnoga el.) — lp. 127:
+    **100 zł**
+  → Nieustąpienie pierwszeństwa pieszemu na drodze dla rowerów i pieszych
+    — lp. 128: **100 zł**
+  → Na chodniku / drodze dla pieszych (rower, hulajnoga el., UTO): prędkość
+    niezbliżona do prędkości pieszego — lp. 136; nieustąpienie pierwszeństwa
+    pieszemu — lp. 137; utrudnianie ruchu pieszemu — lp. 138: **300 zł** każde;
+    jazda po chodniku wbrew przepisom — lp. 135: **200 zł**
+  → Jazda bez trzymania kierownicy — lp. 133: **50 zł**; czepianie się
+    pojazdów — lp. 134: **100 zł**; jazda obok innego uczestnika — lp. 131: **50 zł**
+  → Alkohol — pojazd inny niż mechaniczny: stan po użyciu (art. 87 § 2 KW)
+    — lp. 233: **1 000 zł**; nietrzeźwość (art. 87 § 1a KW) — lp. 232: **2 500 zł**
+    (zastosowanie do hulajnogi elektrycznej / UTO zależy od definicji w art. 2
+    PRD — odczytaj w ELI przed powołaniem)
+  → „Przewożenie drugiej osoby hulajnogą elektryczną” — w tabeli B BRAK
+    odrębnego wiersza (poprzedni zapis „300 zł” bez podstawy — korekta
+    AUDYT-2026-10-04f); granica mandatu: art. 96 § 1ad KPW
+  ✅ [VER: ELI DU/2021/2484 załącznik, tabela B; DU/2023/1256 — bez zmian w tej
+     części; odczyt 2026-10-04]
 
 ⚠️ ODRZUCONA NIESPÓJNOŚĆ ŹRÓDEŁ: jedno ze znalezionych źródeł
   podawało RADYKALNIE inne dane (wiek minimalny 18 lat zamiast 13,
@@ -124,13 +135,17 @@ METODA WERYFIKACJI: funkcjonariusz UŻYWA MIERNIKA (luksomierza)
   stronach szyby — WYNIK POMIARU jest OBIEKTYWNY, NIE ocena "na oko"
 
 KONSEKWENCJE PRZEKROCZENIA NORM:
-  → MANDAT: ⚠️ ROZBIEŻNOŚĆ ŹRÓDEŁ — WIĘKSZOŚĆ (7+ źródeł) podaje
-    zakres **20-500 ZŁ**; JEDNO źródło podaje "do 3000 zł" — TA
-    wyższa kwota jest ODOSOBNIONA i MOŻE dotyczyć INNEJ podstawy
-    prawnej (np. kwalifikowanego zagrożenia bezpieczeństwa) lub być
-    NIEŚCISŁOŚCIĄ tego źródła — TRAKTUJ zakres 20-500 zł jako
-    GŁÓWNY, potwierdzony wielokrotnie, ale NIE WYKLUCZAJ wyższej
-    kwoty bez dodatkowej weryfikacji w konkretnej sprawie
+  → MANDAT: tabela B taryfikatora NIE ma wiersza dla przyciemnienia szyb.
+    Kierujący — art. 97 KW (naruszenie innych przepisów PRD, tu warunków
+    technicznych): grzywna do 3 000 zł albo nagana; mandat w granicach
+    art. 96 § 1ad KPW. Właściciel/posiadacz dopuszczający pojazd nienależycie
+    wyposażony — art. 96 § 1 pkt 5 KW: od 29.01.2026 ograniczenie wolności
+    albo grzywna nie niższa niż 1 000 zł (lp. 237 taryfikatora „50–200 zł”
+    poniżej tego minimum — patrz `mod-grzywny-mandaty-szczegolowe`).
+    ⛔ Poprzedni zapis „20–500 zł jako główny, 3 000 zł odosobnione” — oparty na
+    źródłach wtórnych; 3 000 zł to ustawowa granica art. 97 KW (korekta
+    AUDYT-2026-10-04f). ✅ [VER: ELI DU/2025/734 art. 96–97, DU/2025/1872,
+    DU/2021/2484; odczyt 2026-10-04]
   → ZATRZYMANIE DOWODU REJESTRACYJNEGO do czasu usunięcia folii/
     ponownego badania technicznego — DODATKOWA, NIEZALEŻNA od
     mandatu konsekwencja
@@ -261,7 +276,11 @@ LIMIT KATEGORII A2: max moc **35 kW** (47,6 KM), stosunek mocy do
 
 KONSEKWENCJE JAZDY ZBYT MOCNYM/ODBLOKOWANYM MOTOCYKLEM NA KAT. A2:
   → MANDAT KARNY (wysoki, potwierdzony realny przypadek z 2025 r. —
-    dotkliwy mandat po kontroli)
+    dotkliwy mandat po kontroli) — kwalifikacja: art. 94 § 1 KW (pojazd
+    mechaniczny bez wymaganych uprawnień): areszt, ograniczenie wolności albo
+    grzywna nie niższa niż 1 500 zł; tabela B nie ma wiersza dla art. 94 § 1,
+    granica mandatu — art. 96 § 1ad KPW (5 000 zł). ✅ [VER: ELI DU/2025/734
+    art. 94, DU/2025/860 art. 96, 2026-10-04]
   → ⭐ REGRES UBEZPIECZENIOWY — w razie KOLIZJI/WYPADKU:
     ubezpieczyciel MOŻE żądać ZWROTU wypłaconego odszkodowania od
     kierującego, ponieważ pojazd BYŁ prowadzony NIEZGODNIE z
@@ -311,7 +330,9 @@ DRABINA KAR (Polska, po nowelizacji ustawy o transporcie drogowym z
     **25 000 ZŁ** (suma powyższych)
   → MANDAT KARNY DLA KIEROWCY na miejscu: potwierdzony realny
     przykład **2 000 ZŁ** (mandat kredytowany, do zapłaty w
-    terminie)
+    terminie) — to górna granica z art. 96 § 1a pkt 2 KPW (naruszenia
+    z zał. nr 1 ustawy o transporcie drogowym, ITD/Policja/KAS/SG)
+    ✅ [VER: ELI DU/2025/860 art. 96 § 1a, 2026-10-04]
   → ⭐ PROCEDURA OCENY "DOBREJ REPUTACJI" PRZEWOŹNIKA: jazda na
     magnesie KWALIFIKOWANA JEST jako NAJPOWAŻNIEJSZE naruszenie —
     MOŻE skutkować wszczęciem procedury dot. dobrej reputacji, CO

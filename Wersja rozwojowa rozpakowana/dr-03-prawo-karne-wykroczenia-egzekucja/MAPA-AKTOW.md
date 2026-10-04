@@ -72,8 +72,6 @@ Brzmienie każdego powoływanego artykułu KPK czytać u źródła; tekst jednol
 | KKW — indeks current-state całego kodeksu | `mod-KKW-current-state-COV.md` | 🟢 B+/COV |
 | KKW — moduł główny | `mod-KKW-kodeks-karny-wykonawczy` | ✅ aktywny |
 | KKW — pokrycie pozostałych części | `mod-KKW-uzupelnienie-pokrycia-2026` | 🟡 B/B+ |
-| Fundusz Pomocy Pokrzywdzonym / Pomoc Postpenitencjarna | art. 43 KKW + właściwe rozporządzenie wykonawcze | `mod-ustawa-fundusz-pomocy-pokrzywdzonym` | ✅ aktywny; fresh gate aktu wykonawczego |
-| Opłaty w sprawach karnych | Dz.U. 2023 poz. 123 t.j. ze zm. | `mod-ustawa-oplaty-w-sprawach-karnych` | 🟢 B+/COV |
 
 ### Wykroczenia i KPW
 
@@ -99,6 +97,9 @@ Brzmienie każdego powoływanego artykułu KPK czytać u źródła; tekst jednol
 | Akt / zakres | Bieżąca podstawa | Moduł / routing | Status runtime |
 |---|---|---|---|
 | Kodeks karny skarbowy | Dz.U. 2025 poz. 633 t.j. ze zm. | `mod-KKS-karny-skarbowy-i-AML` | 🟢 B+/COV |
+| Fundusz Pomocy Pokrzywdzonym oraz Pomocy Postpenitencjarnej („Fundusz Sprawiedliwości”) + państwowa kompensata | KKW art. 43 — t.j. Dz.U. 2025 poz. 911 (po t.j.: Dz.U. 2025 poz. 1423, w mocy 1.01.2026 — art. 43 bez zmian); rozp. MS z 13.09.2017 w sprawie Funduszu — t.j. Dz.U. 2025 poz. 1298 (brak aktów zmieniających po t.j.); ustawa z 7.07.2005 o państwowej kompensacie — t.j. Dz.U. 2016 poz. 325 (brak aktów zmieniających po t.j.) ✅ [VER] RZĄD 1 2026-10-04 (ELI `/references` DU/1997/557, DU/2017/1760, DU/2005/1415) | `mod-ustawa-fundusz-pomocy-pokrzywdzonym` | ✅ aktywny; fresh gate aktu wykonawczego |
+| Opłaty w sprawach karnych (ustawa z 23.06.1973) | Dz.U. 2023 poz. 123 t.j. (obejmuje zmiany do Dz.U. 2022 poz. 2600; brak aktów zmieniających po t.j.) ✅ [VER] RZĄD 1 2026-10-04 (ELI `/references` DU/1973/152) | `mod-ustawa-oplaty-w-sprawach-karnych` | 🟢 B+/COV |
+| Taryfikator mandatów — rozp. PRM z 24.11.2003 w sprawie wysokości grzywien nakładanych w drodze mandatów karnych za wybrane rodzaje wykroczeń | t.j. Dz.U. 2013 poz. 1624 ze zm. (ostatnia zmiana Dz.U. 2023 poz. 1256; tabela B — Dz.U. 2021 poz. 2484) ✅ [VER] RZĄD 1 2026-10-04 (ELI `/references` DU/2003/2023). ⛔ NIE Dz.U. 2026 poz. 724 (punkty karne) | `mod-grzywny-mandaty-szczegolowe`, `mod-KW-KPW-framework-szczegolowy` | ✅ aktywny; kwoty z odczytu ELI 2026-10-04 |
 | AML — routing do KKS / DR-06 | Dz.U. 2025 poz. 644 t.j. ze zm. | `mod-KKS-karny-skarbowy-i-AML` + DR-06 | ✅ aktywny |
 | Ustawa o przeciwdziałaniu narkomanii — indeks current-state | Dz.U. 2023 poz. 1939 t.j. ze zm., w tym obowiązująca zmiana Dz.U. 2026 poz. 1004 | `mod-narkomania-current-state-COV.md` + `mod-ustawa-narkomania` | 🟢 B+/COV |
 | Przymusowe leczenie odwykowe / leczenie uzależnień | właściwe akty alkoholowe i narkotykowe | `mod-przymusowe-leczenie-odwykowe` | ✅ aktywny; fresh gate |
